@@ -32,7 +32,7 @@ int main(int arg, char * argv[]){
   
 
 
-    printf("end of this 'loop'");
+    printf("end of this 'Program'");
     glfwTerminate();
 
     return 0;
