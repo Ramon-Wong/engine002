@@ -11,7 +11,7 @@ int main(int arg, char * argv[]){
         fprintf(stderr, "ERROR: could not start GLFW3\n");
         return 1;
     } 
-
+    printf("\n\n Hello GLFW3/GLEW with OpenGL 4.0\n\n");
     GLFWwindow * window = glfwCreateWindow( 800, 600, "Hello World", NULL, NULL);
 
     if(!window){
@@ -32,7 +32,7 @@ int main(int arg, char * argv[]){
   
 
 
-    printf("end of this 'Program'");
+    printf("end of this 'Program\n\n'");
     glfwTerminate();
 
     return 0;
