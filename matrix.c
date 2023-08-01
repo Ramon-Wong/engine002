@@ -13,6 +13,21 @@ void MLoadIdentity(MATRIX4X * mat){
 }
 
 
+void Normalize( VECTOR3D * Vec){
+	float32 Magnitude = sqrt( Vec->DATA[0] * Vec->DATA[0] + Vec->DATA[1] * Vec->DATA[1] + Vec->DATA[2] * Vec->DATA[2]);
+	
+	Vec->DATA[0] /= Magnitude;
+	Vec->DATA[1] /= Magnitude;
+	Vec->DATA[2] /= Magnitude;
+}
+
+
+
+
+
+
+
+
 void MFrustum(GLfloat * Mat, GLfloat Left, GLfloat Right, GLfloat Bottom, GLfloat Top, GLfloat Near, GLfloat Far){
 	GLfloat RL = 1 / (Right - Left);
 	GLfloat TB = 1 / (Top - Bottom);
@@ -74,13 +89,6 @@ void CrossProduct(GLfloat * Result, GLfloat * Vec1, GLfloat * Vec2){
 }
 
 
-void Normalize(GLfloat * Vec){
-	GLfloat Magnitude = sqrt(Vec[0] * Vec[0] + Vec[1] * Vec[1] + Vec[2] * Vec[2]);
-	
-	Vec[0] /= Magnitude;
-	Vec[1] /= Magnitude;
-	Vec[2] /= Magnitude;
-}
 
 
 void MMultiply(GLfloat * Mat, GLfloat * Mat1, GLfloat * Mat2){
