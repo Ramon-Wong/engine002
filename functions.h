@@ -21,15 +21,10 @@ typedef int32_t             int32;
 typedef float32_t           float32;    
 
 // 3D vector
-typedef struct {
-    float32_t DATA[3];
-} VECTOR3D;
+typedef struct {            float32_t DATA[3];}     VECTOR3D;
 
 // Matrix 4x4
-typedef struct {
-    float32_t DATA[16];
-}
-
+typedef struct {            float32_t DATA[16];}    MATRIX4X4;
 
 
 #endif
