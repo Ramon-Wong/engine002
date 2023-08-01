@@ -28,7 +28,27 @@ int main(int argc, char *argv[]){
     printf("Matrix3: %f/ %f/ %f/ %f - \n", matrix3.DATA[8],     matrix3.DATA[9],    matrix3.DATA[10],   matrix3.DATA[11]);
     printf("Matrix3: %f/ %f/ %f/ %f - \n", matrix3.DATA[12],    matrix3.DATA[13],   matrix3.DATA[14],   matrix3.DATA[15]);
 
+    VECTOR3D vector1 = {.DATA = { 1.0f, 0.0f, 0.0f}};
+    VECTOR3D vector2 = {.DATA = { 0.0f, 1.0f, 0.0f}};
+    VECTOR3D vector3 = {.DATA = { 0.0f, 0.0f, 1.0f}};
+    VECTOR3D result  = {.DATA = { 0.0f, 0.0f, 0.0f}};
 
+    printf("\n");
+    printf("Vector1: %f/ %f/ %f/ \n", vector1.DATA[0], vector1.DATA[1], vector1.DATA[2]);
+    printf("Vector2: %f/ %f/ %f/ \n", vector2.DATA[0], vector2.DATA[1], vector2.DATA[2]);
+    CrossProduct(&result, &vector1, &vector2);
+    printf("Results: %f/ %f/ %f/ \n", result.DATA[0],  result.DATA[1],  result.DATA[2]);
+    printf("\n");
+    printf("Vector1: %f/ %f/ %f/ \n", vector1.DATA[0], vector1.DATA[1], vector1.DATA[2]);
+    printf("Vector3: %f/ %f/ %f/ \n", vector3.DATA[0], vector3.DATA[1], vector3.DATA[2]);
+    CrossProduct(&result, &vector1, &vector3);
+    printf("Results: %f/ %f/ %f/ \n", result.DATA[0],  result.DATA[1],  result.DATA[2]);
+    printf("\n");
+    printf("Vector2: %f/ %f/ %f/ \n", vector2.DATA[0], vector2.DATA[1], vector2.DATA[2]);
+    printf("Vector3: %f/ %f/ %f/ \n", vector3.DATA[0], vector3.DATA[1], vector3.DATA[2]);
+    CrossProduct(&result, &vector2, &vector3);  
+    printf("Results: %f/ %f/ %f/ \n", result.DATA[0],  result.DATA[1],  result.DATA[2]);
+    printf("\n");
 
     return 0;
 }

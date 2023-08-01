@@ -23,7 +23,7 @@ void Normalize( VECTOR3D * Vec){
 
 
 void CrossProduct( VECTOR3D * Result, VECTOR3D * Vec1, VECTOR3D * Vec2){
-	Result->DATA[0] = Vec1->DATA[1] * Vec2->DATA[1] - Vec1->DATA[2] * Vec2->DATA[1];
+	Result->DATA[0] = Vec1->DATA[1] * Vec2->DATA[2] - Vec1->DATA[2] * Vec2->DATA[1];
 	Result->DATA[1] = Vec1->DATA[2] * Vec2->DATA[0] - Vec1->DATA[0] * Vec2->DATA[2];
 	Result->DATA[2] = Vec1->DATA[0] * Vec2->DATA[1] - Vec1->DATA[1] * Vec2->DATA[0];
 }
