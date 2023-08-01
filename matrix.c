@@ -29,6 +29,15 @@ void CrossProduct( VECTOR3D * Result, VECTOR3D * Vec1, VECTOR3D * Vec2){
 }
 
 
+void MTranslate( MATRIX4X * Result, float x, float y, float z){
+
+	Result->DATA[12] += ( Result->DATA[0] * x + Result->DATA[4] * y + Result->DATA[8]	* z);
+	Result->DATA[13] += ( Result->DATA[1] * x + Result->DATA[5] * y + Result->DATA[9]	* z);
+	Result->DATA[14] += ( Result->DATA[2] * x + Result->DATA[6] * y + Result->DATA[10]	* z);
+	Result->DATA[15] += ( Result->DATA[3] * x + Result->DATA[7] * y + Result->DATA[11]	* z);
+
+}
+
 
 
 
@@ -78,17 +87,14 @@ void CrossProduct( VECTOR3D * Result, VECTOR3D * Vec1, VECTOR3D * Vec2){
 // }
 
 
-// void MTranslate(GLfloat * Result, GLfloat x, GLfloat y, GLfloat z){
-// 	Result[12] += (Result[0] * x + Result[4] * y + Result[8] * z);
-// 	Result[13] += (Result[1] * x + Result[5] * y + Result[9] * z);
-// 	Result[14] += (Result[2] * x + Result[6] * y + Result[10] * z);
-// 	Result[15] += (Result[3] * x + Result[7] * y + Result[11] * z);
+
+// void MTransform(GLfloat * Result, GLfloat * Data, GLfloat * Vec){
+	
+// 	Result[0] = Vec[0]*Data[0] + Vec[1]*Data[4] + Vec[2]*Data[8]  + Data[12];
+// 	Result[1] = Vec[0]*Data[1] + Vec[1]*Data[5] + Vec[2]*Data[9]  + Data[13];
+// 	Result[2] = Vec[0]*Data[2] + Vec[1]*Data[6] + Vec[2]*Data[10] + Data[14];
+// 	Result[3] = Vec[0]*Data[3] + Vec[1]*Data[7] + Vec[2]*Data[11] + Data[15];
 // }
-
-
-
-
-
 
 
 // void MMultiply(GLfloat * Mat, GLfloat * Mat1, GLfloat * Mat2){
@@ -105,13 +111,6 @@ void CrossProduct( VECTOR3D * Result, VECTOR3D * Vec1, VECTOR3D * Vec2){
 // }
 
 
-// void MTransform(GLfloat * Result, GLfloat * Data, GLfloat * Vec){
-	
-// 	Result[0] = Vec[0]*Data[0] + Vec[1]*Data[4] + Vec[2]*Data[8]  + Data[12];
-// 	Result[1] = Vec[0]*Data[1] + Vec[1]*Data[5] + Vec[2]*Data[9]  + Data[13];
-// 	Result[2] = Vec[0]*Data[2] + Vec[1]*Data[6] + Vec[2]*Data[10] + Data[14];
-// 	Result[3] = Vec[0]*Data[3] + Vec[1]*Data[7] + Vec[2]*Data[11] + Data[15];
-// }
 
 
 

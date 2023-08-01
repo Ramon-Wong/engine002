@@ -49,6 +49,15 @@ int main(int argc, char *argv[]){
     CrossProduct(&result, &vector2, &vector3);  
     printf("Results: %f/ %f/ %f/ \n", result.DATA[0],  result.DATA[1],  result.DATA[2]);
     printf("\n");
+    MLoadIdentity(&matrix1);
+    MTranslate(&matrix1, 2.0f, 3.0f, 4.0f);
+    printf("Matrix1: %f/ %f/ %f/ %f - \n", matrix1.DATA[0],     matrix1.DATA[1],    matrix1.DATA[2],    matrix1.DATA[3]);
+    printf("Matrix1: %f/ %f/ %f/ %f - \n", matrix1.DATA[4],     matrix1.DATA[5],    matrix1.DATA[6],    matrix1.DATA[7]);
+    printf("Matrix1: %f/ %f/ %f/ %f - \n", matrix1.DATA[8],     matrix1.DATA[9],    matrix1.DATA[10],   matrix1.DATA[11]);
+    printf("Matrix1: %f/ %f/ %f/ %f - \n", matrix1.DATA[12],    matrix1.DATA[13],   matrix1.DATA[14],   matrix1.DATA[15]);
+    printf("\n");
+
+
 
     return 0;
 }
