@@ -24,7 +24,7 @@ typedef float32_t           float32;
 typedef struct {            float32_t DATA[3];}     VECTOR3D;
 
 // Matrix 4x4
-typedef struct {            float32_t DATA[16];}    MATRIX4X4;
+typedef struct {            float32_t DATA[16];}    MATRIX4X;
 
 
 #endif
