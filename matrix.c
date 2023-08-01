@@ -6,10 +6,10 @@
 
 
 void MLoadIdentity(MATRIX4X * mat){
-	mat->DATA[0] = 1.0f;	mat->DATA[4] = 0.0f;	mat->DATA[8] = 0.0f;	mat->DATA[12] = 0.0f;
-	mat->DATA[1] = 0.0f;	mat->DATA[5] = 1.0f;	mat->DATA[9] = 0.0f;	mat->DATA[13] = 0.0f;
-	mat->DATA[2] = 0.0f;	mat->DATA[6] = 0.0f;	mat->DATA[10] = 1.0f;	mat->DATA[14] = 0.0f;
-	mat->DATA[3] = 0.0f;	mat->DATA[7] = 0.0f;	mat->DATA[11] = 0.0f;	mat->DATA[15] = 1.0f;
+	mat->DATA[0]	= 1.0f;	mat->DATA[1]	= 0.0f;	mat->DATA[2]	= 0.0f;	mat->DATA[3]	= 0.0f;
+	mat->DATA[4]	= 0.0f;	mat->DATA[5]	= 1.0f;	mat->DATA[6]	= 0.0f;	mat->DATA[7]	= 0.0f;
+	mat->DATA[8]	= 0.0f;	mat->DATA[9]	= 0.0f;	mat->DATA[10]	= 1.0f;	mat->DATA[11]	= 0.0f;
+	mat->DATA[12]	= 0.0f;	mat->DATA[13]	= 0.0f;	mat->DATA[14]	= 0.0f;	mat->DATA[15]	= 1.0f;
 }
 
 
