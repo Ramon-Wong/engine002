@@ -5,6 +5,10 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#include <assert.h>
+#include <string.h>
+#include <math.h>
+
 // Function prototypes
 // uint8_t/int8_t equals to unsigned/signed char
 // uint16_t/int16_t equals to unsigned/signed short
