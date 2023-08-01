@@ -22,11 +22,11 @@ void Normalize( VECTOR3D * Vec){
 }
 
 
-// void CrossProduct(GLfloat * Result, GLfloat * Vec1, GLfloat * Vec2){
-// 	Result[0] = Vec1[1] * Vec2[2] - Vec1[2] * Vec2[1];
-// 	Result[1] = Vec1[2] * Vec2[0] - Vec1[0] * Vec2[2];
-// 	Result[2] = Vec1[0] * Vec2[1] - Vec1[1] * Vec2[0];
-// }
+void CrossProduct( VECTOR3D * Result, VECTOR3D * Vec1, VECTOR3D * Vec2){
+	Result->DATA[0] = Vec1->DATA[1] * Vec2->DATA[1] - Vec1->DATA[2] * Vec2->DATA[1];
+	Result->DATA[1] = Vec1->DATA[2] * Vec2->DATA[0] - Vec1->DATA[0] * Vec2->DATA[2];
+	Result->DATA[2] = Vec1->DATA[0] * Vec2->DATA[1] - Vec1->DATA[1] * Vec2->DATA[0];
+}
 
 
 
