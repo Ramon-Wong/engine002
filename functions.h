@@ -18,13 +18,12 @@
 typedef int8_t              int8;
 typedef int16_t             int16; 
 typedef int32_t             int32;
-typedef float32_t           float32;    
 
 // 3D vector
-typedef struct {            float32_t DATA[3];}     VECTOR3D;
+typedef struct {            float DATA[3];}     VECTOR3D;
 
 // Matrix 4x4
-typedef struct {            float32_t DATA[16];}    MATRIX4X;
+typedef struct {            float DATA[16];}    MATRIX4X;
 
 
 #endif
