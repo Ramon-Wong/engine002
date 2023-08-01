@@ -6,7 +6,7 @@
 #define PI 3.141592653589793238462643383279502884197169399375105820974944592307816406286
 
 
-void	MLoadIdentity(GLfloat*);                                                    // Load the identity matrix
+void	MLoadIdentity(MATRIX4X *);                                                    // Load the identity matrix
 void	MFrustum(GLfloat *, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat);  // Frustum Matrix, Result, Left, Right, Bottom, Top, Near, Far
 void	LookAtM( GLfloat *, GLfloat *, GLfloat *, GLfloat *);                       // Camera Matrix, Result, position, target, up vector
 
