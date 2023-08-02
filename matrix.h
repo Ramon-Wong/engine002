@@ -14,15 +14,8 @@ void	MTranslate( MATRIX4X *, float, float, float);                              
 void	MMultiply( MATRIX4X *, MATRIX4X, MATRIX4X);                                  // Multiply, Result, Matrix 1, Matrix 2
 
 void	MFrustum( MATRIX4X *, float, float, float, float, float, float);             // Frustum Matrix, Result, Left, Right, Bottom, Top, Near, Far
+void	LookAtM( GLfloat *, GLfloat *, GLfloat *, GLfloat *);                       // Camera Matrix, Result, position, target, up vector
 
 // void	MTransform( MATRIX4X, GLfloat *, GLfloat *);                                // Transform, Result, Matrix, Vector
-
-
-// void	LookAtM( GLfloat *, GLfloat *, GLfloat *, GLfloat *);                       // Camera Matrix, Result, position, target, up vector
-
-
-
-
-
 
 #endif
