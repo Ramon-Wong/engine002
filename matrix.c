@@ -39,30 +39,40 @@ void MTranslate( MATRIX4X * Result, float x, float y, float z){
 }
 
 
-
-
-// void MFrustum(GLfloat * Mat, GLfloat Left, GLfloat Right, GLfloat Bottom, GLfloat Top, GLfloat Near, GLfloat Far){
-// 	GLfloat RL = 1 / (Right - Left);
-// 	GLfloat TB = 1 / (Top - Bottom);
-// 	GLfloat NF = 1 / (Near - Far);
+void MMultiply( MATRIX4X * Result, MATRIX4X M1, MATRIX4X M2){
+	int i;
 	
-// 	Mat[0] = (Near * 2) * RL;
-// 	Mat[1] = 0.0f;
-// 	Mat[2] = 0.0f;
-// 	Mat[3] = 0.0f;
-// 	Mat[4] = 0.0f;
-// 	Mat[5] = (Near * 2) * TB;
-// 	Mat[6] = 0.0f;
-// 	Mat[7] = 0.0f;
-// 	Mat[8] = (Right + Left) * RL;
-// 	Mat[9] = (Top + Bottom) * TB;
-// 	Mat[10] = (Far + Near) * NF;
-// 	Mat[11] = -1.0f;
-// 	Mat[12] = 0.0f;
-// 	Mat[13] = 0.0f;
-// 	Mat[14] = (Far * Near * 2) * NF;
-// 	Mat[15] = 0.0f;
-// }
+	for(i = 0; i < 4; i++){
+		Result->DATA[i * 4]     = (M2.DATA[i*4] * M1.DATA[0]) + (M2.DATA[i*4+1] * M1.DATA[4]) + (M2.DATA[i*4+2] * M1.DATA[8])  + (M2.DATA[i*4+3] * M1.DATA[12]);
+		Result->DATA[i * 4 + 1] = (M2.DATA[i*4] * M1.DATA[1]) + (M2.DATA[i*4+1] * M1.DATA[5]) + (M2.DATA[i*4+2] * M1.DATA[9])  + (M2.DATA[i*4+3] * M1.DATA[13]);
+		Result->DATA[i * 4 + 2] = (M2.DATA[i*4] * M1.DATA[2]) + (M2.DATA[i*4+1] * M1.DATA[6]) + (M2.DATA[i*4+2] * M1.DATA[10]) + (M2.DATA[i*4+3] * M1.DATA[14]);
+		Result->DATA[i * 4 + 3] = (M2.DATA[i*4] * M1.DATA[3]) + (M2.DATA[i*4+1] * M1.DATA[7]) + (M2.DATA[i*4+2] * M1.DATA[11]) + (M2.DATA[i*4+3] * M1.DATA[15]);
+	}
+}
+
+
+void MFrustum( MATRIX4X * Result, float Left, float Right, float Bottom, float Top, float Near, float Far){
+	float RL = 1 / (Right - Left);
+	float TB = 1 / (Top - Bottom);
+	float NF = 1 / (Near - Far);
+	
+	Result->DATA[0]		= (Near * 2) * RL;
+	Result->DATA[1] 	= 0.0f;
+	Result->DATA[2] 	= 0.0f;
+	Result->DATA[3] 	= 0.0f;
+	Result->DATA[4] 	= 0.0f;
+	Result->DATA[5]		= (Near * 2) * TB;
+	Result->DATA[6] 	= 0.0f;
+	Result->DATA[7] 	= 0.0f;
+	Result->DATA[8] 	= (Right + Left) * RL;
+	Result->DATA[9] 	= (Top + Bottom) * TB;
+	Result->DATA[10] 	= (Far + Near) * NF;
+	Result->DATA[11] 	= -1.0f;
+	Result->DATA[12] 	= 0.0f;
+	Result->DATA[13] 	= 0.0f;
+	Result->DATA[14] 	= (Far * Near * 2) * NF;
+	Result->DATA[15] 	= 0.0f;
+}
 
 
 // void LookAtM( GLfloat * Mat, GLfloat * Pose, GLfloat * View, GLfloat * UpVx){

@@ -10,14 +10,18 @@ void	MLoadIdentity(MATRIX4X *);                                                 
 void	CrossProduct(VECTOR3D *, VECTOR3D *, VECTOR3D *);                            // Cross Product, Result, Vector 1, Vector 2 
 void	Normalize(VECTOR3D *);                                                       // Normalize, Vector   
 
-void	MTranslate( MATRIX4X *, float, float, float);                           // Translation Matrix, Result, x, y, z
+void	MTranslate( MATRIX4X *, float, float, float);                                // Translation Matrix, Result, x, y, z
+void	MMultiply( MATRIX4X *, MATRIX4X, MATRIX4X);                                  // Multiply, Result, Matrix 1, Matrix 2
+
+void	MFrustum( MATRIX4X *, float, float, float, float, float, float);             // Frustum Matrix, Result, Left, Right, Bottom, Top, Near, Far
+
 // void	MTransform( MATRIX4X, GLfloat *, GLfloat *);                                // Transform, Result, Matrix, Vector
 
-// void	MFrustum(GLfloat *, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat);  // Frustum Matrix, Result, Left, Right, Bottom, Top, Near, Far
+
 // void	LookAtM( GLfloat *, GLfloat *, GLfloat *, GLfloat *);                       // Camera Matrix, Result, position, target, up vector
 
 
-// void	MMultiply(GLfloat *, GLfloat *, GLfloat *);                                 // Multiply, Result, Matrix 1, Matrix 2
+
 
 
 
