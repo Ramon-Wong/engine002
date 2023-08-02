@@ -75,25 +75,44 @@ void MFrustum( MATRIX4X * Result, float Left, float Right, float Bottom, float T
 }
 
 
-void LookAtM( GLfloat * Mat, GLfloat * Pose, GLfloat * View, GLfloat * UpVx){
-	GLfloat X[3], Y[3], Z[3];
-	Z[0] = View[0] - Pose[0];
-	Z[1] = View[1] - Pose[1];
-	Z[2] = View[2] - Pose[2];
-	Normalize(Z);
+void LookAtM( MATRIX4X * Result, VECTOR3D * Pose, VECTOR3D * View, VECTOR3D * UpVx){
+	VECTOR3D Dir[3];
+	Dir[0].DATA[0] = View->DATA[0] - Pose->DATA[0];
+	Dir[0].DATA[1] = View->DATA[1] - Pose->DATA[1];
+	Dir[0].DATA[2] = View->DATA[2] - Pose->DATA[2];
+	Normalize(&Dir[0]);				// Compute direction Z axis
+
+	CrossProduct(&Dir[1], UpVx, &Dir[0]);
+	Normalize(&Dir[1]);				// Compute direction X axis
+
+	CrossProduct(&Dir[2], &Dir[0], &Dir[1]);	
+	Normalize(&Dir[2]);				// Compute direction Y axis
+
+	Result->DATA[0]	= Dir[1].DATA[0]; Result->DATA[4] = Dir[1].DATA[1];Result->DATA[8]  = Dir[1].DATA[2];
+	Result->DATA[1]	= Dir[2].DATA[0]; Result->DATA[5] = Dir[2].DATA[1];Result->DATA[9]  = Dir[2].DATA[2];	 
+	Result->DATA[2]	= Dir[0].DATA[0]; Result->DATA[6] = Dir[0].DATA[1];Result->DATA[10] = Dir[0].DATA[2];	 
+	Result->DATA[3]	= 			0.0f; Result->DATA[7] = 		  0.0f;Result->DATA[11] = 		    0.0f;	 
+			
+	MTranslate(Result, -View->DATA[0], -View->DATA[1], -View->DATA[2]);
+
+	// GLfloat X[3], Y[3], Z[3];
+	// Z[0] = View[0] - Pose[0];
+	// Z[1] = View[1] - Pose[1];
+	// Z[2] = View[2] - Pose[2];
+	// Normalize(Z);
 	
-	CrossProduct( X, UpVx, Z);      // Compute cross product of UpVx, Z
-	Normalize(X);
+	// CrossProduct( X, UpVx, Z);      // Compute cross product of UpVx, Z
+	// Normalize(X);
 	
-	CrossProduct( Y, Z, X);         // reCompute vector Y
-	Normalize(Y);
+	// CrossProduct( Y, Z, X);         // reCompute vector Y
+	// Normalize(Y);
 	
-	Mat[0] = X[0];	Mat[4] = X[1];	Mat[8] = X[2];
-	Mat[1] = Y[0];	Mat[5] = Y[1];	Mat[9] = Y[2];
-	Mat[2] = Z[0];	Mat[6] = Z[1];	Mat[10] = Z[2];
-	Mat[3] = 0.0;	Mat[7] = 0.0;	Mat[11] = 0.0;
+	// Mat[0] = X[0];	Mat[4] = X[1];	Mat[8] = X[2];
+	// Mat[1] = Y[0];	Mat[5] = Y[1];	Mat[9] = Y[2];
+	// Mat[2] = Z[0];	Mat[6] = Z[1];	Mat[10] = Z[2];
+	// Mat[3] = 0.0;	Mat[7] = 0.0;	Mat[11] = 0.0;
 	
-	MTranslate( Mat, -View[0], -View[1], -View[2]);
+	// MTranslate( Mat, -View[0], -View[1], -View[2]);
 }
 
 
