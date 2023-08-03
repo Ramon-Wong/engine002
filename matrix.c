@@ -13,20 +13,53 @@ void MLoadIdentity(MATRIX4X * mat){
 }
 
 
-void Normalize( VECTOR3D * Vec){
-	float Magnitude = sqrt( Vec->DATA[0] * Vec->DATA[0] + Vec->DATA[1] * Vec->DATA[1] + Vec->DATA[2] * Vec->DATA[2]);
+
+void Normalize( float * Result){
+	float Magnitude = sqrt( Result[0] * Result[0] + Result[1] * Result[1] + Result[2] * Result[2]);
 	
-	Vec->DATA[0] /= Magnitude;
-	Vec->DATA[1] /= Magnitude;
-	Vec->DATA[2] /= Magnitude;
+	Result[0] /= Magnitude;
+	Result[1] /= Magnitude;
+	Result[2] /= Magnitude;
 }
 
 
-// void CrossProduct(GLfloat * Result, GLfloat * Vec1, GLfloat * Vec2){
-// 	Result[0] = Vec1[1] * Vec2[2] - Vec1[2] * Vec2[1];
-// 	Result[1] = Vec1[2] * Vec2[0] - Vec1[0] * Vec2[2];
-// 	Result[2] = Vec1[0] * Vec2[1] - Vec1[1] * Vec2[0];
-// }
+void CrossProduct( float * Result, float * Vec1, float * Vec2){
+	Result[0] = Vec1[1] * Vec2[2] - Vec1[2] * Vec2[1];
+	Result[1] = Vec1[2] * Vec2[0] - Vec1[0] * Vec2[2];
+	Result[2] = Vec1[0] * Vec2[1] - Vec1[1] * Vec2[0];
+}
+
+
+void MTranslate( float * Result, float x, float y, float z){
+	Result[12] += (	Result[0] * x + Result[4] * y + Result[8] * z);
+	Result[13] += (	Result[1] * x + Result[5] * y + Result[9] * z);
+	Result[14] += (	Result[2] * x + Result[6] * y + Result[10] * z);
+	Result[15] += (	Result[3] * x + Result[7] * y + Result[11] * z);
+}
+
+
+
+void LookAtM( float * Result, float * Pose, float * View, float * UpVx){
+	float X[3], Y[3], Z[3];
+	Z[0] = View[0] - Pose[0];
+	Z[1] = View[1] - Pose[1];
+	Z[2] = View[2] - Pose[2];
+	Normalize(Z);
+	
+	CrossProduct( X, UpVx, Z);      // Compute cross product of UpVx, Z
+	Normalize(X);
+	
+	CrossProduct( Y, Z, X);         // reCompute vector Y
+	Normalize(Y);
+	
+	Result[0] = X[0];	Result[4] = X[1];	Result[8] = X[2];
+	Result[1] = Y[0];	Result[5] = Y[1];	Result[9] = Y[2];
+	Result[2] = Z[0];	Result[6] = Z[1];	Result[10] = Z[2];
+	Result[3] = 0.0;	Result[7] = 0.0;	Result[11] = 0.0;
+	
+	MTranslate( Result, -View[0], -View[1], -View[2]);
+}
+
 
 
 
@@ -54,39 +87,6 @@ void Normalize( VECTOR3D * Vec){
 // 	Mat[14] = (Far * Near * 2) * NF;
 // 	Mat[15] = 0.0f;
 // }
-
-
-// void LookAtM( GLfloat * Mat, GLfloat * Pose, GLfloat * View, GLfloat * UpVx){
-// 	GLfloat X[3], Y[3], Z[3];
-// 	Z[0] = View[0] - Pose[0];
-// 	Z[1] = View[1] - Pose[1];
-// 	Z[2] = View[2] - Pose[2];
-// 	Normalize(Z);
-	
-// 	CrossProduct( X, UpVx, Z);      // Compute cross product of UpVx, Z
-// 	Normalize(X);
-	
-// 	CrossProduct( Y, Z, X);         // reCompute vector Y
-// 	Normalize(Y);
-	
-// 	Mat[0] = X[0];	Mat[4] = X[1];	Mat[8] = X[2];
-// 	Mat[1] = Y[0];	Mat[5] = Y[1];	Mat[9] = Y[2];
-// 	Mat[2] = Z[0];	Mat[6] = Z[1];	Mat[10] = Z[2];
-// 	Mat[3] = 0.0;	Mat[7] = 0.0;	Mat[11] = 0.0;
-	
-// 	MTranslate( Mat, -View[0], -View[1], -View[2]);
-// }
-
-
-// void MTranslate(GLfloat * Result, GLfloat x, GLfloat y, GLfloat z){
-// 	Result[12] += (Result[0] * x + Result[4] * y + Result[8] * z);
-// 	Result[13] += (Result[1] * x + Result[5] * y + Result[9] * z);
-// 	Result[14] += (Result[2] * x + Result[6] * y + Result[10] * z);
-// 	Result[15] += (Result[3] * x + Result[7] * y + Result[11] * z);
-// }
-
-
-
 
 
 
