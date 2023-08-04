@@ -1,6 +1,6 @@
 CC					= g++
 source				= main.c
-objects				= main.o matrix.o
+objects				= main.o 
 option				= -Wall
 compile 			= -Wall -c
 build				= -Wall -o
@@ -14,9 +14,6 @@ compile:
 
 build:
 	$(CC) $(build) $(target) $(objects) $(library)
-
-clean:
-	rm -f $(objects) $(target) a.out
 
 run:
 	$(executable)

@@ -20,10 +20,37 @@ typedef int16_t             int16;
 typedef int32_t             int32;
 
 // 3D vector
-typedef struct {            float DATA[3];}     VECTOR3D;
+struct VECTOR3D{            
+    
+    float x;
+    float y;
+    float z;
+
+    VECTOR3D( float x, float y, float z ) : x(x), y(y), z(z) {}
+
+    VECTOR3D operator =( const VECTOR3D & v ) const {
+        return VECTOR3D( v.x, v.y, v.z );
+    }
+
+    VECTOR3D operator+( const VECTOR3D & v ) const {
+        return VECTOR3D( x + v.x, y + v.y, z + v.z );
+    }
+
+    VECTOR3D operator-( const VECTOR3D & v ) const {
+        return VECTOR3D( x - v.x, y - v.y, z - v.z );
+    }
+
+
+};
 
 // Matrix 4x4
-typedef struct {            float DATA[16];}    MATRIX4X;
+struct MATRIX4X{
+
+    MATRIX4X( float * data ) {
+        memcpy( DATA, data, sizeof(float) * 16 );
+    }
+    float DATA[16];
+};
 
 
 #endif
