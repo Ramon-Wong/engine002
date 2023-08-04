@@ -25,7 +25,8 @@ struct VECTOR3D{
     float x;
     float y;
     float z;
-
+    
+    VECTOR3D() : x(0), y(0), z(0) {}
     VECTOR3D( float x, float y, float z ) : x(x), y(y), z(z) {}
 
     // Normalize the vector
@@ -43,7 +44,7 @@ struct VECTOR3D{
 };
 
 VECTOR3D        normalize(VECTOR3D);
-VECTOR3D        crossProduct(VECTOR3D, VECTOR3D);
+VECTOR3D        crossproduct(VECTOR3D, VECTOR3D);
 
 
 
