@@ -27,19 +27,12 @@ struct VECTOR3D{
     float z;
     
     VECTOR3D() : x(0), y(0), z(0) {}
-    VECTOR3D( float x, float y, float z ) : x(x), y(y), z(z) {}
+    VECTOR3D( float x, float y, float z ){ this->x = x; this->y = y; this->z = z; }
 
     // Normalize the vector
-    void Normalize() {
-        float length = sqrt(x*x + y*y + z*z);
-        if (length > 0) {
-            x /= length; y /= length; z /= length;
-        }
-    }
-
-    VECTOR3D operator = ( const VECTOR3D & v ) const {  return VECTOR3D( v.x, v.y, v.z );}
-    VECTOR3D operator + ( const VECTOR3D & v ) const {  return VECTOR3D( x + v.x, y + v.y, z + v.z );}
-    VECTOR3D operator - ( const VECTOR3D & v ) const {  return VECTOR3D( x - v.x, y - v.y, z - v.z );}
+    VECTOR3D operator = (const VECTOR3D& v ){   x = v.x;  y = v.y;  z = v.z;  return *this;}
+    VECTOR3D operator + (const VECTOR3D& v ){   return VECTOR3D( x + v.x, y + v.y, z + v.z ); }
+    VECTOR3D operator - (const VECTOR3D& v ){   return VECTOR3D( x - v.x, y - v.y, z - v.z ); }
 
 };
 
