@@ -36,12 +36,6 @@ struct VECTOR3D{
         }
     }
 
-    void CrossProduct( VECTOR3D Vec1, VECTOR3D Vec2){
-        x = Vec1.y * Vec2.z - Vec1.z * Vec2.y;
-        y = Vec1.z * Vec2.x - Vec1.x * Vec2.z;
-        z = Vec1.x * Vec2.y - Vec1.y * Vec2.x;
-    }    
-
     VECTOR3D operator = ( const VECTOR3D & v ) const {  return VECTOR3D( v.x, v.y, v.z );}
     VECTOR3D operator + ( const VECTOR3D & v ) const {  return VECTOR3D( x + v.x, y + v.y, z + v.z );}
     VECTOR3D operator - ( const VECTOR3D & v ) const {  return VECTOR3D( x - v.x, y - v.y, z - v.z );}
@@ -49,7 +43,7 @@ struct VECTOR3D{
 };
 
 VECTOR3D        normalize(VECTOR3D);
-
+VECTOR3D        crossProduct(VECTOR3D, VECTOR3D);
 
 
 
