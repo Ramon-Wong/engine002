@@ -28,29 +28,40 @@ struct VECTOR3D{
 
     VECTOR3D( float x, float y, float z ) : x(x), y(y), z(z) {}
 
-    VECTOR3D operator =( const VECTOR3D & v ) const {
-        return VECTOR3D( v.x, v.y, v.z );
-    }
+    // Normalize the vector
+        void Normalize() {
+            float length = sqrt(x*x + y*y + z*z);
+            if (length > 0) {
+                x /= length; y /= length; z /= length;
+            }
+        }
 
-    VECTOR3D operator+( const VECTOR3D & v ) const {
-        return VECTOR3D( x + v.x, y + v.y, z + v.z );
-    }
-
-    VECTOR3D operator-( const VECTOR3D & v ) const {
-        return VECTOR3D( x - v.x, y - v.y, z - v.z );
-    }
+    
 
 
-};
+        VECTOR3D operator =( const VECTOR3D & v ) const {
+            return VECTOR3D( v.x, v.y, v.z );
+        }
 
-// Matrix 4x4
-struct MATRIX4X{
+        VECTOR3D operator+( const VECTOR3D & v ) const {
+            return VECTOR3D( x + v.x, y + v.y, z + v.z );
+        }
 
-    MATRIX4X( float * data ) {
-        memcpy( DATA, data, sizeof(float) * 16 );
-    }
-    float DATA[16];
-};
+        VECTOR3D operator-( const VECTOR3D & v ) const {
+            return VECTOR3D( x - v.x, y - v.y, z - v.z );
+        }
 
 
-#endif
+    };
+
+    // Matrix 4x4
+    struct MATRIX4X{
+
+        MATRIX4X( float * data ) {
+            memcpy( DATA, data, sizeof(float) * 16 );
+        }
+        float DATA[16];
+    };
+
+    #endif
+
