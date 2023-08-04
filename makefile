@@ -1,4 +1,4 @@
-CC					= gcc
+CC					= g++
 source				= main.c
 objects				= main.o
 option				= -Wall
