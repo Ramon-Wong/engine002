@@ -20,7 +20,7 @@ typedef int16_t             int16;
 typedef int32_t             int32;
 
 // 3D vector
-struct VECTOR3D{            
+struct VECTOR3D{
     
     float x;
     float y;
@@ -29,30 +29,32 @@ struct VECTOR3D{
     VECTOR3D( float x, float y, float z ) : x(x), y(y), z(z) {}
 
     // Normalize the vector
-        void Normalize() {
-            float length = sqrt(x*x + y*y + z*z);
-            if (length > 0) {
-                x /= length; y /= length; z /= length;
-            }
+    void Normalize() {
+        float length = sqrt(x*x + y*y + z*z);
+        if (length > 0) {
+            x /= length; y /= length; z /= length;
         }
+    }
 
-    
+    void CrossProduct( VECTOR3D Vec1, VECTOR3D Vec2){
+        x = Vec1.y * Vec2.z - Vec1.z * Vec2.y;
+        y = Vec1.z * Vec2.x - Vec1.x * Vec2.z;
+        z = Vec1.x * Vec2.y - Vec1.y * Vec2.x;
+    }    
 
+    VECTOR3D operator =( const VECTOR3D & v ) const {
+        return VECTOR3D( v.x, v.y, v.z );
+    }
 
-        VECTOR3D operator =( const VECTOR3D & v ) const {
-            return VECTOR3D( v.x, v.y, v.z );
-        }
+    VECTOR3D operator+( const VECTOR3D & v ) const {
+        return VECTOR3D( x + v.x, y + v.y, z + v.z );
+    }
 
-        VECTOR3D operator+( const VECTOR3D & v ) const {
-            return VECTOR3D( x + v.x, y + v.y, z + v.z );
-        }
+    VECTOR3D operator-( const VECTOR3D & v ) const {
+        return VECTOR3D( x - v.x, y - v.y, z - v.z );
+    }
 
-        VECTOR3D operator-( const VECTOR3D & v ) const {
-            return VECTOR3D( x - v.x, y - v.y, z - v.z );
-        }
-
-
-    };
+};
 
     // Matrix 4x4
     struct MATRIX4X{
