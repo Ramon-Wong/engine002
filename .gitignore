@@ -1,3 +1,4 @@
 main
 main.o
 matrix.o
+functions.o

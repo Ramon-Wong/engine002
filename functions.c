@@ -6,9 +6,9 @@
 VECTOR3D normalize( VECTOR3D v ) {
 
     float length = sqrt( v.x*v.x + v.y*v.y + v.z*v.z );
-    v.x /= length;  v.y /= length;  v.z /= length;
+    VECTOR3D result = { v.x/length, v.y/length, v.z/length };
 
-    return v;
+    return result;
 }
 
 
