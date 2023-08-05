@@ -11,6 +11,10 @@ int main(int argc, char *argv[]){
     VECTOR3D result = normalize(crossproduct(v2, v1));
     printf(" Result: %f %f %f \n", result.x, result.y, result.z);
 
+    result =  normalize(v2 - v1);
+    printf(" Result: %f %f %f \n", result.x, result.y, result.z);
+
+
     printf("\nTest 1\n");
     result = normalize(v1);
     printf(" Result: %f %f %f \n", result.x, result.y, result.z);
