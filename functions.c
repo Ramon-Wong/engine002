@@ -32,10 +32,10 @@ void LookAtM( MATRIX4X * Result, VECTOR3D * View, VECTOR3D * Pose, VECTOR3D * Up
     X = normalize( crossproduct( *UpVx, Z ));
     Y = normalize( crossproduct( Z, X ));
 
-    Result->DATA[0] = X.x;  Result->DATA[4] = X.y;  Result->DATA[8]     = X.z; // Result->DATA[12]     = -dotProduct( X, View );
-    Result->DATA[1] = Y.x;  Result->DATA[5] = Y.y;  Result->DATA[9]     = Y.z; // Result->DATA[13]     = -dotProduct( Y, View );
-    Result->DATA[2] = Z.x;  Result->DATA[6] = Z.y;  Result->DATA[10]    = Z.z; // Result->DATA[14]     = -dotProduct( Z, View );
-    Result->DATA[3] = 0.0;  Result->DATA[7] = 0.0;  Result->DATA[11]    = 0.0; // Result->DATA[15]     = 1.0;
+    Result->DATA[0] = X.x;  Result->DATA[4] = X.y;  Result->DATA[8]     = X.z;  Result->DATA[12]     = -dotProduct( X, View );
+    Result->DATA[1] = Y.x;  Result->DATA[5] = Y.y;  Result->DATA[9]     = Y.z;  Result->DATA[13]     = -dotProduct( Y, View );
+    Result->DATA[2] = Z.x;  Result->DATA[6] = Z.y;  Result->DATA[10]    = Z.z;  Result->DATA[14]     = -dotProduct( Z, View );
+    Result->DATA[3] = 0.0;  Result->DATA[7] = 0.0;  Result->DATA[11]    = 0.0;  Result->DATA[15]     = 1.0;
 }
 
 
