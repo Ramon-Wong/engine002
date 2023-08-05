@@ -1,20 +1,8 @@
-/******************************************************************************\
-| OpenGL 2.1 Example Code.                                                     |
-| Accompanies written series "Anton's OpenGL 4 Tutorials"                      |
-| Email: anton at antongerdelan dot net                                        |
-| First version 27 Jan 2014                                                    |
-| Dr Anton Gerdelan, Trinity College Dublin, Ireland.                          |
-| See individual libraries for separate legal notices                          |
-|******************************************************************************|
-| Hello Triangle. Example back-ported to OpenGL 2.1 with GLSL 1.20             |
-| If you're on Mac un-comment the version number code at the beginning. It     |
-| will give you the latest, even if you say 3.2!                               |
-| This uses the libraries GLEW and GLFW3 to start GL. Download and compile     |
-| these first. Linking them might be a pain, but you'll need to master this.   |
-\******************************************************************************/
 #include <GL/glew.h>    /* include GLEW and new version of GL on Windows */
 #include <GLFW/glfw3.h> /* GLFW helper library */
 #include <stdio.h>
+
+
 
 int main() {
   GLFWwindow* window = NULL;
@@ -116,18 +104,18 @@ int main() {
      surface. hence the 'swap' idea. in a single-buffering system we would see
      stuff being drawn
   one-after-the-other */
-  while ( !glfwWindowShouldClose( window ) ) {
-    // wipe the drawing surface clear
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    glUseProgram( shader_programme );
-    glBindVertexArray( vao );
-    // draw points 0-3 from the currently bound VAO with current shader
-    glDrawArrays( GL_TRIANGLES, 0, 3 );
-    // update other events like input handling
-    glfwPollEvents();
-    // put the stuff we've been drawing onto the display
-    glfwSwapBuffers( window );
-  }
+    while ( !glfwWindowShouldClose( window ) ) {
+        // wipe the drawing surface clear
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+        glUseProgram( shader_programme );
+        glBindVertexArray( vao );
+        // draw points 0-3 from the currently bound VAO with current shader
+        glDrawArrays( GL_TRIANGLES, 0, 3 );
+        // update other events like input handling
+        glfwPollEvents();
+        // put the stuff we've been drawing onto the display
+        glfwSwapBuffers( window );
+    }
 
   // close GL context and any other GLFW resources
   glfwTerminate();
