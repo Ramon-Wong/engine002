@@ -6,7 +6,10 @@ compile 			= -Wall -c
 build				= -Wall -o
 target				= main
 executable			= ./main
-library				= -lm -lglfw -lGL 
+library				= -lm -lglfw -lGL -lGLEW
+
+
+# gcc -Wall -o "%e" "%f" functions.c utils.c ShaderUtils.c Matrix4x.h -lm -lglfw -lGL -lGLEW  
 
 
 compile:
