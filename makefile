@@ -1,6 +1,6 @@
 CC					= gcc
-source				= main.c
-objects				= main.o
+source				= main.c functions.c ShaderUtils.c Utils.c
+objects				= main.o functions.o ShaderUtils.o Utils.o
 option				= -Wall
 compile 			= -Wall -c
 build				= -Wall -o
