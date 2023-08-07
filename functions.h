@@ -9,6 +9,9 @@
 #include <string.h>
 #include <math.h>
 
+#include <GL/glew.h>
+#include <GL/glfw.h>
+
 // Function prototypes
 // uint8_t/int8_t equals to unsigned/signed char
 // uint16_t/int16_t equals to unsigned/signed short
@@ -41,18 +44,16 @@ VECTOR3D        crossproduct(VECTOR3D, VECTOR3D);
 
 
 
+// Matrix 4x4
+struct MATRIX4X{
 
+    MATRIX4X( float * data ) {
+        memcpy( DATA, data, sizeof(float) * 16 );
+    }
+    float DATA[16];
+};
 
-    // Matrix 4x4
-    struct MATRIX4X{
-
-        MATRIX4X( float * data ) {
-            memcpy( DATA, data, sizeof(float) * 16 );
-        }
-        float DATA[16];
-    };
-
-    #endif
+#endif
 
 
 
