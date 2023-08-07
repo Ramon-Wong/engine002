@@ -44,6 +44,7 @@ VECTOR3D        crossproduct(VECTOR3D, VECTOR3D);
 float           dotproduct(VECTOR3D, VECTOR3D);
 
 void            LookAtM( MATRIX4X *, VECTOR3D *, VECTOR3D *, VECTOR3D *);
+void            MFrustum( float *, float, float, float, float, float, float);
 
 // Matrix 4x4
 struct MATRIX4X{
