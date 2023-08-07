@@ -1,10 +1,15 @@
-#include <stdio.h>
+#include "functions.h"
+ 
 
 
 
-int main(int argc, char *argv[]){
 
-    printf("Hello World!\n");
-
-    return 0;
+int main(void){
+  Init();
+  ShaderSetup();
+  
+  Main_Loop();
+  Shut_Down(0);
+  
+  return 0;
 }
