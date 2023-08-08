@@ -1,6 +1,6 @@
 CC					= gcc
-source				= main.c functions.c
-objects				= main.o functions.o
+source				= main.c functions.c matrix.c
+objects				= main.o functions.o matrix.o
 option				= -Wall
 compile 			= -Wall -c
 build				= -Wall -o
