@@ -5,9 +5,12 @@
 #include <stdlib.h>
 
 #include <GL/glew.h>
-#include <GL/glfw.h>
+#include <GLFW/glfw.h>
 #include "Matrix4x.h"
 
 
+
+void                Init(void);
+void                Shutdown(int);
 
 #endif
