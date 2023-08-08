@@ -19,4 +19,4 @@ run:
 	$(executable)
 
 clean:
-	rm -f $(objects) $(target) a.out
+	rm -f *.o $(target) a.out
