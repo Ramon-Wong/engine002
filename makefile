@@ -1,6 +1,6 @@
 CC					= gcc
-source				= main.c
-objects				= main.o
+source				= main.c utils.c
+objects				= main.o utils.o
 option				= -Wall
 compile 			= -Wall -c
 build				= -Wall -o
