@@ -17,7 +17,10 @@ extern GLfloat		Proj_Matrix[16];
 extern GLfloat		View_Matrix[16];
 
 char            *	ReadFile(const char *);
+void                ShaderSetup();
 void                Init(void);
+void                Draw(void);
 void                Shutdown(int);
+
 
 #endif
