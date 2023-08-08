@@ -5,9 +5,7 @@
 #include <stdlib.h>
 
 #include <GL/glew.h>
-#include <GL/glfw.h>
-#include "matrix.h"
-
-
+#include <GL/glu.h>
+#include <GLFW/glfw3.h>
 
 #endif
