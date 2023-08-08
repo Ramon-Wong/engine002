@@ -14,9 +14,8 @@
 #include <GLFW/glfw3.h>
 
 
-
-
-
+void    Init();
+void    Shutdown(int);
 
 
 #endif

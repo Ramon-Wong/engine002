@@ -6,10 +6,10 @@ void Init(void){
     const int window_height = 600;
  
     if( glfwInit() != GL_TRUE)
-    Shut_Down(1);
+    Shutdown(1);
   
     if( glfwOpenWindow( window_width, window_height, 5, 6, 5, 0, 0, 0, GLFW_WINDOW) != GL_TRUE)
-		    Shut_Down(1);
+		    Shutdown(1);
 		
     glfwSetWindowTitle("The GLFW Window");
  
@@ -21,11 +21,8 @@ void Init(void){
  }
 
 
-void Shut_Down(int return_code){
-    glDeleteProgram( GLSL_Program);
-	  glDeleteShader( GLSL_vertex);
-	  glDeleteShader( GLSL_fragment);		
-	
-	  glfwTerminate();
-	  exit(return_code);
+void Shutdown(int return_code){
+/	
+	glfwTerminate();
+	exit(return_code);
 }
