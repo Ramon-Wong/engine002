@@ -13,9 +13,11 @@ void Init(void){
 	const int window_width  = 800;
     const int window_height = 600;
  
-	if( glfwInit() != GL_TRUE)
-	Shutdown(1);
-  
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	GLFWwindow * window = glfwCreateWindow( window_width, window_height, "Hello GLFW", NULL, NULL);
     if (!window) {
         Shutdown(1);
