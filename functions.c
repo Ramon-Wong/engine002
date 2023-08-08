@@ -16,10 +16,11 @@ void Init(void){
 	if( glfwInit() != GL_TRUE)
 	Shutdown(1);
   
-	if( glfwOpenWindow(window_width, window_height, 5, 6, 5, 0, 0, 0, GLFW_WINDOW) != GL_TRUE)
-		Shutdown(1);
-		
-	glfwSetWindowTitle("The GLFW Window");
+	GLFWwindow * window = glfwCreateWindow( window_width, window_height, "Hello GLFW", NULL, NULL);
+    if (!window) {
+        Shutdown(1);
+    }
+	
  
 	printf("GL VENDOR:--- %s \n", glGetString(GL_VENDOR));
 	printf("GL RENDERER:- %s \n", glGetString(GL_RENDERER));
