@@ -23,6 +23,8 @@ void Init(void){
         Shutdown(1);
     }
 	
+ 	glfwMakeContextCurrent(window);		
+     
  
 	printf("GL VENDOR:--- %s \n", glGetString(GL_VENDOR));
 	printf("GL RENDERER:- %s \n", glGetString(GL_RENDERER));
