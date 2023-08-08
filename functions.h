@@ -16,6 +16,7 @@ extern GLuint		GLSL_fragment;
 extern GLfloat		Proj_Matrix[16];
 extern GLfloat		View_Matrix[16];
 
+char            *	ReadFile(const char *);
 void                Init(void);
 void                Shutdown(int);
 

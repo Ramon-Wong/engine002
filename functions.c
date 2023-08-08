@@ -44,6 +44,9 @@ void Init(void){
 	
 	LookAtM( View_Matrix, Pose, View, Upvx);
 
+	ShaderSetup();
+
+
 	while(1){
 		// double current_time = glfwGetTime();
 		// double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
