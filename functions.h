@@ -10,7 +10,7 @@
 #include <math.h>
 
 #include <GL/glew.h>
-#include <GL/glfw.h>
+#include <glfw.h>
 #include <GL/glu.h>
 
 
