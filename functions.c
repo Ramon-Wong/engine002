@@ -31,6 +31,10 @@ void Init(void){
 	printf("GL VERSION:-- %s \n", glGetString(GL_VERSION));
 	printf("GL SHADING:-- %s \n", glGetString(GL_SHADING_LANGUAGE_VERSION));
  
+	glEnable(GL_DEPTH_TEST); // enable depth-testing
+	glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
+
+
  }
 
 
