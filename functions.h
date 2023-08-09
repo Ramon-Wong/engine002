@@ -13,6 +13,6 @@ extern GLfloat		View_Matrix[16];
 
 void                Init(void);
 void                Shutdown(int);
-void                ShaderSetup( const char *, const char * , unsigned int, unsigned int, unsigned int);
+void                ShaderSetup( const char *, const char * , unsigned int *, unsigned int, unsigned int);
 
 #endif

@@ -1,12 +1,12 @@
 #include "functions.h"
 
 
-GLuint		GLSL_Program;
-GLuint		GLSL_vertex;
-GLuint		GLSL_fragment;
+unsigned int		GLSL_Program;
+unsigned int		GLSL_vertex;
+unsigned int		GLSL_fragment;
 
-GLfloat		Proj_Matrix[16];
-GLfloat		View_Matrix[16];
+GLfloat				Proj_Matrix[16];
+GLfloat				View_Matrix[16];
 
 
 float points[] = {
@@ -40,13 +40,13 @@ void Init(void){
 	glEnable(GL_DEPTH_TEST); // enable depth-testing
 	glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
 
-	ShaderSetup("vshader.glsl", "fshader.glsl", GLSL_Program, GLSL_vertex, GLSL_fragment);
+	ShaderSetup("vshader.glsl", "fshader.glsl", &GLSL_Program, GLSL_vertex, GLSL_fragment);
 
 
 	GLuint vbo = 0;
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), points, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), &points, GL_STATIC_DRAW);
 
 	GLuint vao = 0;
 	glGenVertexArrays(1, &vao);
@@ -65,11 +65,9 @@ void Init(void){
     	Shutdown(0);
     }
 
-
-  	// glUseProgram(GLSL_Program);
-  	// glBindVertexArray(vao);
-  	// glDrawArrays(GL_TRIANGLES, 0, 3);
-
+  	glUseProgram(GLSL_Program);
+  	glBindVertexArray(vao);
+  	glDrawArrays(GL_TRIANGLES, 0, 3);
 
 	glfwPollEvents();
   	glfwSwapBuffers(window);

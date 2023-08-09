@@ -9,7 +9,7 @@ void	print_program_info_log(GLuint);
 // GLSL/VShader.glsl
 // GLSL/FShader.glsl
 
-void	ShaderSetup(const char * vshader, const char * fshader, unsigned int Program, unsigned int Vertex, unsigned int Fragment){
+void	ShaderSetup(const char * vshader, const char * fshader, unsigned int * Program, unsigned int Vertex, unsigned int Fragment){
 	if(glewInit() != GLEW_OK)
 	printf("glewInit not supported");
 	
@@ -24,7 +24,7 @@ void	ShaderSetup(const char * vshader, const char * fshader, unsigned int Progra
 	if(glewIsSupported("GL_VERSION_1_4 GL_ARB_point_sprite"))			printf("Status: ARB point sprites available.\n");	
 	printf("\n");	
 	
-	Program		= glCreateProgram();
+	*Program		= glCreateProgram();
 	Vertex		= glCreateShader(GL_VERTEX_SHADER);
 	Fragment	= glCreateShader(GL_FRAGMENT_SHADER);
 
@@ -41,7 +41,7 @@ void	ShaderSetup(const char * vshader, const char * fshader, unsigned int Progra
 		printf("Error Compiling: %s\n", vshader);
 		print_shader_info_log( Vertex);
 	}
-	glAttachShader( Program, Vertex);	
+	glAttachShader( *Program, Vertex);	
 	free(vv);
 
 
@@ -56,16 +56,16 @@ void	ShaderSetup(const char * vshader, const char * fshader, unsigned int Progra
 		printf("Error Compiling: %s\n", fshader);
 		print_shader_info_log( Fragment);
 	}	
-	glAttachShader( Program, Fragment);	
+	glAttachShader( *Program, Fragment);	
 	free(fv);
 
-	glLinkProgram( Program);
+	glLinkProgram( *Program);
 	GLint prog_link_success;
-	glGetObjectParameterivARB( Program, GL_OBJECT_LINK_STATUS_ARB, &prog_link_success);
+	glGetObjectParameterivARB( *Program, GL_OBJECT_LINK_STATUS_ARB, &prog_link_success);
 	
 	if(!prog_link_success){
 		printf("\nThe shaders could not be linked\n");
-		print_program_info_log( Program);
+		print_program_info_log( *Program);
 	}else{
 		printf("\nShaders Succesfully Created And Linked\n");
 	}
