@@ -8,15 +8,11 @@
 #include <GLFW/glfw3.h>
 
 
-extern GLuint		GLSL_Program;
-extern GLuint		GLSL_vertex;
-extern GLuint		GLSL_fragment;
-
 extern GLfloat		Proj_Matrix[16];
 extern GLfloat		View_Matrix[16];
 
 void                Init(void);
 void                Shutdown(int);
-void                ShaderSetup( const char *, const char * , int, int, int);
+void                ShaderSetup( const char *, const char * , unsigned int, unsigned int, unsigned int);
 
 #endif

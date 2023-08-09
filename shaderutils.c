@@ -9,7 +9,7 @@ void	print_program_info_log(GLuint);
 // GLSL/VShader.glsl
 // GLSL/FShader.glsl
 
-void	ShaderSetup(const char * vshader, const char * fshader, int Program, int Vertex, int Fragment){
+void	ShaderSetup(const char * vshader, const char * fshader, unsigned int Program, unsigned int Vertex, unsigned int Fragment){
 	if(glewInit() != GLEW_OK)
 	printf("glewInit not supported");
 	

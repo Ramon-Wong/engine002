@@ -9,6 +9,13 @@ GLfloat		Proj_Matrix[16];
 GLfloat		View_Matrix[16];
 
 
+float points[] = {
+	0.0f,  0.5f,  0.0f,
+	0.5f, -0.5f,  0.0f,
+   -0.5f, -0.5f,  0.0f
+};
+
+
 void Init(void){
 	const int window_width  = 800;
     const int window_height = 600;
@@ -35,11 +42,36 @@ void Init(void){
 
 	ShaderSetup("vshader.glsl", "fshader.glsl", GLSL_Program, GLSL_vertex, GLSL_fragment);
 
+
+	GLuint vbo = 0;
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), points, GL_STATIC_DRAW);
+
+	GLuint vao = 0;
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+
+
 	while(!glfwWindowShouldClose(window)) {
   	// wipe the drawing surface clear
   	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
  
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+    	Shutdown(0);
+    }
 
+
+  	// glUseProgram(GLSL_Program);
+  	// glBindVertexArray(vao);
+  	// glDrawArrays(GL_TRIANGLES, 0, 3);
+
+
+	glfwPollEvents();
   	glfwSwapBuffers(window);
 	}	
  }
