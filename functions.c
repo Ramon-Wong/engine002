@@ -24,8 +24,7 @@ void Init(void){
     }
 	
  	glfwMakeContextCurrent(window);		
-     
- 
+      
 	printf("GL VENDOR:--- %s \n", glGetString(GL_VENDOR));
 	printf("GL RENDERER:- %s \n", glGetString(GL_RENDERER));
 	printf("GL VERSION:-- %s \n", glGetString(GL_VERSION));
@@ -34,7 +33,15 @@ void Init(void){
 	glEnable(GL_DEPTH_TEST); // enable depth-testing
 	glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
 
+	ShaderSetup("vshader.glsl", "fshader.glsl", GLSL_Program, GLSL_vertex, GLSL_fragment);
 
+	while(!glfwWindowShouldClose(window)) {
+  	// wipe the drawing surface clear
+  	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ 
+
+  	glfwSwapBuffers(window);
+	}	
  }
 
 

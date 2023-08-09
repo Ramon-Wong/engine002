@@ -1,12 +1,12 @@
 CC					= gcc
-source				= main.c functions.c
-objects				= main.o functions.o
+source				= main.c functions.c shaderutils.c
+objects				= main.o functions.o shaderutils.o
 option				= -Wall
 compile 			= -Wall -c
 build				= -Wall -o
 target				= main
 executable			= ./main
-library				= -lm -lglfw -lGL 
+library				= -lm -lglfw -lGL -lGLEW
 
 
 compile:

@@ -30,14 +30,14 @@ void	ShaderSetup(const char * vshader, const char * fshader, int Program, int Ve
 
 	int params;	
 	char * vv	= ReadFile(vshader);											// <== vshader
-	printf("Compiling Shader: %s\n", vshader);
+	printf("\nCompiling Shader: %s\n", vshader);
 	
 	glShaderSource( Vertex, 1, (const GLchar **)&vv, 0);
 	glCompileShader( Vertex);
 	params	= -1;
 	glGetShaderiv ( Vertex, GL_COMPILE_STATUS, &params);	
 	if(GL_TRUE != params) {
-		printf("Error Compiling: GLSL/vShader.glsl\n");
+		printf("Error Compiling: %s\n", vshader);
 		print_shader_info_log( Vertex);
 	}
 	glAttachShader( Program, Vertex);	
@@ -45,14 +45,14 @@ void	ShaderSetup(const char * vshader, const char * fshader, int Program, int Ve
 
 
 	char * fv	= ReadFile(fshader);											// <== fshader
-	printf("Compiling Shader: %s\n", fshader);
+	printf("\nCompiling Shader: %s\n", fshader);
 	
 	glShaderSource( Fragment, 1, (const GLchar **)&fv, 0);
 	glCompileShader( Fragment);
 	params	= -1;
 	glGetShaderiv ( Fragment, GL_COMPILE_STATUS, &params);	
 	if(GL_TRUE != params) {
-		printf("Error Compiling: glsl/fShader.glsl\n");
+		printf("Error Compiling: %s\n", fshader);
 		print_shader_info_log( Fragment);
 	}	
 	glAttachShader( Program, Fragment);	
