@@ -4,7 +4,11 @@ void	print_shader_info_log(GLuint);
 void	print_program_info_log(GLuint);
 
 
-void	ShaderSetup(){
+
+// GLSL/VShader.glsl
+// GLSL/FShader.glsl
+
+void	ShaderSetup(const char * vshader, const char * fshader){
 	if(glewInit() != GLEW_OK)
 	printf("glewInit not supported");
 	
@@ -25,8 +29,8 @@ void	ShaderSetup(){
 
 
 	int params;	
-	char * vv	= ReadFile("GLSL/VShader.glsl");
-	printf("Compiling Shader: GLSL/VShader.glsl\n");
+	char * vv	= ReadFile(vshader);											// <== vshader
+	printf("Compiling Shader: %s\n", vshader);
 	
 	glShaderSource( GLSL_vertex, 1, (const GLchar **)&vv, 0);
 	glCompileShader(GLSL_vertex);
@@ -40,8 +44,8 @@ void	ShaderSetup(){
 	free(vv);
 
 
-	char * fv	= ReadFile("GLSL/FShader.glsl");
-	printf("Compiling Shader: GLSL/FShader.glsl\n");
+	char * fv	= ReadFile(fshader);											// <== fshader
+	printf("Compiling Shader: %s\n", fshader);
 	
 	glShaderSource( GLSL_fragment, 1, (const GLchar **)&fv, 0);
 	glCompileShader(GLSL_fragment);
