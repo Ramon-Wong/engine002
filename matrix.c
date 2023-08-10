@@ -103,3 +103,8 @@ void MTransform(float * Result, float * Data, float * Vec){
 	Result[2] = Vec[0]*Data[2] + Vec[1]*Data[6] + Vec[2]*Data[10] + Data[14];
 	Result[3] = Vec[0]*Data[3] + Vec[1]*Data[7] + Vec[2]*Data[11] + Data[15];
 }
+
+
+GLfloat dotproduct(GLfloat * V1, GLfloat * V2){
+	return V1[0] * V2[0] + V1[1] * V2[1] + V1[2] * V2[2];
+}
