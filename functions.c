@@ -63,7 +63,7 @@ void Init(void){
 	MLoadIdentity(View_Proj);
 
 	float aspect_ratio = ((float)window_height) / window_width;
-	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
+	MFrustum( (float*)Proj_Matrix, 0.35f, -0.35f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
 
 	float View[] = {  0.0f,  0.0f, 12.0f};
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
@@ -75,22 +75,22 @@ void Init(void){
 
 
 	while(!glfwWindowShouldClose(window)) {
-  	// wipe the drawing surface clear
-  	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
- 
-	uMatLoc[0]	= glGetUniformLocation( GLSL_Program, "ViewProj_Matrix");
-	glUniformMatrix4fv( uMatLoc[0], 1, GL_FALSE, View_Proj);	
+		// wipe the drawing surface clear
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+		uMatLoc[0]	= glGetUniformLocation( GLSL_Program, "ViewProj_Matrix");
+		glUniformMatrix4fv( uMatLoc[0], 1, GL_FALSE, View_Proj);	
 
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-    	Shutdown(0);
-    }
+		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+			Shutdown(0);
+		}
 
-  	glUseProgram(GLSL_Program);
-  	glBindVertexArray(vao);
-  	glDrawArrays(GL_TRIANGLES, 0, 3);
+		glUseProgram(GLSL_Program);
+		glBindVertexArray(vao);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-	glfwPollEvents();
-  	glfwSwapBuffers(window);
+		glfwPollEvents();
+		glfwSwapBuffers(window);
 	}	
  }
 

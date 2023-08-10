@@ -1,6 +1,7 @@
 #version 400
 in vec3 vp;
+uniform mat4	ViewProj_Matrix;
 
 void main(){
-    gl_Position = vec4(vp, 1.0);
+    gl_Position = ViewProj_Matrix * vec4(vp, 1.0);
 }
