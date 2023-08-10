@@ -18,16 +18,16 @@ float points[] = {
 };
 
 
-void Init(void){
-	const int window_width  = 800;
-    const int window_height = 600;
+void Init( const GLint window_width, const GLint window_height, const char * title){
+	// const int window_width  = 800;
+    // const int window_height = 600;
  
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow * window = glfwCreateWindow( window_width, window_height, "Hello GLFW", NULL, NULL);
+	GLFWwindow * window = glfwCreateWindow( window_width, window_height, title, NULL, NULL);
     if (!window) {
         Shutdown(1);
     }
