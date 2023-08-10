@@ -3,9 +3,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "matrix.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
 
 
 extern GLfloat		Proj_Matrix[16];

@@ -7,7 +7,9 @@ unsigned int		GLSL_fragment;
 
 GLfloat				Proj_Matrix[16];
 GLfloat				View_Matrix[16];
+GLfloat				View_Proj[16];
 
+GLuint				uMatLoc[5];
 
 float points[] = {
 	0.0f,  0.5f,  0.0f,
@@ -39,6 +41,7 @@ void Init(void){
  
 	glEnable(GL_DEPTH_TEST); // enable depth-testing
 	glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
+	glViewport( 0, 0, window_width, window_height);
 
 	ShaderSetup("vshader.glsl", "fshader.glsl", &GLSL_Program, GLSL_vertex, GLSL_fragment);
 
@@ -55,12 +58,29 @@ void Init(void){
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
+	MLoadIdentity(View_Matrix);
+	MLoadIdentity(Proj_Matrix);
+	MLoadIdentity(View_Proj);
+
+	float aspect_ratio = ((float)window_height) / window_width;
+	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
+
+	float View[] = {  0.0f,  0.0f, 12.0f};
+	float Pose[] = {  0.0f,  0.0f,  6.0f};
+	float Upvx[] = {  0.0f,  1.0f,  0.0f};
+		
+	LookAtM( View_Matrix, Pose, View, Upvx);
+
+	MMultiply(View_Proj, Proj_Matrix, View_Matrix);
 
 
 	while(!glfwWindowShouldClose(window)) {
   	// wipe the drawing surface clear
   	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
  
+	uMatLoc[0]	= glGetUniformLocation( GLSL_Program, "ViewProj_Matrix");
+	glUniformMatrix4fv( uMatLoc[0], 1, GL_FALSE, View_Proj);	
+
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
     	Shutdown(0);
     }
