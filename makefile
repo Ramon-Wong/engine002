@@ -1,12 +1,12 @@
 CC					= gcc
-source				= main.c
-objects				= main.o
+source				= main.c functions.c shaderutils.c matrix.c
+objects				= main.o functions.o shaderutils.o matrix.o
 option				= -Wall
 compile 			= -Wall -c
 build				= -Wall -o
 target				= main
 executable			= ./main
-library				= -lm -lglfw -lGL 
+library				= -lm -lglfw -lGL -lGLEW
 
 
 compile:
@@ -19,4 +19,4 @@ run:
 	$(executable)
 
 clean:
-	rm -f $(objects) $(target) a.out
+	rm -f *.o $(target) a.out
