@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
     };
 
     GLubyte indices[] = {
-        0, 2, 1
+        0, 1, 2
     };    
 
 	const int window_width  = 800;
@@ -62,15 +62,14 @@ int main(int argc, char *argv[]){
 
 		// old way of drawing a triangle using system memory instead of VBO
 		// this method sucks and is slow, but it works and is easy to understand
+		glUseProgram(GLSL_Program);
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_FLOAT, 0, points);
 
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_BYTE, indices);
 	
 		glDisableClientState(GL_VERTEX_ARRAY);
-
-
 
 
 		glfwPollEvents();
