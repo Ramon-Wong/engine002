@@ -1,21 +1,21 @@
 #include "functions.h"
 
 
-unsigned int		GLSL_Program;
-unsigned int		GLSL_vertex;
-unsigned int		GLSL_fragment;
+// unsigned int		GLSL_Program;
+// unsigned int		GLSL_vertex;
+// unsigned int		GLSL_fragment;
 
-GLfloat				Proj_Matrix[16];
-GLfloat				View_Matrix[16];
-GLfloat				View_Proj[16];
+// GLfloat				Proj_Matrix[16];
+// GLfloat				View_Matrix[16];
+// GLfloat				View_Proj[16];
 
-GLuint				uMatLoc[5];
+// GLuint				uMatLoc[5];
 
-float points[] = {
-	0.0f,  0.5f,  0.0f,
-	0.5f, -0.5f,  0.0f,
-   -0.5f, -0.5f,  0.0f
-};
+// float points[] = {
+// 	0.0f,  0.5f,  0.0f,
+// 	0.5f, -0.5f,  0.0f,
+//    -0.5f, -0.5f,  0.0f
+// };
 
 
 void Init( const GLint window_width, const GLint window_height, const char * title){
@@ -43,55 +43,54 @@ void Init( const GLint window_width, const GLint window_height, const char * tit
 	glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
 	glViewport( 0, 0, window_width, window_height);
 
-	ShaderSetup("vshader.glsl", "fshader.glsl", &GLSL_Program, GLSL_vertex, GLSL_fragment);
+	// ShaderSetup("vshader.glsl", "fshader.glsl", &GLSL_Program, GLSL_vertex, GLSL_fragment);
 
+	// GLuint vbo = 0;
+	// glGenBuffers(1, &vbo);
+	// glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	// glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), &points, GL_STATIC_DRAW);
 
-	GLuint vbo = 0;
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), &points, GL_STATIC_DRAW);
+	// GLuint vao = 0;
+	// glGenVertexArrays(1, &vao);
+	// glBindVertexArray(vao);
+	// glEnableVertexAttribArray(0);
+	// glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
-	GLuint vao = 0;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	// MLoadIdentity(View_Matrix);
+	// MLoadIdentity(Proj_Matrix);
+	// MLoadIdentity(View_Proj);
 
-	MLoadIdentity(View_Matrix);
-	MLoadIdentity(Proj_Matrix);
-	MLoadIdentity(View_Proj);
+	// float aspect_ratio = ((float)window_height) / window_width;
+	// MFrustum( (float*)Proj_Matrix, 0.35f, -0.35f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
 
-	float aspect_ratio = ((float)window_height) / window_width;
-	MFrustum( (float*)Proj_Matrix, 0.35f, -0.35f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
-
-	float View[] = {  0.0f,  0.0f, 12.0f};
-	float Pose[] = {  0.0f,  0.0f,  6.0f};
-	float Upvx[] = {  0.0f,  1.0f,  0.0f};
+	// float View[] = {  0.0f,  0.0f, 12.0f};
+	// float Pose[] = {  0.0f,  0.0f,  6.0f};
+	// float Upvx[] = {  0.0f,  1.0f,  0.0f};
 		
-	LookAtM( View_Matrix, Pose, View, Upvx);
+	// LookAtM( View_Matrix, Pose, View, Upvx);
 
-	MMultiply(View_Proj, Proj_Matrix, View_Matrix);
+	// MMultiply(View_Proj, Proj_Matrix, View_Matrix);
 
 
-	while(!glfwWindowShouldClose(window)) {
-		// wipe the drawing surface clear
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// while(!glfwWindowShouldClose(glfwGetCurrentContext())) {
+	// 	// wipe the drawing surface clear
+	// 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-		uMatLoc[0]	= glGetUniformLocation( GLSL_Program, "ViewProj_Matrix");
-		glUniformMatrix4fv( uMatLoc[0], 1, GL_FALSE, View_Proj);	
+	// 	uMatLoc[0]	= glGetUniformLocation( GLSL_Program, "ViewProj_Matrix");
+	// 	glUniformMatrix4fv( uMatLoc[0], 1, GL_FALSE, View_Proj);	
 
-		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-			Shutdown(0);
-		}
+	// 	if(glfwGetKey( glfwGetCurrentContext(), GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+	// 		Shutdown(0);
+	// 	}
 
-		glUseProgram(GLSL_Program);
-		glBindVertexArray(vao);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+	// 	glUseProgram(GLSL_Program);
+	// 	glBindVertexArray(vao);
+	// 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		glfwPollEvents();
-		glfwSwapBuffers(window);
-	}	
+	// 	glfwPollEvents();
+	// 	glfwSwapBuffers(glfwGetCurrentContext());
+	// }	
  }
 
 
