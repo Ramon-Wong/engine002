@@ -12,6 +12,16 @@
 
     GLuint				uMatLoc[5];
 
+
+
+// GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 
+// 						-4.0f, 4.0f, -14.0f,
+// 						-4.0f,-4.0f, -14.0f, 
+// 						 4.0f,-4.0f, -14.0f};	
+
+// GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
+
+
 int main(int argc, char *argv[]){
 
     GLfloat points[] = {
@@ -21,7 +31,7 @@ int main(int argc, char *argv[]){
     };
 
     GLubyte indices[] = {
-        0, 2, 1
+        0, 1, 2
     };    
 
 	const int window_width  = 800;
@@ -60,16 +70,17 @@ int main(int argc, char *argv[]){
 			Shutdown(0);
 		}
 
+		glUseProgram(GLSL_Program);
+
 		// old way of drawing a triangle using system memory instead of VBO
 		// this method sucks and is slow, but it works and is easy to understand
 
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, points);
+		glVertexPointer( 3, GL_FLOAT, 0, points);
 
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_BYTE, indices);
 	
 		glDisableClientState(GL_VERTEX_ARRAY);
-
 
 
 
