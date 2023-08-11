@@ -89,9 +89,13 @@ int main(int argc, char *argv[]){
 		}
 
 		glUseProgram(GLSL_Program);
-		glBindVertexArray(vao);
-         glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+		// glBindVertexArray(vao);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(3, GL_FLOAT, 0, points);
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, indices);
+		 
 		// glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDisableClientState(GL_VERTEX_ARRAY);
 
 		glfwPollEvents();
 		glfwSwapBuffers(glfwGetCurrentContext());
