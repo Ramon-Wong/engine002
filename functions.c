@@ -1,4 +1,4 @@
-#include "function.h"
+#include "functions.h"
 
 
 
@@ -68,7 +68,7 @@ void    main_loop(GLFWwindow * wnd){
   
         glfwPollEvents();
 
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(wnd);
     }    
 
 
