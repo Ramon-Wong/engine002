@@ -3,6 +3,8 @@
 
 
 
+GLfloat		Proj_Matrix[16];
+GLfloat		View_Matrix[16];
 
 
 
@@ -53,9 +55,17 @@ void    main_loop(GLFWwindow * wnd){
     glLinkProgram(shader_programme);
 
 
-    
+ 	MLoadIdentity(Proj_Matrix);
+	MLoadIdentity(View_Matrix); 
 
+	float aspect_ratio = ((float)600) / 800;
+	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
 
+	float View[] = {  0.0f,  0.0f, 12.0f};
+	float Pose[] = {  0.0f,  0.0f,  6.0f};
+	float Upvx[] = {  0.0f,  1.0f,  0.0f};
+	
+	LookAtM( View_Matrix, Pose, View, Upvx);
 
 
     while(!glfwWindowShouldClose(wnd)){
