@@ -12,12 +12,21 @@
 
     GLuint				uMatLoc[5];
 
-int main(int argc, char *argv[]){
 
+
+	GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 
+							-4.0f, 4.0f, -14.0f,
+							-4.0f,-4.0f, -14.0f, 
+							 4.0f,-4.0f, -14.0f};	
+
+	GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
+
+void Draw_Square();
+
+int main(int argc, char *argv[]){
 
 	const int window_width  = 800;
     const int window_height = 600;
-
 
     printf("Hello World!\n");
     Init( window_width, window_height, "prototype GLFW window");
@@ -53,7 +62,7 @@ int main(int argc, char *argv[]){
 		glUniformMatrix4fv( uMatLoc[0], 1, GL_FALSE, View_Proj);	
 
 
-
+		Draw_Square();
 
 
 		glfwPollEvents();
@@ -66,3 +75,13 @@ int main(int argc, char *argv[]){
     return 0;
 }
 
+
+
+void Draw_Square(){
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+	
+	glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
+}
