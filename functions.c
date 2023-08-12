@@ -11,11 +11,11 @@ GLfloat		View_Matrix[16];
 float rotate_z = 0.0f;
 const float rotations_per_tick = 0.2f;
 
-GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 
-						-4.0f, 4.0f, -14.0f,
-						-4.0f,-4.0f, -14.0f, 
-						 4.0f,-4.0f, -14.0f};	
-GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
+// GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 
+// 						-4.0f, 4.0f, -14.0f,
+// 						-4.0f,-4.0f, -14.0f, 
+// 						 4.0f,-4.0f, -14.0f};	
+// GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
 GLuint		uMatLoc[5];
 
