@@ -14,7 +14,7 @@ void	ShaderSetup(const char * vshader, const char * fshader, unsigned int * Prog
 	printf("glewInit not supported");
 	
 	if(GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader){
-		printf("\n\nReady for GLSL \n\n");	
+		printf("\nReady for GLSL \n\n");	
 	}else{
 		printf("\nNot totally ready for GLSL ;_; >> GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader ");
 	}
@@ -25,8 +25,8 @@ void	ShaderSetup(const char * vshader, const char * fshader, unsigned int * Prog
 	printf("\n");	
 	
 	*Program		= glCreateProgram();
-	Vertex		= glCreateShader(GL_VERTEX_SHADER);
-	Fragment	= glCreateShader(GL_FRAGMENT_SHADER);
+	Vertex			= glCreateShader(GL_VERTEX_SHADER);
+	Fragment		= glCreateShader(GL_FRAGMENT_SHADER);
 
 
 	int params;	
@@ -46,7 +46,7 @@ void	ShaderSetup(const char * vshader, const char * fshader, unsigned int * Prog
 
 
 	char * fv	= ReadFile(fshader);											// <== fshader
-	printf("\nCompiling Shader: %s\n", fshader);
+	printf("Compiling Shader: %s\n", fshader);
 	
 	glShaderSource( Fragment, 1, (const GLchar **)&fv, 0);
 	glCompileShader( Fragment);
@@ -67,7 +67,7 @@ void	ShaderSetup(const char * vshader, const char * fshader, unsigned int * Prog
 		printf("\nThe shaders could not be linked\n");
 		print_program_info_log( *Program);
 	}else{
-		printf("\nShaders Succesfully Created And Linked\n");
+		printf("Shaders Succesfully Created And Linked\n");
 	}
 }
 
