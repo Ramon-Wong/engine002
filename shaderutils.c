@@ -1,7 +1,20 @@
 #include "functions.h"
 
+
+GLuint	GLSL_Program[MAX_SCRIPTS];
+GLuint	GLSL_vertex[MAX_SCRIPTS];
+GLuint	GLSL_fragment[MAX_SCRIPTS];
+
+
 void	print_shader_info_log(GLuint);
 void	print_program_info_log(GLuint);
+
+GLuint	ReadGLSLScript(GLuint Prog, uint I, const char * path);
+void	LinkPrograms(GLuint);
+
+
+
+
 
 
 void	ShaderSetup(){
@@ -19,53 +32,23 @@ void	ShaderSetup(){
 	if(glewIsSupported("GL_VERSION_1_4 GL_ARB_point_sprite"))			printf("Status: ARB point sprites available.\n");	
 	printf("\n");	
 	
-	GLSL_Program	= glCreateProgram();
-	GLSL_vertex		= glCreateShader(GL_VERTEX_SHADER);
-	GLSL_fragment	= glCreateShader(GL_FRAGMENT_SHADER);
-
-
-	int params;	
-	char * vv	= ReadFile("GLSL/VShader.glsl");
-	printf("Compiling Shader: GLSL/VShader.glsl\n");
+	GLSL_Program[0]		= glCreateProgram();
+	GLSL_vertex[0]		= ReadGLSLScript( GLSL_Program[0], 0, "GLSL/VShader.glsl");
+	GLSL_fragment[0]	= ReadGLSLScript( GLSL_Program[0], 1, "GLSL/FShader.glsl");
+	LinkPrograms(GLSL_Program[0]);
 	
-	glShaderSource( GLSL_vertex, 1, (const GLchar **)&vv, 0);
-	glCompileShader(GLSL_vertex);
-	params	= -1;
-	glGetShaderiv (GLSL_vertex, GL_COMPILE_STATUS, &params);	
-	if(GL_TRUE != params) {
-		printf("Error Compiling: GLSL/vShader.glsl\n");
-		print_shader_info_log(GLSL_vertex);
-	}
-	glAttachShader(GLSL_Program, GLSL_vertex);	
-	free(vv);
-
-
-	char * fv	= ReadFile("GLSL/FShader.glsl");
-	printf("Compiling Shader: GLSL/FShader.glsl\n");
 	
-	glShaderSource( GLSL_fragment, 1, (const GLchar **)&fv, 0);
-	glCompileShader(GLSL_fragment);
-	params	= -1;
-	glGetShaderiv (GLSL_fragment, GL_COMPILE_STATUS, &params);	
-	if(GL_TRUE != params) {
-		printf("Error Compiling: glsl/fShader.glsl\n");
-		print_shader_info_log(GLSL_fragment);
-	}	
-	glAttachShader(GLSL_Program, GLSL_fragment);	
-	free(fv);
-
+	GLSL_Program[1]		= glCreateProgram();
+	GLSL_vertex[1]		= ReadGLSLScript( GLSL_Program[1], 0, "GLSL/VShader2.glsl");
+	GLSL_fragment[1]	= ReadGLSLScript( GLSL_Program[1], 1, "GLSL/FShader2.glsl");
+	LinkPrograms(GLSL_Program[1]);
 	
-	glLinkProgram(GLSL_Program);
-	GLint prog_link_success;
-	glGetObjectParameterivARB( GLSL_Program, GL_OBJECT_LINK_STATUS_ARB, &prog_link_success);
-	
-	if(!prog_link_success){
-		printf("\nThe shaders could not be linked\n");
-		print_program_info_log(GLSL_Program);
-	}else{
-		printf("\nShaders Succesfully Created And Linked\n");
-	}
 }
+
+
+
+
+
 
 
 void	print_shader_info_log(GLuint shader_index){
@@ -86,38 +69,52 @@ void	print_program_info_log(GLuint programme) {
 }
 
 
-
-
-char *	ReadFile(const char * path){
+GLuint	ReadGLSLScript(GLuint Prog, uint I, const char * path){
+	//~ case of I parameter
+	//~ 0 = GL_VERTEX_SHADER
+	//~ 1 = GL_FRAGMENT_SHADER
 	
-	//~ usage										<==
-	//~ 											<==
-	//~ char * txt;									<==
-	//~ 											<==	
-	//~ txt = ReadFile("GLSL/loremipsum.txt");		<==
-	//~ printf(" txt: %s", txt);					<==
-	//~ free(txt);									<== memory leak
-	//~ 											<==
+	GLuint glsl_vertex;
+	int params;	
+	char * vv	= ReadFile(path);
+		
+	printf("Compiling Shader: %s\n", path);
 	
-	FILE *	tFile;
-	char *	buffer;
-	int		lSize;
-	
-	tFile = fopen( path, "rt");
-	if(tFile){
-		
-		fseek( tFile, 0, SEEK_END);
-		lSize = ftell( tFile);
-		rewind( tFile);
-		
-		buffer = (char*) malloc( sizeof(char)*(lSize+1));
-		fread( buffer, 1, lSize, tFile);
-		buffer[lSize] = '\0';
-		
-		fclose(tFile);
-	}else{
-		printf("Error at opening file: %s", path);
+	if( I == 0){
+		glsl_vertex		= glCreateShader(GL_VERTEX_SHADER);
+	}else if( I == 1){
+		glsl_vertex		= glCreateShader(GL_FRAGMENT_SHADER);
 	}
 	
-	return buffer;
+	glShaderSource( glsl_vertex, 1, (const GLchar **)&vv, 0);
+	glCompileShader(glsl_vertex);
+		
+	params	= -1;
+	glGetShaderiv(glsl_vertex, GL_COMPILE_STATUS, &params);	
+		
+	if(GL_TRUE != params) {
+		printf("Error Compiling: %s\n", path);
+		print_shader_info_log(glsl_vertex);
+	}
+		
+	glAttachShader( Prog, glsl_vertex);	
+	free(vv);
+
+	return glsl_vertex;
+}
+
+
+void	LinkPrograms(GLuint glsl_program){
+	
+	GLint prog_link_success;
+	
+	glLinkProgram( glsl_program);
+	glGetObjectParameterivARB( glsl_program, GL_OBJECT_LINK_STATUS_ARB, &prog_link_success);
+	
+	if(!prog_link_success){
+		printf("\nThe shaders could not be linked\n");
+		print_program_info_log(glsl_program);
+	}else{
+		printf("\nShaders Succesfully Created And Linked\n");
+	}
 }
