@@ -68,7 +68,7 @@ void    main_loop(GLFWwindow * wnd){
   
         glfwPollEvents();
 
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(wnd);
     }    
 
 
