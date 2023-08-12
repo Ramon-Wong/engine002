@@ -6,8 +6,9 @@
 
 #include <GL/glew.h>
 #include <GL/glfw.h>
-#include "Matrix4x.h"
 
+
+void                main_loop(GLFWwindow *);
 
 
 #endif
