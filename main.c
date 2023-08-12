@@ -1,93 +1,118 @@
-#include "functions.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
+const  int WIDTH = 800;
+const  int HEIGHT = 600;
 
+GLuint vertexbuffer;
 
-#define MULTILINE(...) #__VA_ARGS__
-
-const float vertices[] = {
-	0.0,  0.5, 0.0,
-	0.5, -0.5, 0.0,
-	-0.5, -0.5, 0.0
-};
-
-const unsigned char colors[] = {
-	255, 0, 0,
-	0, 255, 0,
-	0, 0, 255
-};
-
-const char* vs = MULTILINE(
-	in vec3 vp;
-	void main() {
-	  	gl_Position = vec4(vp, 1.0);
-	}
-);
-
-const char* fs = MULTILINE(
-	out vec4 frag_colour;
-	void main() {
-	  	frag_colour = vec4(0.5, 0.0, 0.5, 1.0);
-	}
-);
-
-GLuint create_shader(const char* vs_src, const char* fs_src) {
-
-	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vs, 1, &vs_src, NULL);
-	glCompileShader(vs);
-
-	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fs, 1, &fs_src, NULL);
-	glCompileShader(fs);
-
-	GLuint shader = glCreateProgram();
-	glAttachShader(shader, fs);
-	glAttachShader(shader, vs);
-	glLinkProgram(shader);
-
-	return shader;
+void Initialization()
+{
+	glfwInit(); //first initialize GLFW
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	//core-profile means we'll get access to a smaller subset of OpenGL
+	//features (without backwards-compatible features we no longer need)
 }
 
-void render_triangles(const float* vertices, const unsigned char* colors) {
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	glVertexPointer(3, GL_FLOAT, 0, vertices);
-	glColorPointer(3, GL_UNSIGNED_BYTE, 0, colors);
-	//glTexCoordPointer( size, GL_FLOAT, 0, &d.t.front());
+void gladloader()
+{
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "Failed to initialize GLAD" << std::endl;
+		return;
 
-	//glDrawElements(d.mode, d.i.size(), GL_UNSIGNED_SHORT, &d.i.front());
+	}
+
+	/*
+
+	We pass GLAD the function to load the adress of the OpenGL function pointers which is OS-specific.
+	GLFW gives us glfwGetProcAddress that defines
+	the correct function based on which OS we're compiling for.
+
+
+	*/
+}
+
+void processInput(GLFWwindow *window)
+{/*
+ We also want to have some form of input control in GLFW and we can achieve
+ this with several of GLFW's input functions. We'll be using GLFW's glfwGetKey function
+ that takes the window as input together with a key. The function returns whether
+ this key is currently being pressed.
+ We're creating a processInput function to keep all input code organized:
+ */
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+}
+
+void Rendering()
+{
+	glViewport(0, 0, 800, 600);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glEnableVertexAttribArray(0);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-	//glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+}
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
 }
 
-int main(void) {
+float Triangle_vertices[] = {
+	 0.0f,  0.5f,  0.0f,
+   0.5f, -0.5f,  0.0f,
+  -0.5f, -0.5f,  0.0f
+};
 
-	GLFWwindow* window;
+int main()
+{
+	Initialization();
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Triangle", NULL, NULL);
+	/*he glfwCreateWindow function requires the window width and height as its first two arguments respectively.
+	The third argument allows us to create a name for the window
+	*/
 
-	if (!glfwInit())
-		return -1;
-
-	window = glfwCreateWindow(640, 480, "▲", NULL, NULL);
-	if (!window) {
+	if (window == NULL)
+	{
+		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 		return -1;
 	}
 
 	glfwMakeContextCurrent(window);
+	/* The function returns a GLFWwindow object that we'll later need for other GLFW operations.
+	After that we tell GLFW to make the
+	context of our window the main context on the current thread.
+	*/
 
-	GLuint shader = create_shader(vs, fs);
-	glUseProgram(shader);
-	
-	while (!glfwWindowShouldClose(window)) {
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-		glClear(GL_COLOR_BUFFER_BIT);
-		render_triangles(vertices, colors);
+	gladloader();
 
+	GLuint VertexArrayID;
+	glGenVertexArrays(1, &VertexArrayID);
+	glBindVertexArray(VertexArrayID);
+
+	// Generate 1 buffer, put the resulting identifier in vertexbuffer
+	glGenBuffers(1, &vertexbuffer);
+	// The following commands will talk about our 'vertexbuffer' buffer
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	// Give our vertices to OpenGL.
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Triangle_vertices), Triangle_vertices, GL_STATIC_DRAW);
+
+	while (!glfwWindowShouldClose(window))
+	{
+		//keeps on running until we tell GLFW to stop
+		processInput(window);
+		Rendering();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
