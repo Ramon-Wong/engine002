@@ -8,7 +8,6 @@
 
 void    main_loop(GLFWwindow * wnd){
 
-
     float points[] = {
         0.0f,  0.5f,  0.0f,
         0.5f, -0.5f,  0.0f,
@@ -52,6 +51,11 @@ void    main_loop(GLFWwindow * wnd){
     glAttachShader(shader_programme, fs);
     glAttachShader(shader_programme, vs);
     glLinkProgram(shader_programme);
+
+
+    
+
+
 
 
     while(!glfwWindowShouldClose(wnd)){
