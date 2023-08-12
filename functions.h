@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #include <GL/glew.h>
-#include <GL/glfw.h>
+#include <GLFW/glfw.h>
 
 
 void                main_loop(GLFWwindow *);
