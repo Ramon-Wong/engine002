@@ -15,8 +15,6 @@ void	LinkPrograms(GLuint);
 
 
 
-
-
 void	ShaderSetup( const char * vertexshader, const char * fragmentshader){
 	if(glewInit() != GLEW_OK)
 	printf("glewInit not supported");
