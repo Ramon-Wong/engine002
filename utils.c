@@ -2,12 +2,7 @@
 
 
 
-GLfloat		Proj_Matrix[16];
-GLfloat		View_Matrix[16];
-
 void Init(void){
-	const int window_width = 800;
-    const int window_height = 600;
  
 	if( glfwInit() != GL_TRUE)
 	Shut_Down(1);
@@ -34,17 +29,6 @@ void Init(void){
 		GLSL_vertex[i]		= 0;	
 	}
 
-	MLoadIdentity(Proj_Matrix);
-	MLoadIdentity(View_Matrix); 
- 
-	float aspect_ratio = ((float)window_height) / window_width;
-	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
-	
-	float View[] = {  0.0f,  0.0f, 12.0f};
-	float Pose[] = {  0.0f,  0.0f,  6.0f};
-	float Upvx[] = {  0.0f,  1.0f,  0.0f};
-	
-	LookAtM( View_Matrix, Pose, View, Upvx);
  }
 
 void Shut_Down(int return_code){
