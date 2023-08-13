@@ -80,15 +80,17 @@ void Main_Loop(void){
 				
 		uMatLoc[2]	= glGetUniformLocation( GLSL_Program[0], "rotate_z");
 		glUniform1f( uMatLoc[2], rotate_z);		
-				
-		uMatLoc[3]	= glGetUniformLocation( GLSL_Program[0], "uView_Matrix");
-		glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, View_Matrix);
+
+		uMatLoc[3]	= glGetUniformLocation( GLSL_Program[0], "uProjView");
+		glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
+
+
+		// uMatLoc[3]	= glGetUniformLocation( GLSL_Program[0], "uView_Matrix");
+		// glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, View_Matrix);
 		
-		uMatLoc[4]	= glGetUniformLocation( GLSL_Program[0], "uProj_Matrix");
-		glUniformMatrix4fv( uMatLoc[4], 1, GL_FALSE, Proj_Matrix);		
+		// uMatLoc[4]	= glGetUniformLocation( GLSL_Program[0], "uProj_Matrix");
+		// glUniformMatrix4fv( uMatLoc[4], 1, GL_FALSE, Proj_Matrix);		
 		
-		uMatLoc[5]	= glGetUniformLocation( GLSL_Program[0], "uProjView");
-		glUniformMatrix4fv( uMatLoc[5], 1, GL_FALSE, ProjView);		
 		
 		
 		Draw();
