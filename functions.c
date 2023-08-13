@@ -37,7 +37,10 @@ void Draw3DSGrid(){
 
 void Main_Loop(void){
 	double old_time = glfwGetTime();
-	
+
+	GLfloat ProjView[16];
+	MMultiply( ProjView, Proj_Matrix, View_Matrix);
+
 	while(!glfwWindowShouldClose(wnd)){
 		double current_time = glfwGetTime();
 		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
@@ -52,8 +55,6 @@ void Main_Loop(void){
  
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		GLfloat ProjView[16];
-		MMultiply( ProjView, Proj_Matrix, View_Matrix);
 		
 		// glUseProgram(GLSL_Program[1]);
 		// bMatLoc[0]	= glGetUniformLocation( GLSL_Program[1], "uView_Matrix");
