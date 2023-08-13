@@ -6,18 +6,15 @@
     unsigned int		GLSL_vertex;
     unsigned int		GLSL_fragment;
 
-    GLfloat				Proj_Matrix[16];
-    GLfloat				View_Matrix[16];
-    GLfloat				View_Proj[16];
 
     GLuint				uMatLoc[5];
 
 
 
-	GLfloat vertices[]	= {  4.0f, 4.0f, -0.0f, 
-							            -4.0f, 4.0f, -0.0f,
-							            -4.0f,-4.0f, -0.0f, 
-							             4.0f,-4.0f, -0.0f};	
+	GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 
+							-4.0f, 4.0f, -14.0f,
+							-4.0f,-4.0f, -14.0f, 
+							 4.0f,-4.0f, -14.0f};	
 
 	GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
@@ -31,6 +28,11 @@ int main(int argc, char *argv[]){
     printf("Hello World!\n");
     Init( window_width, window_height, "prototype GLFW window");
 	ShaderSetup("vshader.glsl", "fshader.glsl", &GLSL_Program, GLSL_vertex, GLSL_fragment);
+
+    GLfloat				Proj_Matrix[16];
+    GLfloat				View_Matrix[16];
+    GLfloat				View_Proj[16];
+
 
 	MLoadIdentity(View_Matrix);
 	MLoadIdentity(Proj_Matrix);
@@ -48,11 +50,13 @@ int main(int argc, char *argv[]){
 	MMultiply(View_Proj, Proj_Matrix, View_Matrix);
 
 
-	while(!glfwWindowShouldClose(glfwGetCurrentContext())) {
+	GLFWwindow * window = glfwGetCurrentContext();
+
+	while(!glfwWindowShouldClose(window)) {
 		// wipe the drawing surface clear
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-		if(glfwGetKey( glfwGetCurrentContext(), GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		if(glfwGetKey( window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 			Shutdown(0);
 		}
 
@@ -64,12 +68,9 @@ int main(int argc, char *argv[]){
 
 		Draw_Square();
 
-
+		glfwSwapBuffers(window);
 		glfwPollEvents();
-		glfwSwapBuffers(glfwGetCurrentContext());
 	}	
-
-
 
     Shutdown(0);
     return 0;
