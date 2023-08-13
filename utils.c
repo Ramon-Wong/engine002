@@ -22,26 +22,21 @@ void Init(void){
 	printf("GL VERSION:-- %s \n", glGetString(GL_VERSION));
 	printf("GL SHADING:-- %s \n", glGetString(GL_SHADING_LANGUAGE_VERSION));
  
-	int i;
-	for(i = 0; i < MAX_SCRIPTS; i++){
-		GLSL_Program[i]		= 0;
-		GLSL_fragment[i]	= 0;
-		GLSL_vertex[i]		= 0;	
-	}
+	GLSL_Program		= 0;
+	GLSL_fragment		= 0;
+	GLSL_vertex			= 0;	
 
  }
 
 void Shut_Down(int return_code){
 	
-	int i;
-	for(i = 0; i < MAX_SCRIPTS; i++){
 		
-		if( GLSL_Program[i]){
-			glDeleteProgram( GLSL_Program[i]);
-			glDeleteShader( GLSL_vertex[i]);
-			glDeleteShader( GLSL_fragment[i]);		
-		}
+	if( GLSL_Program){
+		glDeleteProgram( GLSL_Program);
+		glDeleteShader( GLSL_vertex);
+		glDeleteShader( GLSL_fragment);		
 	}
+
 	
 	glfwTerminate();
 	exit(return_code);

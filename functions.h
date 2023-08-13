@@ -12,11 +12,9 @@
 #include "matrix.h"
 
 
-#define MAX_SCRIPTS	1
-
-extern GLuint		GLSL_Program[MAX_SCRIPTS];
-extern GLuint		GLSL_vertex[MAX_SCRIPTS];
-extern GLuint		GLSL_fragment[MAX_SCRIPTS];
+extern GLuint		GLSL_Program;
+extern GLuint		GLSL_vertex;
+extern GLuint		GLSL_fragment;
 extern GLFWwindow * wnd;
 
 
