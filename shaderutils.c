@@ -37,10 +37,6 @@ void	ShaderSetup(){
 	GLSL_fragment[0]	= ReadGLSLScript( GLSL_Program[0], 1, "GLSL/FShader.glsl");
 	LinkPrograms(GLSL_Program[0]);
 		
-	// GLSL_Program[1]		= glCreateProgram();
-	// GLSL_vertex[1]		= ReadGLSLScript( GLSL_Program[1], 0, "GLSL/VShader2.glsl");
-	// GLSL_fragment[1]	= ReadGLSLScript( GLSL_Program[1], 1, "GLSL/FShader2.glsl");
-	// LinkPrograms(GLSL_Program[1]);
 	
 }
 

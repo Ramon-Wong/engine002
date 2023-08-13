@@ -58,18 +58,6 @@ void Main_Loop(void){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		
-		// glUseProgram(GLSL_Program[1]);
-		// bMatLoc[0]	= glGetUniformLocation( GLSL_Program[1], "uView_Matrix");
-		// glUniformMatrix4fv( bMatLoc[0], 1, GL_FALSE, View_Matrix);
-		
-		// bMatLoc[1]	= glGetUniformLocation( GLSL_Program[1], "uProj_Matrix");
-		// glUniformMatrix4fv( bMatLoc[1], 1, GL_FALSE, Proj_Matrix);		
-		
-		// bMatLoc[2]	= glGetUniformLocation( GLSL_Program[1], "uProjView");
-		// glUniformMatrix4fv( bMatLoc[2], 1, GL_FALSE, ProjView);			
-		// Draw3DSGrid();	
-		
-		
 		glUseProgram( GLSL_Program[0]);
 		
 		uMatLoc[0]	= glGetUniformLocation( GLSL_Program[0], "RED");
@@ -83,15 +71,6 @@ void Main_Loop(void){
 
 		uMatLoc[3]	= glGetUniformLocation( GLSL_Program[0], "uProjView");
 		glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
-
-
-		// uMatLoc[3]	= glGetUniformLocation( GLSL_Program[0], "uView_Matrix");
-		// glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, View_Matrix);
-		
-		// uMatLoc[4]	= glGetUniformLocation( GLSL_Program[0], "uProj_Matrix");
-		// glUniformMatrix4fv( uMatLoc[4], 1, GL_FALSE, Proj_Matrix);		
-		
-		
 		
 		Draw();
 				
