@@ -2,10 +2,6 @@
 
 // http://www.songho.ca/opengl/gl_vbo.html#example1
 
-    unsigned int		GLSL_Program;
-    unsigned int		GLSL_vertex;
-    unsigned int		GLSL_fragment;
-
 
     GLuint				uMatLoc[5];
 
@@ -27,7 +23,7 @@ int main(int argc, char *argv[]){
 
     printf("Hello World!\n");
     Init( window_width, window_height, "prototype GLFW window");
-	ShaderSetup("vshader.glsl", "fshader.glsl", &GLSL_Program, GLSL_vertex, GLSL_fragment);
+	ShaderSetup("vshader.glsl", "fshader.glsl");
 
     GLfloat				Proj_Matrix[16];
     GLfloat				View_Matrix[16];
