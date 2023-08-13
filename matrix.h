@@ -7,16 +7,17 @@
 
 #define PI 3.141592653589793238462643383279502884197169399375105820974944592307816406286
 
+float       dotproduct(float *, float *);
 
-void	MLoadIdentity(float*);
-void	MFrustum(float *, float, float, float, float, float, float);
-void	LookAtM( float *, float *, float *, float *);
+void	    MLoadIdentity(float*);
+void	    MFrustum(float *, float, float, float, float, float, float);
+void	    LookAtM( float *, float *, float *, float *);
 
-void	MTranslate(float *, float, float, float);
-void	CrossProduct(float *, float *, float *);
-void	Normalize(float *);
+void	    MTranslate(float *, float, float, float);
+void	    CrossProduct(float *, float *, float *);
+void	    Normalize(float *);
 
-void	MMultiply(float *, float *, float *);
-void	MTransform(float *, float *, float *);
+void	    MMultiply(float *, float *, float *);
+void	    MTransform(float *, float *, float *);
 
 #endif
