@@ -55,16 +55,16 @@ void Main_Loop(void){
 		GLfloat ProjView[16];
 		MMultiply( ProjView, Proj_Matrix, View_Matrix);
 		
-		glUseProgram(GLSL_Program[1]);
-		bMatLoc[0]	= glGetUniformLocation( GLSL_Program[1], "uView_Matrix");
-		glUniformMatrix4fv( bMatLoc[0], 1, GL_FALSE, View_Matrix);
+		// glUseProgram(GLSL_Program[1]);
+		// bMatLoc[0]	= glGetUniformLocation( GLSL_Program[1], "uView_Matrix");
+		// glUniformMatrix4fv( bMatLoc[0], 1, GL_FALSE, View_Matrix);
 		
-		bMatLoc[1]	= glGetUniformLocation( GLSL_Program[1], "uProj_Matrix");
-		glUniformMatrix4fv( bMatLoc[1], 1, GL_FALSE, Proj_Matrix);		
+		// bMatLoc[1]	= glGetUniformLocation( GLSL_Program[1], "uProj_Matrix");
+		// glUniformMatrix4fv( bMatLoc[1], 1, GL_FALSE, Proj_Matrix);		
 		
-		bMatLoc[2]	= glGetUniformLocation( GLSL_Program[1], "uProjView");
-		glUniformMatrix4fv( bMatLoc[2], 1, GL_FALSE, ProjView);			
-		Draw3DSGrid();	
+		// bMatLoc[2]	= glGetUniformLocation( GLSL_Program[1], "uProjView");
+		// glUniformMatrix4fv( bMatLoc[2], 1, GL_FALSE, ProjView);			
+		// Draw3DSGrid();	
 		
 		
 		glUseProgram( GLSL_Program[0]);

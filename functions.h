@@ -12,7 +12,7 @@
 #include "matrix.h"
 
 
-#define MAX_SCRIPTS	5
+#define MAX_SCRIPTS	1
 
 extern GLuint		GLSL_Program[MAX_SCRIPTS];
 extern GLuint		GLSL_vertex[MAX_SCRIPTS];
