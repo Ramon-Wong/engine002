@@ -31,6 +31,6 @@ void				Draw_Square(void);
 void				Draw(void);
 
 char *				ReadFile(const char *);
-void				ShaderSetup();
+void				ShaderSetup(const char *, const char *);
 
 #endif

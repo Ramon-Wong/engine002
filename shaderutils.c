@@ -17,7 +17,7 @@ void	LinkPrograms(GLuint);
 
 
 
-void	ShaderSetup(){
+void	ShaderSetup( const char * vertexshader, const char * fragmentshader){
 	if(glewInit() != GLEW_OK)
 	printf("glewInit not supported");
 	
@@ -33,14 +33,10 @@ void	ShaderSetup(){
 	printf("\n");	
 	
 	GLSL_Program[0]		= glCreateProgram();
-	GLSL_vertex[0]		= ReadGLSLScript( GLSL_Program[0], 0, "GLSL/VShader.glsl");
-	GLSL_fragment[0]	= ReadGLSLScript( GLSL_Program[0], 1, "GLSL/FShader.glsl");
+	GLSL_vertex[0]		= ReadGLSLScript( GLSL_Program[0], 0, vertexshader);
+	GLSL_fragment[0]	= ReadGLSLScript( GLSL_Program[0], 1, fragmentshader);
 	LinkPrograms(GLSL_Program[0]);
-		
-	
 }
-
-
 
 
 
