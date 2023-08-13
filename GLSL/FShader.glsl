@@ -1,8 +1,9 @@
-#version 120
+#version 400
 
-uniform float RED;
+in vec4 fragColor;  // Input fragment color from the vertex shader
 
-void main(){
-    gl_FragColor = vec4( RED, 0.0, 0.0, 1.0);
+out vec4 finalColor;  // Output fragment color
+
+void main() {
+    finalColor = fragColor;
 }
-
