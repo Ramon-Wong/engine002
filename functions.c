@@ -17,22 +17,6 @@ GLuint	bMatLoc[6];
 
 GLFWwindow * wnd;
 
-void Draw3DSGrid(){
-	glColor3ub(0, 255, 0);
-	// Draw a 1x1 grid along the X and Z axis'
-	int i;
-	
-	for(i = -50; i <= 50; i += 1){
-		glBegin(GL_LINES);
-			glVertex3f(-50, -1,  i);
-			glVertex3f( 50, -1,  i);
-			glVertex3f(  i, -1, -50);
-			glVertex3f(  i, -1,  50);
-		glEnd();
-	}
-}
-
-
 
 
 void Main_Loop(void){
