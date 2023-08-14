@@ -19,9 +19,12 @@ GLFWwindow * wnd;
 
 
 
+void				Draw_Square(void);
+void				Draw(void);
+
+
 void Main_Loop(void){
 	double old_time = glfwGetTime();
-
 
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
@@ -48,7 +51,6 @@ void Main_Loop(void){
 		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 		
 
-
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){
 			glfwSetWindowShouldClose( wnd, 1);
 		}
@@ -74,7 +76,7 @@ void Main_Loop(void){
 		Draw();
 				
 		glfwSwapBuffers(wnd);
-			glfwPollEvents();
+		glfwPollEvents();
 	}
 }
 

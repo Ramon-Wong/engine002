@@ -25,8 +25,6 @@ extern GLfloat		View_Matrix[16];
 void				Init(void);
 void				Shut_Down(int);
 void				Main_Loop(void);
-void				Draw_Square(void);
-void				Draw(void);
 
 char *				ReadFile(const char *);
 void				ShaderSetup(const char *, const char *);

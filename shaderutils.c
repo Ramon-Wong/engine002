@@ -14,7 +14,6 @@ void	LinkPrograms(GLuint);
 
 
 
-
 void	ShaderSetup( const char * vertexshader, const char * fragmentshader){
 	if(glewInit() != GLEW_OK)
 	printf("glewInit not supported");
@@ -35,8 +34,6 @@ void	ShaderSetup( const char * vertexshader, const char * fragmentshader){
 	GLSL_fragment		= ReadGLSLScript( GLSL_Program, 1, fragmentshader);
 	LinkPrograms(GLSL_Program);
 }
-
-
 
 
 

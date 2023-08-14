@@ -29,7 +29,6 @@ void Init(void){
  }
 
 void Shut_Down(int return_code){
-	
 		
 	if( GLSL_Program){
 		glDeleteProgram( GLSL_Program);
@@ -37,7 +36,6 @@ void Shut_Down(int return_code){
 		glDeleteShader( GLSL_fragment);		
 	}
 
-	
 	glfwTerminate();
 	exit(return_code);
 }
