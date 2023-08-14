@@ -36,7 +36,6 @@ void	ShaderSetup( const char * vertexshader, const char * fragmentshader){
 }
 
 
-
 void	print_shader_info_log(GLuint shader_index){
 	int max_length = 2048;
 	int actual_length = 0;
@@ -104,6 +103,7 @@ void	LinkPrograms(GLuint glsl_program){
 		printf("\nShaders Succesfully Created And Linked\n");
 	}
 }
+
 
 char *	ReadFile(const char * path){
 	
