@@ -26,7 +26,6 @@ void				Init(void);
 void				Shut_Down(int);
 void				Main_Loop(void);
 
-char *				ReadFile(const char *);
 void				ShaderSetup(const char *, const char *);
 
 #endif

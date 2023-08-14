@@ -1,16 +1,16 @@
 #include "functions.h"
 
 
-GLuint	GLSL_Program;
-GLuint	GLSL_vertex;
-GLuint	GLSL_fragment;
+GLuint				GLSL_Program;
+GLuint				GLSL_vertex;
+GLuint				GLSL_fragment;
 
+void				print_shader_info_log(GLuint);
+void				print_program_info_log(GLuint);
+char *				ReadFile(const char *);
 
-void	print_shader_info_log(GLuint);
-void	print_program_info_log(GLuint);
-
-GLuint	ReadGLSLScript(GLuint Prog, uint I, const char * path);
-void	LinkPrograms(GLuint);
+GLuint				ReadGLSLScript(GLuint Prog, uint I, const char * path);
+void				LinkPrograms(GLuint);
 
 
 
@@ -104,3 +104,38 @@ void	LinkPrograms(GLuint glsl_program){
 		printf("\nShaders Succesfully Created And Linked\n");
 	}
 }
+
+char *	ReadFile(const char * path){
+	
+	//~ usage										<==
+	//~ 											<==
+	//~ char * txt;									<==
+	//~ 											<==	
+	//~ txt = ReadFile("GLSL/loremipsum.txt");		<==
+	//~ printf(" txt: %s", txt);					<==
+	//~ free(txt);									<== memory leak
+	//~ 											<==
+	
+	FILE *	tFile;
+	char *	buffer;
+	int		lSize;
+	
+	tFile = fopen( path, "rt");
+	if(tFile){
+		
+		fseek( tFile, 0, SEEK_END);
+		lSize = ftell( tFile);
+		rewind( tFile);
+		
+		buffer = (char*) malloc( sizeof(char)*(lSize+1));
+		fread( buffer, 1, lSize, tFile);
+		buffer[lSize] = '\0';
+		
+		fclose(tFile);
+	}else{
+		printf("Error at opening file: %s", path);
+	}
+	
+	return buffer;
+}
+
