@@ -2,7 +2,7 @@
  
 
 //~ gcc -Wall -o "%e" "%f" functions.c utils.c ShaderUtils.c Matrix4x.c -lm -lglfw -lGL -lGLEW  
-
+// https://github.com/plunch/tga.h
 
 // gcc -Wall -c "%f" functions.c utils.c ShaderUtils.c Matrix4x.c
 // gcc -Wall -o "%e" "%f" functions.c utils.c ShaderUtils.c Matrix4x.c -lGLEW -lglfw -lGL -lGLU -lm
