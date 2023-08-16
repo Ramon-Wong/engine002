@@ -6,6 +6,7 @@ compile 			= -Wall -c
 build				= -Wall -o
 target				= main
 executable			= ./main
+leaktest			= valgrind
 library				= -lm -lglfw -lGL -lGLU -lGLEW 
 
 
@@ -17,6 +18,9 @@ build:
 
 run:
 	$(executable)
+
+valgrind:
+	$(leaktest) --leak-check=full -s $(executable)
 
 clean:
 	rm -f *.o $(target) a.out
