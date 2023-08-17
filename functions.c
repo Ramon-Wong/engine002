@@ -37,7 +37,7 @@ void Main_Loop(void){
 
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
-
+	GLuint 		m_texture;
 
 	MLoadIdentity(Proj_Matrix);
 	MLoadIdentity(View_Matrix); 
@@ -61,7 +61,7 @@ void Main_Loop(void){
 		printf("\nCan't open tga file");
     } else {
 
-		GLuint m_texture;
+
 		glGenTextures(1, &m_texture);
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 
@@ -107,9 +107,21 @@ void Main_Loop(void){
 
 		uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
 		glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
-		
+
+		glActiveTexture(GL_TEXTURE0);  // Use texture unit 0
+		glBindTexture(GL_TEXTURE_2D, m_texture);  // Bind your texture here
+
+		// Set the "u_texture" uniform in the shader to use texture unit 0
+		GLint textureUniform = glGetUniformLocation( GLSL_Program, "u_texture");
+		if (textureUniform != -1) {
+    		glUniform1i(textureUniform, 0);  // 0 corresponds to texture unit 0
+		}
+
 		Draw();
 				
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glUseProgram(0);
+
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
 	}

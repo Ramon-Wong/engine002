@@ -19,5 +19,5 @@ void main() {
     b.y = a.y * cos(rad_angle) - a.x * sin(rad_angle);
 
     gl_Position = uProjView * vec4(b, 1.0);
-    texCoord = inTexcoord;
+    texCoord = inTexCoord;
 }
