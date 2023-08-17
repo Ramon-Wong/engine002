@@ -1,5 +1,7 @@
 #include "functions.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 float rotate_z = 0.0f;
 
@@ -11,6 +13,13 @@ GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f,
 						-4.0f,-4.0f, -14.0f, 
 						 4.0f,-4.0f, -14.0f};	
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
+
+GLfloat texCoords[] = {	1.0f, 1.0f,   // Top-right
+						0.0f, 1.0f,   // Top-left
+    					0.0f, 0.0f,   // Bottom-left
+    					1.0f, 0.0f }; // Bottom-right
+
+
 
 GLuint	uMatLoc[6];
 GLuint	bMatLoc[6];
@@ -46,6 +55,32 @@ void Main_Loop(void){
 	MMultiply( ProjView, Proj_Matrix, View_Matrix);
 
 
+    int x,y,n;
+    unsigned char * data = stbi_load("skin2.tga", &x, &y, &n, 0);
+    if (data == NULL) {
+		printf("\nCan't open tga file");
+    } else {
+
+		GLuint m_texture;
+		glGenTextures(1, &m_texture);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data); 
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+
+
+		printf("\nProcess %i/%i/%i ", x, y, n);
+    }
+    stbi_image_free(data);
+
+    
+
+
 	while(!glfwWindowShouldClose(wnd)){
 		double current_time = glfwGetTime();
 		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
@@ -78,6 +113,8 @@ void Main_Loop(void){
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
 	}
+
+	glDeleteTextures(1, &m_texture);
 }
 
 
@@ -85,11 +122,15 @@ void Main_Loop(void){
 
 void Draw_Square(){
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
 	glVertexPointer(3, GL_FLOAT, 0, vertices);
-	
+	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
-	
-	glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
  

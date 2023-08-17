@@ -5,8 +5,9 @@ uniform float PI;
 uniform float rotate_z;
 
 in vec3 inPosition;  // Input vertex position
+in vec2 inTexCoord;
 
-out vec4 fragColor;  // Output fragment color (you can modify this based on your needs)
+out vec2 texCoord;
 
 void main() {
     vec3 a = inPosition;
@@ -18,5 +19,5 @@ void main() {
     b.y = a.y * cos(rad_angle) - a.x * sin(rad_angle);
 
     gl_Position = uProjView * vec4(b, 1.0);
-    fragColor = vec4(1.0, 1.0, 1.0, 1.0);  // Example: setting the fragment color to white
+    texCoord = inTexcoord;
 }
