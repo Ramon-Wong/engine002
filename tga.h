@@ -13,14 +13,14 @@ typedef unsigned short WORD;
 typedef unsigned char  byte;
 
 
-struct tImageTGA
-{
- tImageTGA(void);
-~tImageTGA(void);
- int             channels;
- int             sizeX;
- int             sizeY;
- unsigned char * data;
+struct tImageTGA{
+    tImageTGA(void);
+   ~tImageTGA(void);
+
+    int             channels;
+    int             sizeX;
+    int             sizeY;
+    unsigned char * data;
 };
 
 

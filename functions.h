@@ -11,6 +11,10 @@
 
 #include "matrix.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+
 
 extern GLuint		GLSL_Program;
 extern GLuint		GLSL_vertex;
