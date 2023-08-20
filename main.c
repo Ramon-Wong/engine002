@@ -37,12 +37,20 @@ int main(void){
 
     glViewport(0, 0, width, height);
 
-
   while (!glfwWindowShouldClose(window)){
 
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+
+	// float View[] = {  0.0f,  0.0f, 12.0f};
+	// float Pose[] = {  0.0f,  0.0f,  6.0f};
+	// float Upvx[] = {  0.0f,  1.0f,  0.0f};
+
+  // void gluLookAt(	GLdouble eyeX,    GLdouble eyeY,    GLdouble eyeZ,
+ 	//                 GLdouble centerX, GLdouble centerY, GLdouble centerZ,
+  //                 GLdouble upX,     GLdouble upY,     GLdouble upZ);
+    gluLookAt( 0.0, 0.0, 6.0, 0.0, 0.0, 12.0, 0.0, 1.0, 0.0);
     glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
