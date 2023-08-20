@@ -6,7 +6,7 @@ compile 			= -Wall -c
 build				= -Wall -o
 target				= main
 executable			= ./main
-library				= -lm -lglfw -lGL -lGLEW
+library				= -lm -lglfw -lGL -lGLU -lGLEW 
 
 
 compile:

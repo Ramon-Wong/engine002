@@ -1,4 +1,5 @@
 #include <GLFW/glfw3.h>
+#include <GL/glu.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -51,7 +52,7 @@ int main(void){
  	//                 GLdouble centerX, GLdouble centerY, GLdouble centerZ,
   //                 GLdouble upX,     GLdouble upY,     GLdouble upZ);
     gluLookAt( 0.0, 0.0, 6.0, 0.0, 0.0, 12.0, 0.0, 1.0, 0.0);
-    glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+    // glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glRotatef((float)glfwGetTime() * 50.f, 0.f, 0.f, 1.f);
