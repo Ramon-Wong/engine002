@@ -19,12 +19,15 @@
 // GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
 void SizeOpenGLScreen( int, int);
-void Draw_Square();
+
 
 
 
 int main(void){
   GLFWwindow * window;
+	  const GLubyte		*	renderer;
+	  const GLubyte		*	version;
+
 
   if (!glfwInit())
     exit(EXIT_FAILURE);
@@ -46,18 +49,16 @@ int main(void){
 	  printf("\n GL VERSION:--  %s ",  	glGetString(GL_VERSION));
 	  printf("\n GL SHADING:--  %s ",	glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-
     // float ratio;
     int width, height;
 
     glfwGetFramebufferSize(window, &width, &height);
     // ratio = (float) width / (float) height;
 
+	glEnable( GL_DEPTH_TEST);
+	glDepthFunc( GL_LESS);
 
-	  glEnable( GL_DEPTH_TEST);
-	  glDepthFunc( GL_LESS);
-
-    glViewport(0, 0, width, height);
+    SizeOpenGLScreen( width, height);
 
   while (!glfwWindowShouldClose(window)){
 
@@ -70,7 +71,12 @@ int main(void){
 		glLoadIdentity();
 		gluLookAt( 0, 0, 6, 0, 0, 0, 0, 1, 0);
 
-    Draw_Square();
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(3, GL_FLOAT, 0, vertices);
+
+		glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+
+		glDisableClientState(GL_VERTEX_ARRAY);
 
 		glfwPollEvents();
 		glfwSwapBuffers(window);
@@ -83,15 +89,6 @@ int main(void){
 }
 
 
-
-void Draw_Square(){
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, vertices);
-	
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
-	
-	glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
-}
 
 
 
