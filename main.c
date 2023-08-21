@@ -6,10 +6,10 @@
 
 
 
-GLfloat vertices[]	= {  0.5f, 0.5f, 0.0f, 
-            						-0.5f, 0.5f, 0.0f,
-            						-0.5f,-0.5f, 0.0f, 
-						             0.5f,-0.5f, 0.0f};	
+GLfloat vertices[]	= {  0.5f, 0.5f, 12.0f, 
+            						-0.5f, 0.5f, 12.0f,
+            						-0.5f,-0.5f, 12.0f, 
+						             0.5f,-0.5f, 12.0f};	
 
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
@@ -30,11 +30,11 @@ int main(void){
 
   glfwMakeContextCurrent(window);
 
-    float ratio;
+    // float ratio;
     int width, height;
 
     glfwGetFramebufferSize(window, &width, &height);
-    ratio = (float) width / (float) height;
+    // ratio = (float) width / (float) height;
 
     glViewport(0, 0, width, height);
 
