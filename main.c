@@ -26,6 +26,9 @@ void Draw_Square();
 int main(void){
   GLFWwindow * window;
 
+	const GLubyte		*	renderer;
+	const GLubyte		*	version;
+
   if (!glfwInit())
     exit(EXIT_FAILURE);
   window = glfwCreateWindow( 800, 600, "Chapter 1: Simple GLFW Example", NULL, NULL);
