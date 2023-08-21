@@ -18,8 +18,10 @@
 
 // GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
-
+void SizeOpenGLScreen( int, int);
 void Draw_Square();
+
+
 
 int main(void){
   GLFWwindow * window;
@@ -33,7 +35,17 @@ int main(void){
     exit(EXIT_FAILURE);
   }
 
-  glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(window);
+
+	  renderer	= glGetString(GL_RENDERER);
+	  version		= glGetString(GL_VERSION);
+	
+	  printf("\n Renderer: %s", renderer);
+	  printf("\n OpenGL version supported %s", version);
+	  printf("\n GL VENDOR:---  %s ",	glGetString(GL_VENDOR));
+	  printf("\n GL VERSION:--  %s ",  	glGetString(GL_VERSION));
+	  printf("\n GL SHADING:--  %s ",	glGetString(GL_SHADING_LANGUAGE_VERSION));
+
 
     // float ratio;
     int width, height;
@@ -41,24 +53,13 @@ int main(void){
     glfwGetFramebufferSize(window, &width, &height);
     // ratio = (float) width / (float) height;
 
+
+	  glEnable( GL_DEPTH_TEST);
+	  glDepthFunc( GL_LESS);
+
     glViewport(0, 0, width, height);
 
   while (!glfwWindowShouldClose(window)){
-
-    // glClear(GL_COLOR_BUFFER_BIT);
-    // glMatrixMode(GL_PROJECTION);
-    // glLoadIdentity();
-
-    // gluLookAt( 0.0, 0.0, 6.0, 0.0, 0.0, 12.0, 0.0, 1.0, 0.0);
-    // glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-    // glMatrixMode(GL_MODELVIEW);
-    // glLoadIdentity();
-    // glRotatef((float)glfwGetTime() * 50.f, 0.f, 0.f, 1.f);
-
-    // Draw_Square();
-
-    // glfwSwapBuffers(window);
-    // glfwPollEvents();
 
 		if(glfwGetKey( window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
 			glfwSetWindowShouldClose( window, 1);
@@ -69,12 +70,7 @@ int main(void){
 		glLoadIdentity();
 		gluLookAt( 0, 0, 6, 0, 0, 0, 0, 1, 0);
 
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, vertices);
-
-		glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
-
-		glDisableClientState(GL_VERTEX_ARRAY);
+    Draw_Square();
 
 		glfwPollEvents();
 		glfwSwapBuffers(window);
@@ -95,4 +91,21 @@ void Draw_Square(){
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
 	
 	glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
+}
+
+
+
+void SizeOpenGLScreen(int width, int height){
+	if(height==0){
+		height=1;
+	}
+
+	glViewport( 0, 0, width, height);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective( 45.0f, (GLfloat)width/(GLfloat)height, .5f ,150.0f);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }
