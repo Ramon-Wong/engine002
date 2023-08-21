@@ -3,15 +3,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+	GLfloat vertices[] = {	-1.0,  1.0, 0.0,		// 0
+							            -1.0, -1.0, 0.0,		// 1
+							             1.0, -1.0, 0.0,		// 2
+							             1.0,  1.0, 0.0};		// 3
+
+	GLubyte indices[] = { 0, 1, 2, 0, 2, 3};
 
 
+// GLfloat vertices[]	= {  0.5f, 0.5f, 12.0f, 
+//             						-0.5f, 0.5f, 12.0f,
+//             						-0.5f,-0.5f, 12.0f, 
+// 						             0.5f,-0.5f, 12.0f};	
 
-GLfloat vertices[]	= {  0.5f, 0.5f, 12.0f, 
-            						-0.5f, 0.5f, 12.0f,
-            						-0.5f,-0.5f, 12.0f, 
-						             0.5f,-0.5f, 12.0f};	
-
-GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
+// GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
 
 void Draw_Square();
@@ -40,27 +45,41 @@ int main(void){
 
   while (!glfwWindowShouldClose(window)){
 
-    glClear(GL_COLOR_BUFFER_BIT);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    // glClear(GL_COLOR_BUFFER_BIT);
+    // glMatrixMode(GL_PROJECTION);
+    // glLoadIdentity();
 
-	// float View[] = {  0.0f,  0.0f, 12.0f};
-	// float Pose[] = {  0.0f,  0.0f,  6.0f};
-	// float Upvx[] = {  0.0f,  1.0f,  0.0f};
-
-  // void gluLookAt(	GLdouble eyeX,    GLdouble eyeY,    GLdouble eyeZ,
- 	//                 GLdouble centerX, GLdouble centerY, GLdouble centerZ,
-  //                 GLdouble upX,     GLdouble upY,     GLdouble upZ);
-    gluLookAt( 0.0, 0.0, 6.0, 0.0, 0.0, 12.0, 0.0, 1.0, 0.0);
+    // gluLookAt( 0.0, 0.0, 6.0, 0.0, 0.0, 12.0, 0.0, 1.0, 0.0);
     // glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glRotatef((float)glfwGetTime() * 50.f, 0.f, 0.f, 1.f);
+    // glMatrixMode(GL_MODELVIEW);
+    // glLoadIdentity();
+    // glRotatef((float)glfwGetTime() * 50.f, 0.f, 0.f, 1.f);
 
-    Draw_Square();
+    // Draw_Square();
 
-    glfwSwapBuffers(window);
-    glfwPollEvents();
+    // glfwSwapBuffers(window);
+    // glfwPollEvents();
+
+		if(glfwGetKey( window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
+			glfwSetWindowShouldClose( window, 1);
+		}
+
+		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+		glLoadIdentity();
+		gluLookAt( 0, 0, 6, 0, 0, 0, 0, 1, 0);
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(3, GL_FLOAT, 0, vertices);
+
+		glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+
+		glfwPollEvents();
+		glfwSwapBuffers(window);
+
+
   }
   glfwDestroyWindow(window);
   glfwTerminate();
