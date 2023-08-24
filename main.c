@@ -63,6 +63,18 @@ int main(void){
 
     SizeOpenGLScreen( width, height);
 
+
+    unsigned char * data = stbi_load("skin2.tga", &x, &y, &n, 0);
+    if (data == NULL) {
+		printf("\nCan't open tga file");
+    } else {
+
+		printf("\n texture Process %i/%i/%i \n", x, y, n);
+    }
+    stbi_image_free(data);
+
+
+
   while (!glfwWindowShouldClose(window)){
 
 		if(glfwGetKey( window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
