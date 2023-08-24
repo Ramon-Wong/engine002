@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 	GLfloat vertices[] = {	-1.0,  1.0, 0.0,		// 0
 							-1.0, -1.0, 0.0,		// 1
 							 1.0, -1.0, 0.0,		// 2
