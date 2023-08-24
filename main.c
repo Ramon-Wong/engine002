@@ -63,7 +63,7 @@ int main(void){
 
     SizeOpenGLScreen( width, height);
 
-
+    int x,y,n;
     unsigned char * data = stbi_load("skin2.tga", &x, &y, &n, 0);
     if (data == NULL) {
 		printf("\nCan't open tga file");
