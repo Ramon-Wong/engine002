@@ -38,7 +38,7 @@ int main(void){
   	GLFWwindow 			*	window;
 	const GLubyte		*	renderer;
 	const GLubyte		*	version;
-	// GLuint 					m_texture;
+	GLuint 					m_texture;
 
   	if (!glfwInit())
     	exit(EXIT_FAILURE);
@@ -77,21 +77,22 @@ int main(void){
 		printf("\nCan't open tga file");
     } else {
 
-		// glGenTextures(1, &m_texture);
-		// glBindTexture(GL_TEXTURE_2D, m_texture);
+		glGenTextures(1, &m_texture);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
 
-		// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-		// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data); 
- 		// // glGenerateMipmap(GL_TEXTURE_2D);
-		// glBindTexture(GL_TEXTURE_2D, 0);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data); 
+ 		// glGenerateMipmap(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, 0);
 
 		printf("\n texture Process %i/%i/%i \n", x, y, n);
     }
-    
+
+	stbi_image_free(data);    
 
   	while (!glfwWindowShouldClose(window)){
 
@@ -99,28 +100,28 @@ int main(void){
 			glfwSetWindowShouldClose( window, 1);
 		}
 
-		glClear(GL_COLOR_BUFFER_BIT); 
-		// glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+		// glClear(GL_COLOR_BUFFER_BIT); 
+		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 		glLoadIdentity();
 		gluLookAt( 0, 0, 6, 0, 0, 0, 0, 1, 0);
 
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
 
-		// glBindTexture(GL_TEXTURE_2D, m_texture);
-
-		// glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		// glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_FLOAT, 0, vertices);
 
 		glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
 
-		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
 
-		// glBindTexture(GL_TEXTURE_2D, 0);
-
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glDisable(GL_TEXTURE_2D);
 
 		glfwPollEvents();
 		glfwSwapBuffers(window);
@@ -128,8 +129,7 @@ int main(void){
 
   }
 
-	// stbi_image_free(data);
-	// glDeleteTextures(1, &m_texture);	
+	glDeleteTextures(1, &m_texture);	
 
   	glfwDestroyWindow(window);
   	glfwTerminate();
@@ -154,3 +154,7 @@ void SizeOpenGLScreen(int width, int height){
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
+
+
+
+// https://github.com/Martinfx/LearnOpenGL/blob/master/planeWithTexture/main.cpp
