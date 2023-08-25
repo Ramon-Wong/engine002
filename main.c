@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+
 	GLfloat vertices[] = {	-1.0,  1.0, 0.0,		// 0
 							-1.0, -1.0, 0.0,		// 1
 							 1.0, -1.0, 0.0,		// 2
@@ -10,13 +14,12 @@
 
 	GLubyte indices[] = { 0, 1, 2, 0, 2, 3};
 
+	GLfloat texCoords[] = { 0.0, 1.0,   			// Vertex 0
+                        	0.0, 0.0,   			// Vertex 1
+                        	1.0, 0.0,   			// Vertex 2
+                        	1.0, 1.0 }; 			// Vertex 3
 
-// GLfloat vertices[]	= {  0.5f, 0.5f, 12.0f, 
-//             						-0.5f, 0.5f, 12.0f,
-//             						-0.5f,-0.5f, 12.0f, 
-// 						             0.5f,-0.5f, 12.0f};	
 
-// GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
 void SizeOpenGLScreen( int, int);
 
@@ -74,9 +77,13 @@ int main(void){
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_FLOAT, 0, vertices);
 
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
 		glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
 
 		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 		glfwPollEvents();
 		glfwSwapBuffers(window);
