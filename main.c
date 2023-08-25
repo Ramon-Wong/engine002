@@ -24,35 +24,35 @@ void SizeOpenGLScreen( int, int);
 
 
 int main(void){
-  GLFWwindow * window;
-	  const GLubyte		*	renderer;
-	  const GLubyte		*	version;
+	GLFWwindow			*	window;
+	const GLubyte		*	renderer;
+	const GLubyte		*	version;
 
 
-  if (!glfwInit())
-    exit(EXIT_FAILURE);
-  window = glfwCreateWindow( 800, 600, "Chapter 1: Simple GLFW Example", NULL, NULL);
+	if (!glfwInit())
+    	exit(EXIT_FAILURE);
+  		window = glfwCreateWindow( 800, 600, "Chapter 1: Simple GLFW Example", NULL, NULL);
 
-  if (!window){
-    glfwTerminate();
-    exit(EXIT_FAILURE);
-  }
+	if (!window){
+    	glfwTerminate();
+    	exit(EXIT_FAILURE);
+  	}
 
     glfwMakeContextCurrent(window);
 
-	  renderer	= glGetString(GL_RENDERER);
-	  version		= glGetString(GL_VERSION);
+	renderer	= glGetString(GL_RENDERER);
+	version		= glGetString(GL_VERSION);
 	
-	  printf("\n Renderer: %s", renderer);
-	  printf("\n OpenGL version supported %s", version);
-	  printf("\n GL VENDOR:---  %s ",	glGetString(GL_VENDOR));
-	  printf("\n GL VERSION:--  %s ",  	glGetString(GL_VERSION));
-	  printf("\n GL SHADING:--  %s ",	glGetString(GL_SHADING_LANGUAGE_VERSION));
+	printf("\n Renderer: %s", renderer);
+	printf("\n OpenGL version supported %s", version);
+	printf("\n GL VENDOR:---  %s ",	glGetString(GL_VENDOR));
+	printf("\n GL VERSION:--  %s ", glGetString(GL_VERSION));
+	printf("\n GL SHADING:--  %s ",	glGetString(GL_SHADING_LANGUAGE_VERSION));
 
     // float ratio;
     int width, height;
 
-    glfwGetFramebufferSize(window, &width, &height);
+    glfwGetFramebufferSize( window, &width, &height);
     // ratio = (float) width / (float) height;
 
 	glEnable( GL_DEPTH_TEST);
@@ -60,7 +60,7 @@ int main(void){
 
     SizeOpenGLScreen( width, height);
 
-  while (!glfwWindowShouldClose(window)){
+	while (!glfwWindowShouldClose(window)){
 
 		if(glfwGetKey( window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
 			glfwSetWindowShouldClose( window, 1);
@@ -81,15 +81,11 @@ int main(void){
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 
-
-  }
-  glfwDestroyWindow(window);
-  glfwTerminate();
-  exit(EXIT_SUCCESS);
+	}
+	glfwDestroyWindow(window);
+	glfwTerminate();
+	exit(EXIT_SUCCESS);
 }
-
-
-
 
 
 void SizeOpenGLScreen(int width, int height){
