@@ -80,13 +80,20 @@ int main(void){
 		glGenTextures(1, &m_texture);
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, 3, 	x, 				y, 					0, GL_RGB, 	GL_UNSIGNED_BYTE,	data); 
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
+		// glTexImage2D(GL_TEXTURE_2D, GL_RGB, 3, 	x, y,  0, GL_RGB, GL_UNSIGNED_BYTE, data); 
+
+		if(n == 3) 
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB,		GL_UNSIGNED_BYTE, data);
+		else if (n == 4) 
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
+
  		// glGenerateMipmap(GL_TEXTURE_2D);
 		// glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -106,6 +113,8 @@ int main(void){
 
 		glLoadIdentity();
 		gluLookAt( 0, 0, 6, 0, 0, 0, 0, 1, 0);
+
+		glEnable(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 
