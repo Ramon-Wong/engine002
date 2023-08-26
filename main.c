@@ -1,8 +1,4 @@
-#include <GLFW/glfw3.h>
-#include <GL/glu.h>
-
-#include <stdlib.h>
-#include <stdio.h>
+#include "functions.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -18,8 +14,6 @@
                         	1.0, 1.0 }; 			// Vertex 3
 
 	GLubyte indices[] = { 0, 1, 2, 0, 2, 3};
-
-void SizeOpenGLScreen( int, int);
 
 
 
@@ -133,21 +127,6 @@ int main(void){
 
 
 
-
-void SizeOpenGLScreen(int width, int height){
-	if(height==0){
-		height=1;
-	}
-
-	glViewport( 0, 0, width, height);
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective( 45.0f, (GLfloat)width/(GLfloat)height, .5f ,150.0f);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-}
 
 
 
