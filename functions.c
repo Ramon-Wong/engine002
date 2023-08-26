@@ -20,7 +20,6 @@ GLfloat texCoords[] = {	1.0f, 1.0f,   // Top-right
     					1.0f, 0.0f }; // Bottom-right
 
 
-
 GLuint	uMatLoc[6];
 GLuint	bMatLoc[6];
 
