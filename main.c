@@ -12,7 +12,6 @@
 							 1.0, -1.0, 0.0,		// 2
 							 1.0,  1.0, 0.0};		// 3
 
-
 	GLfloat texCoords[] = { 0.0, 1.0,   			// Vertex 0
                         	0.0, 0.0,   			// Vertex 1
                         	1.0, 0.0,   			// Vertex 2
@@ -20,16 +19,7 @@
 
 	GLubyte indices[] = { 0, 1, 2, 0, 2, 3};
 
-
-// GLfloat vertices[]	= {  0.5f, 0.5f, 12.0f, 
-//             						-0.5f, 0.5f, 12.0f,
-//             						-0.5f,-0.5f, 12.0f, 
-// 						             0.5f,-0.5f, 12.0f};	
-
-// GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
-
 void SizeOpenGLScreen( int, int);
-
 
 
 
@@ -86,18 +76,12 @@ int main(void){
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-
-		// glTexImage2D(GL_TEXTURE_2D, GL_RGB, 3, 	x, y,  0, GL_RGB, GL_UNSIGNED_BYTE, data); 
-
 		if(n == 3) 
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB,		GL_UNSIGNED_BYTE, data);
 		else if (n == 4) 
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
 
- 		// glGenerateMipmap(GL_TEXTURE_2D);
-		// glBindTexture(GL_TEXTURE_2D, 0);
-
-		printf("\n texture Process %i/%i/%i \n", x, y, n);
+		printf("\n\n Texture Process %i/%i/%i \n\n", x, y, n);
     }
 
 	stbi_image_free(data);    
@@ -130,9 +114,11 @@ int main(void){
 		glDisableClientState(GL_VERTEX_ARRAY);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
+		glDisable(GL_TEXTURE_2D);
+
 
 		glfwPollEvents();
-    	glFlush();
+    	// glFlush();
 		glfwSwapBuffers(window);
 
   }
