@@ -29,6 +29,8 @@ GLFWwindow * wnd;
 
 void				Draw_Square(void);
 void				Draw(void);
+void				glImage(unsigned int *, unsigned chat *, int, int, int);
+
 
 
 void Main_Loop(void){
