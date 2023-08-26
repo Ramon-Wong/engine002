@@ -28,5 +28,6 @@ void				Shut_Down(int);
 void				Main_Loop(void);
 
 void				ShaderSetup(const char *, const char *);
+void                glTexture( GLuint *, unsigned char *, int, int, int);
 
 #endif
