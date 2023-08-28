@@ -60,7 +60,11 @@ void Main_Loop(void){
 		printf("\nCan't open tga file");
     } else {
 
+  		GLint textureUniformLocation = glGetUniformLocation( GLSL_Program, "uTexture");
+
 		glTexture( &m_texture, data, x, y, n);
+		glUniform1i(textureUniformLocation, m_texture);
+		
 		printf("\n texture Process %i/%i/%i \n", x, y, n);
 
     }
@@ -81,15 +85,6 @@ void Main_Loop(void){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glUseProgram( GLSL_Program);
-		
-		// uMatLoc[0]	= glGetUniformLocation( GLSL_Program, "RED");
-		// glUniform1f( uMatLoc[0], 1.0f);
-		
-		// uMatLoc[1]	= glGetUniformLocation( GLSL_Program, "PI");
-		// glUniform1f( uMatLoc[1], PI);
-				
-		// uMatLoc[2]	= glGetUniformLocation( GLSL_Program, "rotate_z");
-		// glUniform1f( uMatLoc[2], rotate_z);		
 
 		uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
 		glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
@@ -158,3 +153,6 @@ void glTexture( GLuint * texture, unsigned char * data, int x, int y, int b){
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 }
+
+
+
