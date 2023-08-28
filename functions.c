@@ -82,14 +82,14 @@ void Main_Loop(void){
 		
 		glUseProgram( GLSL_Program);
 		
-		uMatLoc[0]	= glGetUniformLocation( GLSL_Program, "RED");
-		glUniform1f( uMatLoc[0], 1.0f);
+		// uMatLoc[0]	= glGetUniformLocation( GLSL_Program, "RED");
+		// glUniform1f( uMatLoc[0], 1.0f);
 		
-		uMatLoc[1]	= glGetUniformLocation( GLSL_Program, "PI");
-		glUniform1f( uMatLoc[1], PI);
+		// uMatLoc[1]	= glGetUniformLocation( GLSL_Program, "PI");
+		// glUniform1f( uMatLoc[1], PI);
 				
-		uMatLoc[2]	= glGetUniformLocation( GLSL_Program, "rotate_z");
-		glUniform1f( uMatLoc[2], rotate_z);		
+		// uMatLoc[2]	= glGetUniformLocation( GLSL_Program, "rotate_z");
+		// glUniform1f( uMatLoc[2], rotate_z);		
 
 		uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
 		glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
@@ -156,4 +156,5 @@ void glTexture( GLuint * texture, unsigned char * data, int x, int y, int b){
 	else if (b == 4) 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
 
+	glGenerateMipmap(GL_TEXTURE_2D);
 }

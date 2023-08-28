@@ -1,9 +1,10 @@
-#version 400
+#version 330
 
-in vec2 texCoord;               // Input texture coordinates from the vertex shader
-uniform sampler2D u_texture;    // Texture sampler uniform
-out vec4 fColor;                // Output fragment color
+in vec2             vTextureCoordinates;
+uniform sampler2D   uTexture;
+
+out vec4            fragmentColor;
 
 void main() {
-    fColor = texture(u_texture, texCoord);  // Sample the texture using the interpolated texture coordinates
+    fragmentColor = texture(uTexture, vTextureCoordinates);
 }
