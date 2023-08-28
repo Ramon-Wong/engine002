@@ -29,8 +29,6 @@ GLFWwindow * wnd;
 
 void				Draw_Square(void);
 void				Draw(void);
-void				glImage(unsigned int *, unsigned chat *, int, int, int);
-
 
 
 void Main_Loop(void){
@@ -62,25 +60,11 @@ void Main_Loop(void){
 		printf("\nCan't open tga file");
     } else {
 
-		// glGenTextures(1, &m_texture);
-		// glBindTexture(GL_TEXTURE_2D, m_texture);
-
-		// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-		// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data); 
- 		// glGenerateMipmap(GL_TEXTURE_2D);
-		// glBindTexture(GL_TEXTURE_2D, 0);
 		glTexture( &m_texture, data, x, y, n);
-
-
 		printf("\n texture Process %i/%i/%i \n", x, y, n);
+
     }
     stbi_image_free(data);
-
-    
 
 
 	while(!glfwWindowShouldClose(wnd)){
@@ -110,8 +94,11 @@ void Main_Loop(void){
 		uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
 		glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
 
+		// glEnable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);  // Use texture unit 0
 		glBindTexture(GL_TEXTURE_2D, m_texture);  // Bind your texture here
+
+		glActiveTexture(GL_TEXTURE0);
 
 		// Set the "u_texture" uniform in the shader to use texture unit 0
 		GLint textureUniform = glGetUniformLocation( GLSL_Program, "u_texture");
@@ -120,7 +107,7 @@ void Main_Loop(void){
 		}
 
 		Draw();
-				
+
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glUseProgram(0);
 

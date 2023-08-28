@@ -10,14 +10,7 @@ in vec2 inTexCoord;
 out vec2 texCoord;
 
 void main() {
-    vec3 a = inPosition;
-    vec3 b = a;
 
-    float rad_angle = rotate_z * PI / 180.0;
-
-    b.x = a.x * cos(rad_angle) + a.y * sin(rad_angle);
-    b.y = a.y * cos(rad_angle) - a.x * sin(rad_angle);
-
-    gl_Position     = uProjView * vec4(b, 1.0);
+    gl_Position     = uProjView * vec4( inPosition, 1.0);
     texCoord        = inTexCoord;
 }
