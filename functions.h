@@ -26,7 +26,7 @@ void                Shutdown(int);
 
 
 
-void SizeOpenGLScreen( int, int);
-
+void                SizeOpenGLScreen( int, int);
+void                glTexture( GLuint *, unsigned char *, int, int, int);
 
 #endif
