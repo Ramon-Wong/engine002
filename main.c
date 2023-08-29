@@ -70,6 +70,9 @@ int main(void){
 		printf("\nCan't open tga file");
     } else {
 
+		glTexture( m_texture, data, x, y, n);	
+
+
 		glGenTextures(1, &m_texture);
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 
