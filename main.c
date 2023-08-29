@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
+
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
@@ -21,16 +23,7 @@
 	GLubyte indices[] = { 0, 1, 2, 0, 2, 3};
 
 
-// GLfloat vertices[]	= {  0.5f, 0.5f, 12.0f, 
-//             						-0.5f, 0.5f, 12.0f,
-//             						-0.5f,-0.5f, 12.0f, 
-// 						             0.5f,-0.5f, 12.0f};	
-
-// GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
-
 void SizeOpenGLScreen( int, int);
-
-
 
 
 int main(void){
@@ -145,23 +138,6 @@ int main(void){
 }
 
 
-
-
-
-void SizeOpenGLScreen(int width, int height){
-	if(height==0){
-		height=1;
-	}
-
-	glViewport( 0, 0, width, height);
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective( 45.0f, (GLfloat)width/(GLfloat)height, .5f ,150.0f);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-}
 
 
 

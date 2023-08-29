@@ -25,4 +25,8 @@ void                Draw(void);
 void                Shutdown(int);
 
 
+
+void SizeOpenGLScreen( int, int);
+
+
 #endif
