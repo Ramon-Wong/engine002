@@ -8,11 +8,11 @@ float rotate_z = 0.0f;
 const float rotations_per_tick = 0.2f;
 
 
-GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 
+GLfloat vertices[]	= { -4.0f,-4.0f, -14.0f, 
 						-4.0f, 4.0f, -14.0f,
-						-4.0f,-4.0f, -14.0f, 
+						 4.0f, 4.0f, -14.0f, 
 						 4.0f,-4.0f, -14.0f};	
-GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
+GLubyte indices[]	= {  0, 2, 1, 0, 3, 2}; 
 
 GLfloat texCoords[] = {	1.0f, 1.0f,   // Top-right
 						0.0f, 1.0f,   // Top-left
@@ -36,7 +36,6 @@ void Main_Loop(void){
 
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
-	GLuint 		m_texture;
 
 	MLoadIdentity(Proj_Matrix);
 	MLoadIdentity(View_Matrix); 
@@ -54,21 +53,55 @@ void Main_Loop(void){
 	MMultiply( ProjView, Proj_Matrix, View_Matrix);
 
 
+
+
+
+
+
+
+
+
     int x,y,n;
     unsigned char * data = stbi_load("skin2.tga", &x, &y, &n, 0);
-    if (data == NULL) {
+
+	GLuint 		m_texture;
+   
+    if (data == NULL) { 
 		printf("\nCan't open tga file");
     } else {
 
-  		GLint textureUniformLocation = glGetUniformLocation( GLSL_Program, "uTexture");
+		glGenTextures(1, &m_texture);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
 
-		glTexture( &m_texture, data, x, y, n);
-		glUniform1i(textureUniformLocation, m_texture);
-		
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		if(n == 3) 
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
+		else if (n == 4) 
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		stbi_image_free(data);
+
 		printf("\n texture Process %i/%i/%i \n", x, y, n);
 
     }
-    stbi_image_free(data);
+    
+
+
+
+
+
+
+
+
+
+
 
 
 	while(!glfwWindowShouldClose(wnd)){
@@ -86,11 +119,16 @@ void Main_Loop(void){
 		
 		glUseProgram( GLSL_Program);
 
+  		GLint textureUniformLocation = glGetUniformLocation( GLSL_Program, "uTexture");		 
+		glUniform1i(textureUniformLocation, 0); 
+
+
 		uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
 		glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
+		glBindTexture(GL_TEXTURE_2D, m_texture);  // Bind your texture here
 
 		// glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, m_texture);  // Bind your texture here
+		
 
 		glActiveTexture(GL_TEXTURE0);
 
@@ -137,23 +175,21 @@ void Draw(void){
 void glTexture( GLuint * texture, unsigned char * data, int x, int y, int b){
 
 	glGenTextures(1, texture);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, *texture);
 
-	if(b == 3) 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB,		GL_UNSIGNED_BYTE, data);
-	else if (b == 4) 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-
+	if(b == 3) 
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
+	else if (b == 4) 
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
+
 }
 
 
