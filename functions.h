@@ -1,14 +1,11 @@
 #ifndef _FUNCTIONS_H
 #define _FUNCTIONS_H
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <GL/glew.h>
-
 #include <GLFW/glfw3.h>
+#include <GL/glu.h>
 
-
+#include <stdlib.h>
+#include <stdio.h>
 #include "matrix.h"
 
 extern GLuint		GLSL_Program;
@@ -24,9 +21,7 @@ void                Init(void);
 void                Draw(void);
 void                Shutdown(int);
 
-
-
 void                SizeOpenGLScreen( int, int);
-void                glTexture( GLuint *, unsigned char *, int, int, int);
+void                gloadTexture( GLuint *, unsigned char *, int, int, int);
 
 #endif

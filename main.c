@@ -1,8 +1,4 @@
-#include <GLFW/glfw3.h>
-#include <GL/glu.h>
-
-#include <stdlib.h>
-#include <stdio.h>
+#include "functions.h"
 
 
 
@@ -70,28 +66,12 @@ int main(void){
 		printf("\nCan't open tga file");
     } else {
 
-		glTexture( m_texture, data, x, y, n);	
-
-
-		glGenTextures(1, &m_texture);
-		glBindTexture(GL_TEXTURE_2D, m_texture);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-
-		// glTexImage2D(GL_TEXTURE_2D, GL_RGB, 3, 	x, y,  0, GL_RGB, GL_UNSIGNED_BYTE, data); 
+		gloadTexture( &m_texture, data, x, y, n);	
 
 		if(n == 3) 
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB,		GL_UNSIGNED_BYTE, data);
 		else if (n == 4) 
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
-
- 		// glGenerateMipmap(GL_TEXTURE_2D);
-		// glBindTexture(GL_TEXTURE_2D, 0);
 
 		printf("\n texture Process %i/%i/%i \n", x, y, n);
     }
