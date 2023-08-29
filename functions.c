@@ -47,29 +47,15 @@ void Main_Loop(void){
 
 
 	while(!glfwWindowShouldClose(wnd)){
-		double current_time = glfwGetTime();
-		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
-		
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){
 			glfwSetWindowShouldClose( wnd, 1);
 		}
-				
-		rotate_z = 0.1 * delta_rotate;
- 
+				 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glUseProgram( GLSL_Program);
 		
-		uMatLoc[0]	= glGetUniformLocation( GLSL_Program, "RED");
-		glUniform1f( uMatLoc[0], 1.0f);
-		
-		uMatLoc[1]	= glGetUniformLocation( GLSL_Program, "PI");
-		glUniform1f( uMatLoc[1], PI);
-				
-		uMatLoc[2]	= glGetUniformLocation( GLSL_Program, "rotate_z");
-		glUniform1f( uMatLoc[2], rotate_z);		
-
 		uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
 		glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
 		
