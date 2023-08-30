@@ -67,6 +67,12 @@ void Main_Loop(void){
 		Shut_Down(1);
     }
 
+    GLenum _error = glGetError();
+    if( _error != GL_NO_ERROR) {
+        fprintf(stderr, "OpenGL error: %d\n", _error);
+		Shut_Down(1);
+    }
+
 	while(!glfwWindowShouldClose(wnd)){
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){
@@ -82,12 +88,11 @@ void Main_Loop(void){
 		
 		Draw();
 
-        GLenum error = glGetError();
-        if (error != GL_NO_ERROR) {
-            fprintf(stderr, "OpenGL error: %d\n", error);
+		GLenum _error = glGetError();
+		if ( _error != GL_NO_ERROR) {
+			fprintf( stderr, "OpenGL error at start: %d\n", _error);
 			Shut_Down(1);
-        }
-
+		}
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
@@ -101,16 +106,16 @@ void Main_Loop(void){
 
 
 void Draw_Square(){
-	// glEnableClientState(GL_VERTEX_ARRAY);
-	// glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
 
     // glVertexPointer(3, GL_FLOAT, 0, Vertices);
     // glColorPointer(3, GL_FLOAT, 0, Colors);
 
 	// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
 	
-	// glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
-	// glDisableClientState(GL_COLOR_ARRAY); 
+	glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
+	glDisableClientState(GL_COLOR_ARRAY); 
 }
 
  
