@@ -110,7 +110,7 @@ void Shut_Down(int return_code){
 //     glBindBuffer(GL_ARRAY_BUFFER, 0);
 //     glBindVertexArray(0);
 // }
-void SetupVAOWithColors(GLuint * vao, GLuint * vbo, GLuint * ebo, GLfloat * vertices, GLfloat * colors, GLubyte * indices, GLsizei vsize, GLsizei csize, GLsizei isize){
+void SetupVAO(GLuint * vao, GLuint * vbo, GLuint * ebo, GLfloat * vertices, GLfloat * colors, GLubyte * indices, GLsizei vsize, GLsizei csize, GLsizei isize){
     glGenVertexArrays(1, vao);
     glBindVertexArray(*vao);
 
