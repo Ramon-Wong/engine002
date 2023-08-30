@@ -29,7 +29,6 @@ void Main_Loop(void){
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
 
-
 	MLoadIdentity(Proj_Matrix);
 	MLoadIdentity(View_Matrix); 
  
@@ -45,6 +44,11 @@ void Main_Loop(void){
 	GLfloat ProjView[16];
 	MMultiply( ProjView, Proj_Matrix, View_Matrix);
 
+    GLenum error = glGetError();
+    if (error != GL_NO_ERROR) {
+        fprintf(stderr, "OpenGL error: %d\n", error);
+		Shut_Down(1);
+    }
 
 	while(!glfwWindowShouldClose(wnd)){
 		double current_time = glfwGetTime();
@@ -65,7 +69,13 @@ void Main_Loop(void){
 		glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
 		
 		Draw();
-				
+
+		GLenum error = glGetError();
+		if (error != GL_NO_ERROR) {
+			fprintf(stderr, "OpenGL error: %d\n", error);
+			Shut_Down(1);
+		}
+
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
 	}
@@ -83,7 +93,6 @@ void Draw_Square(){
 	glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
 }
 
- 
 
 void Draw(void){
 	Draw_Square();
