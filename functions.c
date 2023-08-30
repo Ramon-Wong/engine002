@@ -83,6 +83,11 @@ void Main_Loop(void){
 			Shut_Down(1);
 		}
 
+
+		glDeleteBuffers(1, &ebo);
+		glDeleteBuffers(1, &vbo);
+		glDeleteVertexArrays(1, &vao);
+
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
 	}
@@ -92,12 +97,14 @@ void Main_Loop(void){
 
 
 void Draw_Square(){
-	// glEnableClientState(GL_VERTEX_ARRAY);
-	// glVertexPointer(3, GL_FLOAT, 0, vertices);
-	
-	// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
-	
-	// glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
+	glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+
+    // Draw your geometry
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
 }
 
 
