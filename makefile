@@ -1,4 +1,5 @@
 CC					= gcc
+CPP					= g++
 source				= main.c functions.c utils.c shaderutils.c matrix.c
 objects				= main.o functions.o utils.o shaderutils.o matrix.o
 option				= -Wall
