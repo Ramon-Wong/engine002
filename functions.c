@@ -28,6 +28,9 @@ GLfloat texCoords[] = {	1.0f, 1.0f,   // Top-right
 GLuint	uMatLoc[6];
 GLuint	bMatLoc[6];
 
+GLuint	vao;
+GLuint	vbo;
+
 GLFWwindow * wnd;
 
 
@@ -56,6 +59,7 @@ void Main_Loop(void){
 	GLfloat ProjView[16];
 	MMultiply( ProjView, Proj_Matrix, View_Matrix);
 
+	SetupVAO( &vao, &vbo, Vertices, Colors);
 
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
@@ -88,13 +92,16 @@ void Main_Loop(void){
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
 	}
+
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
 }
 
 
 
 
 void Draw_Square(){
-	glEnableClientState(GL_VERTEX_ARRAY);
+	// glEnableClientState(GL_VERTEX_ARRAY);
 	// glEnableClientState(GL_COLOR_ARRAY);
 
     // glVertexPointer(3, GL_FLOAT, 0, Vertices);
@@ -102,7 +109,7 @@ void Draw_Square(){
 
 	// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
 	
-	glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
+	// glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
 	// glDisableClientState(GL_COLOR_ARRAY); 
 }
 
