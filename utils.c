@@ -95,4 +95,3 @@ void SetupVAO(GLuint * vao, GLuint * vbo, GLuint * ebo, GLfloat * vertices, GLub
 
 
 
-

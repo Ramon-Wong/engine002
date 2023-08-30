@@ -27,7 +27,6 @@ void				Draw(void);
 
 
 void Main_Loop(void){
-	double old_time = glfwGetTime();
 
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
@@ -47,8 +46,27 @@ void Main_Loop(void){
 	GLfloat ProjView[16];
 	MMultiply( ProjView, Proj_Matrix, View_Matrix);
 
+	// SetupVAO( &vao, &vbo, &ebo, vertices, indices);
 
-	SetupVAO( &vao, &vbo, &ebo, vertices, indices);
+    // glGenVertexArrays( 1, &vao);
+    // glGenBuffers( 1, &vbo);
+    // glGenBuffers( 1, &ebo);
+
+    // glBindVertexArray( vao);
+
+    // glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    // glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    // // Set up vertex attribute pointers
+    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+    // glEnableVertexAttribArray(0);
+
+    // glBindBuffer(GL_ARRAY_BUFFER, 0);
+    // glBindVertexArray(0);
+
 
 
     GLenum error = glGetError();
@@ -58,16 +76,11 @@ void Main_Loop(void){
     }
 
 	while(!glfwWindowShouldClose(wnd)){
-		double current_time = glfwGetTime();
-		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 		
-
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){
 			glfwSetWindowShouldClose( wnd, 1);
 		}
-				
-		rotate_z = 0.1 * delta_rotate;
- 
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glUseProgram( GLSL_Program);		
@@ -79,32 +92,33 @@ void Main_Loop(void){
 
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR) {
-			fprintf(stderr, "OpenGL error: %d\n", error);
+			fprintf(stderr, "OpenGL error in mainloop: %d\n", error);
 			Shut_Down(1);
 		}
-
-
-		glDeleteBuffers(1, &ebo);
-		glDeleteBuffers(1, &vbo);
-		glDeleteVertexArrays(1, &vao);
-
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
 	}
+
+	glDeleteBuffers(1, &ebo);
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
+
 }
 
 
 
 
 void Draw_Square(){
+	glBindVertexArray(vao);
 	glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
     // Draw your geometry
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
+	glBindVertexArray(0);
 }
 
 
