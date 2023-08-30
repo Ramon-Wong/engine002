@@ -34,6 +34,7 @@ GLFWwindow * wnd;
 
 void				Draw_Square(void);
 void				Draw(void);
+void				SetupVAO(GLuint *, GLuint *, GLfloat *, GLfloat *);
 
 
 void Main_Loop(void){
@@ -68,14 +69,14 @@ void Main_Loop(void){
 			glfwSetWindowShouldClose( wnd, 1);
 		}
 				 
-		// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		// glUseProgram( GLSL_Program);
+		glUseProgram( GLSL_Program);
 		
-		// uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
-		// glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
+		uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
+		glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
 		
-		// Draw();
+		Draw();
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
@@ -94,19 +95,39 @@ void Main_Loop(void){
 
 void Draw_Square(){
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
+	// glEnableClientState(GL_COLOR_ARRAY);
 
-    glVertexPointer(3, GL_FLOAT, 0, Vertices);
-    glColorPointer(3, GL_FLOAT, 0, Colors);
+    // glVertexPointer(3, GL_FLOAT, 0, Vertices);
+    // glColorPointer(3, GL_FLOAT, 0, Colors);
 
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+	// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
 	
 	glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
-	glDisableClientState(GL_COLOR_ARRAY); 
+	// glDisableClientState(GL_COLOR_ARRAY); 
 }
 
  
 
 void Draw(void){
 	Draw_Square();
+}
+
+void SetupVAO(GLuint * vao, GLuint * vbo, GLfloat * vertices, GLfloat * colors) {
+    glGenVertexArrays(1, vao);
+    glBindVertexArray(*vao);
+
+    glGenBuffers(1, vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, *vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) + sizeof(colors), NULL, GL_STATIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+    glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices), sizeof(colors), colors);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(vertices)));
+    glEnableVertexAttribArray(1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
