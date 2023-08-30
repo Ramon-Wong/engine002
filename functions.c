@@ -12,6 +12,13 @@ GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f,
 						 4.0f,-4.0f, -14.0f};	
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
+GLfloat colors[]	= {  1.0f, 0.0f, 0.0f, 
+						 0.0f, 1.0f, 0.0f,
+						 0.0f, 0.0f, 1.0f, 
+						 1.0f, 1.0f, 1.0f};	
+
+
+
 GLuint	uMatLoc[6];
 GLuint	bMatLoc[6];
 
@@ -46,7 +53,7 @@ void Main_Loop(void){
 	GLfloat ProjView[16];
 	MMultiply( ProjView, Proj_Matrix, View_Matrix);
 
-	SetupVAO( &vao, &vbo, &ebo, vertices, indices, sizeof(vertices), sizeof(indices));
+	SetupVAO( &vao, &vbo, &ebo, vertices, colors, indices, sizeof(vertices), sizeof(colors), sizeof(indices));
 
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {

@@ -61,27 +61,81 @@ void Shut_Down(int return_code){
 //     glBindVertexArray(0);
 // }
 
-void SetupVAO(GLuint * vao, GLuint * vbo, GLuint * ebo, GLfloat * vertices, GLubyte * indices, GLsizei vsize, GLsizei isize){
-    glGenVertexArrays( 1, vao);
-	glBindVertexArray(*vao);
+// void SetupVAO(GLuint * vao, GLuint * vbo, GLuint * ebo, GLfloat * vertices, GLubyte * indices, GLsizei vsize, GLsizei isize){
+//     glGenVertexArrays( 1, vao);
+// 	glBindVertexArray(*vao);
 
-	glGenBuffers( 1, vbo);
+// 	glGenBuffers( 1, vbo);
+//     glBindBuffer(GL_ARRAY_BUFFER, *vbo);
+//     glBufferData(GL_ARRAY_BUFFER, vsize, vertices, GL_STATIC_DRAW);
+
+// 	glGenBuffers( 1, ebo);
+
+//     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *ebo);
+//     glBufferData(GL_ELEMENT_ARRAY_BUFFER, isize, indices, GL_STATIC_DRAW);
+
+//     // Set up vertex attribute pointers
+//     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+//     glEnableVertexAttribArray(0);
+
+//     glBindBuffer(GL_ARRAY_BUFFER, 0);
+//     glBindVertexArray(0);
+// }
+
+// void SetupVAOWithColors(GLuint * vao, GLuint * vbo, GLuint * ebo, GLfloat * vertices, GLfloat * colors, GLubyte * indices, 
+//                         GLsizei vsize, GLsizei csize, GLsizei isize) {
+                        
+//     glGenVertexArrays(1, vao);
+//     glBindVertexArray(*vao);
+
+//     glGenBuffers(1, vbo);
+//     glBindBuffer(GL_ARRAY_BUFFER, *vbo);
+
+//     glBufferData(GL_ARRAY_BUFFER, vsize + csize, NULL, GL_STATIC_DRAW);
+//     glBufferSubData(GL_ARRAY_BUFFER, 0, vsize, vertices);
+//     glBufferSubData(GL_ARRAY_BUFFER, vsize, csize, colors);
+
+//     glGenBuffers(1, ebo);
+//     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *ebo);
+//     glBufferData(GL_ELEMENT_ARRAY_BUFFER, isize, indices, GL_STATIC_DRAW);
+
+//     // Set up vertex attribute pointers for position
+//     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+//     glEnableVertexAttribArray(0);
+
+//     // Set up vertex attribute pointers for color
+//     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)vsize);
+//     glEnableVertexAttribArray(1);
+
+//     glBindBuffer(GL_ARRAY_BUFFER, 0);
+//     glBindVertexArray(0);
+// }
+void SetupVAOWithColors(GLuint * vao, GLuint * vbo, GLuint * ebo, GLfloat * vertices, GLfloat * colors, GLubyte * indices, GLsizei vsize, GLsizei csize, GLsizei isize){
+    glGenVertexArrays(1, vao);
+    glBindVertexArray(*vao);
+
+    glGenBuffers(1, vbo);
     glBindBuffer(GL_ARRAY_BUFFER, *vbo);
-    glBufferData(GL_ARRAY_BUFFER, vsize, vertices, GL_STATIC_DRAW);
+    
+    glBufferData(GL_ARRAY_BUFFER, vsize + csize, NULL, GL_STATIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, vsize, vertices);
+    glBufferSubData(GL_ARRAY_BUFFER, vsize, csize, colors);
 
-	glGenBuffers( 1, ebo);
-
+    glGenBuffers(1, ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *ebo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, isize, indices, GL_STATIC_DRAW);
 
-    // Set up vertex attribute pointers
+    // Set up vertex attribute pointers for position
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
     glEnableVertexAttribArray(0);
+
+    // Set up vertex attribute pointers for color
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)(intptr_t)vsize);
+    glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
-
 
 
 
