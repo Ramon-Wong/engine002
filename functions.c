@@ -17,6 +17,9 @@ GLuint	bMatLoc[6];
 
 GLFWwindow * wnd;
 
+GLuint	vao;
+GLuint	vbo;
+GLuint	ebo;
 
 
 void				Draw_Square(void);
@@ -43,6 +46,10 @@ void Main_Loop(void){
 
 	GLfloat ProjView[16];
 	MMultiply( ProjView, Proj_Matrix, View_Matrix);
+
+
+	SetupVAO( &vao, &vbo, &ebo, vertices, indices);
+
 
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
