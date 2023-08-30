@@ -46,7 +46,7 @@ void Main_Loop(void){
 	GLfloat ProjView[16];
 	MMultiply( ProjView, Proj_Matrix, View_Matrix);
 
-	// SetupVAO( &vao, &vbo, &ebo, vertices, indices);
+	SetupVAO( &vao, &vbo, &ebo, vertices, indices);
 
     // glGenVertexArrays( 1, &vao);
     // glGenBuffers( 1, &vbo);
