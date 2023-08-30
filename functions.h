@@ -29,5 +29,5 @@ void				Main_Loop(void);
 void				ShaderSetup(const char *, const char *);
 
 
-void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLubyte *);
+void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLubyte *, GLsizei, GLsizei);
 #endif
