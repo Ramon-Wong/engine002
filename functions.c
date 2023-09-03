@@ -17,8 +17,6 @@ GLfloat colors[]	= {  1.0f, 0.0f, 0.0f,
 						 0.0f, 0.0f, 1.0f, 
 						 1.0f, 1.0f, 1.0f};	
 
-
-
 GLuint	uMatLoc[6];
 GLuint	bMatLoc[6];
 
@@ -28,12 +26,18 @@ GLuint	vao;
 GLuint	vbo;
 GLuint	ebo;
 
-
 void				Draw_Square(void);
 void				Draw(void);
 
 
+int					array[3][3] = {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
+
+void				somethingsomething( int, int, int[][]);
+
+
 void Main_Loop(void){
+
+	somethingsomething( 3, 3, array);
 
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
@@ -110,4 +114,9 @@ void Draw_Square(){
 
 void Draw(void){
 	Draw_Square();
+}
+
+void somethingsomething( int x, int y, int array[x][y]){
+
+
 }
