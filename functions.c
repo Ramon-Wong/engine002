@@ -1,5 +1,7 @@
 #include "functions.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <STB/stb_image.h>
 
 float rotate_z = 0.0f;
 
@@ -66,14 +68,14 @@ void Main_Loop(void){
     }
 	// texture setup
 
-    // int x,y,n;
-    // unsigned char * data = stbi_load("skin2.tga", &x, &y, &n, 0);
+    int x,y,n;
+    unsigned char * data = stbi_load("skin2.tga", &x, &y, &n, 0);
 
 	// GLuint 		m_texture;
    
-    // if (data == NULL) { 
-	// 	printf("\nCan't open tga file");
-    // } else {
+    if (data == NULL) { 
+		printf("\nCan't open tga file");
+    } else {
 
 	// 	glGenTextures(1, &m_texture);
 	// 	glActiveTexture(GL_TEXTURE0);
@@ -91,11 +93,10 @@ void Main_Loop(void){
 	// 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
 	// 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	// 	stbi_image_free(data);
+		stbi_image_free(data);
+		printf("\n texture Process %i/%i/%i \n", x, y, n);
 
-	// 	printf("\n texture Process %i/%i/%i \n", x, y, n);
-
-    // }
+    }
     
     // GLuint textureLocation = glGetUniformLocation(shaderProgram, "textureSampler");
     // glUseProgram(shaderProgram);                                                    // Use the shader program
@@ -130,7 +131,7 @@ void Main_Loop(void){
 		glfwPollEvents();
 	}
 
-	glDeleteTextures(1, &m_texture);
+	// glDeleteTextures(1, &m_texture);
 
 	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vbo);
