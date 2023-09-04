@@ -8,16 +8,15 @@ float rotate_z = 0.0f;
 const float rotations_per_tick = 0.2f;
 
 
-GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 
-						-4.0f, 4.0f, -14.0f,
-						-4.0f,-4.0f, -14.0f, 
-						 4.0f,-4.0f, -14.0f};	
+GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 	-4.0f, 4.0f, -14.0f,	-4.0f,-4.0f, -14.0f, 	4.0f,-4.0f, -14.0f};	
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
+GLfloat colors[]	= {  1.0f, 0.0f, 0.0f, 		 0.0f, 1.0f, 0.0f,		 0.0f, 0.0f, 1.0f, 		1.0f, 1.0f, 1.0f};	
 
-GLfloat colors[]	= {  1.0f, 0.0f, 0.0f, 
-						 0.0f, 1.0f, 0.0f,
-						 0.0f, 0.0f, 1.0f, 
-						 1.0f, 1.0f, 1.0f};	
+GLfloat texCoords[] = {	1.0f, 1.0f,   // Top-right
+						0.0f, 1.0f,   // Top-left
+    					0.0f, 0.0f,   // Bottom-left
+    					1.0f, 0.0f }; // Bottom-right
+
 
 GLuint	uMatLoc[6];
 GLuint	bMatLoc[6];
@@ -55,7 +54,11 @@ void Main_Loop(void){
 	GLfloat ProjView[16];
 	MMultiply( ProjView, Proj_Matrix, View_Matrix);
 
-	SetupVAO( &vao, &vbo, &ebo, vertices, colors, indices, sizeof(vertices), sizeof(colors), sizeof(indices));
+	// SetupVAO( &vao, &vbo, &ebo, vertices, colors, indices, sizeof(vertices), sizeof(colors), sizeof(indices));
+	SetupVAOArray( &vao, &vbo, &ebo, vertices, colors, texCoords,
+					indices,  sizeof(indices), 
+					sizeof(vertices), sizeof(colors), sizeof(texCoords));
+
 
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
@@ -67,39 +70,39 @@ void Main_Loop(void){
     int x,y,n;
     unsigned char * data = stbi_load("skin2.tga", &x, &y, &n, 0);
 
-	// GLuint 		m_texture;
+	GLuint 		m_texture;
    
     if (data == NULL) { 
 		printf("\nCan't open tga file");
     } else {
 
-	// 	glGenTextures(1, &m_texture);
-	// 	glActiveTexture(GL_TEXTURE0);
-	// 	glBindTexture(GL_TEXTURE_2D, m_texture);
+		glGenTextures(1, &m_texture);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
 
-	// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	// 	if(n == 3) 
-	// 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
-	// 	else if (n == 4) 
-	// 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
-	// 	glGenerateMipmap(GL_TEXTURE_2D);
+		if(n == 3) 
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
+		else if (n == 4) 
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
 
 		stbi_image_free(data);
 		printf("\n texture Process %i/%i/%i \n", x, y, n);
 
     }
     
-    // GLuint textureLocation = glGetUniformLocation(shaderProgram, "textureSampler");
-    // glUseProgram(shaderProgram);                                                    // Use the shader program
+    GLuint textureLocation = glGetUniformLocation(  GLSL_Program, "textureSampler");
+    glUseProgram( GLSL_Program);                                                    // Use the shader program
 
-    // glActiveTexture(GL_TEXTURE0);                                                   // Assuming your texture is bound to GL_TEXTURE0    
-    // glBindTexture(GL_TEXTURE_2D, yourTextureID);                                    // Bind your texture to GL_TEXTURE0    
-    // glUniform1i(textureLocation, 0);                                                // 0 corresponds to GL_TEXTURE0
+    glActiveTexture(GL_TEXTURE0);                                                   // Assuming your texture is bound to GL_TEXTURE0    
+    glBindTexture(GL_TEXTURE_2D, m_texture);                                    	// Bind your texture to GL_TEXTURE0    
+    glUniform1i(textureLocation, 0);                                                // 0 corresponds to GL_TEXTURE0
 
 	// texture setup end
 
@@ -127,7 +130,7 @@ void Main_Loop(void){
 		glfwPollEvents();
 	}
 
-	// glDeleteTextures(1, &m_texture);
+	glDeleteTextures(1, &m_texture);
 
 	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vbo);
@@ -154,9 +157,4 @@ void Draw_Square(){
 
 void Draw(void){
 	Draw_Square();
-}
-
-void somethingsomething( int x, int y, int array[x][y]){
-
-
 }
