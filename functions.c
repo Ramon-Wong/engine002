@@ -12,10 +12,10 @@ GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 	-4.0f, 4.0f, -14.0f,	-4.0f,-4.0f, -
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 GLfloat colors[]	= {  1.0f, 0.0f, 0.0f, 		 0.0f, 1.0f, 0.0f,		 0.0f, 0.0f, 1.0f, 		1.0f, 1.0f, 1.0f};	
 
-GLfloat texCoords[] = {	1.0f, 1.0f,   // Top-right
-						0.0f, 1.0f,   // Top-left
-    					0.0f, 0.0f,   // Bottom-left
-    					1.0f, 0.0f }; // Bottom-right
+GLfloat texCoords[] = {	0.0f, 0.0f,   // Top-right
+						1.0f, 0.0f,   // Top-left
+    					1.0f, 1.0f,   // Bottom-left
+    					0.0f, 1.0f }; // Bottom-right
 
 
 GLuint	uMatLoc[6];
@@ -29,9 +29,6 @@ GLuint	ebo;
 
 void				Draw_Square(void);
 void				Draw(void);
-
-
-int					array[3][3] = {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
 
 
 void Main_Loop(void){
@@ -80,6 +77,10 @@ void Main_Loop(void){
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 
+		// glTexStorage2D(GL_TEXTURE_2D, 0, GL_RGB8, 4, 4);
+		// glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 4, 4, GL_RGB, GL_UNSIGNED_BYTE, &m_texture);
+
+
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -92,17 +93,21 @@ void Main_Loop(void){
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
+
+		glUseProgram( GLSL_Program);                                                    // Use the shader program
+		GLuint textureLocation = glGetUniformLocation(  GLSL_Program, "tSampler");
+		
+		glActiveTexture(GL_TEXTURE0);                                                   // Assuming your texture is bound to GL_TEXTURE0    
+		glBindTexture(GL_TEXTURE_2D, m_texture);                                    	// Bind your texture to GL_TEXTURE0    
+		glUniform1i(textureLocation, 0);                                                // 0 corresponds to GL_TEXTURE0
+
+
+
 		stbi_image_free(data);
 		printf("\n texture Process %i/%i/%i \n", x, y, n);
 
     }
     
-    GLuint textureLocation = glGetUniformLocation(  GLSL_Program, "textureSampler");
-    glUseProgram( GLSL_Program);                                                    // Use the shader program
-
-    glActiveTexture(GL_TEXTURE0);                                                   // Assuming your texture is bound to GL_TEXTURE0    
-    glBindTexture(GL_TEXTURE_2D, m_texture);                                    	// Bind your texture to GL_TEXTURE0    
-    glUniform1i(textureLocation, 0);                                                // 0 corresponds to GL_TEXTURE0
 
 	// texture setup end
 
