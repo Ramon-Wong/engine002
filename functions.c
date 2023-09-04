@@ -1,7 +1,7 @@
 #include "functions.h"
 
 #define STB_IMAGE_IMPLEMENTATION
-#include <STB/stb_image.h>
+#include <stb/stb_image.h>
 
 float rotate_z = 0.0f;
 
@@ -34,12 +34,8 @@ void				Draw(void);
 
 int					array[3][3] = {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}};
 
-void				somethingsomething( int, int, int[][]);
-
 
 void Main_Loop(void){
-
-	somethingsomething( 3, 3, array);
 
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
