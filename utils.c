@@ -1,7 +1,6 @@
 #include "functions.h"
 
 
-
 void Init(void){
  
 	if( glfwInit() != GL_TRUE)
@@ -9,7 +8,6 @@ void Init(void){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
 
 	wnd = glfwCreateWindow( 800, 600, "Hello Triangle", NULL, NULL);
 
@@ -30,7 +28,10 @@ void Init(void){
 	GLSL_fragment		= 0;
 	GLSL_vertex			= 0;	
 
+
  }
+
+
 
 void Shut_Down(int return_code){
 		
@@ -82,34 +83,34 @@ void Shut_Down(int return_code){
 //     glBindVertexArray(0);
 // }
 
-void SetupVAOWithColors(GLuint * vao, GLuint * vbo, GLuint * ebo, GLfloat * vertices, GLfloat * colors, GLubyte * indices, 
-                        GLsizei vsize, GLsizei csize, GLsizei isize) {
+// void SetupVAOWithColors(GLuint * vao, GLuint * vbo, GLuint * ebo, GLfloat * vertices, GLfloat * colors, GLubyte * indices, 
+//                         GLsizei vsize, GLsizei csize, GLsizei isize) {
                         
-    glGenVertexArrays(1, vao);                                                              //  Generate vertex array here
-    glBindVertexArray(*vao);                                                                //  and Bind vertex array
+//     glGenVertexArrays(1, vao);                                                              //  Generate vertex array here
+//     glBindVertexArray(*vao);                                                                //  and Bind vertex array
 
-    glGenBuffers(1, vbo);                                                                   //  Generate Vertex Buffer
-    glBindBuffer(GL_ARRAY_BUFFER, *vbo);                                                    //  and Bind the Vertex Buffer
+//     glGenBuffers(1, vbo);                                                                   //  Generate Vertex Buffer
+//     glBindBuffer(GL_ARRAY_BUFFER, *vbo);                                                    //  and Bind the Vertex Buffer
 
-    glBufferData(GL_ARRAY_BUFFER, vsize + csize, NULL, GL_STATIC_DRAW);                     //  Set up the data
-    glBufferSubData(GL_ARRAY_BUFFER, 0, vsize, vertices);                                   //  from 0 ..       =>  vsize, the size of vertices 
-    glBufferSubData(GL_ARRAY_BUFFER, vsize, csize, colors);                                 //  from 0 + vsize  =>  csize, the size of csize
+//     glBufferData(GL_ARRAY_BUFFER, vsize + csize, NULL, GL_STATIC_DRAW);                     //  Set up the data
+//     glBufferSubData(GL_ARRAY_BUFFER, 0, vsize, vertices);                                   //  from 0 ..       =>  vsize, the size of vertices 
+//     glBufferSubData(GL_ARRAY_BUFFER, vsize, csize, colors);                                 //  from 0 + vsize  =>  csize, the size of csize
 
-    glGenBuffers(1, ebo);                                                                   //  Vertice Indices (ebo)
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *ebo);                                            //  Bind Vertice array (ebo)
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, isize, indices, GL_STATIC_DRAW);                  //  Dump the vertice array into ebo
+//     glGenBuffers(1, ebo);                                                                   //  Vertice Indices (ebo)
+//     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *ebo);                                            //  Bind Vertice array (ebo)
+//     glBufferData(GL_ELEMENT_ARRAY_BUFFER, isize, indices, GL_STATIC_DRAW);                  //  Dump the vertice array into ebo
 
-    // Set up vertex attribute pointers for position
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);         // Link this with the shader
-    glEnableVertexAttribArray(0);                                                           //
+//     // Set up vertex attribute pointers for position
+//     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);         // Link this with the shader
+//     glEnableVertexAttribArray(0);                                                           //
 
-    // Set up vertex attribute pointers for color
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)vsize);     // Link this with the shader
-    glEnableVertexAttribArray(1);                                                           //
+//     // Set up vertex attribute pointers for color
+//     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)vsize);     // Link this with the shader
+//     glEnableVertexAttribArray(1);                                                           //
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);                                                       //  Bind buffer 0
-    glBindVertexArray(0);                                                                   //  Bind Array 0
-}
+//     glBindBuffer(GL_ARRAY_BUFFER, 0);                                                       //  Bind buffer 0
+//     glBindVertexArray(0);                                                                   //  Bind Array 0
+// }
 
 
 void _SetupVAO( GLuint * vao, GLuint * vbo, GLuint * ebo){

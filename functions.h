@@ -23,11 +23,11 @@ extern GLfloat		View_Matrix[16];
 
 
 void				Init(void);
+
 void				Shut_Down(int);
 void				Main_Loop(void);
 
 void				ShaderSetup(const char *, const char *);
-
 
 void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
 #endif
