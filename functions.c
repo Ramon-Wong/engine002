@@ -64,6 +64,47 @@ void Main_Loop(void){
         fprintf(stderr, "OpenGL error: %d\n", error);
 		Shut_Down(1);
     }
+	// texture setup
+
+    // int x,y,n;
+    // unsigned char * data = stbi_load("skin2.tga", &x, &y, &n, 0);
+
+	// GLuint 		m_texture;
+   
+    // if (data == NULL) { 
+	// 	printf("\nCan't open tga file");
+    // } else {
+
+	// 	glGenTextures(1, &m_texture);
+	// 	glActiveTexture(GL_TEXTURE0);
+	// 	glBindTexture(GL_TEXTURE_2D, m_texture);
+
+	// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	// 	if(n == 3) 
+	// 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
+	// 	else if (n == 4) 
+	// 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
+	// 	glGenerateMipmap(GL_TEXTURE_2D);
+
+	// 	stbi_image_free(data);
+
+	// 	printf("\n texture Process %i/%i/%i \n", x, y, n);
+
+    // }
+    
+    // GLuint textureLocation = glGetUniformLocation(shaderProgram, "textureSampler");
+    // glUseProgram(shaderProgram);                                                    // Use the shader program
+
+    // glActiveTexture(GL_TEXTURE0);                                                   // Assuming your texture is bound to GL_TEXTURE0    
+    // glBindTexture(GL_TEXTURE_2D, yourTextureID);                                    // Bind your texture to GL_TEXTURE0    
+    // glUniform1i(textureLocation, 0);                                                // 0 corresponds to GL_TEXTURE0
+
+	// texture setup end
 
 	while(!glfwWindowShouldClose(wnd)){
 		
@@ -88,6 +129,8 @@ void Main_Loop(void){
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
 	}
+
+	glDeleteTextures(1, &m_texture);
 
 	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vbo);
