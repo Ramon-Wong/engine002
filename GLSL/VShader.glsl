@@ -4,6 +4,7 @@ uniform mat4 uProjView;
 
 in vec3 inPosition; // Input vertex position
 in vec3 aColor;     // Input Colors
+in vec2 texcoord;   // texcoords
 
 out vec4 fragColor;  // Output fragment color (you can modify this based on your needs)
 
