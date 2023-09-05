@@ -1,15 +1,20 @@
 #include "functions.h"
 
-char *	ReadFile(const char *);
-void	print_shader_info_log(GLuint);
-void	print_program_info_log(GLuint);
+
+GLuint				GLSL_Program;
+GLuint				GLSL_vertex;
+GLuint				GLSL_fragment;
+
+void				print_shader_info_log(GLuint);
+void				print_program_info_log(GLuint);
+char *				ReadFile(const char *);
+
+GLuint				ReadGLSLScript(GLuint Prog, uint I, const char * path);
+void				LinkPrograms(GLuint);
 
 
 
-// GLSL/VShader.glsl
-// GLSL/FShader.glsl
-
-void	ShaderSetup(const char * vshader, const char * fshader, unsigned int * Program, unsigned int Vertex, unsigned int Fragment){
+void	ShaderSetup( const char * vertexshader, const char * fragmentshader){
 	if(glewInit() != GLEW_OK)
 	printf("glewInit not supported");
 	
@@ -24,51 +29,10 @@ void	ShaderSetup(const char * vshader, const char * fshader, unsigned int * Prog
 	if(glewIsSupported("GL_VERSION_1_4 GL_ARB_point_sprite"))			printf("Status: ARB point sprites available.\n");	
 	printf("\n");	
 	
-	*Program		= glCreateProgram();
-	Vertex		= glCreateShader(GL_VERTEX_SHADER);
-	Fragment	= glCreateShader(GL_FRAGMENT_SHADER);
-
-
-	int params;	
-	char * vv	= ReadFile(vshader);											// <== vshader
-	printf("\nCompiling Shader: %s\n", vshader);
-	
-	glShaderSource( Vertex, 1, (const GLchar **)&vv, 0);
-	glCompileShader( Vertex);
-	params	= -1;
-	glGetShaderiv ( Vertex, GL_COMPILE_STATUS, &params);	
-	if(GL_TRUE != params) {
-		printf("Error Compiling: %s\n", vshader);
-		print_shader_info_log( Vertex);
-	}
-	glAttachShader( *Program, Vertex);	
-	free(vv);
-
-
-	char * fv	= ReadFile(fshader);											// <== fshader
-	printf("\nCompiling Shader: %s\n", fshader);
-	
-	glShaderSource( Fragment, 1, (const GLchar **)&fv, 0);
-	glCompileShader( Fragment);
-	params	= -1;
-	glGetShaderiv ( Fragment, GL_COMPILE_STATUS, &params);	
-	if(GL_TRUE != params) {
-		printf("Error Compiling: %s\n", fshader);
-		print_shader_info_log( Fragment);
-	}	
-	glAttachShader( *Program, Fragment);	
-	free(fv);
-
-	glLinkProgram( *Program);
-	GLint prog_link_success;
-	glGetObjectParameterivARB( *Program, GL_OBJECT_LINK_STATUS_ARB, &prog_link_success);
-	
-	if(!prog_link_success){
-		printf("\nThe shaders could not be linked\n");
-		print_program_info_log( *Program);
-	}else{
-		printf("\nShaders Succesfully Created And Linked\n");
-	}
+	GLSL_Program		= glCreateProgram();
+	GLSL_vertex			= ReadGLSLScript( GLSL_Program, 0, vertexshader);
+	GLSL_fragment		= ReadGLSLScript( GLSL_Program, 1, fragmentshader);
+	LinkPrograms(GLSL_Program);
 }
 
 
@@ -90,6 +54,55 @@ void	print_program_info_log(GLuint programme) {
 }
 
 
+GLuint	ReadGLSLScript(GLuint Prog, uint I, const char * path){
+	//~ case of I parameter
+	//~ 0 = GL_VERTEX_SHADER
+	//~ 1 = GL_FRAGMENT_SHADER
+	
+	GLuint glsl_vertex;
+	int params;	
+	char * vv	= ReadFile(path);
+		
+	printf("Compiling Shader: %s\n", path);
+	
+	if( I == 0){
+		glsl_vertex		= glCreateShader(GL_VERTEX_SHADER);
+	}else if( I == 1){
+		glsl_vertex		= glCreateShader(GL_FRAGMENT_SHADER);
+	}
+	
+	glShaderSource( glsl_vertex, 1, (const GLchar **)&vv, 0);
+	glCompileShader(glsl_vertex);
+		
+	params	= -1;
+	glGetShaderiv(glsl_vertex, GL_COMPILE_STATUS, &params);	
+		
+	if(GL_TRUE != params) {
+		printf("Error Compiling: %s\n", path);
+		print_shader_info_log(glsl_vertex);
+	}
+		
+	glAttachShader( Prog, glsl_vertex);	
+	free(vv);
+
+	return glsl_vertex;
+}
+
+
+void	LinkPrograms(GLuint glsl_program){
+	
+	GLint prog_link_success;
+	
+	glLinkProgram( glsl_program);
+	glGetObjectParameterivARB( glsl_program, GL_OBJECT_LINK_STATUS_ARB, &prog_link_success);
+	
+	if(!prog_link_success){
+		printf("\nThe shaders could not be linked\n");
+		print_program_info_log(glsl_program);
+	}else{
+		printf("\nShaders Succesfully Created And Linked\n");
+	}
+}
 
 
 char *	ReadFile(const char * path){
