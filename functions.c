@@ -8,14 +8,26 @@ float rotate_z = 0.0f;
 const float rotations_per_tick = 0.2f;
 
 
-GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 	-4.0f, 4.0f, -14.0f,	-4.0f,-4.0f, -14.0f, 	4.0f,-4.0f, -14.0f};	
-GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
+GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 	
+						-4.0f, 4.0f, -14.0f,	
+						-4.0f,-4.0f, -14.0f, 	
+						 4.0f,-4.0f, -14.0f};	
+
 GLfloat colors[]	= {  1.0f, 0.0f, 0.0f, 		 0.0f, 1.0f, 0.0f,		 0.0f, 0.0f, 1.0f, 		1.0f, 1.0f, 1.0f};	
 
-GLfloat texCoords[] = {	0.0f, 0.0f,   // Top-right
-						1.0f, 0.0f,   // Top-left
-    					1.0f, 1.0f,   // Bottom-left
-    					0.0f, 1.0f }; // Bottom-right
+// GLfloat texCoords[] = {	0.0f, 0.0f,   // Top-left
+// 						0.0f, 1.0f,   // Bottom-left
+//     					1.0f, 1.0f,   // Bottom-left
+//     					1.0f, 0.0f }; // Bottom-right
+
+GLfloat texCoords[] = {	0.0f, 1.0f,   // Top-left
+						1.0f, 1.0f,   // Bottom-left
+    					1.0f, 0.0f,   // Bottom-left
+    					0.0f, 0.0f }; // Bottom-right
+
+
+GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise 
+
 
 
 GLuint	uMatLoc[6];
@@ -81,11 +93,11 @@ void Main_Loop(void){
 		// glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 4, 4, GL_RGB, GL_UNSIGNED_BYTE, &m_texture);
 
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 		if(n == 3) 
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
@@ -150,12 +162,13 @@ void Draw_Square(){
 	glBindVertexArray(vao);
 	glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
-
+	glEnableVertexAttribArray(2);
     // Draw your geometry
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 	glBindVertexArray(0);
 }
 

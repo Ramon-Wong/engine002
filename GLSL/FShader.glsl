@@ -1,13 +1,14 @@
 #version 400
 
-in vec2             vTexCoord;              // texcoords out
+in vec3             oArray2;            // texcoords out
+in vec2             oArray3;            // texcoords out
 
-out vec4            fColor;            // Output fragment color
+out vec4            fColor;             // Output fragment color
 
 uniform sampler2D   tSampler; 
 
 
 void main() {
-    //fColor = fragColor;
-    fColor = texture( tSampler, vTexCoord);
+
+    fColor = texture( tSampler, oArray3);
 }

@@ -161,7 +161,7 @@ void SetupVAOArray( GLuint * vao, GLuint * vbo, GLuint * ebo,
 
     glGenBuffers(1, vbo);
 
-    glBindBuffer(GL_ARRAY_BUFFER, *vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, *vbo); 
     glBufferData(GL_ARRAY_BUFFER, size1 + size2 + size3, NULL, GL_STATIC_DRAW);
     glBufferSubData(GL_ARRAY_BUFFER,     0,             size1, array1);
     glBufferSubData(GL_ARRAY_BUFFER, size1,             size2, array2);
@@ -180,8 +180,8 @@ void SetupVAOArray( GLuint * vao, GLuint * vbo, GLuint * ebo,
     glEnableVertexAttribArray(1);
 
     // Set up vertex attribute pointers for array3
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)(intptr_t) size1 + size2);
-    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)(intptr_t) size1 + size2);
+    glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
