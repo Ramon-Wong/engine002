@@ -3,9 +3,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
-float rotate_z = 0.0f;
 
-const float rotations_per_tick = 0.2f;
+const float rotations_per_tick		= 0.2f;
+	  float rotate_z				= 0.0f;
 
 
 GLfloat vertices[]	= {  4.0f, 4.0f, -4.0f, 	
@@ -40,6 +40,7 @@ void				Draw(void);
 
 
 void Main_Loop(void){
+	double old_time = glfwGetTime();
 
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
@@ -117,13 +118,21 @@ void Main_Loop(void){
 	// texture setup end
 
 	while(!glfwWindowShouldClose(wnd)){
-		
+
+		double current_time = glfwGetTime();
+		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
+
+		rotate_z = 0.1 * delta_rotate;
+
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){
 			glfwSetWindowShouldClose( wnd, 1);
 		}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+
+		GLint textureUniform = glGetUniformLocation( GLSL_Program, "rotate_z");
+
+
 		glUseProgram( GLSL_Program);		
 		
 		Draw();
