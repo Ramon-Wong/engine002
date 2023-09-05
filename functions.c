@@ -20,10 +20,10 @@ GLfloat colors[]	= {  1.0f, 0.0f, 0.0f, 		 0.0f, 1.0f, 0.0f,		 0.0f, 0.0f, 1.0f,
 //     					1.0f, 1.0f,   // Bottom-left
 //     					1.0f, 0.0f }; // Bottom-right
 
-GLfloat texCoords[] = {	0.0f, 1.0f,   // Top-left
-						1.0f, 1.0f,   // Bottom-left
-    					1.0f, 0.0f,   // Bottom-left
-    					0.0f, 0.0f }; // Bottom-right
+GLfloat texCoords[] = {	0.0f, 0.0f,   // Top-left
+						1.0f, 0.0f,   // Bottom-left
+    					1.0f, 1.0f,   // Bottom-left
+    					0.0f, 1.0f }; // Bottom-right
 
 
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise 
