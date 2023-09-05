@@ -25,10 +25,6 @@ GLfloat texCoords[] = {	0.0f, 0.0f,   // Top-left
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise 
 
 
-
-GLuint	uMatLoc[6];
-GLuint	bMatLoc[6];
-
 GLFWwindow * wnd;
 
 GLuint	vao;
@@ -112,8 +108,8 @@ void Main_Loop(void){
     }
 
 	// projection matrix outside the rendering loop
-	uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
-	glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
+	GLuint ProjLocation		= glGetUniformLocation( GLSL_Program, "uProjView");
+	glUniformMatrix4fv( ProjLocation, 1, GL_FALSE, ProjView);		
 
 	// texture setup end
 
@@ -130,8 +126,8 @@ void Main_Loop(void){
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		GLint textureUniform = glGetUniformLocation( GLSL_Program, "rotate_z");
-
+		GLint rotat_zLocation = glGetUniformLocation( GLSL_Program, "rotate_z");
+		glUniform1f( rotat_zLocation, rotate_z);	
 
 		glUseProgram( GLSL_Program);		
 		
