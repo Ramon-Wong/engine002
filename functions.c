@@ -15,10 +15,6 @@ GLfloat vertices[]	= {  4.0f, 4.0f, -4.0f,
 
 GLfloat colors[]	= {  1.0f, 0.0f, 0.0f, 		 0.0f, 1.0f, 0.0f,		 0.0f, 0.0f, 1.0f, 		1.0f, 1.0f, 1.0f};	
 
-// GLfloat texCoords[] = {	0.0f, 0.0f,   // Top-left
-// 						0.0f, 1.0f,   // Bottom-left
-//     					1.0f, 1.0f,   // Bottom-left
-//     					1.0f, 0.0f }; // Bottom-right
 
 GLfloat texCoords[] = {	0.0f, 0.0f,   // Top-left
 						1.0f, 0.0f,   // Bottom-left
@@ -88,10 +84,6 @@ void Main_Loop(void){
 		glGenTextures(1, &m_texture);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_texture);
-
-		// glTexStorage2D(GL_TEXTURE_2D, 0, GL_RGB8, 4, 4);
-		// glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 4, 4, GL_RGB, GL_UNSIGNED_BYTE, &m_texture);
-
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
