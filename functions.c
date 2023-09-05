@@ -113,13 +113,14 @@ void Main_Loop(void){
 		glBindTexture(GL_TEXTURE_2D, m_texture);                                    	// Bind your texture to GL_TEXTURE0    
 		glUniform1i(textureLocation, 0);                                                // 0 corresponds to GL_TEXTURE0
 
-
-
 		stbi_image_free(data);
 		printf("\n texture Process %i/%i/%i \n", x, y, n);
 
     }
-    
+
+	// projection matrix outside the rendering loop
+	uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
+	glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
 
 	// texture setup end
 
@@ -132,9 +133,6 @@ void Main_Loop(void){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glUseProgram( GLSL_Program);		
-
-		uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
-		glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
 		
 		Draw();
 
