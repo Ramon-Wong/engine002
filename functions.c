@@ -73,30 +73,65 @@ void Main_Loop(void){
     unsigned char * data = stbi_load("skin2.tga", &x, &y, &n, 0);
 
 	GLuint 		m_texture;
+	GLuint 		n_texture;
    
+	GLuint		fbo;
+
+
+
+
+
+
+	// creating FrameBuffer Object
+	// CreateTexture( GL_TEXTURE_2D, &n_texture, NULL, x, y, GL_RGB);					// create an empty texture 
+
+	// glGenFramebuffers(1, &fbo);
+	// glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+	// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, n_texture, 0);
+
+	// // // check if the fbo is complete
+	// if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
+    // 	// handle error
+	// 	printf("\n Failed in creating Frame Buffer. \n");
+	// }
+
+
+
     if (data == NULL) { 
 		printf("\nCan't open tga file");
     } else {
-
-		CreateTexture( GL_TEXTURE_2D, &m_texture);
-
-		if(n == 3) 
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
-		else if (n == 4) 
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
+		glBindTexture(GL_TEXTURE_2D, 0);                                    			// unBind your texture
+		CreateTexture( GL_TEXTURE_2D, &m_texture, data, x, y, GL_RGBA);
+		// glGenerateMipmap(GL_TEXTURE_2D);
 
 		glUseProgram( GLSL_Program);                                                    // Use the shader program
 		GLuint textureLocation = glGetUniformLocation(  GLSL_Program, "tSampler");
 		
-		glActiveTexture(GL_TEXTURE0);                                                   // Assuming your texture is bound to GL_TEXTURE0    
+		// glActiveTexture(GL_TEXTURE0);                                                   // Assuming your texture is bound to GL_TEXTURE0    
 		glBindTexture(GL_TEXTURE_2D, m_texture);                                    	// Bind your texture to GL_TEXTURE0    
 		glUniform1i(textureLocation, 0);                                                // 0 corresponds to GL_TEXTURE0
 
 		stbi_image_free(data);
 		printf("\n texture Process %i/%i/%i \n", x, y, n);
 
+
+		// created framebuffer for n_texture
+
+		glBindTexture(GL_TEXTURE_2D, 0);                                    			// unBind your texture
+		CreateTexture( GL_TEXTURE_2D, &n_texture, NULL, 512, 512, GL_RGB);
+
+		glGenFramebuffers(1, &fbo);
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, n_texture, 0);
+
+		// check if the fbo is complete
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
+    	// handle error
+			printf("\n Failed in creating Frame Buffer. \n");
+		}
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		// end framebuffer
     }
 
 	// projection matrix outside the rendering loop
@@ -116,13 +151,14 @@ void Main_Loop(void){
 			glfwSetWindowShouldClose( wnd, 1);
 		}
 
+		// glUseProgram( GLSL_Program);                                                    // Use the shader program
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		GLint rotat_zLocation = glGetUniformLocation( GLSL_Program, "rotate_z");
 		glUniform1f( rotat_zLocation, rotate_z);	
 
 		glUseProgram( GLSL_Program);		
-		
+		glBindTexture(GL_TEXTURE_2D, m_texture);
 		Draw();
 
 		GLenum error = glGetError();
@@ -135,6 +171,9 @@ void Main_Loop(void){
 	}
 
 	glDeleteTextures(1, &m_texture);
+	glDeleteTextures(1, &n_texture);
+
+	glDeleteFramebuffers(1, &fbo);
 
 	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vbo);

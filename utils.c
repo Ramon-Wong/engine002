@@ -189,10 +189,16 @@ void SetupVAOArray( GLuint * vao, GLuint * vbo, GLuint * ebo,
 }
 
 
-void CreateTexture( GLenum tTarget, GLuint * texture){
+
+// GL_TEXTURE_2D
+// GL_TEXTURE_BUFFER
+// needs to check on this tutorial => https://riptutorial.com/opengl/example/23675/basics-of-framebuffers
+
+
+void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
 
 	glGenTextures(1, texture);
-	glActiveTexture(GL_TEXTURE0);
+    // glActiveTexture(GL_TEXTURE0);
 	glBindTexture( tTarget, *texture);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -201,8 +207,83 @@ void CreateTexture( GLenum tTarget, GLuint * texture){
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 }
 
+	//   // check FBO status
+	//   FBOstatus = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+	//   if(FBOstatus != GL_FRAMEBUFFER_COMPLETE_EXT)
+	// 	  printf("GL_FRAMEBUFFER_COMPLETE_EXT failed, CANNOT use FBO\n");
+
+	//   // switch back to window-system-provided framebuffer
+	//   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+
+
+// // create texture
+// unsigned int texture;
+// glGenTextures(1, &texture);
+// glBindTexture(GL_TEXTURE_2D, texture);
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+// // create framebuffer object
+// unsigned int fbo;
+// glGenFramebuffers(1, &fbo);
+// glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+
+// // render to framebuffer object
+// // ...
+
+// // copy framebuffer object to texture
+// glBindFramebuffer(GL_READ_FRAMEBUFFER, fbo);
+// glReadBuffer(GL_COLOR_ATTACHMENT0);
+// int width = /* framebuffer width */;
+// int height = /* framebuffer height */;
+// unsigned char* data = new unsigned char[width * height * 3];
+// glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+// // save texture to file
+// stbi_write_png("texture.png", width, height, 3 /* RGB */, data, width * 3);
+
+// delete[] data;
 
 
 
+// create texture
+// unsigned int texture;
+// glGenTextures(1, &texture);
+// glBindTexture(GL_TEXTURE_2D, texture);
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+// // create framebuffer object
+// unsigned int fbo;
+// glGenFramebuffers(1, &fbo);
+// glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+
+// // check framebuffer status
+// GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+// if (status != GL_FRAMEBUFFER_COMPLETE) {
+//     std::cerr << "Framebuffer is not complete!" << std::endl;
+//     exit(EXIT_FAILURE);
+// }
+
+// render to framebuffer object
+// ...
+
+// copy framebuffer object to texture
+// glBindFramebuffer(GL_READ_FRAMEBUFFER, fbo);
+// glReadBuffer(GL_COLOR_ATTACHMENT0);
+// int width = /* framebuffer width */;
+// int height = /* framebuffer height */;
+// unsigned char* data = new unsigned char[width * height * 3];
+// glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+// // save texture to file
+// stbi_write_png("texture.png", width, height, 3 /* RGB */, data, width * 3);
+
+// delete[] data;
