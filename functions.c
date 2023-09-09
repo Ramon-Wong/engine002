@@ -202,3 +202,6 @@ void Draw_Square(){
 void Draw(void){
 	Draw_Square();
 }
+
+
+// https://open.gl/content/code/c6_base.txt
