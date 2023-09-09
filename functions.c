@@ -140,6 +140,16 @@ void Main_Loop(void){
 
 	// texture setup end
 
+	// check on what Framebuffer we are using
+	GLint currentFBO;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &currentFBO);
+
+	if(currentFBO == 0) {
+		printf("OpenGL is rendering to the default framebuffer (screen)");
+	} else {
+		printf("OpenGL is rendering to a framebuffer object (FBO)");
+	}
+
 	while(!glfwWindowShouldClose(wnd)){
 
 		double current_time = glfwGetTime();
