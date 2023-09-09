@@ -11,12 +11,12 @@ GLfloat				View_Proj[16];
 
 GLuint				uMatLoc[5];
 
-float points[] = {
-	0.0f,  0.5f,  0.0f,
-	0.5f, -0.5f,  0.0f,
-   -0.5f, -0.5f,  0.0f
-};
+GLfloat vertices[]	= {  4.0f, 4.0f, -4.0f, 	
+						-4.0f, 4.0f, -4.0f,	
+						-4.0f,-4.0f, -4.0f, 	
+						 4.0f,-4.0f, -4.0f};
 
+GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise 
 
 void Init(void){
 	const int window_width  = 800;
