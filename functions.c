@@ -77,11 +77,6 @@ void Main_Loop(void){
    
 	GLuint		fbo;
 
-
-
-
-
-
 	// creating FrameBuffer Object
 	// CreateTexture( GL_TEXTURE_2D, &n_texture, NULL, x, y, GL_RGB);					// create an empty texture 
 
