@@ -43,7 +43,7 @@ void Init(void){
 	glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
 	glViewport( 0, 0, window_width, window_height);
 
-	ShaderSetup("vshader.glsl", "fshader.glsl", &GLSL_Program, GLSL_vertex, GLSL_fragment);
+	ShaderSetup("glsl/vshader.glsl", "glsl/fshader.glsl", &GLSL_Program, GLSL_vertex, GLSL_fragment);
 
 
 	GLuint vbo = 0;
