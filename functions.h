@@ -17,4 +17,10 @@ void                Init(void);
 void                Shutdown(int);
 void                ShaderSetup( const char *, const char * , unsigned int *, unsigned int, unsigned int);
 
+void                SetupVAOArray(  GLuint *, GLuint *, GLuint *, 
+                                    GLfloat *, GLfloat *, GLfloat *, 
+                                    GLubyte * , GLsizei ,
+                                    GLsizei, GLsizei, GLsizei);
+
+
 #endif
