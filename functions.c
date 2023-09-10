@@ -73,19 +73,18 @@ void Init(void){
 
 	MMultiply(View_Proj, Proj_Matrix, View_Matrix);
 
+	glUseProgram(GLSL_Program);
+	uMatLoc[0]	= glGetUniformLocation( GLSL_Program, "ViewProj_Matrix");
+	glUniformMatrix4fv( uMatLoc[0], 1, GL_FALSE, View_Proj);	
 
 	while(!glfwWindowShouldClose(window)) {
 		// wipe the drawing surface clear
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-		uMatLoc[0]	= glGetUniformLocation( GLSL_Program, "ViewProj_Matrix");
-		glUniformMatrix4fv( uMatLoc[0], 1, GL_FALSE, View_Proj);	
-
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 			Shutdown(0);
 		}
 
-		glUseProgram(GLSL_Program);
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
