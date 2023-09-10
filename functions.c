@@ -108,11 +108,11 @@ void Main_Loop(void){
 
 		stbi_image_free(data);
 		printf("\n texture Process %i/%i/%i \n", x, y, n);
-
+		glBindTexture(GL_TEXTURE_2D, 0);                                    			// unBind your texture
 
 		// created framebuffer for n_texture
 
-		glBindTexture(GL_TEXTURE_2D, 0);                                    			// unBind your texture
+		
 		CreateTexture( GL_TEXTURE_2D, &n_texture, NULL, 512, 512, GL_RGB);
 
 		glGenFramebuffers(1, &fbo);
