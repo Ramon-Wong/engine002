@@ -2,6 +2,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
+#include <stb/stb_image_write.h>
 
 
 const float rotations_per_tick		= 0.2f;
@@ -115,16 +116,16 @@ void Main_Loop(void){
 		
 		CreateTexture( GL_TEXTURE_2D, &n_texture, NULL, 512, 512, GL_RGB);
 
-		glGenFramebuffers(1, &fbo);
-		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, n_texture, 0);
+		// glGenFramebuffers(1, &fbo);
+		// glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+		// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, n_texture, 0);
 
-		// check if the fbo is complete
-		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
-    	// handle error
-			printf("\n Failed in creating Frame Buffer. \n");
-		}
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		// // check if the fbo is complete
+		// if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
+    	// // handle error
+		// 	printf("\n Failed in creating Frame Buffer. \n");
+		// }
+		// glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		// end framebuffer
     }
@@ -155,6 +156,9 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){
 			glfwSetWindowShouldClose( wnd, 1);
 		}
+
+ 		// glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+ 		// glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		// glUseProgram( GLSL_Program);                                                    // Use the shader program
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -210,3 +214,22 @@ void Draw(void){
 
 
 // https://open.gl/content/code/c6_base.txt
+
+
+		// if (glfwGetKey(wnd, GLFW_KEY_SPACE) == GLFW_PRESS) {
+ 		// 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+    	// 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// 	glUseProgram( GLSL_Program);
+	
+		// 	GLint rotat_zLocation = glGetUniformLocation( GLSL_Program, "rotate_z");
+		// 	glUniform1f( rotat_zLocation, rotate_z);	
+	
+		// 	glBindTexture(GL_TEXTURE_2D, m_texture);
+		// 	Draw();
+
+		// 	glfwSwapBuffers(wnd);
+		// 	// stbi_write_png("texture.png", 800, 600, 3 /* RGB */,n_texture, 600 * 3);
+ 		// 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		// }
