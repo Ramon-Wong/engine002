@@ -112,20 +112,19 @@ void Main_Loop(void){
 		glBindTexture(GL_TEXTURE_2D, 0);                                    			// unBind your texture
 
 		// created framebuffer for n_texture
-
 		
 		CreateTexture( GL_TEXTURE_2D, &n_texture, NULL, 512, 512, GL_RGB);
 
-		// glGenFramebuffers(1, &fbo);
-		// glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-		// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, n_texture, 0);
+		glGenFramebuffers(1, &fbo);
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, n_texture, 0);
 
-		// // check if the fbo is complete
-		// if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
-    	// // handle error
-		// 	printf("\n Failed in creating Frame Buffer. \n");
-		// }
-		// glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		// check if the fbo is complete
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
+    	// handle error
+			printf("\n Failed in creating Frame Buffer. \n");
+		}
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		// end framebuffer
     }
@@ -145,6 +144,8 @@ void Main_Loop(void){
 	} else {
 		printf("OpenGL is rendering to a framebuffer object (FBO)");
 	}
+	printf("\n\n");
+
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -157,14 +158,24 @@ void Main_Loop(void){
 			glfwSetWindowShouldClose( wnd, 1);
 		}
 
- 		// glBindFramebuffer(GL_FRAMEBUFFER, fbo);
- 		// glBindFramebuffer(GL_FRAMEBUFFER, 0);
+ 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);											// bind buffer		
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 
-		// glUseProgram( GLSL_Program);                                                    // Use the shader program
+			// GLint rotat_zLocation = glGetUniformLocation( GLSL_Program, "rotate_z");
+			// glUniform1f( rotat_zLocation, 0);	
+
+			// glUseProgram( GLSL_Program);
+			// glBindTexture(GL_TEXTURE_2D, m_texture);
+			// Draw();
+
+			// glUseProgram(0);
+ 		glBindFramebuffer(GL_FRAMEBUFFER, 0);											// bind buffer		
+
+		// glUseProgram( GLSL_Program);                                                 // Use the shader program
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		GLint rotat_zLocation = glGetUniformLocation( GLSL_Program, "rotate_z");
-		glUniform1f( rotat_zLocation, rotate_z);	
+		GLuint rotat_zLocation = glGetUniformLocation( GLSL_Program, "rotate_z");
+		glUniform1f( rotat_zLocation, 0);	
 
 		glUseProgram( GLSL_Program);		
 		glBindTexture(GL_TEXTURE_2D, m_texture);
