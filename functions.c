@@ -157,18 +157,19 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){
 			glfwSetWindowShouldClose( wnd, 1);
 		}
+		glUseProgram( GLSL_Program);		
 
  		glBindFramebuffer(GL_FRAMEBUFFER, fbo);											// bind buffer		
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 
-			// GLint rotat_zLocation = glGetUniformLocation( GLSL_Program, "rotate_z");
-			// glUniform1f( rotat_zLocation, 0);	
+			GLint rotat_zLocation = glGetUniformLocation( GLSL_Program, "rotate_z");
+			glUniform1f( rotat_zLocation, 0);	
 
 			// glUseProgram( GLSL_Program);
 			// glBindTexture(GL_TEXTURE_2D, m_texture);
 			// Draw();
 
-			// glUseProgram(0);
+
  		glBindFramebuffer(GL_FRAMEBUFFER, 0);											// bind buffer		
 
 		// glUseProgram( GLSL_Program);                                                 // Use the shader program
@@ -177,7 +178,6 @@ void Main_Loop(void){
 		GLuint rotat_zLocation = glGetUniformLocation( GLSL_Program, "rotate_z");
 		glUniform1f( rotat_zLocation, 0);	
 
-		glUseProgram( GLSL_Program);		
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 		Draw();
 

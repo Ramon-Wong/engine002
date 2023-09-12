@@ -2,6 +2,7 @@
 
 
 GLuint				GLSL_Program;
+GLuint				GLSL_Fbo;
 GLuint				GLSL_vertex;
 GLuint				GLSL_fragment;
 

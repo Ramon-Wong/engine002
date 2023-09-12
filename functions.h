@@ -14,6 +14,7 @@
 
 
 extern GLuint		GLSL_Program;
+extern GLuint		GLSL_Fbo;
 extern GLuint		GLSL_vertex;
 extern GLuint		GLSL_fragment;
 extern GLFWwindow * wnd;
