@@ -195,36 +195,11 @@ void SetupVAOArray( GLuint * vao, GLuint * vbo, GLuint * ebo,
 // needs to check on this tutorial => https://riptutorial.com/opengl/example/23675/basics-of-framebuffers
 
 
-void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, const char * format){
+void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format1, GLenum format2){
 
-// GL_STENCIL_INDEX     x GL_STENCIL_INDEX      ::  GL_STENCIL_ATTACHMENT
-// GL_DEPTH24_STENCIL8  x GL_DEPTH_STENCIL      ::  GL_DEPTH_STENCIL_ATTACHMENT
-// GL_RGB               x GL_RGB                ::  GL_COLOR_ATTACHMENT0
-
-    GLenum  format1;
-    GLenum  format2;
-
-    if( strcmp(format, "rgb")       == 0){
-        format1 = GL_RGB;
-        format2 = GL_RGB;
-        printf(" setting image to rgb");
-    }
-    if( strcmp(format, "rgba")      == 0){
-        format1 = GL_RGBA;
-        format2 = GL_RGBA;
-        printf(" setting image to rgba");        
-    }
-    if( strcmp(format, "depth")     == 0){
-        format1 = GL_DEPTH24_STENCIL8;
-        format2 = GL_DEPTH_STENCIL;
-        printf(" setting image to depth");
-    }
-    if( strcmp(format, "stencil")   == 0){
-        format1 = GL_DEPTH24_STENCIL8;
-        format2 = GL_DEPTH_STENCIL;
-        printf(" setting image to stencil");
-    }
-
+// GL_STENCIL_INDEX     x GL_STENCIL_INDEX      ::  GL_STENCIL_ATTACHMENT           stencil
+// GL_DEPTH24_STENCIL8  x GL_DEPTH_STENCIL      ::  GL_DEPTH_STENCIL_ATTACHMENT     depth
+// GL_RGB               x GL_RGB                ::  GL_COLOR_ATTACHMENT0            color
 	glGenTextures(1, texture);
     // glActiveTexture(GL_TEXTURE0);
 	glBindTexture( tTarget, *texture);
