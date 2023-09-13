@@ -287,3 +287,64 @@ void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int 
 // stbi_write_png("texture.png", width, height, 3 /* RGB */, data, width * 3);
 
 // delete[] data;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// GLuint depthStencilTexture;
+
+// // Generate and bind the FBO
+// glGenFramebuffers(1, &fbo);
+// glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+// // Create and attach a depth and stencil texture
+// glGenTextures(1, &depthStencilTexture);
+// glBindTexture(GL_TEXTURE_2D, depthStencilTexture);
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthStencilTexture, 0);
+
+// // Check if the FBO is complete
+// if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+//     // Handle error
+//     printf("\nFailed in creating Frame Buffer.\n");
+// }
+
+// // Unbind the FBO
+// glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+// GLuint stencilTexture;
+
+// // Generate and bind the FBO
+// glGenFramebuffers(1, &fbo);
+// glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+// // Create and attach a stencil texture
+// glGenTextures(1, &stencilTexture);
+// glBindTexture(GL_TEXTURE_2D, stencilTexture);
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_STENCIL_INDEX, width, height, 0, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, NULL);
+// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, stencilTexture, 0);
+
+// // Check if the FBO is complete
+// if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+//     // Handle error
+//     printf("\nFailed in creating Frame Buffer.\n");
+// }
+
+// // Unbind the FBO
+// glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
