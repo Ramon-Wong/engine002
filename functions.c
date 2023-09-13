@@ -97,7 +97,7 @@ void Main_Loop(void){
 		printf("\nCan't open tga file");
     } else {
 		glBindTexture(GL_TEXTURE_2D, 0);                                    			// unBind your texture
-		CreateTexture( GL_TEXTURE_2D, &m_texture, data, x, y, GL_RGBA);
+		CreateTexture( GL_TEXTURE_2D, &m_texture, data, x, y, "rgba");
 		// glGenerateMipmap(GL_TEXTURE_2D);
 
 		glUseProgram( GLSL_Program);                                                    // Use the shader program
@@ -113,7 +113,7 @@ void Main_Loop(void){
 
 		// created framebuffer for n_texture
 		
-		CreateTexture( GL_TEXTURE_2D, &n_texture, NULL, 512, 512, GL_RGB);
+		CreateTexture( GL_TEXTURE_2D, &n_texture, NULL, 512, 512, "rgb");
 
 		glGenFramebuffers(1, &fbo);
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
