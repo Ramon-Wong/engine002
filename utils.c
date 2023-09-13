@@ -291,20 +291,6 @@ void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // GLuint depthStencilTexture;
 
 // // Generate and bind the FBO
@@ -317,11 +303,6 @@ void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int 
 // glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
 // glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthStencilTexture, 0);
 
-// // Check if the FBO is complete
-// if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-//     // Handle error
-//     printf("\nFailed in creating Frame Buffer.\n");
-// }
 
 // // Unbind the FBO
 // glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -338,13 +319,50 @@ void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int 
 // glTexImage2D(GL_TEXTURE_2D, 0, GL_STENCIL_INDEX, width, height, 0, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, NULL);
 // glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, stencilTexture, 0);
 
+
+
+// // Unbind the FBO
+// glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+// stencil
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_STENCIL_INDEX, width, height, 0, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, NULL);
+// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, stencilTexture, 0);
+
+// Depth
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthStencilTexture, 0);
+
+// Colors
+// format = GL_RGBA
+// glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, n_texture, 0);
+
+
+// GL_STENCIL_INDEX     x GL_STENCIL_INDEX      ::  GL_STENCIL_ATTACHMENT
+// GL_DEPTH24_STENCIL8  x GL_DEPTH_STENCIL      ::  GL_DEPTH_STENCIL_ATTACHMENT
+// GL_RGB               x GL_RGB                ::  GL_COLOR_ATTACHMENT0
+
+
+
+
+
+
+
+
+
+
+
+
 // // Check if the FBO is complete
 // if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 //     // Handle error
 //     printf("\nFailed in creating Frame Buffer.\n");
 // }
 
-// // Unbind the FBO
-// glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
+// // Check if the FBO is complete
+// if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+//     // Handle error
+//     printf("\nFailed in creating Frame Buffer.\n");
+// }
