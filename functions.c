@@ -122,8 +122,6 @@ void Main_Loop(void){
 
 		// glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, 512, 512, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
 		// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, n_texture, 0);		
-
-		// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0, GL_RGB, GL_UNSIGNED_INT_24_8, NULL);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, n_texture, 0);
 
 		// check if the fbo is complete
