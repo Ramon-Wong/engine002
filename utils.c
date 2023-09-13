@@ -195,7 +195,7 @@ void SetupVAOArray( GLuint * vao, GLuint * vbo, GLuint * ebo,
 // needs to check on this tutorial => https://riptutorial.com/opengl/example/23675/basics-of-framebuffers
 
 
-void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format1, GLenum format2){
+void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
 
 // GL_STENCIL_INDEX     x GL_STENCIL_INDEX      ::  GL_STENCIL_ATTACHMENT           stencil
 // GL_DEPTH24_STENCIL8  x GL_DEPTH_STENCIL      ::  GL_DEPTH_STENCIL_ATTACHMENT     depth
@@ -210,7 +210,7 @@ void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, format1, width, height, 0, format2, GL_UNSIGNED_BYTE, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 }
 
 	//   // check FBO status

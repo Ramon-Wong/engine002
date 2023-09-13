@@ -91,13 +91,11 @@ void Main_Loop(void){
 	// 	printf("\n Failed in creating Frame Buffer. \n");
 	// }
 
-
-
     if (data == NULL) { 
 		printf("\nCan't open tga file");
     } else {
 		glBindTexture(GL_TEXTURE_2D, 0);                                    			// unBind your texture
-		CreateTexture( GL_TEXTURE_2D, &m_texture, data, x, y, "rgba");
+		CreateTexture( GL_TEXTURE_2D, &m_texture, data, x, y, GL_RGB);
 		// glGenerateMipmap(GL_TEXTURE_2D);
 
 		glUseProgram( GLSL_Program);                                                    // Use the shader program
@@ -112,15 +110,21 @@ void Main_Loop(void){
 		glBindTexture(GL_TEXTURE_2D, 0);                                    			// unBind your texture
 
 		// created framebuffer for n_texture
-		
-		CreateTexture( GL_TEXTURE_2D, &n_texture, NULL, 512, 512, "stencil");
+
+		// GL_STENCIL_INDEX     x GL_STENCIL_INDEX      ::  GL_STENCIL_ATTACHMENT           stencil
+		// GL_DEPTH24_STENCIL8  x GL_DEPTH_STENCIL      ::  GL_DEPTH_STENCIL_ATTACHMENT     depth
+		// GL_RGB               x GL_RGB                ::  GL_COLOR_ATTACHMENT0            color
+
+		CreateTexture( GL_TEXTURE_2D, &n_texture, NULL, 512, 512, GL_RGB);
 
 		glGenFramebuffers(1, &fbo);
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
 		// glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, 512, 512, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, n_texture, 0);		
-		// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, n_texture, 0);
+		// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, n_texture, 0);		
+
+		// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0, GL_RGB, GL_UNSIGNED_INT_24_8, NULL);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, n_texture, 0);
 
 		// check if the fbo is complete
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
