@@ -207,18 +207,22 @@ void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int 
     if( strcmp(format, "rgb")       == 0){
         format1 = GL_RGB;
         format2 = GL_RGB;
+        printf(" setting image to rgb");
     }
     if( strcmp(format, "rgba")      == 0){
         format1 = GL_RGBA;
         format2 = GL_RGBA;
+        printf(" setting image to rgba");        
     }
     if( strcmp(format, "depth")     == 0){
         format1 = GL_DEPTH24_STENCIL8;
         format2 = GL_DEPTH_STENCIL;
+        printf(" setting image to depth");
     }
     if( strcmp(format, "stencil")   == 0){
-        format1 = GL_STENCIL_INDEX;
-        format2 = GL_STENCIL_INDEX;
+        format1 = GL_DEPTH24_STENCIL8;
+        format2 = GL_DEPTH_STENCIL;
+        printf(" setting image to stencil");
     }
 
 	glGenTextures(1, texture);
