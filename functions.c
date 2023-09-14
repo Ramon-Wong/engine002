@@ -225,24 +225,3 @@ void Draw(void){
 	Draw_Square();
 }
 
-
-// https://open.gl/content/code/c6_base.txt
-
-
-		// if (glfwGetKey(wnd, GLFW_KEY_SPACE) == GLFW_PRESS) {
- 		// 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-
-    	// 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		// 	glUseProgram( GLSL_Program);
-	
-		// 	GLint rotat_zLocation = glGetUniformLocation( GLSL_Program, "rotate_z");
-		// 	glUniform1f( rotat_zLocation, rotate_z);	
-	
-		// 	glBindTexture(GL_TEXTURE_2D, m_texture);
-		// 	Draw();
-
-		// 	glfwSwapBuffers(wnd);
-		// 	// stbi_write_png("texture.png", 800, 600, 3 /* RGB */,n_texture, 600 * 3);
- 		// 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		// }

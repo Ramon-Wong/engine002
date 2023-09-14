@@ -197,11 +197,11 @@ void SetupVAOArray( GLuint * vao, GLuint * vbo, GLuint * ebo,
 
 void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
 
-// GL_STENCIL_INDEX     x GL_STENCIL_INDEX      ::  GL_STENCIL_ATTACHMENT           stencil
-// GL_DEPTH24_STENCIL8  x GL_DEPTH_STENCIL      ::  GL_DEPTH_STENCIL_ATTACHMENT     depth
-// GL_RGB               x GL_RGB                ::  GL_COLOR_ATTACHMENT0            color
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_STENCIL_INDEX,     width, height, 0, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE,       NULL);      Stencil
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8,  width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8,   NULL);      Depth
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,               width, height, 0, GL_RGB,           GL_UNSIGNED_BYTE,       data);      Color
+
 	glGenTextures(1, texture);
-    // glActiveTexture(GL_TEXTURE0);
 	glBindTexture( tTarget, *texture);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -369,3 +369,27 @@ void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int 
 //     // Handle error
 //     printf("\nFailed in creating Frame Buffer.\n");
 // }
+
+
+
+
+
+
+#version 400
+
+in vec3             oArray2;            // colors in
+in vec2             oArray3;            // texcoords in
+
+out vec4            fColor;             // Output fragment color
+
+uniform sampler2D   tSampler1;          // First texture sampler
+uniform sampler2D   tSampler2;          // Second texture sampler
+
+void main() {
+    // Sample from both textures
+    vec4 texColor1 = texture(tSampler1, oArray3);
+    vec4 texColor2 = texture(tSampler2, oArray3);
+
+    // Combine the colors from both textures (you can adjust this blending)
+    fColor = texColor1 * 0.5 + texColor2 * 0.5; // This blends the two textures equally.
+}
