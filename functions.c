@@ -113,6 +113,7 @@ void Main_Loop(void){
 		glUniform1i(textureLocation, 0);                                                // 0 corresponds to GL_TEXTURE0
 
 		stbi_image_free(data);
+		glBindTexture(GL_TEXTURE_2D, 0);
 		printf("\n texture Process %i/%i/%i \n", x, y, n);
 
     }
