@@ -77,50 +77,9 @@ void Main_Loop(void){
     }
 	// texture setup
 
+	GLuint 		m_texture = LoadTexture("skin3.tga", "tSampler", 0);
+   	GLuint 		k_texture = LoadTexture("skin2.tga", "sSampler", 1);
 
-
-    // int x,y,n;
-    // unsigned char * data1 = stbi_load("skin2.tga", &x, &y, &n, 0);
-
-	GLuint 		m_texture = LoadTexture("skin2.tga", "tSampler", 0);
-   
-
-    // if (data1 == NULL) { 
-	// 	printf("\nCan't open tga file");
-    // } else {
-
-	// 	glGenTextures(1, &m_texture);
-	// 	glActiveTexture(GL_TEXTURE0);
-	// 	glBindTexture(GL_TEXTURE_2D, m_texture);
-
-	// 	// glTexStorage2D(GL_TEXTURE_2D, 0, GL_RGB8, 4, 4);
-	// 	// glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 4, 4, GL_RGB, GL_UNSIGNED_BYTE, &m_texture);
-
-
-	// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	// 	if(n == 3) 
-	// 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data1);
-	// 	else if (n == 4) 
-	// 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data1);
-	// 	glGenerateMipmap(GL_TEXTURE_2D);
-
-
-	// 	glUseProgram( GLSL_Program);                                                    // Use the shader program
-	// 	GLuint textureLocation = glGetUniformLocation(  GLSL_Program, "tSampler");
-		
-	// 	glBindTexture(GL_TEXTURE_2D, m_texture);                                    	// Bind your texture to GL_TEXTURE0    
-	// 	glUniform1i(textureLocation, 0);                                                // 0 corresponds to GL_TEXTURE0
-
-	// 	stbi_image_free(data1);
-	// 	glBindTexture(GL_TEXTURE_2D, 0);
-	// 	printf("\n texture Process %i/%i/%i \n", x, y, n);
-
-    // }
 
 	// projection matrix outside the rendering loop
 	uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
@@ -138,7 +97,13 @@ void Main_Loop(void){
 		
 		glUseProgram( GLSL_Program);		
 
-		glBindTexture(GL_TEXTURE_2D, m_texture);
+		// glBindTexture(GL_TEXTURE_2D, k_texture);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, m_texture);		
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, k_texture);		
+
 		Draw();
 		glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -152,6 +117,7 @@ void Main_Loop(void){
 	}
 
 	glDeleteTextures(1, &m_texture);
+	glDeleteTextures(1, &k_texture);
 
 	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vbo);
@@ -185,6 +151,7 @@ void Draw(void){
 GLuint LoadTexture(const char * path, const char * tagname, int location){
 
     int x,y,n;
+	printf("\nLoading %s", path);
     unsigned char * data = stbi_load( path, &x, &y, &n, 0);
 
 	if (data == NULL) { 
@@ -206,9 +173,9 @@ GLuint LoadTexture(const char * path, const char * tagname, int location){
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
 		else if (n == 4) 
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
+		// glGenerateMipmap(GL_TEXTURE_2D);
 
-		glUseProgram( GLSL_Program);                                                    // Use the shader program
+		glUseProgram( GLSL_Program);                                                // Use the shader program
 		GLuint textureLocation = glGetUniformLocation(  GLSL_Program, tagname);
 		
 		glBindTexture(GL_TEXTURE_2D, texture);                                    	// Bind your texture to GL_TEXTURE0    
