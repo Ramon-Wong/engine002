@@ -145,22 +145,11 @@ GLuint LoadTexture(const char * path, const char * tagname, int location){
     } else {
 		GLuint			texture;
 
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-		if(n == 3) 
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
-		else if (n == 4) 
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
-		// glGenerateMipmap(GL_TEXTURE_2D);
-
-		CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGB);
+		if(n == 3){
+			CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGB);
+		}else if(n == 4){
+			CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGBA);
+		}
 
 		glUseProgram( GLSL_Program);                                                // Use the shader program
 		GLuint textureLocation = glGetUniformLocation(  GLSL_Program, tagname);
@@ -175,6 +164,4 @@ GLuint LoadTexture(const char * path, const char * tagname, int location){
 		return texture;
     }
 }
-
-
 
