@@ -70,8 +70,8 @@ void Main_Loop(void){
     }
 	// texture setup
 
-	GLuint 		m_texture = LoadTexture("skin3.tga", "tSampler", 0);
-   	GLuint 		k_texture = LoadTexture("skin2.tga", "sSampler", 1);
+	GLuint 		m_texture = LoadTexture( GLSL_Program, "skin3.tga", "tSampler", 0);
+   	GLuint 		k_texture = LoadTexture( GLSL_Program, "skin2.tga", "sSampler", 1);
 
 	// projection matrix outside the rendering loop
 	uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");

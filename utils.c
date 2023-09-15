@@ -133,7 +133,7 @@ void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int 
 
 
 
-GLuint LoadTexture(const char * path, const char * tagname, int location){
+GLuint LoadTexture(GLuint _glslProg, const char * path, const char * tagname, int location){
 
     int x,y,n;
 	printf("\nLoading %s", path);
@@ -151,8 +151,8 @@ GLuint LoadTexture(const char * path, const char * tagname, int location){
 			CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGBA);
 		}
 
-		glUseProgram( GLSL_Program);                                                // Use the shader program
-		GLuint textureLocation = glGetUniformLocation(  GLSL_Program, tagname);
+		glUseProgram( _glslProg);                                                // Use the shader program
+		GLuint textureLocation = glGetUniformLocation(  _glslProg, tagname);
 		
 		glBindTexture(GL_TEXTURE_2D, texture);                                    	// Bind your texture to GL_TEXTURE0    
 		glUniform1i(textureLocation, location);                                     // 0 corresponds to GL_TEXTURE0
