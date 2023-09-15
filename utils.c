@@ -158,6 +158,8 @@ GLuint LoadTexture(const char * path, const char * tagname, int location){
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
 		// glGenerateMipmap(GL_TEXTURE_2D);
 
+		CreateTexture( GL_TEXTURE_2D, &texture, NULL, x, y, GL_RGB);
+
 		glUseProgram( GLSL_Program);                                                // Use the shader program
 		GLuint textureLocation = glGetUniformLocation(  GLSL_Program, tagname);
 		
