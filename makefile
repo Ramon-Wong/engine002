@@ -1,5 +1,5 @@
 CC					= gcc
-source				= main.c
+source				= main.c utils.c
 objects				= *.o
 option				= -Wall
 compile 			= -Wall -c
