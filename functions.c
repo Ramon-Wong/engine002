@@ -70,7 +70,7 @@ void Main_Loop(void){
 	// texture setup
 
     int x,y,n;
-    unsigned char * data = stbi_load("skin2.tga", &x, &y, &n, 0);
+    unsigned char * data = stbi_load("data/skin2.tga", &x, &y, &n, 0);
 
 	GLuint 		m_texture;
    
