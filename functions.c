@@ -24,10 +24,6 @@ GLfloat texCoords[] = {	0.0f, 0.0f,   // Top-left
 
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise 
 
-
-GLuint	uMatLoc[6];
-GLuint	bMatLoc[6];
-
 GLFWwindow * wnd;
 
 GLuint	vao;
@@ -74,10 +70,7 @@ void Main_Loop(void){
    	GLuint 		k_texture = LoadTexture( GLSL_Program, "skin2.tga", "sSampler", 1);
 
 	// projection matrix outside the rendering loop
-	uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
-	glUniformMatrix4fv( uMatLoc[3], 1, GL_FALSE, ProjView);		
-
-	// texture setup end
+	glUniformMatrix4fv( glGetUniformLocation( GLSL_Program, "uProjView"), 1, GL_FALSE, ProjView);		
 
 	while(!glfwWindowShouldClose(wnd)){
 		
@@ -137,45 +130,3 @@ void Draw(void){
 	Draw_Square();
 }
 
-
-// GLuint LoadTexture(const char * path, const char * tagname, int location){
-
-//     int x,y,n;
-// 	printf("\nLoading %s", path);
-//     unsigned char * data = stbi_load( path, &x, &y, &n, 0);
-
-// 	if (data == NULL) { 
-// 		printf("\nCan't open tga file");
-// 		return 0;
-//     } else {
-// 		GLuint			texture;
-
-// 		glGenTextures(1, &texture);
-// 		glBindTexture(GL_TEXTURE_2D, texture);
-
-// 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-// 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-// 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-// 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-// 		if(n == 3) 
-// 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
-// 		else if (n == 4) 
-// 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
-// 		// glGenerateMipmap(GL_TEXTURE_2D);
-
-// 		glUseProgram( GLSL_Program);                                                // Use the shader program
-// 		GLuint textureLocation = glGetUniformLocation(  GLSL_Program, tagname);
-		
-// 		glBindTexture(GL_TEXTURE_2D, texture);                                    	// Bind your texture to GL_TEXTURE0    
-// 		glUniform1i(textureLocation, location);                                     // 0 corresponds to GL_TEXTURE0
-
-// 		stbi_image_free(data);
-// 		glBindTexture(GL_TEXTURE_2D, 0);
-// 		printf("\n texture Process %i/%i/%i \n", x, y, n);
-
-// 		return texture;
-//     }
-
-// }
