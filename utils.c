@@ -110,6 +110,24 @@ void SetupVAOArray( GLuint * vao, GLuint * vbo, GLuint * ebo,
 
 
 
+void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
+
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_STENCIL_INDEX,     width, height, 0, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE,       NULL);      Stencil
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8,  width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8,   NULL);      Depth
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,               width, height, 0, GL_RGB,           GL_UNSIGNED_BYTE,       data);      Color
+
+	glGenTextures(1, texture);
+	glBindTexture( tTarget, *texture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+}
+
 
 
 
