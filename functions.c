@@ -109,7 +109,6 @@ void Main_Loop(void){
 		glUseProgram( GLSL_Program);                                                    // Use the shader program
 		GLuint textureLocation = glGetUniformLocation(  GLSL_Program, "tSampler");
 		
-		glActiveTexture(GL_TEXTURE0);                                                   // Assuming your texture is bound to GL_TEXTURE0, so now I wanna delete this
 		glBindTexture(GL_TEXTURE_2D, m_texture);                                    	// Bind your texture to GL_TEXTURE0    
 		glUniform1i(textureLocation, 0);                                                // 0 corresponds to GL_TEXTURE0
 
