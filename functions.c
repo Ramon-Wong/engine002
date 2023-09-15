@@ -41,6 +41,7 @@ GLuint	ebo;
 
 void				Draw_Square(void);
 void				Draw(void);
+GLuint				LoadTexture(const char *, const char *, int);
 
 
 void Main_Loop(void){
@@ -77,11 +78,12 @@ void Main_Loop(void){
 	// texture setup
 
     int x,y,n;
-    unsigned char * data = stbi_load("skin2.tga", &x, &y, &n, 0);
+    unsigned char * data1 = stbi_load("skin2.tga", &x, &y, &n, 0);
 
 	GLuint 		m_texture;
    
-    if (data == NULL) { 
+
+    if (data1 == NULL) { 
 		printf("\nCan't open tga file");
     } else {
 
@@ -100,9 +102,9 @@ void Main_Loop(void){
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 		if(n == 3) 
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data1);
 		else if (n == 4) 
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data1);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 
@@ -112,7 +114,7 @@ void Main_Loop(void){
 		glBindTexture(GL_TEXTURE_2D, m_texture);                                    	// Bind your texture to GL_TEXTURE0    
 		glUniform1i(textureLocation, 0);                                                // 0 corresponds to GL_TEXTURE0
 
-		stbi_image_free(data);
+		stbi_image_free(data1);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		printf("\n texture Process %i/%i/%i \n", x, y, n);
 
@@ -133,8 +135,10 @@ void Main_Loop(void){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glUseProgram( GLSL_Program);		
-		
+
+		glBindTexture(GL_TEXTURE_2D, m_texture);
 		Draw();
+		glBindTexture(GL_TEXTURE_2D, 0);
 
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR) {
@@ -173,4 +177,46 @@ void Draw_Square(){
 
 void Draw(void){
 	Draw_Square();
+}
+
+
+GLuint LoadTexture(const char * path, const char * tagname, int location){
+
+    int x,y,n;
+    unsigned char * data = stbi_load( path, &x, &y, &n, 0);
+
+	if (data == NULL) { 
+		printf("\nCan't open tga file");
+		return 0;
+    } else {
+		GLuint			texture;
+
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		if(n == 3) 
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
+		else if (n == 4) 
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glUseProgram( GLSL_Program);                                                    // Use the shader program
+		GLuint textureLocation = glGetUniformLocation(  GLSL_Program, tagname);
+		
+		glBindTexture(GL_TEXTURE_2D, texture);                                    	// Bind your texture to GL_TEXTURE0    
+		glUniform1i(textureLocation, location);                                     // 0 corresponds to GL_TEXTURE0
+
+		stbi_image_free(data);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		printf("\n texture Process %i/%i/%i \n", x, y, n);
+
+		return texture;
+    }
+
 }
