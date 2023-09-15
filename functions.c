@@ -118,7 +118,8 @@ void Main_Loop(void){
 
 		glUseProgram( GLSL_Program);		
 		
-   		glActiveTexture(GL_TEXTURE0);		glBindTexture(GL_TEXTURE_2D, m_texture);
+   		glActiveTexture(GL_TEXTURE0);		
+		glBindTexture(GL_TEXTURE_2D, m_texture);
 
 		Draw();
 
