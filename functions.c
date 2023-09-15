@@ -1,8 +1,5 @@
 #include "functions.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb/stb_image.h>
-
 float rotate_z = 0.0f;
 
 const float rotations_per_tick = 0.2f;
@@ -39,7 +36,6 @@ GLuint	ebo;
 
 void				Draw_Square(void);
 void				Draw(void);
-GLuint				LoadTexture(const char *, const char *, int);
 
 
 void Main_Loop(void){
@@ -142,44 +138,44 @@ void Draw(void){
 }
 
 
-GLuint LoadTexture(const char * path, const char * tagname, int location){
+// GLuint LoadTexture(const char * path, const char * tagname, int location){
 
-    int x,y,n;
-	printf("\nLoading %s", path);
-    unsigned char * data = stbi_load( path, &x, &y, &n, 0);
+//     int x,y,n;
+// 	printf("\nLoading %s", path);
+//     unsigned char * data = stbi_load( path, &x, &y, &n, 0);
 
-	if (data == NULL) { 
-		printf("\nCan't open tga file");
-		return 0;
-    } else {
-		GLuint			texture;
+// 	if (data == NULL) { 
+// 		printf("\nCan't open tga file");
+// 		return 0;
+//     } else {
+// 		GLuint			texture;
 
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
+// 		glGenTextures(1, &texture);
+// 		glBindTexture(GL_TEXTURE_2D, texture);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+// 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+// 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+// 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+// 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-		if(n == 3) 
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
-		else if (n == 4) 
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
-		// glGenerateMipmap(GL_TEXTURE_2D);
+// 		if(n == 3) 
+// 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0,  GL_RGB,	GL_UNSIGNED_BYTE, data);
+// 		else if (n == 4) 
+// 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA,	GL_UNSIGNED_BYTE, data);
+// 		// glGenerateMipmap(GL_TEXTURE_2D);
 
-		glUseProgram( GLSL_Program);                                                // Use the shader program
-		GLuint textureLocation = glGetUniformLocation(  GLSL_Program, tagname);
+// 		glUseProgram( GLSL_Program);                                                // Use the shader program
+// 		GLuint textureLocation = glGetUniformLocation(  GLSL_Program, tagname);
 		
-		glBindTexture(GL_TEXTURE_2D, texture);                                    	// Bind your texture to GL_TEXTURE0    
-		glUniform1i(textureLocation, location);                                     // 0 corresponds to GL_TEXTURE0
+// 		glBindTexture(GL_TEXTURE_2D, texture);                                    	// Bind your texture to GL_TEXTURE0    
+// 		glUniform1i(textureLocation, location);                                     // 0 corresponds to GL_TEXTURE0
 
-		stbi_image_free(data);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		printf("\n texture Process %i/%i/%i \n", x, y, n);
+// 		stbi_image_free(data);
+// 		glBindTexture(GL_TEXTURE_2D, 0);
+// 		printf("\n texture Process %i/%i/%i \n", x, y, n);
 
-		return texture;
-    }
+// 		return texture;
+//     }
 
-}
+// }

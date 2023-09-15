@@ -1,5 +1,7 @@
 #include "functions.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
 
 
 void Init(void){
@@ -9,7 +11,6 @@ void Init(void){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
 
 	wnd = glfwCreateWindow( 800, 600, "Hello Triangle", NULL, NULL);
 
@@ -32,6 +33,7 @@ void Init(void){
 
  }
 
+
 void Shut_Down(int return_code){
 		
 	if( GLSL_Program){
@@ -45,78 +47,6 @@ void Shut_Down(int return_code){
 }
 
 
-// void SetupVAO(GLuint * vao, GLuint * vbo, GLfloat * vertices) {
-//     glGenVertexArrays(1, vao);
-//     glBindVertexArray(*vao);
-
-//     glGenBuffers(1, vbo);
-//     glBindBuffer(GL_ARRAY_BUFFER, *vbo);
-//     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-
-//     // Set up vertex attribute pointers
-//     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
-//     glEnableVertexAttribArray(0);
-
-//     glBindBuffer(GL_ARRAY_BUFFER, 0);
-//     glBindVertexArray(0);
-// }
-
-// void SetupVAO(GLuint * vao, GLuint * vbo, GLuint * ebo, GLfloat * vertices, GLubyte * indices, GLsizei vsize, GLsizei isize){
-//     glGenVertexArrays( 1, vao);
-// 	glBindVertexArray(*vao);
-
-// 	glGenBuffers( 1, vbo);
-//     glBindBuffer(GL_ARRAY_BUFFER, *vbo);
-//     glBufferData(GL_ARRAY_BUFFER, vsize, vertices, GL_STATIC_DRAW);
-
-// 	glGenBuffers( 1, ebo);
-
-//     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *ebo);
-//     glBufferData(GL_ELEMENT_ARRAY_BUFFER, isize, indices, GL_STATIC_DRAW);
-
-//     // Set up vertex attribute pointers
-//     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
-//     glEnableVertexAttribArray(0);
-
-//     glBindBuffer(GL_ARRAY_BUFFER, 0);
-//     glBindVertexArray(0);
-// }
-
-// void SetupVAOWithColors(GLuint * vao, GLuint * vbo, GLuint * ebo, GLfloat * vertices, GLfloat * colors, GLubyte * indices, 
-//                         GLsizei vsize, GLsizei csize, GLsizei isize) {
-                        
-//     glGenVertexArrays(1, vao);                                                              //  Generate vertex array here
-//     glBindVertexArray(*vao);                                                                //  and Bind vertex array
-
-//     glGenBuffers(1, vbo);                                                                   //  Generate Vertex Buffer
-//     glBindBuffer(GL_ARRAY_BUFFER, *vbo);                                                    //  and Bind the Vertex Buffer
-
-//     glBufferData(GL_ARRAY_BUFFER, vsize + csize, NULL, GL_STATIC_DRAW);                     //  Set up the data
-//     glBufferSubData(GL_ARRAY_BUFFER, 0, vsize, vertices);                                   //  from 0 ..       =>  vsize, the size of vertices 
-//     glBufferSubData(GL_ARRAY_BUFFER, vsize, csize, colors);                                 //  from 0 + vsize  =>  csize, the size of csize
-
-//     glGenBuffers(1, ebo);                                                                   //  Vertice Indices (ebo)
-//     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *ebo);                                            //  Bind Vertice array (ebo)
-//     glBufferData(GL_ELEMENT_ARRAY_BUFFER, isize, indices, GL_STATIC_DRAW);                  //  Dump the vertice array into ebo
-
-//     // Set up vertex attribute pointers for position
-//     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);         // Link this with the shader
-//     glEnableVertexAttribArray(0);                                                           //
-
-//     // Set up vertex attribute pointers for color
-//     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)vsize);     // Link this with the shader
-//     glEnableVertexAttribArray(1);                                                           //
-
-//     glBindBuffer(GL_ARRAY_BUFFER, 0);                                                       //  Bind buffer 0
-//     glBindVertexArray(0);                                                                   //  Bind Array 0
-// }
-
-
-void _SetupVAO( GLuint * vao, GLuint * vbo, GLuint * ebo){
-//
-}
-
-
 void SetupVAO(GLuint * vao, GLuint * vbo, GLuint * ebo, GLfloat * vertices, GLfloat * colors, GLubyte * indices, GLsizei vsize, GLsizei csize, GLsizei isize){
     glGenVertexArrays(1, vao);
     glBindVertexArray(*vao);
@@ -127,12 +57,6 @@ void SetupVAO(GLuint * vao, GLuint * vbo, GLuint * ebo, GLfloat * vertices, GLfl
     glBufferData(GL_ARRAY_BUFFER, vsize + csize, NULL, GL_STATIC_DRAW);
     glBufferSubData(GL_ARRAY_BUFFER, 0, vsize, vertices);
     glBufferSubData(GL_ARRAY_BUFFER, vsize, csize, colors);
-
-    // glBindBuffer(GL_ARRAY_BUFFER, *vbo);
-    // glBufferData(GL_ARRAY_BUFFER, vsize + csize + tsize, NULL, GL_STATIC_DRAW);
-    // glBufferSubData(GL_ARRAY_BUFFER, 0, vsize, vertices);
-    // glBufferSubData(GL_ARRAY_BUFFER, vsize, csize, colors);
-    // glBufferSubData(GL_ARRAY_BUFFER, vsize + csize, tsize, texcoords);
 
     glGenBuffers(1, ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *ebo);
@@ -185,12 +109,59 @@ void SetupVAOArray( GLuint * vao, GLuint * vbo, GLuint * ebo,
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-
 }
 
 
 
+void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
+
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_STENCIL_INDEX,     width, height, 0, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE,       NULL);      Stencil
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8,  width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8,   NULL);      Depth
+// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,               width, height, 0, GL_RGB,           GL_UNSIGNED_BYTE,       data);      Color
+
+	glGenTextures(1, texture);
+	glBindTexture( tTarget, *texture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+}
 
 
 
+GLuint LoadTexture(const char * path, const char * tagname, int location){
+
+    int x,y,n;
+	printf("\nLoading %s", path);
+    unsigned char * data = stbi_load( path, &x, &y, &n, 0);
+
+	if (data == NULL) { 
+		printf("\nCan't open tga file");
+		return 0;
+    } else {
+		GLuint			texture;
+
+		if(n == 3){
+			CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGB);
+		}else if(n == 4){
+			CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGBA);
+		}
+
+		glUseProgram( GLSL_Program);                                                // Use the shader program
+		GLuint textureLocation = glGetUniformLocation(  GLSL_Program, tagname);
+		
+		glBindTexture(GL_TEXTURE_2D, texture);                                    	// Bind your texture to GL_TEXTURE0    
+		glUniform1i(textureLocation, location);                                     // 0 corresponds to GL_TEXTURE0
+
+		stbi_image_free(data);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		printf("\n texture Process %i/%i/%i \n", x, y, n);
+
+		return texture;
+    }
+}
 

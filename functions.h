@@ -27,7 +27,8 @@ void				Shut_Down(int);
 void				Main_Loop(void);
 
 void				ShaderSetup(const char *, const char *);
-
+void                CreateTexture( GLenum, GLuint *, unsigned char *, int, int, GLenum);
+GLuint              LoadTexture(const char *, const char *, int);
 
 void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
 void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei, GLsizei);
