@@ -25,9 +25,7 @@ GLfloat texCoords[] = {	0.0f, 0.0f,   // Top-left
     					1.0f, 1.0f,   // Bottom-left
     					0.0f, 1.0f }; // Bottom-right
 
-
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise 
-
 
 
 GLuint	uMatLoc[6];
@@ -69,7 +67,6 @@ void Main_Loop(void){
 					indices,  sizeof(indices), 
 					sizeof(vertices), sizeof(colors), sizeof(texCoords));
 
-
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
         fprintf(stderr, "OpenGL error: %d\n", error);
@@ -79,7 +76,6 @@ void Main_Loop(void){
 
 	GLuint 		m_texture = LoadTexture("skin3.tga", "tSampler", 0);
    	GLuint 		k_texture = LoadTexture("skin2.tga", "sSampler", 1);
-
 
 	// projection matrix outside the rendering loop
 	uMatLoc[3]	= glGetUniformLocation( GLSL_Program, "uProjView");
@@ -124,8 +120,6 @@ void Main_Loop(void){
 	glDeleteVertexArrays(1, &vao);
 
 }
-
-
 
 
 void Draw_Square(){
