@@ -14,8 +14,15 @@
   
 int main(void){
   Init();
-  ShaderSetup("GLSL/VShader.glsl", "GLSL/FShader.glsl");
+  // ShaderSetup("GLSL/VShader.glsl", "GLSL/FShader.glsl");
+  ShaderSetup1();
+
+	GLSL_Program		= glCreateProgram();
+	GLSL_vertex			= ReadGLSLScript( GLSL_Program, 0, "GLSL/VShader.glsl");
+	GLSL_fragment		= ReadGLSLScript( GLSL_Program, 1, "GLSL/FShader.glsl");
+	LinkPrograms(GLSL_Program);
   
+
   Main_Loop();
   Shut_Down(0);
   
