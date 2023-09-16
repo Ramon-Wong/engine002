@@ -70,30 +70,7 @@ void Main_Loop(void){
 	// texture setup
 
 	GLuint 		m_texture = LoadTexture( GLSL_Program, "data/skin2.tga", "tSampler", 0);   
-
-    // int x,y,n;
-    // unsigned char * data = stbi_load("data/skin2.tga", &x, &y, &n, 0);
-
-	// GLuint 		m_texture;
 	
-    // if (data == NULL) { 
-	// 	printf("\nCan't open tga file");
-    // } else {
-
-	// 	CreateTexture( GL_TEXTURE_2D, &m_texture, data, x, y, GL_RGBA);
-
-	// 	glUseProgram( GLSL_Program);                                                    // Use the shader program
-	// 	GLuint textureLocation = glGetUniformLocation(  GLSL_Program, "tSampler");
-		
-	// 	glActiveTexture(GL_TEXTURE0);                                                   // Assuming your texture is bound to GL_TEXTURE0    
-	// 	glBindTexture(GL_TEXTURE_2D, m_texture);                                    	// Bind your texture to GL_TEXTURE0    
-	// 	glUniform1i(textureLocation, 0);                                                // 0 corresponds to GL_TEXTURE0
-
-	// 	stbi_image_free(data);
-	// 	printf("\n texture Process %i/%i/%i \n", x, y, n);
-
-    // }
-
 	// projection matrix outside the rendering loop
 	GLuint ProjLocation		= glGetUniformLocation( GLSL_Program, "uProjView");
 	glUniformMatrix4fv( ProjLocation, 1, GL_FALSE, ProjView);		
