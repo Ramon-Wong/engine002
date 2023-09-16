@@ -22,9 +22,10 @@ GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise
 GLFWwindow * wnd;
 
 GLuint				VAO[3];						// Vertice Array Object holding ya, array object, buffer objects.
+GLuint				VBO[3];
 GLuint				GLSL_Prog[3];				// GLSL Program
 
-void				Draw_Square(GLuint);
+void				Draw_Square(GLuint, int);
 void				Draw(void);
 
 
@@ -61,6 +62,12 @@ void Main_Loop(void){
 					indices,  sizeof(indices), 
 					sizeof(vertices), sizeof(colors), sizeof(texCoords));
 
+	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box_vertices, box_colors, box_normals,
+					box_indices,  sizeof(box_indices), 
+					sizeof(box_vertices), sizeof(box_colors), sizeof(box_normals));
+
+
+
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
         fprintf(stderr, "OpenGL error: %d\n", error);
@@ -96,7 +103,7 @@ void Main_Loop(void){
    		glActiveTexture(GL_TEXTURE0);		
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 
-		Draw_Square(VAO[0]);
+		Draw_Square(VAO[0], 6);
 
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR) {
@@ -112,13 +119,13 @@ void Main_Loop(void){
 
 
 
-void Draw_Square( GLuint array_buffer){
+void Draw_Square( GLuint array_buffer, int size){
 	glBindVertexArray( array_buffer);
 	glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
     // Draw your geometry
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
+	glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_BYTE, 0);
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
@@ -133,6 +140,10 @@ void Shut_Down(int return_code){
 	glDeleteBuffers(1, &VAO[2]);
 	glDeleteBuffers(1, &VAO[1]);
 	glDeleteVertexArrays(1, &VAO[0]);
+
+	glDeleteBuffers(1, &VBO[2]);
+	glDeleteBuffers(1, &VBO[1]);
+	glDeleteVertexArrays(1, &VBO[0]);
 
 	if( GLSL_Prog[0]){
 		glDeleteProgram( GLSL_Prog[0]);
