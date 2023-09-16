@@ -42,8 +42,8 @@ void Main_Loop(void){
 	MLoadIdentity(View_Matrix); 
 
 	GLSL_Prog[0]		= glCreateProgram();
-	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/VShader.glsl");
-	GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0], 1, "GLSL/FShader.glsl");
+	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/vbShader.glsl");
+	GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0], 1, "GLSL/fbShader.glsl");
 	LinkPrograms(GLSL_Prog[0]);
 
 	float aspect_ratio = ((float)600) / 800;
@@ -103,7 +103,7 @@ void Main_Loop(void){
    		glActiveTexture(GL_TEXTURE0);		
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 
-		Draw_Square(VAO[0], 6);
+		Draw_Square(VBO[0], 36);
 
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR) {
