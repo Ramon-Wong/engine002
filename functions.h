@@ -13,15 +13,9 @@
 #include "matrix.h"
 
 
-// extern GLuint		GLSL_Program;
+
 extern GLuint		GLSL_Fbo;
-// extern GLuint		GLSL_vertex;
-// extern GLuint		GLSL_fragment;
 extern GLFWwindow * wnd;
-
-
-// extern GLfloat		Proj_Matrix[16];
-// extern GLfloat		View_Matrix[16];
 
 extern GLfloat      box_vertices[72];
 extern GLfloat      box_normals[72];

@@ -73,8 +73,6 @@ void	ShaderSetup2( const char * vertexshader, const char * fragmentshader, GLuin
 }
 
 
-
-
 void	print_shader_info_log(GLuint shader_index){
 	int max_length = 2048;
 	int actual_length = 0;
