@@ -27,11 +27,14 @@ GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise
 
 GLFWwindow * wnd;
 
-GLuint	VAO[3];						// Vertice Array Object holding ya, array object, buffer objects.
-
+GLuint		VAO[3];						// Vertice Array Object holding ya, array object, buffer objects.
+GLuint		GLSL_Prog[3];		
 
 void				Draw_Square(GLuint);
 void				Draw(void);
+
+
+
 
 
 void Main_Loop(void){
@@ -42,7 +45,11 @@ void Main_Loop(void){
 
 	MLoadIdentity(Proj_Matrix);
 	MLoadIdentity(View_Matrix); 
- 
+
+	GLSL_Prog[0]		= glCreateProgram();
+	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/VShader.glsl");
+	GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0]], 1, "GLSL/FShader.glsl");
+
 	float aspect_ratio = ((float)600) / 800;
 	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
 	
@@ -114,6 +121,12 @@ void Main_Loop(void){
 	glDeleteBuffers(1, &VAO[1]);
 	glDeleteVertexArrays(1, &VAO[0]);
 
+
+	if( GLSL_Prog[0]){
+		glDeleteProgram( GLSL_Prog[0]);
+		glDeleteShader( GLSL_Prog[1]);
+		glDeleteShader( GLSL_Prog[2]);		
+	}	
 }
 
 
