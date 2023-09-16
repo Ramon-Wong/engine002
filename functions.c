@@ -27,8 +27,12 @@ GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise
 
 GLFWwindow * wnd;
 
-GLuint	VAO[3];						// Vertice Array Object holding ya, array object, buffer objects.
+GLuint				GLSL_Program;
+GLuint				GLSL_vertex;
+GLuint				GLSL_fragment;
 
+GLuint	VAO[3];						// Vertice Array Object holding ya, array object, buffer objects.
+GLuint	BOX[3];						// BOX
 
 void				Draw_Square(GLuint);
 void				Draw(void);
@@ -59,6 +63,11 @@ void Main_Loop(void){
 	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, colors, texCoords,
 					indices,  sizeof(indices), 
 					sizeof(vertices), sizeof(colors), sizeof(texCoords));
+
+	SetupVAOArray( &BOX[0], &BOX[1], &BOX[2], box_vertices, box_normals, box_colors,
+					box_indices,  sizeof(box_indices), 
+					sizeof(box_vertices), sizeof(box_normals), sizeof(box_colors));
+
 
 
     GLenum error = glGetError();
@@ -114,6 +123,9 @@ void Main_Loop(void){
 	glDeleteBuffers(1, &VAO[1]);
 	glDeleteVertexArrays(1, &VAO[0]);
 
+	glDeleteBuffers(1, &BOX[2]);
+	glDeleteBuffers(1, &BOX[1]);
+	glDeleteVertexArrays(1, &BOX[0]);
 }
 
 

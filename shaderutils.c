@@ -1,9 +1,6 @@
 #include "functions.h"
 
 
-GLuint				GLSL_Program;
-GLuint				GLSL_vertex;
-GLuint				GLSL_fragment;
 
 void				print_shader_info_log(GLuint);
 void				print_program_info_log(GLuint);
@@ -14,7 +11,12 @@ void				LinkPrograms(GLuint);
 
 
 
-void	ShaderSetup( const char * vertexshader, const char * fragmentshader){
+void	ShaderSetup( const char * vertexshader, const char * fragmentshader, GLuint * GLSL_prog){
+	// keep in mind.
+	// GLSL_prog[0] = GLSL_Program
+	// GLSL_prog[1] = GLSL_vertex shader
+	// GLSL_prog[2] = GLSL_fragment shader
+
 	if(glewInit() != GLEW_OK)
 	printf("glewInit not supported");
 	
@@ -29,10 +31,10 @@ void	ShaderSetup( const char * vertexshader, const char * fragmentshader){
 	if(glewIsSupported("GL_VERSION_1_4 GL_ARB_point_sprite"))			printf("Status: ARB point sprites available.\n");	
 	printf("\n");	
 	
-	GLSL_Program		= glCreateProgram();
-	GLSL_vertex			= ReadGLSLScript( GLSL_Program, 0, vertexshader);
-	GLSL_fragment		= ReadGLSLScript( GLSL_Program, 1, fragmentshader);
-	LinkPrograms(GLSL_Program);
+	GLSL_prog[0]		= glCreateProgram();
+	GLSL_prog[1]		= ReadGLSLScript( GLSL_prog[0], 0, vertexshader);
+	GLSL_prog[2]		= ReadGLSLScript( GLSL_prog[0], 1, fragmentshader);
+	LinkPrograms(GLSL_prog[0]);
 }
 
 

@@ -13,8 +13,15 @@
 // "GLSL/FShader.glsl"
   
 int main(void){
+
+  GLuint array[3];
+
+  array[0] = GLSL_Program;
+  array[1] = GLSL_vertex;
+  array[2] = GLSL_fragment; 
+
   Init();
-  ShaderSetup("GLSL/VShader.glsl", "GLSL/FShader.glsl");
+  ShaderSetup("GLSL/VShader.glsl", "GLSL/FShader.glsl", array);
   
   Main_Loop();
   Shut_Down(0);

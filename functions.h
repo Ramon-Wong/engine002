@@ -32,7 +32,7 @@ void				Init(void);
 void				Shut_Down(int);
 void				Main_Loop(void);
 
-void				ShaderSetup(const char *, const char *);
+void				ShaderSetup(const char *, const char *, GLuint *);
 void                CreateTexture( GLenum, GLuint *, unsigned char *, int, int, GLenum);
 GLuint              LoadTexture( GLuint, const char *, const char *, int);
 
