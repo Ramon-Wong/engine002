@@ -48,7 +48,8 @@ void Main_Loop(void){
 
 	GLSL_Prog[0]		= glCreateProgram();
 	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/VShader.glsl");
-	GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0]], 1, "GLSL/FShader.glsl");
+	GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0], 1, "GLSL/FShader.glsl");
+	LinkPrograms(GLSL_Prog[0]);
 
 	float aspect_ratio = ((float)600) / 800;
 	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
@@ -75,10 +76,10 @@ void Main_Loop(void){
     }
 	// texture setup
 
-	GLuint 		m_texture = LoadTexture( GLSL_Program, "data/skin2.tga", "tSampler", 0);   
+	GLuint 		m_texture = LoadTexture( GLSL_Prog[0], "data/skin2.tga", "tSampler", 0);   
 
 	// projection matrix outside the rendering loop
-	GLuint ProjLocation		= glGetUniformLocation( GLSL_Program, "uProjView");
+	GLuint ProjLocation		= glGetUniformLocation( GLSL_Prog[0], "uProjView");
 	glUniformMatrix4fv( ProjLocation, 1, GL_FALSE, ProjView);		
 
 	// texture setup end
@@ -96,10 +97,10 @@ void Main_Loop(void){
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		GLint rotat_zLocation = glGetUniformLocation( GLSL_Program, "rotate_z");
+		GLint rotat_zLocation = glGetUniformLocation( GLSL_Prog[0], "rotate_z");
 		glUniform1f( rotat_zLocation, rotate_z);	
 
-		glUseProgram( GLSL_Program);		
+		glUseProgram( GLSL_Prog[0]);
 		
    		glActiveTexture(GL_TEXTURE0);		
 		glBindTexture(GL_TEXTURE_2D, m_texture);
