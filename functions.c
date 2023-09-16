@@ -27,9 +27,8 @@ GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise
 
 GLFWwindow * wnd;
 
-GLuint	vao;
-GLuint	vbo;
-GLuint	ebo;
+GLuint	VAO[3];						// Vertice Array Object holding ya, array object, buffer objects.
+
 
 void				Draw_Square(void);
 void				Draw(void);
@@ -57,7 +56,7 @@ void Main_Loop(void){
 	MMultiply( ProjView, Proj_Matrix, View_Matrix);
 
 	// SetupVAO( &vao, &vbo, &ebo, vertices, colors, indices, sizeof(vertices), sizeof(colors), sizeof(indices));
-	SetupVAOArray( &vao, &vbo, &ebo, vertices, colors, texCoords,
+	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, colors, texCoords,
 					indices,  sizeof(indices), 
 					sizeof(vertices), sizeof(colors), sizeof(texCoords));
 
@@ -70,7 +69,7 @@ void Main_Loop(void){
 	// texture setup
 
 	GLuint 		m_texture = LoadTexture( GLSL_Program, "data/skin2.tga", "tSampler", 0);   
-	
+
 	// projection matrix outside the rendering loop
 	GLuint ProjLocation		= glGetUniformLocation( GLSL_Program, "uProjView");
 	glUniformMatrix4fv( ProjLocation, 1, GL_FALSE, ProjView);		
@@ -111,9 +110,9 @@ void Main_Loop(void){
 
 	glDeleteTextures(1, &m_texture);
 
-	glDeleteBuffers(1, &ebo);
-	glDeleteBuffers(1, &vbo);
-	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &VAO[2]);
+	glDeleteBuffers(1, &VAO[1]);
+	glDeleteVertexArrays(1, &VAO[0]);
 
 }
 
@@ -121,7 +120,7 @@ void Main_Loop(void){
 
 
 void Draw_Square(){
-	glBindVertexArray(vao);
+	glBindVertexArray( VAO[0]);
 	glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
