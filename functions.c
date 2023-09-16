@@ -30,7 +30,7 @@ GLFWwindow * wnd;
 GLuint	VAO[3];						// Vertice Array Object holding ya, array object, buffer objects.
 
 
-void				Draw_Square(void);
+void				Draw_Square(GLuint);
 void				Draw(void);
 
 
@@ -119,8 +119,8 @@ void Main_Loop(void){
 
 
 
-void Draw_Square(){
-	glBindVertexArray( VAO[0]);
+void Draw_Square( GLuint array_buffer){
+	glBindVertexArray( array_buffer);
 	glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
@@ -135,5 +135,5 @@ void Draw_Square(){
 
 
 void Draw(void){
-	Draw_Square();
+	Draw_Square(VAO[0]);
 }
