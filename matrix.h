@@ -14,6 +14,8 @@ void	    MFrustum(float *, float, float, float, float, float, float);
 void	    LookAtM( float *, float *, float *, float *);
 
 void	    MTranslate(float *, float, float, float);
+void		MRotate(float *, float, float, float, float);
+
 void	    CrossProduct(float *, float *, float *);
 void	    Normalize(float *);
 
