@@ -28,7 +28,7 @@ GLuint				GLSL_Prog[3];				// GLSL Program
 void				Draw_Square(GLuint, int);
 void				Draw(void);
 
-
+float				rot = 0.0f;
 
 
 void Main_Loop(void){
@@ -39,7 +39,9 @@ void Main_Loop(void){
 	GLfloat		ProjView[16];
 
 	float		Translation[16];
-	float		Rotation[16];
+	float		Rotation1[16];
+	float		Rotation2[16];
+	float		Rotation3[16];
 
 	MLoadIdentity(Proj_Matrix);
 	MLoadIdentity(View_Matrix); 
@@ -102,6 +104,7 @@ void Main_Loop(void){
 		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 
 		rotate_z = 0.1 * delta_rotate;
+		rot += 0.001f;
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){
 			glfwSetWindowShouldClose( wnd, 1);
@@ -113,9 +116,17 @@ void Main_Loop(void){
 
 		glUseProgram( GLSL_Prog[0]);
 
-		MLoadIdentity(Rotation); 
-		MRotate( Rotation, 0.0f, 0.0f, 0.0f, 1.0f);
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation"),		1, 	GL_FALSE, Rotation);
+		MLoadIdentity(Rotation1); 
+		MLoadIdentity(Rotation2); 
+		MLoadIdentity(Rotation3); 
+
+		MRotate( Rotation1, rot, 1.0f, 0.0f, 0.0f);
+		MRotate( Rotation2, rot, 0.0f, 1.0f, 0.0f);
+		MRotate( Rotation3, rot, 0.0f, 0.0f, 1.0f);
+
+		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation1"),		1, 	GL_FALSE, Rotation1);
+		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation2"),		1, 	GL_FALSE, Rotation2);
+		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation3"),		1, 	GL_FALSE, Rotation3);
 
    		glActiveTexture(GL_TEXTURE0);		
 		glBindTexture(GL_TEXTURE_2D, m_texture);
