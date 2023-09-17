@@ -38,8 +38,14 @@ void Main_Loop(void){
 	GLfloat		View_Matrix[16];
 	GLfloat		ProjView[16];
 
+	float		Translation[16];
+	float		Rotation[16];
+
 	MLoadIdentity(Proj_Matrix);
 	MLoadIdentity(View_Matrix); 
+
+	MLoadIdentity(Translation);
+
 
 	GLSL_Prog[0]		= glCreateProgram();
 	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/vbShader.glsl");
@@ -78,9 +84,17 @@ void Main_Loop(void){
 	GLuint 		m_texture = LoadTexture( GLSL_Prog[0], "data/skin2.tga", "tSampler", 0);   
 
 	// projection matrix outside the rendering loop
-	GLuint ProjLocation		= glGetUniformLocation( GLSL_Prog[0], "uProjView");
-	glUniformMatrix4fv( ProjLocation, 1, GL_FALSE, ProjView);		
+	// GLuint ProjLocation		= glGetUniformLocation( GLSL_Prog[0], "uProjView");
+
+	MTranslate( Translation, 0.0f, 0.0f, 0.0f);
+	
+
+	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),			1,	GL_FALSE, ProjView);
+	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelTranslation"),	1,	GL_FALSE, Translation);
+
 	// texture setup end
+
+
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -95,11 +109,14 @@ void Main_Loop(void){
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		GLint rotat_zLocation = glGetUniformLocation( GLSL_Prog[0], "rotate_z");
-		glUniform1f( rotat_zLocation, rotate_z);	
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"), rotate_z);	
 
 		glUseProgram( GLSL_Prog[0]);
-		
+
+		MLoadIdentity(Rotation); 
+		MRotate( Rotation, 0.0f, 0.0f, 0.0f, 1.0f);
+		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation"),		1, 	GL_FALSE, Rotation);
+
    		glActiveTexture(GL_TEXTURE0);		
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 
