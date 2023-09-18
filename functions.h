@@ -14,7 +14,6 @@
 
 
 
-extern GLuint		GLSL_Fbo;
 extern GLFWwindow * wnd;
 
 extern GLfloat      box_vertices[24];
