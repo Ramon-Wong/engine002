@@ -70,10 +70,10 @@ void Main_Loop(void){
 					indices,  sizeof(indices), 
 					sizeof(vertices), sizeof(colors), sizeof(texCoords));
 
-	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box_vertices, box_colors, box_normals,
-					box_indices,  sizeof(box_indices), 
-					sizeof(box_vertices), sizeof(box_colors), sizeof(box_normals));
-
+	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box2_vertices, box_colors, box2_normals,
+					box2_indices,  sizeof(box2_indices), 
+					sizeof(box2_vertices), sizeof(box_colors), sizeof(box2_normals));
+					
 
 
     GLenum error = glGetError();
@@ -93,10 +93,13 @@ void Main_Loop(void){
 
 	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),			1,	GL_FALSE, ProjView);
 	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelTranslation"),	1,	GL_FALSE, Translation);
+// texture setup end
 
-	// texture setup end
 
+	glEnable(GL_DEPTH_TEST);  
+	
 
+ 
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -104,7 +107,7 @@ void Main_Loop(void){
 		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 
 		rotate_z = 0.1 * delta_rotate;
-		rot += 0.001f;
+		rot += 0.01f;
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){
 			glfwSetWindowShouldClose( wnd, 1);
