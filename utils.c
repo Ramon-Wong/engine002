@@ -156,16 +156,21 @@ static int		counter = 0;
 void gMatrixRotation( GLuint Prog, GLfloat angle, GLfloat, x, GLfloat y, GLfloat z){
 
 	if( counter == 0){
-		MLoadIdentity(Rotation1CultRotation);
+		MLoadIdentity( CulRotation);
+        MRotate( CulRotation, rot, 1.0f, 0.0f, 0.0f);
 	}
+	// do other stuff
 
-	// do stuff
+
+    counter += 1;
 }
 
 
 void gPopMatrix(GLuint Prog){
-
+    
 	// push stuf to the shader program
+    glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation1"),		1, 	GL_FALSE, Rotation1);
+
 	MLoadIdentity(Rotation1CultRotation);
 	counter = 0;
 }
