@@ -149,3 +149,27 @@ GLuint LoadTexture(GLuint _glslProg, const char * path, const char * tagname, in
     }
 }
 
+
+static float	culRotation[16];
+static int		counter = 0;
+
+void gMatrixRotation( GLuint Prog, GLfloat angle, GLfloat, x, GLfloat y, GLfloat z){
+
+	if( counter == 0){
+		MLoadIdentity(Rotation1CultRotation);
+	}
+
+	// do stuff
+}
+
+
+void gPopMatrix(GLuint Prog){
+
+	// push stuf to the shader program
+	MLoadIdentity(Rotation1CultRotation);
+	counter = 0;
+}
+
+
+
+
