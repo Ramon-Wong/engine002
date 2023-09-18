@@ -39,9 +39,9 @@ void Main_Loop(void){
 	GLfloat		ProjView[16];
 
 	float		Translation[16];
-	float		Rotation1[16];
-	float		Rotation2[16];
-	float		Rotation3[16];
+	// float		Rotation1[16];
+	// float		Rotation2[16];
+	// float		Rotation3[16];
 
 	MLoadIdentity(Proj_Matrix);
 	MLoadIdentity(View_Matrix); 
@@ -119,17 +119,22 @@ void Main_Loop(void){
 
 		glUseProgram( GLSL_Prog[0]);
 
-		MLoadIdentity(Rotation1); 
-		MLoadIdentity(Rotation2); 
-		MLoadIdentity(Rotation3); 
+		// MLoadIdentity(Rotation1); 
+		// MLoadIdentity(Rotation2); 
+		// MLoadIdentity(Rotation3); 
 
-		MRotate( Rotation1, rot, 1.0f, 0.0f, 0.0f);
-		MRotate( Rotation2, rot, 0.0f, 1.0f, 0.0f);
-		MRotate( Rotation3, rot, 0.0f, 0.0f, 1.0f);
+		// MRotate( Rotation1, rot, 1.0f, 0.0f, 0.0f);
+		// MRotate( Rotation2, rot, 0.0f, 1.0f, 0.0f);
+		// MRotate( Rotation3, rot, 0.0f, 0.0f, 1.0f);
 
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation1"),		1, 	GL_FALSE, Rotation1);
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation2"),		1, 	GL_FALSE, Rotation2);
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation3"),		1, 	GL_FALSE, Rotation3);
+		// glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation"),		1, 	GL_FALSE, Rotation1);
+		// glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation2"),		1, 	GL_FALSE, Rotation2);
+		// glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation3"),		1, 	GL_FALSE, Rotation3);
+
+		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
+		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
+		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
+		gPopMatrix( GLSL_Prog[0], "modelRotation");
 
    		glActiveTexture(GL_TEXTURE0);		
 		glBindTexture(GL_TEXTURE_2D, m_texture);

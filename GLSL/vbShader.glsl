@@ -4,9 +4,9 @@ uniform mat4    uProjView;
 uniform float   rotate_z;
 
 uniform mat4    modelTranslation;
-uniform mat4    modelRotation1;
-uniform mat4    modelRotation2;
-uniform mat4    modelRotation3;
+uniform mat4    modelRotation;
+// uniform mat4    modelRotation2;
+// uniform mat4    modelRotation3;
 
 
 
@@ -22,7 +22,7 @@ void main() {
     vec3 a      = inPosition; 
     vec3 b      = a;
 
-    mat4 modelRotation = modelRotation1 * modelRotation2 * modelRotation3;
+    // mat4 modelRotation = modelRotation1 * modelRotation2 * modelRotation3;
 
     oArray2     = iArray2;
 
