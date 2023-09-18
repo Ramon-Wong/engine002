@@ -38,6 +38,7 @@ void                CreateTexture( GLenum, GLuint *, unsigned char *, int, int, 
 GLuint              LoadTexture( GLuint, const char *, const char *, int);
 
 void                gMatrixRotation( GLuint, GLfloat, GLfloat, GLfloat, GLfloat);
+void                gMatrixTranslation( GLuint, GLfloat, GLfloat, GLfloat);
 void                gPopMatrix(GLuint, const char *);
 
 void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
