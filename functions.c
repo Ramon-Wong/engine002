@@ -38,16 +38,8 @@ void Main_Loop(void){
 	GLfloat		View_Matrix[16];
 	GLfloat		ProjView[16];
 
-	float		Translation[16];
-	float		Rotation1[16];
-	float		Rotation2[16];
-	float		Rotation3[16];
-
-	MLoadIdentity(Proj_Matrix);
+	MLoadIdentity(Proj_Matrix); 
 	MLoadIdentity(View_Matrix); 
-
-	MLoadIdentity(Translation);
-
 
 	GLSL_Prog[0]		= glCreateProgram();
 	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/vbShader.glsl");
@@ -73,7 +65,6 @@ void Main_Loop(void){
 	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box_vertices, box_colors, box_normals,
 					box_indices,  sizeof(box_indices), 
 					sizeof(box_vertices), sizeof(box_colors), sizeof(box_normals));
-					
 
 
     GLenum error = glGetError();
@@ -88,19 +79,13 @@ void Main_Loop(void){
 	// projection matrix outside the rendering loop
 	// GLuint ProjLocation		= glGetUniformLocation( GLSL_Prog[0], "uProjView");
 
-	MTranslate( Translation, 0.0f, 0.0f, 0.0f);
-	
-
 	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),			1,	GL_FALSE, ProjView);
-	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelTranslation"),	1,	GL_FALSE, Translation);
+
 // texture setup end
 
 
 	glEnable(GL_DEPTH_TEST);  
 	
-
- 
-
 	while(!glfwWindowShouldClose(wnd)){
 
 		double current_time = glfwGetTime();
@@ -119,17 +104,11 @@ void Main_Loop(void){
 
 		glUseProgram( GLSL_Prog[0]);
 
-		MLoadIdentity(Rotation1); 
-		MLoadIdentity(Rotation2); 
-		MLoadIdentity(Rotation3); 
-
-		MRotate( Rotation1, rot, 1.0f, 0.0f, 0.0f);
-		MRotate( Rotation2, rot, 0.0f, 1.0f, 0.0f);
-		MRotate( Rotation3, rot, 0.0f, 0.0f, 1.0f);
-
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation1"),		1, 	GL_FALSE, Rotation1);
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation2"),		1, 	GL_FALSE, Rotation2);
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "modelRotation3"),		1, 	GL_FALSE, Rotation3);
+		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 8.0f);
+		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
+		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
+		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
+		gPopMatrix( GLSL_Prog[0], "modelMatrix");
 
    		glActiveTexture(GL_TEXTURE0);		
 		glBindTexture(GL_TEXTURE_2D, m_texture);

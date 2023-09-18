@@ -14,7 +14,6 @@
 
 
 
-extern GLuint		GLSL_Fbo;
 extern GLFWwindow * wnd;
 
 extern GLfloat      box_vertices[24];
@@ -36,6 +35,10 @@ void				LinkPrograms(GLuint);
 
 void                CreateTexture( GLenum, GLuint *, unsigned char *, int, int, GLenum);
 GLuint              LoadTexture( GLuint, const char *, const char *, int);
+
+void                gMatrixRotation( GLuint, GLfloat, GLfloat, GLfloat, GLfloat);
+void                gMatrixTranslation( GLuint, GLfloat, GLfloat, GLfloat);
+void                gPopMatrix(GLuint, const char *);
 
 void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
 void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei, GLsizei);

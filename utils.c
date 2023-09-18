@@ -149,3 +149,54 @@ GLuint LoadTexture(GLuint _glslProg, const char * path, const char * tagname, in
     }
 }
 
+
+static float	CulRTMatrix[16];
+static int		counter = 0;
+
+void gMatrixRotation( GLuint Prog, GLfloat angle, GLfloat x, GLfloat y, GLfloat z){
+
+    float Temp[16];
+
+	if( counter == 0){
+		MLoadIdentity( CulRTMatrix);
+        MRotate( CulRTMatrix, angle, x, y, z);
+	}else if( counter > 0){
+        MLoadIdentity( Temp);
+        MRotate( Temp, angle, x, y, z);
+        MMultiply( CulRTMatrix, CulRTMatrix, Temp);
+    }
+
+    counter += 1;
+}
+
+
+void gMatrixTranslation( GLuint Prog, GLfloat x, GLfloat y, GLfloat z){
+
+    float Temp[16];
+    // float trans[] = { x, y, z};
+
+	if( counter == 0){
+		MLoadIdentity( CulRTMatrix);
+        MTranslate( CulRTMatrix, x, y, z);
+	}else if( counter > 0){
+        MLoadIdentity( Temp);
+        MTranslate( CulRTMatrix, x, y, z);
+        MMultiply( CulRTMatrix, CulRTMatrix, Temp);
+    }
+
+    counter += 1;
+}
+
+
+void gPopMatrix(GLuint Prog, const char * uniform){
+
+	// push stuf to the shader program
+    glUniformMatrix4fv( glGetUniformLocation( Prog, uniform), 1, GL_FALSE, CulRTMatrix);
+
+	MLoadIdentity(CulRTMatrix);
+	counter = 0;
+}
+
+
+
+
