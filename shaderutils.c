@@ -33,21 +33,21 @@ char *				ReadFile(const char *);
 // }
 
 
-// void	ShaderSetup1(){
-// 	if(glewInit() != GLEW_OK)
-// 	printf("glewInit not supported");
+void	ShaderSetup1(){
+	if(glewInit() != GLEW_OK)
+	printf("glewInit not supported");
 	
-// 	if(GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader){
-// 		printf("\n\nReady for GLSL \n\n");	
-// 	}else{
-// 		printf("\nNot totally ready for GLSL ;_; >> GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader ");
-// 	}
+	if(GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader){
+		printf("\n\nReady for GLSL \n\n");	
+	}else{
+		printf("\nNot totally ready for GLSL ;_; >> GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader ");
+	}
 	
-// 	if(GLEW_ARB_vertex_program)											printf("Status: ARB vertex programs available.\n");
-// 	if(glewGetExtension("GL_ARB_fragment_program"))						printf("Status: ARB fragment programs available.\n");
-// 	if(glewIsSupported("GL_VERSION_1_4 GL_ARB_point_sprite"))			printf("Status: ARB point sprites available.\n");	
-// 	printf("\n");		
-// }
+	if(GLEW_ARB_vertex_program)											printf("Status: ARB vertex programs available.\n");
+	if(glewGetExtension("GL_ARB_fragment_program"))						printf("Status: ARB fragment programs available.\n");
+	if(glewIsSupported("GL_VERSION_1_4 GL_ARB_point_sprite"))			printf("Status: ARB point sprites available.\n");	
+	printf("\n");		
+}
 
 
 
