@@ -70,9 +70,9 @@ void Main_Loop(void){
 					indices,  sizeof(indices), 
 					sizeof(vertices), sizeof(colors), sizeof(texCoords));
 
-	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box2_vertices, box_colors, box2_normals,
-					box2_indices,  sizeof(box2_indices), 
-					sizeof(box2_vertices), sizeof(box_colors), sizeof(box2_normals));
+	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box_vertices, box_colors, box_normals,
+					box_indices,  sizeof(box_indices), 
+					sizeof(box_vertices), sizeof(box_colors), sizeof(box_normals));
 					
 
 

@@ -17,15 +17,11 @@
 extern GLuint		GLSL_Fbo;
 extern GLFWwindow * wnd;
 
-extern GLfloat      box_vertices[72];
+extern GLfloat      box_vertices[24];
 extern GLfloat      box_normals[72];
 extern GLfloat      box_colors[72];
+extern GLfloat      box_texcoords[48];
 extern GLubyte      box_indices[36];
-
-extern GLfloat      box2_vertices[24];
-extern GLfloat      box2_normals[72];
-extern GLfloat      box2_texcoords[48];
-extern GLubyte      box2_indices[36];
 
 void				Init(void);
 void				Shut_Down(int);
