@@ -165,7 +165,7 @@ void Draw_Square( GLuint array_buffer, int size){
 }
 
 
-
+//shut down!!
 void Shut_Down(int return_code){
 
 	glDeleteBuffers(1, &VAO[2]);
