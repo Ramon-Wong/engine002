@@ -104,7 +104,7 @@ void Main_Loop(void){
 
 		glUseProgram( GLSL_Prog[0]);
 
-		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, -1.0f);
+		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 5.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
