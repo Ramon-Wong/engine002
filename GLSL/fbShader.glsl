@@ -1,8 +1,10 @@
 #version 400
 
-in vec3             oArray2;            // colors in
+in vec2             oArray2;            // colors in
 out vec4            fColor;             // Output fragment color
 
+uniform sampler2D   tSampler; 
+
 void main() {
-    fColor = vec4( oArray2, 1.0);
+    fColor = texture( tSampler, oArray2);
 }

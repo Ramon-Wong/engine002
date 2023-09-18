@@ -62,9 +62,9 @@ void Main_Loop(void){
 					indices,  sizeof(indices), 
 					sizeof(vertices), sizeof(colors), sizeof(texCoords));
 
-	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box_vertices, box_colors, box_normals,
+	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box_vertices, box_texcoords, box_normals,
 					box_indices,  sizeof(box_indices), 
-					sizeof(box_vertices), sizeof(box_colors), sizeof(box_normals));
+					sizeof(box_vertices), sizeof(box_texcoords), sizeof(box_normals));
 
 
     GLenum error = glGetError();
@@ -104,7 +104,7 @@ void Main_Loop(void){
 
 		glUseProgram( GLSL_Prog[0]);
 
-		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 8.0f);
+		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, -1.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);

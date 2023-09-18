@@ -8,11 +8,11 @@ uniform mat4    modelMatrix;
 
 
 in vec3         inPosition;             // Input vertex position
-in vec3         iArray2;                // Input Colors
+in vec2         iArray2;                // Input tex_coords
 in vec3         iArray3;                // Input normals
 
-out vec3        oArray2;                // Color out
-
+out vec2        oArray2;                // Color out
+out vec3        oArray3;                // Color out
 
 
 void main() {
