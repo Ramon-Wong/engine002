@@ -6,13 +6,12 @@ uniform float   rotate_z;
 uniform mat4    modelMatrix;
 
 
-
 in vec3         inPosition;             // Input vertex position
-in vec2         iArray2;                // Input tex_coords
-in vec3         iArray3;                // Input normals
+in vec3         iArray2;                // Input tex_coords
+in vec2         iArray3;                // Input normals
 
-out vec2        oArray2;                // Color out
-out vec3        oArray3;                // Color out
+out vec3        oArray2;                // texcoords out
+out vec2        oArray3;                // normal out
 
 
 void main() {
@@ -20,6 +19,7 @@ void main() {
     vec3 b      = a;
 
     oArray2     = iArray2;
+    oArray3     = iArray3;
 
     gl_Position = uProjView * modelMatrix * vec4( b, 1.0);
 }

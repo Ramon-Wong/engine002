@@ -16,7 +16,7 @@
 
 extern GLFWwindow * wnd;
 
-extern GLfloat      box_vertices[24];
+extern GLfloat      box_vertices[72];
 extern GLfloat      box_normals[72];
 extern GLfloat      box_colors[72];
 extern GLfloat      box_texcoords[48];

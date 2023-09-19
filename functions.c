@@ -60,9 +60,9 @@ void Main_Loop(void){
 					indices,  sizeof(indices), 
 					sizeof(vertices), sizeof(colors), sizeof(texCoords));
 
-	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box_vertices, box_texcoords, box_normals,
+	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box_vertices, box_normals, box_texcoords,
 					box_indices,  sizeof(box_indices), 
-					sizeof(box_vertices), sizeof(box_texcoords), sizeof(box_normals));
+					sizeof(box_vertices), sizeof(box_normals), sizeof(box_texcoords));
 
 
     GLenum error = glGetError();
