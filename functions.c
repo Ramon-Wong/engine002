@@ -83,7 +83,6 @@ void Main_Loop(void){
 
 // texture setup end
 
-
 	glEnable(GL_DEPTH_TEST);  
 	
 	while(!glfwWindowShouldClose(wnd)){
