@@ -25,8 +25,6 @@ GLuint				VAO[3];						// Vertice Array Object holding ya, array object, buffer 
 GLuint				VBO[3];
 GLuint				GLSL_Prog[3];				// GLSL Program
 
-void				Draw_Square(GLuint, int);
-void				Draw(void);
 
 float				rot = 0.0f;
 
@@ -112,7 +110,7 @@ void Main_Loop(void){
    		glActiveTexture(GL_TEXTURE0);		
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 
-		Draw_Square(VBO[0], 36);
+		Draw_Object(VBO[0], 36);
 
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR) {
@@ -124,22 +122,6 @@ void Main_Loop(void){
 	}
 
 	glDeleteTextures(1, &m_texture);
-}
-
-
-
-void Draw_Square( GLuint array_buffer, int size){
-	glBindVertexArray( array_buffer);
-	glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
-    // Draw your geometry
-	glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_BYTE, 0);
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-	glBindVertexArray(0);
 }
 
 
