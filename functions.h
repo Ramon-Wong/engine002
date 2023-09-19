@@ -26,9 +26,7 @@ void				Init(void);
 void				Shut_Down(int);
 void				Main_Loop(void);
 
-void				ShaderSetup(const char *, const char *);
 void				ShaderSetup1(void);
-void				ShaderSetup2(const char *, const char *, GLuint, GLuint, GLuint);
 
 GLuint				ReadGLSLScript(GLuint, uint, const char *);
 void				LinkPrograms(GLuint);
