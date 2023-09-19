@@ -147,3 +147,14 @@ GLuint LoadTexture(GLuint _glslProg, const char * path, const char * tagname, in
 		return texture;
     }
 }
+
+
+// void extract_frustum_planes(const float fr[16], Plane pl[6]) {
+
+//   pl[0].x = fr[3] - fr[0];    pl[0].y = fr[7] - fr[4];  pl[0].z = fr[11] - fr[8];   pl[0].d = fr[15] - fr[12];  // Extract the near plane.
+//   pl[1].x = fr[3] + fr[0];    pl[1].y = fr[7] + fr[4];  pl[1].z = fr[11] + fr[8];   pl[1].d = fr[15] + fr[12];  // Extract the far plane.
+//   pl[2].x = fr[3] - fr[1];    pl[2].y = fr[7] - fr[5];  pl[2].z = fr[11] - fr[9];   pl[2].d = fr[15] - fr[13];  // Extract the left plane.
+//   pl[3].x = fr[3] + fr[1];    pl[3].y = fr[7] + fr[5];  pl[3].z = fr[11] + fr[9];   pl[3].d = fr[15] + fr[13];  // Extract the right plane.
+//   pl[4].x = fr[3] - fr[2];    pl[4].y = fr[7] - fr[6];  pl[4].z = fr[11] - fr[10];  pl[4].d = fr[15] - fr[14];  // Extract the top plane.
+//   pl[5].x = fr[3] + fr[2];    pl[5].y = fr[7] + fr[6];  pl[5].z = fr[11] + fr[10];  pl[5].d = fr[15] + fr[14];  // Extract the bottom plane.
+// }

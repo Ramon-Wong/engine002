@@ -2,7 +2,7 @@
 
 
 const float rotations_per_tick		= 0.2f;
-	  float rotate_z				= 0.0f;
+	  float timer					= 0.0f;
 
 
 GLfloat vertices[]	= {  4.0f, 4.0f, -4.0f, 	
@@ -24,7 +24,6 @@ GLFWwindow * wnd;
 GLuint				VAO[3];						// Vertice Array Object holding ya, array object, buffer objects.
 GLuint				VBO[3];
 GLuint				GLSL_Prog[3];				// GLSL Program
-
 
 float				rot = 0.0f;
 
@@ -88,8 +87,8 @@ void Main_Loop(void){
 		double current_time = glfwGetTime();
 		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 
-		rotate_z = 0.1 * delta_rotate;
-		rot += 0.01f;
+		timer = 0.1 * delta_rotate;
+		rot += 0.005f;
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){
 			glfwSetWindowShouldClose( wnd, 1);
@@ -97,11 +96,11 @@ void Main_Loop(void){
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"), rotate_z);	
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "timer"), timer);
 
 		glUseProgram( GLSL_Prog[0]);
 
-		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 5.0f);
+		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 8.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
