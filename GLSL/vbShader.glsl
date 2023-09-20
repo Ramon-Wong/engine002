@@ -15,7 +15,7 @@ out vec2        oArray3;                // normal out
 out float       _timer;
 
 
-float frustum_culling(vec3 point){
+float frustum_culling(vec4 point){
     float       dotSum = 0.0f;
     vec4        plane[6];                       // planes, left, right, bottom, top, near and far
 
@@ -27,7 +27,7 @@ float frustum_culling(vec3 point){
     plane[5] = uProjView[3] - uProjView[2];     // Far Plane
     
     for(int i = 0; i < 6; i++){
-        dotSum += dot(plane[i], vec4( point, 1.0f));
+        dotSum += dot(plane[i], point);
     }
 
     return dotSum;
@@ -41,5 +41,32 @@ void main() {
     oArray3     = iArray3;
     _timer      = timer;
 
-    gl_Position = uProjView * modelMatrix * vec4( b, 1.0);
+    float cube_size = frustum_cube;
+
+    // frustum culling test
+    if( cube_size > 0.0){
+        vec3    cube[8];
+        float   sum = 0.0;
+
+        cube[0] = vec3( -cube_size, cube_size, cube_size);
+        cube[1] = vec3(  cube_size, cube_size, cube_size);
+        cube[2] = vec3(  cube_size,-cube_size, cube_size);
+        cube[3] = vec3( -cube_size,-cube_size, cube_size);
+        cube[4] = vec3( -cube_size, cube_size,-cube_size);
+        cube[5] = vec3(  cube_size, cube_size,-cube_size);
+        cube[6] = vec3(  cube_size,-cube_size,-cube_size);
+        cube[7] = vec3( -cube_size,-cube_size,-cube_size);
+
+        for(int i = 0; i < 8; i++){
+            vec4 point = modelMatrix * vec4(cube[i], 1.0);
+            sum += frustum_culling(point);
+        }
+
+        if( sum <= 0.0){
+            gl_Position = uProjView * modelMatrix * vec4( b, 1.0);
+        }
+
+    }else{
+        gl_Position = uProjView * modelMatrix * vec4( b, 1.0);
+    }
 }
