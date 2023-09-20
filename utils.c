@@ -158,3 +158,33 @@ GLuint LoadTexture(GLuint _glslProg, const char * path, const char * tagname, in
 //   pl[4].x = fr[3] - fr[2];    pl[4].y = fr[7] - fr[6];  pl[4].z = fr[11] - fr[10];  pl[4].d = fr[15] - fr[14];  // Extract the top plane.
 //   pl[5].x = fr[3] + fr[2];    pl[5].y = fr[7] + fr[6];  pl[5].z = fr[11] + fr[10];  pl[5].d = fr[15] + fr[14];  // Extract the bottom plane.
 // }
+
+    // left_plane.a =      Matrix.[12] + Matrix.[0]; 
+    // left_plane.b =      Matrix.[13] + Matrix.[1]; 
+    // left_plane.c =      Matrix.[14] + Matrix.[2]; 
+    // left_plane.d =      Matrix.[15] + Matrix.[3];
+
+    // right_plane.a =     Matrix.[12] - Matrix.[0];
+    // right_plane.b =     Matrix.[13] - Matrix.[1];
+    // right_plane.c =     Matrix.[14] - Matrix.[2];
+    // right_plane.d =     Matrix.[15] - Matrix.[3];    
+
+    // top_plane.a =       Matrix.[12] - Matrix.[4];
+    // top_plane.b =       Matrix.[13] - Matrix.[5];
+    // top_plane.c =       Matrix.[14] - Matrix.[6];
+    // top_plane.d =       Matrix.[15] - Matrix.[7];    
+
+    // bottom_plane.a =    Matrix.[12] + Matrix.[4];
+    // bottom_plane.b =    Matrix.[13] + Matrix.[5];
+    // bottom_plane.c =    Matrix.[14] + Matrix.[6];
+    // bottom_plane.d =    Matrix.[15] + Matrix.[7];    
+
+    // near_plane.a =      Matrix.[12] + Matrix._31;
+    // near_plane.b =      Matrix.[13] + Matrix._32;
+    // near_plane.c =      Matrix.[14] + Matrix._33;
+    // near_plane.d =      Matrix.[15] + Matrix._34;
+    
+    // far_plane.a =       Matrix.[12] - Matrix._31;
+    // far_plane.b =       Matrix.[13] - Matrix._32;
+    // far_plane.c =       Matrix.[14] - Matrix._33;
+    // far_plane.d =       Matrix.[15] - Matrix._34;  

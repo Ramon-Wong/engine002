@@ -12,16 +12,21 @@ void main() {
     // Sample the texture
     vec4 texColor = texture(tSampler, oArray3);
 
-    // Create a ripple distortion effect based on _timer
-    float rippleX = sin(oArray2.y * 10.0 + _timer * 2.0); // Adjust frequency and animation speed
-    float rippleY = cos(oArray2.x * 10.0 + _timer * 2.0); // Adjust frequency and animation speed
-    vec2 distortedCoords = oArray3.xy + 0.02 * vec2(rippleX, rippleY); // Adjust distortion strength
+    // Create a colorful vortex effect based on _timer
+    float angle = _timer * 2.0; // Adjust animation speed
+    float radius = length(oArray2); // Calculate distance from center
+    vec2 distortedCoords = oArray3.xy + 0.02 * radius * vec2(cos(angle), sin(angle)); // Adjust distortion strength
 
     // Sample the texture using the distorted coordinates
     vec4 distortedColor = texture(tSampler, distortedCoords);
 
     // Blend the distorted color with the original color
-    texColor = mix(texColor, distortedColor, 0.5); // Adjust blending strength
+    texColor = mix(texColor, distortedColor, 0.7); // Adjust blending strength
+
+    // Apply bloom to bright areas of the image
+    if (texColor.r > 0.7) {
+        texColor.rgb += 0.5 * (texColor.rgb - 0.7); // Add a portion of the overbright color
+    }
 
     fColor = texColor;
 }
