@@ -149,15 +149,17 @@ GLuint LoadTexture(GLuint _glslProg, const char * path, const char * tagname, in
 }
 
 
-// void extract_frustum_planes(const float fr[16], Plane pl[6]) {
+    // for(int i = 0; i < 4; i++){
+    //     plane[0][i] =       Matrix.[12+i] + Matrix.[0+i];                   // left
+    //     plane[1][i] =       Matrix.[12+i] - Matrix.[0+i];                   // right
+    //     plane[2][i] =       Matrix.[12+i] + Matrix.[4+i];                   // top
+    //     plane[3][i] =       Matrix.[12+i] - Matrix.[4+i];                   // bottom
+    //     plane[4][i] =       Matrix.[12+i] + Matrix.[8+i];                   // near
+    //     plane[5][i] =       Matrix.[12+i] - Matrix.[8+i];                   // far
+    // }
 
-//   pl[0].x = fr[3] - fr[0];    pl[0].y = fr[7] - fr[4];  pl[0].z = fr[11] - fr[8];   pl[0].d = fr[15] - fr[12];  // Extract the near plane.
-//   pl[1].x = fr[3] + fr[0];    pl[1].y = fr[7] + fr[4];  pl[1].z = fr[11] + fr[8];   pl[1].d = fr[15] + fr[12];  // Extract the far plane.
-//   pl[2].x = fr[3] - fr[1];    pl[2].y = fr[7] - fr[5];  pl[2].z = fr[11] - fr[9];   pl[2].d = fr[15] - fr[13];  // Extract the left plane.
-//   pl[3].x = fr[3] + fr[1];    pl[3].y = fr[7] + fr[5];  pl[3].z = fr[11] + fr[9];   pl[3].d = fr[15] + fr[13];  // Extract the right plane.
-//   pl[4].x = fr[3] - fr[2];    pl[4].y = fr[7] - fr[6];  pl[4].z = fr[11] - fr[10];  pl[4].d = fr[15] - fr[14];  // Extract the top plane.
-//   pl[5].x = fr[3] + fr[2];    pl[5].y = fr[7] + fr[6];  pl[5].z = fr[11] + fr[10];  pl[5].d = fr[15] + fr[14];  // Extract the bottom plane.
-// }
+
+
 
     // left_plane.a =      Matrix.[12] + Matrix.[0]; 
     // left_plane.b =      Matrix.[13] + Matrix.[1]; 
@@ -188,3 +190,48 @@ GLuint LoadTexture(GLuint _glslProg, const char * path, const char * tagname, in
     // far_plane.b =       Matrix.[13] - Matrix._32;
     // far_plane.c =       Matrix.[14] - Matrix._33;
     // far_plane.d =       Matrix.[15] - Matrix._34;  
+
+
+// vec4 pointInWorldSpace = vec4(3.0, 2.0, -4.0, 1.0); // Example point
+
+// // Define the frustum planes
+// vec4 leftPlane = uProjView[3] + uProjView[0]; // Left Plane
+// vec4 rightPlane = uProjView[3] - uProjView[0]; // Right Plane
+// vec4 bottomPlane = uProjView[3] + uProjView[1]; // Bottom Plane
+// vec4 topPlane = uProjView[3] - uProjView[1]; // Top Plane
+// vec4 nearPlane = uProjView[3] + uProjView[2]; // Near Plane
+// vec4 farPlane = uProjView[3] - uProjView[2]; // Far Plane
+
+// // Test if the point is inside the frustum
+// bool isInsideFrustum =
+//     dot(leftPlane, pointInWorldSpace) > 0.0 &&
+//     dot(rightPlane, pointInWorldSpace) > 0.0 &&
+//     dot(bottomPlane, pointInWorldSpace) > 0.0 &&
+//     dot(topPlane, pointInWorldSpace) > 0.0 &&
+//     dot(nearPlane, pointInWorldSpace) > 0.0 &&
+//     dot(farPlane, pointInWorldSpace) > 0.0;
+
+// if (isInsideFrustum) {
+//     // The point is inside the frustum
+//     // You can perform further actions here
+// }
+
+// Define a structure to represent a plane
+// struct Plane {
+//     float A, B, C, D; // Plane equation coefficients
+// };
+
+// // Function to normalize a plane
+// void NormalizePlane(struct Plane* plane) {
+//     // Calculate the length of the normal vector
+//     float length = sqrt(plane->A * plane->A + plane->B * plane->B + plane->C * plane->C);
+
+//     // Ensure the plane's normal vector is not zero (to avoid division by zero)
+//     if (length != 0.0f) {
+//         // Normalize the normal vector
+//         plane->A /= length;
+//         plane->B /= length;
+//         plane->C /= length;
+//         plane->D /= length;
+//     }
+// }

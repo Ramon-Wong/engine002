@@ -14,6 +14,27 @@ out vec3        oArray2;                // texcoords out
 out vec2        oArray3;                // normal out
 out float       _timer;
 
+
+float frustum_culling(vec3 point){
+    float       dotSum = 0.0f;
+    vec4        plane[6];                       // planes, left, right, bottom, top, near and far
+
+    plane[0] = uProjView[3] + uProjView[0];     // Left Plane
+    plane[1] = uProjView[3] - uProjView[0];     // Right Plane
+    plane[2] = uProjView[3] + uProjView[1];     // Bottom Plane
+    plane[3] = uProjView[3] - uProjView[1];     // Top Plane
+    plane[4] = uProjView[3] + uProjView[2];     // Near Plane
+    plane[5] = uProjView[3] - uProjView[2];     // Far Plane
+    
+    for(int i = 0; i < 6; i++){
+        dotSum += dot(plane[i], vec4( point, 1.0f));
+    }
+
+    return dotSum;
+}
+
+
+
 void main() {
     vec3 a      = inPosition; 
     vec3 b      = a;

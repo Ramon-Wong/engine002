@@ -13,7 +13,7 @@ void main() {
     vec4 texColor = texture(tSampler, oArray3);
 
     // Create a colorful vortex effect based on _timer
-    float angle = _timer * 2.0; // Adjust animation speed
+    float angle = _timer * 6.0; // Adjust animation speed
     float radius = length(oArray2); // Calculate distance from center
     vec2 distortedCoords = oArray3.xy + 0.02 * radius * vec2(cos(angle), sin(angle)); // Adjust distortion strength
 
