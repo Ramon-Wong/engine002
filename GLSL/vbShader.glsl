@@ -1,10 +1,10 @@
 #version 400
 
 uniform mat4    uProjView;
-uniform float   timer;
-
 uniform mat4    modelMatrix;
 
+uniform float   timer;
+uniform float   frustum_cube;
 
 in vec3         inPosition;             // Input vertex position
 in vec3         iArray2;                // Input tex_coords
@@ -32,8 +32,6 @@ float frustum_culling(vec3 point){
 
     return dotSum;
 }
-
-
 
 void main() {
     vec3 a      = inPosition; 
