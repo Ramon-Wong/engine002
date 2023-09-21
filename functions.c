@@ -44,7 +44,7 @@ void Main_Loop(void){
 	LinkPrograms(GLSL_Prog[0]);
 
 	float aspect_ratio = ((float)600) / 800;
-	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
+	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 250.0f);	
 	
 	float View[] = {  0.0f,  0.0f, 12.0f};
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
@@ -122,7 +122,7 @@ void Main_Loop(void){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "timer"), timer);
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "frustum_cube"), 0.150f);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "frustum_cube"), 0.50f);
 
 		glUseProgram( GLSL_Prog[0]);
 
@@ -169,4 +169,18 @@ void Shut_Down(int return_code){
 
 	glfwTerminate();
 	exit(return_code);
+}
+
+
+void SetupPlanes(float* uProjView) {
+
+    
+    for (int i = 0; i < 4; i++) {
+        plane[0] = uProjView[12] + uProjView[0 + i]; // Left Plane
+        plane[1] = uProjView[12] - uProjView[0 + i]; // Right Plane
+        plane[2] = uProjView[12] + uProjView[4 + i]; // Bottom Plane
+        plane[3] = uProjView[12] - uProjView[4 + i]; // Top Plane
+        plane[4] = uProjView[12] + uProjView[8 + i]; // Near Plane
+        plane[5] = uProjView[12] - uProjView[8 + i]; // Far Plane
+    }
 }
