@@ -34,8 +34,8 @@ void				LinkPrograms(GLuint);
 void                CreateTexture( GLenum, GLuint *, unsigned char *, int, int, GLenum);
 GLuint              LoadTexture( GLuint, const char *, const char *, int);
 
-//                  use this with View and Pose as parameters            
-void                MoveCamera(float *, float *);           
+//                  use this with Pose and View as parameters and speed
+void                MoveCamera(float *, float *, float);           
 void                RotateCamera(float *, float *);
 
 void				Draw_Object(GLuint, int);
