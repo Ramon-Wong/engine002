@@ -14,17 +14,20 @@ out vec3        oArray2;                // texcoords out
 out vec2        oArray3;                // normal out
 out float       _timer;
 
+vec4            plane[6];                       // planes, left, right, bottom, top, near and far
 
-float frustum_culling(vec4 point){
-    float       dotSum = 0.0f;
-    vec4        plane[6];                       // planes, left, right, bottom, top, near and far
 
+void SetupPlanes(){
     plane[0] = uProjView[3] + uProjView[0];     // Left Plane
     plane[1] = uProjView[3] - uProjView[0];     // Right Plane
     plane[2] = uProjView[3] + uProjView[1];     // Bottom Plane
     plane[3] = uProjView[3] - uProjView[1];     // Top Plane
     plane[4] = uProjView[3] + uProjView[2];     // Near Plane
     plane[5] = uProjView[3] - uProjView[2];     // Far Plane
+}
+
+float frustum_culling(vec4 point){
+    float       dotSum = 0.0f;
     
     for(int i = 0; i < 6; i++){
         dotSum += dot(plane[i], point);
@@ -40,6 +43,8 @@ void main() {
     oArray2     = iArray2;
     oArray3     = iArray3;
     _timer      = timer;
+
+    SetupPlanes();
 
     float cube_size = frustum_cube;
 
@@ -58,11 +63,10 @@ void main() {
         cube[7] = vec3( -cube_size,-cube_size,-cube_size);
 
         for(int i = 0; i < 8; i++){
-            vec4 point = modelMatrix * vec4(cube[i], 1.0);
-            sum += frustum_culling(point);
+            sum += frustum_culling( modelMatrix * vec4(cube[i], 1.0));
         }
 
-        if( sum <= 0.0){
+        if( sum >= 0.0){
             gl_Position = uProjView * modelMatrix * vec4( b, 1.0);
         }
 

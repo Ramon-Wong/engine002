@@ -97,7 +97,7 @@ void Main_Loop(void){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "timer"), timer);
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "frustum_cube"), 0.0f);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "frustum_cube"), 1.0f);
 
 		glUseProgram( GLSL_Prog[0]);
 
