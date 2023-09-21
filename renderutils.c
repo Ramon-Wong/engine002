@@ -62,3 +62,14 @@ void gPopMatrix(GLuint Prog, const char * uniform){
 	MLoadIdentity(CulRTMatrix);
 	counter = 0;
 }
+
+
+void MoveCamera(float *, float *){
+
+}
+
+
+void RotateCamera(float *, float *){
+
+
+}
