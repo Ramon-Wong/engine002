@@ -23,7 +23,7 @@ extern GLfloat		View_Matrix[16];
 
 void                Init();
 void                Shutdown(int);
-void				Main_Loop(GLFWwindow *);
+void				Main_Loop();
 
 
 
