@@ -64,7 +64,7 @@ void gPopMatrix(GLuint Prog, const char * uniform){
 }
 
 
-void MoveCamera(float *, float *){
+void MoveCamera(float * Pose, float * View, float speed){
 
 }
 
