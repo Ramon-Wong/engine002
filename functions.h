@@ -9,8 +9,6 @@
 #include <string.h>
 #include <math.h>
 
-#include "matrix4x.h"
-
 #include <GL/glew.h>
 #include <GL/glu.h>
 #include <GLFW/glfw3.h>
