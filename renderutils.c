@@ -79,33 +79,64 @@ void MoveCamera(float * Pose, float * View, float speed){
 }
 
 
-void RotateCamera(float * Pose, float * View, float angle, float x, float y, float z){
-    float nVector[3];
-    float vVector[3];
+// void RotateCamera(float * Pose, float * View, float angle, float x, float y, float z){
+//     float nVector[3];
+//     float vVector[3];
 
-    vVector[0]  = View[0] - Pose[0];    // x
-    vVector[1]  = View[1] - Pose[1];    // y, just in case
-    vVector[2]  = View[2] - Pose[2];    // z
+//     vVector[0]  = View[0] - Pose[0];    // x
+//     vVector[1]  = View[1] - Pose[1];    // y, just in case
+//     vVector[2]  = View[2] - Pose[2];    // z
 
-	float cosTheta = (float)cos(angle);
-	float sinTheta = (float)sin(angle);
+// 	float cosTheta = (float)cos(angle);
+// 	float sinTheta = (float)sin(angle);
 
-	nVector[0]   = (cosTheta + (1 - cosTheta) * x * x)		* vVector[0];
-	nVector[0]  += ((1 - cosTheta) * x * y - z * sinTheta)	* vVector[1];
-	nVector[0]  += ((1 - cosTheta) * x * z + y * sinTheta)	* vVector[2];
+// 	nVector[0]   = (cosTheta + (1 - cosTheta) * x * x)		* vVector[0];
+// 	nVector[0]  += ((1 - cosTheta) * x * y - z * sinTheta)	* vVector[1];
+// 	nVector[0]  += ((1 - cosTheta) * x * z + y * sinTheta)	* vVector[2];
 
-	nVector[1]   = ((1 - cosTheta) * x * y + z * sinTheta)	* vVector[0];
-	nVector[1]  += (cosTheta + (1 - cosTheta) * y * y)		* vVector[1];
-	nVector[1]  += ((1 - cosTheta) * y * z - x * sinTheta)	* vVector[2];
+// 	nVector[1]   = ((1 - cosTheta) * x * y + z * sinTheta)	* vVector[0];
+// 	nVector[1]  += (cosTheta + (1 - cosTheta) * y * y)		* vVector[1];
+// 	nVector[1]  += ((1 - cosTheta) * y * z - x * sinTheta)	* vVector[2];
 
-	nVector[2]  = ((1 - cosTheta) * x * z - y * sinTheta)	* vVector[0];
-	nVector[2] += ((1 - cosTheta) * y * z + x * sinTheta)	* vVector[1];
-	nVector[2] += (cosTheta + (1 - cosTheta) * z * z)		* vVector[2];
+// 	nVector[2]  = ((1 - cosTheta) * x * z - y * sinTheta)	* vVector[0];
+// 	nVector[2] += ((1 - cosTheta) * y * z + x * sinTheta)	* vVector[1];
+// 	nVector[2] += (cosTheta + (1 - cosTheta) * z * z)		* vVector[2];
 
-    View[0] = Pose[0] + nVector[0];
-    View[1] = Pose[1] + nVector[1];
-    View[2] = Pose[2] + nVector[2];
+//     View[0] = Pose[0] + nVector[0];
+//     View[1] = Pose[1] + nVector[1];
+//     View[2] = Pose[2] + nVector[2];
+// }
+
+
+void RotateCamera(float* Pose, float* View, float angle, float x, float y, float z) {
+    // Calculate the rotation matrix.
+    float cosTheta = cos(angle);
+    float sinTheta = sin(angle);
+
+    // Create the rotation matrix for the specified axis (x, y, z).
+    float rotationMatrix[9];
+    rotationMatrix[0] = cosTheta + (1 - cosTheta) * x * x;
+    rotationMatrix[1] = (1 - cosTheta) * x * y - z * sinTheta;
+    rotationMatrix[2] = (1 - cosTheta) * x * z + y * sinTheta;
+    rotationMatrix[3] = (1 - cosTheta) * x * y + z * sinTheta;
+    rotationMatrix[4] = cosTheta + (1 - cosTheta) * y * y;
+    rotationMatrix[5] = (1 - cosTheta) * y * z - x * sinTheta;
+    rotationMatrix[6] = (1 - cosTheta) * x * z - y * sinTheta;
+    rotationMatrix[7] = (1 - cosTheta) * y * z + x * sinTheta;
+    rotationMatrix[8] = cosTheta + (1 - cosTheta) * z * z;
+
+    // Apply the rotation matrix to the view vector.
+    float newView[3];
+    newView[0] = rotationMatrix[0] * (View[0] - Pose[0]) + rotationMatrix[1] * (View[1] - Pose[1]) + rotationMatrix[2] * (View[2] - Pose[2]);
+    newView[1] = rotationMatrix[3] * (View[0] - Pose[0]) + rotationMatrix[4] * (View[1] - Pose[1]) + rotationMatrix[5] * (View[2] - Pose[2]);
+    newView[2] = rotationMatrix[6] * (View[0] - Pose[0]) + rotationMatrix[7] * (View[1] - Pose[1]) + rotationMatrix[8] * (View[2] - Pose[2]);
+
+    // Update the new view vector.
+    View[0] = Pose[0] + newView[0];
+    View[1] = Pose[1] + newView[1];
+    View[2] = Pose[2] + newView[2];
 }
+
 
 
 void StrafeCamera(float* Pose, float* View, float speed) {

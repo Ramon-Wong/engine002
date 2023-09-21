@@ -46,9 +46,9 @@ void Main_Loop(void){
 	float aspect_ratio = ((float)600) / 800;
 	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 1000.0f);	
 	
-	float View[] = {  0.0f,  0.0f, 12.0f};
-	float Pose[] = {  0.0f,  0.0f,  6.0f};
-	float Upvx[] = {  0.0f,  1.0f,  0.0f};
+	float View[] = {  0.0f,  0.0f, 4.0f};
+	float Pose[] = {  0.0f,  0.0f, 8.0f};
+	float Upvx[] = {  0.0f,  1.0f, 0.0f};
 	
 						// Position        View		   Up Vector
 	// g_Camera.PositionCamera(0, 1.5f, 6,   0, 1.5f, 0,   0, 1, 0);
@@ -113,11 +113,11 @@ void Main_Loop(void){
 		}
 
 		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){
-			RotateCamera( Pose, View,-0.0015f, 0.0f, 1.0f, 0.0f);
+			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);
 		}
 
 		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){
-			RotateCamera( Pose, View, 0.0015f, 0.0f, 1.0f, 0.0f);			
+			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);			
 		}
 
 
@@ -140,7 +140,7 @@ void Main_Loop(void){
 
 		glUseProgram( GLSL_Prog[0]);
 
-		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 8.0f);
+		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 24.0f);
 		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
 		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
 		// gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
@@ -156,6 +156,21 @@ void Main_Loop(void){
 			fprintf(stderr, "OpenGL error in mainloop: %d\n", error);
 			Shut_Down(1);
 		}
+
+
+	// 	glDisable(GL_DEPTH_TEST);
+	// 	glDepthMask(GL_FALSE);  // Disable writing to the depth buffer
+
+    glBegin(GL_QUADS);
+    glVertex2f(-0.5f, -0.5f);  // Bottom-left corner
+    glVertex2f(0.5f, -0.5f);   // Bottom-right corner
+    glVertex2f(0.5f, 0.5f);    // Top-right corner
+    glVertex2f(-0.5f, 0.5f);   // Top-left corner
+    glEnd();
+
+	// 	glEnable(GL_DEPTH_TEST);
+	// 	glDepthMask(GL_TRUE);  // Re-enable depth buffer writing
+
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
 	}

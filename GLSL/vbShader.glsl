@@ -49,7 +49,7 @@ void main() {
     
     // float cube_size = frustum_cube;
 
-    // frustum culling test
+    // // frustum culling test
     // if( cube_size > 0.0){
     //     vec3    cube[8];
 
