@@ -50,9 +50,6 @@ void Main_Loop(void){
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float Upvx[] = {  0.0f,  1.0f,  0.0f};
 	
-	LookAtM( View_Matrix, Pose, View, Upvx);
-
-	MMultiply( ProjView, Proj_Matrix, View_Matrix);
 
 	// SetupVAO( &vao, &vbo, &ebo, vertices, colors, indices, sizeof(vertices), sizeof(colors), sizeof(indices));
 	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, colors, texCoords,
@@ -76,6 +73,9 @@ void Main_Loop(void){
 	// projection matrix outside the rendering loop
 	// GLuint ProjLocation		= glGetUniformLocation( GLSL_Prog[0], "uProjView");
 
+	LookAtM( View_Matrix, Pose, View, Upvx);
+	MMultiply( ProjView, Proj_Matrix, View_Matrix);
+
 	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),			1,	GL_FALSE, ProjView);
 
 // texture setup end
@@ -84,15 +84,40 @@ void Main_Loop(void){
 	
 	while(!glfwWindowShouldClose(wnd)){
 
-		double current_time = glfwGetTime();
-		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
+		LookAtM( View_Matrix, Pose, View, Upvx);
+		MMultiply( ProjView, Proj_Matrix, View_Matrix);
 
-		timer = 0.1 * delta_rotate;
+		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),			1,	GL_FALSE, ProjView);
+
+
+		double current_time = glfwGetTime();
+		double delta		= (current_time - old_time) * rotations_per_tick * 360;
+
+		timer = 0.1 * delta;
 		rot += 0.005f;
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){
 			glfwSetWindowShouldClose( wnd, 1);
 		}
+
+		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){
+			// printf("\n moving foward");
+			MoveCamera( Pose, View,-0.001f);
+		}
+
+		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){
+			// printf("\n moving backward");
+			MoveCamera( Pose, View, 0.001f);
+		}
+
+		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){
+			RotateCamera( Pose, View,-0.0025f, 0.0f, 1.0f, 0.0f);
+		}
+
+		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){
+			RotateCamera( Pose, View, 0.0025f, 0.0f, 1.0f, 0.0f);			
+		}
+
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -102,9 +127,9 @@ void Main_Loop(void){
 		glUseProgram( GLSL_Prog[0]);
 
 		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 8.0f);
-		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
-		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
-		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
+		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
+		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
+		// gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
 		gPopMatrix( GLSL_Prog[0], "modelMatrix");
 
    		glActiveTexture(GL_TEXTURE0);		

@@ -65,11 +65,44 @@ void gPopMatrix(GLuint Prog, const char * uniform){
 
 
 void MoveCamera(float * Pose, float * View, float speed){
+    float vVector[3];
 
+    vVector[0]  = View[0] - Pose[0];    // x
+    vVector[1]  = View[1] - Pose[1];    // y, just in case
+    vVector[2]  = View[2] - Pose[2];    // z
+	
+    Pose[0] += vVector[0] * speed; 
+    Pose[2] += vVector[2] * speed; 
+
+    View[0] += vVector[0] * speed; 
+    View[2] += vVector[2] * speed; 
 }
 
 
-void RotateCamera(float *, float *){
+void RotateCamera(float * Pose, float * View, float angle, float x, float y, float z){
+    float nVector[3];
+    float vVector[3];
 
+    vVector[0]  = View[0] - Pose[0];    // x
+    vVector[1]  = View[1] - Pose[1];    // y, just in case
+    vVector[2]  = View[2] - Pose[2];    // z
 
+	float cosTheta = (float)cos(angle);
+	float sinTheta = (float)sin(angle);
+
+	nVector[0]   = (cosTheta + (1 - cosTheta) * x * x)		* vVector[0];
+	nVector[0]  += ((1 - cosTheta) * x * y - z * sinTheta)	* vVector[1];
+	nVector[0]  += ((1 - cosTheta) * x * z + y * sinTheta)	* vVector[2];
+
+	nVector[1]   = ((1 - cosTheta) * x * y + z * sinTheta)	* vVector[0];
+	nVector[1]  += (cosTheta + (1 - cosTheta) * y * y)		* vVector[1];
+	nVector[1]  += ((1 - cosTheta) * y * z - x * sinTheta)	* vVector[2];
+
+	nVector[2]  = ((1 - cosTheta) * x * z - y * sinTheta)	* vVector[0];
+	nVector[2] += ((1 - cosTheta) * y * z + x * sinTheta)	* vVector[1];
+	nVector[2] += (cosTheta + (1 - cosTheta) * z * z)		* vVector[2];
+
+    View[0] = Pose[0] + nVector[0];
+    View[1] = Pose[1] + nVector[1];
+    View[2] = Pose[2] + nVector[2];
 }
