@@ -106,3 +106,24 @@ void RotateCamera(float * Pose, float * View, float angle, float x, float y, flo
     View[1] = Pose[1] + nVector[1];
     View[2] = Pose[2] + nVector[2];
 }
+
+
+void StrafeCamera(float* Pose, float* View, float speed) {
+    // Calculate the forward vector (view - pose).
+    float forward[3];
+    forward[0] = View[0] - Pose[0];
+    forward[1] = View[1] - Pose[1];
+    forward[2] = View[2] - Pose[2];
+
+    // Calculate the right (strafe) direction using the cross product of forward and the up vector.
+    float up[3] = {0.0f, 1.0f, 0.0f};  // Assuming up is in the positive Y direction.
+    float right[3];
+    CrossProduct(right, forward, up);
+    Normalize(right);
+
+    // Update the camera's position and view based on the right vector and speed.
+    Pose[0] += right[0] * speed;
+    Pose[2] += right[2] * speed;
+    View[0] += right[0] * speed;
+    View[2] += right[2] * speed;
+}

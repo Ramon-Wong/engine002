@@ -44,12 +44,14 @@ void Main_Loop(void){
 	LinkPrograms(GLSL_Prog[0]);
 
 	float aspect_ratio = ((float)600) / 800;
-	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 250.0f);	
+	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 1000.0f);	
 	
 	float View[] = {  0.0f,  0.0f, 12.0f};
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float Upvx[] = {  0.0f,  1.0f,  0.0f};
 	
+						// Position        View		   Up Vector
+	// g_Camera.PositionCamera(0, 1.5f, 6,   0, 1.5f, 0,   0, 1, 0);
 
 	// SetupVAO( &vao, &vbo, &ebo, vertices, colors, indices, sizeof(vertices), sizeof(colors), sizeof(indices));
 	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, colors, texCoords,
@@ -119,6 +121,18 @@ void Main_Loop(void){
 		}
 
 
+		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){
+			StrafeCamera( Pose, View, 0.01f);
+		}
+
+		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){
+			StrafeCamera( Pose, View, -0.01f);
+		}
+
+
+
+
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "timer"), timer);
@@ -169,18 +183,4 @@ void Shut_Down(int return_code){
 
 	glfwTerminate();
 	exit(return_code);
-}
-
-
-void SetupPlanes(float* uProjView) {
-
-    
-    for (int i = 0; i < 4; i++) {
-        plane[0] = uProjView[12] + uProjView[0 + i]; // Left Plane
-        plane[1] = uProjView[12] - uProjView[0 + i]; // Right Plane
-        plane[2] = uProjView[12] + uProjView[4 + i]; // Bottom Plane
-        plane[3] = uProjView[12] - uProjView[4 + i]; // Top Plane
-        plane[4] = uProjView[12] + uProjView[8 + i]; // Near Plane
-        plane[5] = uProjView[12] - uProjView[8 + i]; // Far Plane
-    }
 }

@@ -37,6 +37,7 @@ GLuint              LoadTexture( GLuint, const char *, const char *, int);
 //                  use this with Pose and View as parameters and speed
 void                MoveCamera(float *, float *, float);           
 void                RotateCamera(float *, float *, float, float, float, float);
+void                StrafeCamera(float *, float *, float);
 
 void				Draw_Object(GLuint, int);
 

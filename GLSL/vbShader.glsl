@@ -45,32 +45,34 @@ void main() {
     _timer      = timer;
 
     SetupPlanes();
-
-    float cube_size = frustum_cube;
+    gl_Position = uProjView * modelMatrix * vec4( b, 1.0);
+    
+    // float cube_size = frustum_cube;
 
     // frustum culling test
-    if( cube_size > 0.0){
-        vec3    cube[8];
-        float   sum = 0.0;
+    // if( cube_size > 0.0){
+    //     vec3    cube[8];
 
-        cube[0] = vec3( -cube_size, cube_size, cube_size);
-        cube[1] = vec3(  cube_size, cube_size, cube_size);
-        cube[2] = vec3(  cube_size,-cube_size, cube_size);
-        cube[3] = vec3( -cube_size,-cube_size, cube_size);
-        cube[4] = vec3( -cube_size, cube_size,-cube_size);
-        cube[5] = vec3(  cube_size, cube_size,-cube_size);
-        cube[6] = vec3(  cube_size,-cube_size,-cube_size);
-        cube[7] = vec3( -cube_size,-cube_size,-cube_size);
+    //     float   sum = 0.0;
 
-        for(int i = 0; i < 8; i++){
-            sum += frustum_culling( modelMatrix * vec4(cube[i], 1.0));
-        }
+    //     cube[0] = vec3( -cube_size, cube_size, cube_size);
+    //     cube[1] = vec3(  cube_size, cube_size, cube_size);
+    //     cube[2] = vec3(  cube_size,-cube_size, cube_size);
+    //     cube[3] = vec3( -cube_size,-cube_size, cube_size);
+    //     cube[4] = vec3( -cube_size, cube_size,-cube_size);
+    //     cube[5] = vec3(  cube_size, cube_size,-cube_size);
+    //     cube[6] = vec3(  cube_size,-cube_size,-cube_size);
+    //     cube[7] = vec3( -cube_size,-cube_size,-cube_size);
 
-        if( sum >= 0.0){
-            gl_Position = uProjView * modelMatrix * vec4( b, 1.0);
-        }
+    //     for(int i = 0; i < 8; i++){
+    //         sum += frustum_culling( modelMatrix * vec4(cube[i], 1.0));
+    //     }
 
-    }else{
-        gl_Position = uProjView * modelMatrix * vec4( b, 1.0);
-    }
+    //     if( sum >= 0.0){
+    //         gl_Position = uProjView * modelMatrix * vec4( b, 1.0);
+    //     }
+
+    // }else{
+    //     gl_Position = uProjView * modelMatrix * vec4( b, 1.0);
+    // }
 }
