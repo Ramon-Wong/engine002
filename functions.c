@@ -111,18 +111,18 @@ void Main_Loop(void){
 		}
 
 		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){
-			RotateCamera( Pose, View,-0.0025f, 0.0f, 1.0f, 0.0f);
+			RotateCamera( Pose, View,-0.0015f, 0.0f, 1.0f, 0.0f);
 		}
 
 		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){
-			RotateCamera( Pose, View, 0.0025f, 0.0f, 1.0f, 0.0f);			
+			RotateCamera( Pose, View, 0.0015f, 0.0f, 1.0f, 0.0f);			
 		}
 
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "timer"), timer);
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "frustum_cube"), 1.0f);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "frustum_cube"), 0.150f);
 
 		glUseProgram( GLSL_Prog[0]);
 
