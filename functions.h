@@ -13,18 +13,14 @@
 #include <GL/glu.h>
 #include <GLFW/glfw3.h>
 
+extern GLFWwindow * window;
 
-extern GLuint		GLSL_Program;
-extern GLuint		GLSL_vertex;
-extern GLuint		GLSL_fragment;
 
-extern GLfloat		Proj_Matrix[16];
-extern GLfloat		View_Matrix[16];
+
 
 void                Init();
-void                Shutdown(int);
 void				Main_Loop();
-
+void                Shutdown(int);
 
 
 

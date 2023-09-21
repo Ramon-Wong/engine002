@@ -2,17 +2,8 @@
 
 
 
-
-GLuint		GLSL_Program;
-GLuint		GLSL_vertex;
-GLuint		GLSL_fragment;
-
-GLfloat		Proj_Matrix[16];
-GLfloat		View_Matrix[16];
-
-
 void Init(void){
-    const int window_width = 800;
+    const int window_width	= 800;
     const int window_height = 600;
  
     glfwInit();
@@ -21,26 +12,17 @@ void Init(void){
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   	GLFWwindow * window = glfwCreateWindow( window_width, window_height, "LearnOpenGL", NULL, NULL);
-	if( !window ){
+	if( !window){
 		Shutdown(1);
 	}
 
- 	glfwMakeContextCurrent(window);		
+ 	glfwMakeContextCurrent(window);
  
 	printf("GL VENDOR:--- %s \n", glGetString(GL_VENDOR));
 	printf("GL RENDERER:- %s \n", glGetString(GL_RENDERER));
 	printf("GL VERSION:-- %s \n", glGetString(GL_VERSION));
 	printf("GL SHADING:-- %s \n", glGetString(GL_SHADING_LANGUAGE_VERSION));
  	
-	//~ gluLookAt(0, 0, 12,     0, 0, 6,     0, 1, 0);
-	
-	while(1){ 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-
-		
-		glfwSwapBuffers(window);
-	}
  }
 
 
