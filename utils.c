@@ -22,7 +22,15 @@ void Init(void){
 	printf("GL RENDERER:- %s \n", glGetString(GL_RENDERER));
 	printf("GL VERSION:-- %s \n", glGetString(GL_VERSION));
 	printf("GL SHADING:-- %s \n", glGetString(GL_SHADING_LANGUAGE_VERSION));
- 	
+
+
+	while(1){ 
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+
+		
+		glfwSwapBuffers(window);
+	}
  }
 
 
