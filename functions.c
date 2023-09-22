@@ -84,6 +84,8 @@ void Main_Loop(void){
 
 	glEnable(GL_DEPTH_TEST);  
 	
+	int lock      = 0;
+
 	while(!glfwWindowShouldClose(wnd)){
 
 		LookAtM( View_Matrix, Pose, View, Upvx);
@@ -91,6 +93,22 @@ void Main_Loop(void){
 
 		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),			1,	GL_FALSE, ProjView);
 
+		setPlanes( ProjView);
+
+		float point[] = { 0.0, 0.0, 24.0f};
+
+
+		if( lock == 0){
+			printf(" \n "); 
+			printf(" \n Right  frustum: %f", TestPlane(0, point));
+			printf(" \n Left   frustum: %f", TestPlane(1, point));
+			printf(" \n Bottom frustum: %f", TestPlane(2, point));
+			printf(" \n Top  frustum: %f", TestPlane(3, point));
+			printf(" \n Near   frustum: %f", TestPlane(4, point));
+			printf(" \n Front  frustum: %f", TestPlane(5, point));												
+			printf(" \n "); 
+			lock += 1;
+		}
 
 		double current_time = glfwGetTime();
 		double delta		= (current_time - old_time) * rotations_per_tick * 360;
@@ -105,28 +123,34 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){
 			// printf("\n moving foward");
 			MoveCamera( Pose, View,-0.001f);
+			lock = 0;
 		}
 
 		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){
 			// printf("\n moving backward");
 			MoveCamera( Pose, View, 0.001f);
+			lock = 0;			
 		}
 
 		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){
 			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);
+			lock = 0;			
 		}
 
 		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){
-			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);			
+			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);
+			lock = 0;
 		}
 
 
 		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){
 			StrafeCamera( Pose, View, 0.01f);
+			lock = 0;
 		}
 
 		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){
 			StrafeCamera( Pose, View, -0.01f);
+			lock = 0;			
 		}
 
 
@@ -157,19 +181,6 @@ void Main_Loop(void){
 			Shut_Down(1);
 		}
 
-
-	// 	glDisable(GL_DEPTH_TEST);
-	// 	glDepthMask(GL_FALSE);  // Disable writing to the depth buffer
-
-    glBegin(GL_QUADS);
-    glVertex2f(-0.5f, -0.5f);  // Bottom-left corner
-    glVertex2f(0.5f, -0.5f);   // Bottom-right corner
-    glVertex2f(0.5f, 0.5f);    // Top-right corner
-    glVertex2f(-0.5f, 0.5f);   // Top-left corner
-    glEnd();
-
-	// 	glEnable(GL_DEPTH_TEST);
-	// 	glDepthMask(GL_TRUE);  // Re-enable depth buffer writing
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();

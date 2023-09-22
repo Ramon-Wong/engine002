@@ -41,7 +41,8 @@ void                CreateTexture( GLenum, GLuint *, unsigned char *, int, int, 
 GLuint              LoadTexture( GLuint, const char *, const char *, int);
 
 void                setPlanes( float *);
-int                 PointinFrustum(float *);
+float               TestPlane( int, float *);
+float               PointinFrustum(float *);
 //                  use this with Pose and View as parameters and speed
 void                MoveCamera(float *, float *, float);           
 void                RotateCamera(float *, float *, float, float, float, float);

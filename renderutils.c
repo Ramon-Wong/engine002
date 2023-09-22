@@ -21,69 +21,47 @@ void NormalizePlane(int side){
 // BACK    4       FRONT   5
 
 void setPlanes( float * ProjView){
-
-    for(int i = 0; i < 3; i++){
-	    gFrustum[i + 0][0]      = ProjView[ 3] - ProjView[ 0 + i];
-	    gFrustum[i + 0][1]      = ProjView[ 7] - ProjView[ 4 + i];
-	    gFrustum[i + 0][2]      = ProjView[11] - ProjView[ 8 + i];
-	    gFrustum[i + 0][3]      = ProjView[15] - ProjView[12 + i];
-
-	    gFrustum[i + 1][0]      = ProjView[ 3] + ProjView[ 0 + i];
-	    gFrustum[i + 1][1]      = ProjView[ 7] + ProjView[ 4 + i];
-	    gFrustum[i + 1][2]      = ProjView[11] + ProjView[ 8 + i];
-	    gFrustum[i + 1][3]      = ProjView[15] + ProjView[12 + i];
-
-        NormalizePlane(0+i);
-        NormalizePlane(1+i);
-    }
-
-
-
-	gFrustum[RIGHT][0]      = ProjView[ 3] - ProjView[ 0];
-	gFrustum[RIGHT][1]      = ProjView[ 7] - ProjView[ 4];
-	gFrustum[RIGHT][2]      = ProjView[11] - ProjView[ 8];
-	gFrustum[RIGHT][3]      = ProjView[15] - ProjView[12];
+    
+	gFrustum[RIGHT][0]      = ProjView[ 3] - ProjView[ 0];          gFrustum[RIGHT][1]      = ProjView[ 7] - ProjView[ 4];
+	gFrustum[RIGHT][2]      = ProjView[11] - ProjView[ 8];          gFrustum[RIGHT][3]      = ProjView[15] - ProjView[12];
     NormalizePlane(RIGHT);
 
-	gFrustum[LEFT][0]       = ProjView[ 3] + ProjView[ 0];
-	gFrustum[LEFT][1]       = ProjView[ 7] + ProjView[ 4];
-	gFrustum[LEFT][2]       = ProjView[11] + ProjView[ 8];
-	gFrustum[LEFT][3]       = ProjView[15] + ProjView[12];
+	gFrustum[LEFT][0]       = ProjView[ 3] + ProjView[ 0];          gFrustum[LEFT][1]       = ProjView[ 7] + ProjView[ 4];
+	gFrustum[LEFT][2]       = ProjView[11] + ProjView[ 8];          gFrustum[LEFT][3]       = ProjView[15] + ProjView[12];
     NormalizePlane(LEFT);
 
-	gFrustum[BOTTOM][0]     = ProjView[ 3] + ProjView[ 1];
-	gFrustum[BOTTOM][1]     = ProjView[ 7] + ProjView[ 5];
-	gFrustum[BOTTOM][2]     = ProjView[11] + ProjView[ 9];
-	gFrustum[BOTTOM][3]     = ProjView[15] + ProjView[13];
+	gFrustum[BOTTOM][0]     = ProjView[ 3] + ProjView[ 1];          gFrustum[BOTTOM][1]     = ProjView[ 7] + ProjView[ 5];
+	gFrustum[BOTTOM][2]     = ProjView[11] + ProjView[ 9];          gFrustum[BOTTOM][3]     = ProjView[15] + ProjView[13];
     NormalizePlane(BOTTOM);
 
-	gFrustum[TOP][0]        = ProjView[ 3] - ProjView[ 1];
-	gFrustum[TOP][1]        = ProjView[ 7] - ProjView[ 5];
-	gFrustum[TOP][2]        = ProjView[11] - ProjView[ 9];
-	gFrustum[TOP][3]        = ProjView[15] - ProjView[13];
+	gFrustum[TOP][0]        = ProjView[ 3] - ProjView[ 1];           gFrustum[TOP][1]        = ProjView[ 7] - ProjView[ 5];
+	gFrustum[TOP][2]        = ProjView[11] - ProjView[ 9];           gFrustum[TOP][3]        = ProjView[15] - ProjView[13];
     NormalizePlane(TOP);
 
-    gFrustum[BACK][0]       = ProjView[ 3] - ProjView[ 2];
-	gFrustum[BACK][1]       = ProjView[ 7] - ProjView[ 6];
-	gFrustum[BACK][2]       = ProjView[11] - ProjView[10];
-	gFrustum[BACK][3]       = ProjView[15] - ProjView[14];
+    gFrustum[BACK][0]       = ProjView[ 3] - ProjView[ 2];           gFrustum[BACK][1]       = ProjView[ 7] - ProjView[ 6];
+	gFrustum[BACK][2]       = ProjView[11] - ProjView[10];           gFrustum[BACK][3]       = ProjView[15] - ProjView[14];
     NormalizePlane(BACK);
 
-	gFrustum[FRONT][0]      = ProjView[ 3] + ProjView[ 2];
-	gFrustum[FRONT][1]      = ProjView[ 7] + ProjView[ 6];
-	gFrustum[FRONT][2]      = ProjView[11] + ProjView[10];
-	gFrustum[FRONT][3]      = ProjView[15] + ProjView[14];
+	gFrustum[FRONT][0]      = ProjView[ 3] + ProjView[ 2];           gFrustum[FRONT][1]      = ProjView[ 7] + ProjView[ 6];
+	gFrustum[FRONT][2]      = ProjView[11] + ProjView[10];           gFrustum[FRONT][3]      = ProjView[15] + ProjView[14];
     NormalizePlane(FRONT);
 }
 
 
-int PointinFrustum(float * vec){
+float PointinFrustum(float * vec){
+
+    float sum = 0;
 	for(int i = 0; i < 6; i++ ){
-		if( gFrustum[i][0] * vec[0] + gFrustum[i][1] * vec[1] + gFrustum[i][2] * vec[3] + m_Frustum[i][3] <= 0){
-			return 0;           // not in frustum
-		}
+        sum += gFrustum[i][0] * vec[0] + gFrustum[i][1] * vec[1] + gFrustum[i][2] * vec[3] + gFrustum[i][3];
     }
-    return 1;
+
+    return sum;
+}
+
+
+float TestPlane( int i, float * vec){
+
+    return(gFrustum[i][0] * vec[0] + gFrustum[i][1] * vec[1] + gFrustum[i][2] * vec[3] + gFrustum[i][3]);
 }
 
 
