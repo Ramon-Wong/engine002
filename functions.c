@@ -66,15 +66,28 @@ void Main_Loop(){
                 printf("\n clip: %f//%f//%f//%f", clip[0+n], clip[1+n], clip[2+n], clip[3+n]);
             }    
 
-	        float   projview[16];
+	        float   projmatrix[16];
 	        float   modelview[16];
 	        float   ProjModel[16];	
 
-            MLoadIdentity(projview);
+            MLoadIdentity(projmatrix);
             MLoadIdentity(modelview);
-            MFrustum();
-            LookAtm();
 
+            float Pose[] = { 0.0, 0.0, 5.0};    // Eye position
+            float View[] = { 0.0, 0.0, 0.0};    // Look at position (center)
+            float UpVx[] = { 0.0, 1.0, 0.0};    // Up direction
+            float aspect_ratio = 800 / 600;
+
+            // gluPerspective(45.0, (GLfloat)width / (GLfloat)height, 0.1, 100.0); // Adjust parameters as needed
+            MFrustum( (float*)projmatrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 0.1f, 100.0f);	
+            LookAtM(modelview, Pose, View, UpVx);
+            MMultiply( ProjModel, projmatrix, modelview);
+
+            printf("\n");
+            for(int n = 0; n < 4; n++){
+                printf("\n ProjModel: %f//%f//%f//%f", ProjModel[0+n], ProjModel[1+n], ProjModel[2+n], ProjModel[3+n]);
+            }    
+            printf("\n end");
 
             i = 1;
         }
