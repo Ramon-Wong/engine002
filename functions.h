@@ -41,8 +41,8 @@ void                CreateTexture( GLenum, GLuint *, unsigned char *, int, int, 
 GLuint              LoadTexture( GLuint, const char *, const char *, int);
 
 void                setPlanes( float *);
-float               TestPlane( int, float *);
 float               PointinFrustum(float *);
+void                OutputPlanes( float *);
 //                  use this with Pose and View as parameters and speed
 void                MoveCamera(float *, float *, float);           
 void                RotateCamera(float *, float *, float, float, float, float);
@@ -56,5 +56,6 @@ void                gPopMatrix(GLuint, const char *);
 
 void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
 void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei, GLsizei);
+
 
 #endif

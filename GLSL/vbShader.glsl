@@ -47,13 +47,13 @@ void main() {
     SetupPlanes();
     gl_Position = uProjView * modelMatrix * vec4( b, 1.0);
     
-    // float cube_size = frustum_cube;
+    float cube_size = frustum_cube;
 
-    // // frustum culling test
+    // frustum culling test
     // if( cube_size > 0.0){
     //     vec3    cube[8];
-
-    //     float   sum = 0.0;
+    //     int i;
+    //     bool renderObject = true;
 
     //     cube[0] = vec3( -cube_size, cube_size, cube_size);
     //     cube[1] = vec3(  cube_size, cube_size, cube_size);
@@ -64,11 +64,14 @@ void main() {
     //     cube[6] = vec3(  cube_size,-cube_size,-cube_size);
     //     cube[7] = vec3( -cube_size,-cube_size,-cube_size);
 
-    //     for(int i = 0; i < 8; i++){
-    //         sum += frustum_culling( modelMatrix * vec4(cube[i], 1.0));
+    //     for(i = 0; i < 8; i++){
+    //         if( frustum_culling( modelMatrix * vec4(cube[i], 1.0)) < 0.0 ){
+    //             renderObject = false;
+    //             break;
+    //         }
     //     }
 
-    //     if( sum >= 0.0){
+    //     if( renderObject){
     //         gl_Position = uProjView * modelMatrix * vec4( b, 1.0);
     //     }
 

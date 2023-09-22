@@ -44,11 +44,11 @@ void Main_Loop(void){
 	LinkPrograms(GLSL_Prog[0]);
 
 	float aspect_ratio = ((float)600) / 800;
-	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 1000.0f);	
+	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
 	
-	float View[] = {  0.0f,  0.0f, 4.0f};
-	float Pose[] = {  0.0f,  0.0f, 8.0f};
-	float Upvx[] = {  0.0f,  1.0f, 0.0f};
+	float View[] = {  0.01f,  0.01f, 4.00f};
+	float Pose[] = {  0.01f,  0.01f, 8.00f};
+	float Upvx[] = {  0.01f,  1.00f, 0.01f};
 	
 						// Position        View		   Up Vector
 	// g_Camera.PositionCamera(0, 1.5f, 6,   0, 1.5f, 0,   0, 1, 0);
@@ -89,16 +89,19 @@ void Main_Loop(void){
 	while(!glfwWindowShouldClose(wnd)){
 
 		LookAtM( View_Matrix, Pose, View, Upvx);
+		MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
 		MMultiply( ProjView, Proj_Matrix, View_Matrix);
+		setPlanes( ProjView);
 
 		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),			1,	GL_FALSE, ProjView);
 
-		setPlanes( ProjView);
+		
 
-		float point[] = { 0.0, 0.0, 24.0f};
+		float point[] = { 0.01f, 0.01f, 50.01f};
 
 
 		if( lock == 0){
+			// OutputPlanes(point);
 			printf(" \n "); 
 			printf(" \n Right  frustum: %f", TestPlane(0, point));
 			printf(" \n Left   frustum: %f", TestPlane(1, point));
@@ -164,7 +167,7 @@ void Main_Loop(void){
 
 		glUseProgram( GLSL_Prog[0]);
 
-		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 24.0f);
+		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 50.0f);
 		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
 		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
 		// gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);

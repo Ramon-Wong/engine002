@@ -22,29 +22,53 @@ void NormalizePlane(int side){
 
 void setPlanes( float * ProjView){
     
-	gFrustum[RIGHT][0]      = ProjView[ 3] - ProjView[ 0];          gFrustum[RIGHT][1]      = ProjView[ 7] - ProjView[ 4];
-	gFrustum[RIGHT][2]      = ProjView[11] - ProjView[ 8];          gFrustum[RIGHT][3]      = ProjView[15] - ProjView[12];
+	gFrustum[RIGHT][0]      = ProjView[ 3] - ProjView[ 0];          
+    gFrustum[RIGHT][1]      = ProjView[ 7] - ProjView[ 4];
+	gFrustum[RIGHT][2]      = ProjView[11] - ProjView[ 8];          
+    gFrustum[RIGHT][3]      = ProjView[15] - ProjView[12];
     NormalizePlane(RIGHT);
 
-	gFrustum[LEFT][0]       = ProjView[ 3] + ProjView[ 0];          gFrustum[LEFT][1]       = ProjView[ 7] + ProjView[ 4];
-	gFrustum[LEFT][2]       = ProjView[11] + ProjView[ 8];          gFrustum[LEFT][3]       = ProjView[15] + ProjView[12];
+	gFrustum[LEFT][0]       = ProjView[ 3] + ProjView[ 0];
+    gFrustum[LEFT][1]       = ProjView[ 7] + ProjView[ 4];
+	gFrustum[LEFT][2]       = ProjView[11] + ProjView[ 8];
+    gFrustum[LEFT][3]       = ProjView[15] + ProjView[12];
     NormalizePlane(LEFT);
 
-	gFrustum[BOTTOM][0]     = ProjView[ 3] + ProjView[ 1];          gFrustum[BOTTOM][1]     = ProjView[ 7] + ProjView[ 5];
-	gFrustum[BOTTOM][2]     = ProjView[11] + ProjView[ 9];          gFrustum[BOTTOM][3]     = ProjView[15] + ProjView[13];
+	gFrustum[BOTTOM][0]     = ProjView[ 3] + ProjView[ 1];
+    gFrustum[BOTTOM][1]     = ProjView[ 7] + ProjView[ 5];
+	gFrustum[BOTTOM][2]     = ProjView[11] + ProjView[ 9];
+    gFrustum[BOTTOM][3]     = ProjView[15] + ProjView[13];
     NormalizePlane(BOTTOM);
 
-	gFrustum[TOP][0]        = ProjView[ 3] - ProjView[ 1];           gFrustum[TOP][1]        = ProjView[ 7] - ProjView[ 5];
-	gFrustum[TOP][2]        = ProjView[11] - ProjView[ 9];           gFrustum[TOP][3]        = ProjView[15] - ProjView[13];
+	gFrustum[TOP][0]        = ProjView[ 3] - ProjView[ 1];
+    gFrustum[TOP][1]        = ProjView[ 7] - ProjView[ 5];
+	gFrustum[TOP][2]        = ProjView[11] - ProjView[ 9];
+    gFrustum[TOP][3]        = ProjView[15] - ProjView[13];
     NormalizePlane(TOP);
 
-    gFrustum[BACK][0]       = ProjView[ 3] - ProjView[ 2];           gFrustum[BACK][1]       = ProjView[ 7] - ProjView[ 6];
-	gFrustum[BACK][2]       = ProjView[11] - ProjView[10];           gFrustum[BACK][3]       = ProjView[15] - ProjView[14];
+    gFrustum[BACK][0]       = ProjView[ 3] - ProjView[ 2];
+    gFrustum[BACK][1]       = ProjView[ 7] - ProjView[ 6];
+	gFrustum[BACK][2]       = ProjView[11] - ProjView[10];
+    gFrustum[BACK][3]       = ProjView[15] - ProjView[14];
     NormalizePlane(BACK);
 
-	gFrustum[FRONT][0]      = ProjView[ 3] + ProjView[ 2];           gFrustum[FRONT][1]      = ProjView[ 7] + ProjView[ 6];
-	gFrustum[FRONT][2]      = ProjView[11] + ProjView[10];           gFrustum[FRONT][3]      = ProjView[15] + ProjView[14];
+	gFrustum[FRONT][0]      = ProjView[ 3] + ProjView[ 2];           
+    gFrustum[FRONT][1]      = ProjView[ 7] + ProjView[ 6];
+	gFrustum[FRONT][2]      = ProjView[11] + ProjView[10];           
+    gFrustum[FRONT][3]      = ProjView[15] + ProjView[14];
     NormalizePlane(FRONT);
+}
+
+
+int TestPlane( int i, float * vec){
+    float sum = gFrustum[i][0] * vec[0]) + (gFrustum[i][1] * vec[1]) + (gFrustum[i][2] * vec[2]) + gFrustum[i][3];
+
+    if(sum >= 0.0){
+        return 1;
+    }else{
+        return 0;
+    }
+
 }
 
 
@@ -59,10 +83,7 @@ float PointinFrustum(float * vec){
 }
 
 
-float TestPlane( int i, float * vec){
 
-    return(gFrustum[i][0] * vec[0] + gFrustum[i][1] * vec[1] + gFrustum[i][2] * vec[3] + gFrustum[i][3]);
-}
 
 
 void Draw_Object( GLuint array_buffer, int size){
@@ -78,6 +99,22 @@ void Draw_Object( GLuint array_buffer, int size){
 	glDisableVertexAttribArray(2);
 	glBindVertexArray(0);
 }
+
+
+// RIGHT   0       LEFT    1
+// BOTTOM  2       TOP     3
+// BACK    4       FRONT   5
+
+ void OutputPlanes( float * point){
+	printf(" \n "); 
+	printf(" \n Right:  %f//%f//%f//%f      DP: %f", gFrustum[0][1], gFrustum[0][2], gFrustum[0][3], gFrustum[0][4], TestPlane(0, point)); 
+	printf(" \n Left:   %f//%f//%f//%f      DP: %f", gFrustum[1][1], gFrustum[1][2], gFrustum[1][3], gFrustum[1][4], TestPlane(1, point)); 
+	printf(" \n Bottom: %f//%f//%f//%f      DP: %f", gFrustum[2][1], gFrustum[2][2], gFrustum[2][3], gFrustum[2][4], TestPlane(2, point));
+    printf(" \n Top:    %f//%f//%f//%f      DP: %f", gFrustum[3][1], gFrustum[3][2], gFrustum[3][3], gFrustum[3][4], TestPlane(3, point));
+    printf(" \n Back:   %f//%f//%f//%f      DP: %f", gFrustum[4][1], gFrustum[4][2], gFrustum[4][3], gFrustum[4][4], TestPlane(4, point));
+    printf(" \n Near:   %f//%f//%f//%f      DP: %f", gFrustum[5][1], gFrustum[5][2], gFrustum[5][3], gFrustum[5][4], TestPlane(5, point));
+	printf(" \n "); 
+ }
 
 
 static float	CulRTMatrix[16];
