@@ -16,7 +16,28 @@ void NormalizePlane(int side){
 }
 
 
+// RIGHT   0       LEFT    1
+// BOTTOM  2       TOP     3
+// BACK    4       FRONT   5
+
 void setPlanes( float * ProjView){
+
+    for(int i = 0; i < 3; i++){
+	    gFrustum[i + 0][0]      = ProjView[ 3] - ProjView[ 0 + i];
+	    gFrustum[i + 0][1]      = ProjView[ 7] - ProjView[ 4 + i];
+	    gFrustum[i + 0][2]      = ProjView[11] - ProjView[ 8 + i];
+	    gFrustum[i + 0][3]      = ProjView[15] - ProjView[12 + i];
+
+	    gFrustum[i + 1][0]      = ProjView[ 3] + ProjView[ 0 + i];
+	    gFrustum[i + 1][1]      = ProjView[ 7] + ProjView[ 4 + i];
+	    gFrustum[i + 1][2]      = ProjView[11] + ProjView[ 8 + i];
+	    gFrustum[i + 1][3]      = ProjView[15] + ProjView[12 + i];
+
+        NormalizePlane(0+i);
+        NormalizePlane(1+i);
+    }
+
+
 
 	gFrustum[RIGHT][0]      = ProjView[ 3] - ProjView[ 0];
 	gFrustum[RIGHT][1]      = ProjView[ 7] - ProjView[ 4];
@@ -39,7 +60,7 @@ void setPlanes( float * ProjView){
 	gFrustum[TOP][0]        = ProjView[ 3] - ProjView[ 1];
 	gFrustum[TOP][1]        = ProjView[ 7] - ProjView[ 5];
 	gFrustum[TOP][2]        = ProjView[11] - ProjView[ 9];
-	gFrustum[TOP][3]        = ProjView[15] - ProjView[13];    
+	gFrustum[TOP][3]        = ProjView[15] - ProjView[13];
     NormalizePlane(TOP);
 
     gFrustum[BACK][0]       = ProjView[ 3] - ProjView[ 2];
@@ -51,7 +72,7 @@ void setPlanes( float * ProjView){
 	gFrustum[FRONT][0]      = ProjView[ 3] + ProjView[ 2];
 	gFrustum[FRONT][1]      = ProjView[ 7] + ProjView[ 6];
 	gFrustum[FRONT][2]      = ProjView[11] + ProjView[10];
-	gFrustum[FRONT][3]      = ProjView[15] + ProjView[14];    
+	gFrustum[FRONT][3]      = ProjView[15] + ProjView[14];
     NormalizePlane(FRONT);
 }
 
