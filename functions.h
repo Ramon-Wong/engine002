@@ -12,6 +12,12 @@
 
 #include "matrix.h"
 
+#define RIGHT   0
+#define LEFT    1
+#define BOTTOM  2
+#define TOP     3
+#define BACK    4    
+#define FRONT   5
 
 
 extern GLFWwindow * wnd;
@@ -34,6 +40,8 @@ void				LinkPrograms(GLuint);
 void                CreateTexture( GLenum, GLuint *, unsigned char *, int, int, GLenum);
 GLuint              LoadTexture( GLuint, const char *, const char *, int);
 
+void                setPlanes( float *);
+int                 PointinFrustum(float *);
 //                  use this with Pose and View as parameters and speed
 void                MoveCamera(float *, float *, float);           
 void                RotateCamera(float *, float *, float, float, float, float);

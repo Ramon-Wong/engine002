@@ -1,6 +1,69 @@
 #include "functions.h"
 
 
+static float gFrustum[6][4];
+
+
+
+void NormalizePlane(int side){
+
+	float magnitude = (float)sqrt( gFrustum[side][0] * gFrustum[side][0] + gFrustum[side][1] * gFrustum[side][1] + gFrustum[side][2] * gFrustum[side][2] );
+
+	gFrustum[side][0] /= magnitude;
+	gFrustum[side][1] /= magnitude;
+	gFrustum[side][2] /= magnitude;
+	gFrustum[side][3] /= magnitude; 
+}
+
+
+void setPlanes( float * ProjView){
+
+	gFrustum[RIGHT][0]      = ProjView[ 3] - ProjView[ 0];
+	gFrustum[RIGHT][1]      = ProjView[ 7] - ProjView[ 4];
+	gFrustum[RIGHT][2]      = ProjView[11] - ProjView[ 8];
+	gFrustum[RIGHT][3]      = ProjView[15] - ProjView[12];
+    NormalizePlane(RIGHT);
+
+	gFrustum[LEFT][0]       = ProjView[ 3] + ProjView[ 0];
+	gFrustum[LEFT][1]       = ProjView[ 7] + ProjView[ 4];
+	gFrustum[LEFT][2]       = ProjView[11] + ProjView[ 8];
+	gFrustum[LEFT][3]       = ProjView[15] + ProjView[12];
+    NormalizePlane(LEFT);
+
+	gFrustum[BOTTOM][0]     = ProjView[ 3] + ProjView[ 1];
+	gFrustum[BOTTOM][1]     = ProjView[ 7] + ProjView[ 5];
+	gFrustum[BOTTOM][2]     = ProjView[11] + ProjView[ 9];
+	gFrustum[BOTTOM][3]     = ProjView[15] + ProjView[13];
+    NormalizePlane(BOTTOM);
+
+	gFrustum[TOP][0]        = ProjView[ 3] - ProjView[ 1];
+	gFrustum[TOP][1]        = ProjView[ 7] - ProjView[ 5];
+	gFrustum[TOP][2]        = ProjView[11] - ProjView[ 9];
+	gFrustum[TOP][3]        = ProjView[15] - ProjView[13];    
+    NormalizePlane(TOP);
+
+    gFrustum[BACK][0]       = ProjView[ 3] - ProjView[ 2];
+	gFrustum[BACK][1]       = ProjView[ 7] - ProjView[ 6];
+	gFrustum[BACK][2]       = ProjView[11] - ProjView[10];
+	gFrustum[BACK][3]       = ProjView[15] - ProjView[14];
+    NormalizePlane(BACK);
+
+	gFrustum[FRONT][0]      = ProjView[ 3] + ProjView[ 2];
+	gFrustum[FRONT][1]      = ProjView[ 7] + ProjView[ 6];
+	gFrustum[FRONT][2]      = ProjView[11] + ProjView[10];
+	gFrustum[FRONT][3]      = ProjView[15] + ProjView[14];    
+    NormalizePlane(FRONT);
+}
+
+
+int PointinFrustum(float * vec){
+	for(int i = 0; i < 6; i++ ){
+		if( gFrustum[i][0] * vec[0] + gFrustum[i][1] * vec[1] + gFrustum[i][2] * vec[3] + m_Frustum[i][3] <= 0){
+			return 0;           // not in frustum
+		}
+    }
+    return 1;
+}
 
 
 void Draw_Object( GLuint array_buffer, int size){
