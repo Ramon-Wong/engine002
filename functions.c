@@ -66,6 +66,16 @@ void Main_Loop(){
                 printf("\n clip: %f//%f//%f//%f", clip[0+n], clip[1+n], clip[2+n], clip[3+n]);
             }    
 
+	        float   projview[16];
+	        float   modelview[16];
+	        float   ProjModel[16];	
+
+            MLoadIdentity(projview);
+            MLoadIdentity(modelview);
+            MFrustum();
+            LookAtm();
+
+
             i = 1;
         }
 
