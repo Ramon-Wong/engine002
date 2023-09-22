@@ -84,7 +84,7 @@ void Main_Loop(void){
 
 	glEnable(GL_DEPTH_TEST);  
 	
-	int lock      = 0;
+	// int lock      = 0;
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -97,21 +97,21 @@ void Main_Loop(void){
 
 		
 
-		float point[] = { 0.01f, 0.01f, 50.01f};
+		// float point[] = { 0.01f, 0.01f, 50.01f};
 
 
-		if( lock == 0){
-			// OutputPlanes(point);
-			printf(" \n "); 
-			// printf(" \n Right  frustum: %f", TestPlane(0, point));
-			// printf(" \n Left   frustum: %f", TestPlane(1, point));
-			// printf(" \n Bottom frustum: %f", TestPlane(2, point));
-			// printf(" \n Top  frustum: %f", TestPlane(3, point));
-			// printf(" \n Near   frustum: %f", TestPlane(4, point));
-			// printf(" \n Front  frustum: %f", TestPlane(5, point));												
-			printf(" \n Point: %i", PointinFrustum(point)); 
-			lock += 1;
-		}
+		// if( lock == 0){
+		// 	// OutputPlanes(point);
+		// 	printf(" \n "); 
+		// 	// printf(" \n Right  frustum: %f", TestPlane(0, point));
+		// 	// printf(" \n Left   frustum: %f", TestPlane(1, point));
+		// 	// printf(" \n Bottom frustum: %f", TestPlane(2, point));
+		// 	// printf(" \n Top  frustum: %f", TestPlane(3, point));
+		// 	// printf(" \n Near   frustum: %f", TestPlane(4, point));
+		// 	// printf(" \n Front  frustum: %f", TestPlane(5, point));												
+		// 	// printf(" \n Point: %i", PointinFrustum(point)); 
+		// 	lock += 1;
+		// }
 
 		double current_time = glfwGetTime();
 		double delta		= (current_time - old_time) * rotations_per_tick * 360;
@@ -119,51 +119,19 @@ void Main_Loop(void){
 		timer = 0.1 * delta;
 		rot += 0.005f;
 
-		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){
-			glfwSetWindowShouldClose( wnd, 1);
-		}
-
-		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){
-			// printf("\n moving foward");
-			MoveCamera( Pose, View,-0.001f);
-			lock = 0;
-		}
-
-		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){
-			// printf("\n moving backward");
-			MoveCamera( Pose, View, 0.001f);
-			lock = 0;			
-		}
-
-		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){
-			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);
-			lock = 0;			
-		}
-
-		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){
-			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);
-			lock = 0;
-		}
-
-
-		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){
-			StrafeCamera( Pose, View, 0.01f);
-			lock = 0;
-		}
-
-		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){
-			StrafeCamera( Pose, View, -0.01f);
-			lock = 0;			
-		}
-
-
-
+		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);}
+		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);}
+		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);}
+		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);}
+		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);}
+		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, 0.01f);}
+		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.01f);}
 
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "timer"), timer);
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "frustum_cube"), 0.50f);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "frustum_cube"), 0.10f);
 
 		glUseProgram( GLSL_Prog[0]);
 
