@@ -103,13 +103,13 @@ void Main_Loop(void){
 		if( lock == 0){
 			// OutputPlanes(point);
 			printf(" \n "); 
-			printf(" \n Right  frustum: %f", TestPlane(0, point));
-			printf(" \n Left   frustum: %f", TestPlane(1, point));
-			printf(" \n Bottom frustum: %f", TestPlane(2, point));
-			printf(" \n Top  frustum: %f", TestPlane(3, point));
-			printf(" \n Near   frustum: %f", TestPlane(4, point));
-			printf(" \n Front  frustum: %f", TestPlane(5, point));												
-			printf(" \n "); 
+			// printf(" \n Right  frustum: %f", TestPlane(0, point));
+			// printf(" \n Left   frustum: %f", TestPlane(1, point));
+			// printf(" \n Bottom frustum: %f", TestPlane(2, point));
+			// printf(" \n Top  frustum: %f", TestPlane(3, point));
+			// printf(" \n Near   frustum: %f", TestPlane(4, point));
+			// printf(" \n Front  frustum: %f", TestPlane(5, point));												
+			printf(" \n Point: %i", PointinFrustum(point)); 
 			lock += 1;
 		}
 

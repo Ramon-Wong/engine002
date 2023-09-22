@@ -61,7 +61,7 @@ void setPlanes( float * ProjView){
 
 
 int TestPlane( int i, float * vec){
-    float sum = gFrustum[i][0] * vec[0]) + (gFrustum[i][1] * vec[1]) + (gFrustum[i][2] * vec[2]) + gFrustum[i][3];
+    float sum = (gFrustum[i][0] * vec[0]) + (gFrustum[i][1] * vec[1]) + (gFrustum[i][2] * vec[2]) + gFrustum[i][3];
 
     if(sum >= 0.0){
         return 1;
@@ -71,12 +71,11 @@ int TestPlane( int i, float * vec){
 
 }
 
-
-float PointinFrustum(float * vec){
+int PointinFrustum(float * vec){
 
     float sum = 0;
 	for(int i = 0; i < 6; i++ ){
-        sum += gFrustum[i][0] * vec[0] + gFrustum[i][1] * vec[1] + gFrustum[i][2] * vec[3] + gFrustum[i][3];
+        sum += TestPlane(i, vec);
     }
 
     return sum;
@@ -99,22 +98,6 @@ void Draw_Object( GLuint array_buffer, int size){
 	glDisableVertexAttribArray(2);
 	glBindVertexArray(0);
 }
-
-
-// RIGHT   0       LEFT    1
-// BOTTOM  2       TOP     3
-// BACK    4       FRONT   5
-
- void OutputPlanes( float * point){
-	printf(" \n "); 
-	printf(" \n Right:  %f//%f//%f//%f      DP: %f", gFrustum[0][1], gFrustum[0][2], gFrustum[0][3], gFrustum[0][4], TestPlane(0, point)); 
-	printf(" \n Left:   %f//%f//%f//%f      DP: %f", gFrustum[1][1], gFrustum[1][2], gFrustum[1][3], gFrustum[1][4], TestPlane(1, point)); 
-	printf(" \n Bottom: %f//%f//%f//%f      DP: %f", gFrustum[2][1], gFrustum[2][2], gFrustum[2][3], gFrustum[2][4], TestPlane(2, point));
-    printf(" \n Top:    %f//%f//%f//%f      DP: %f", gFrustum[3][1], gFrustum[3][2], gFrustum[3][3], gFrustum[3][4], TestPlane(3, point));
-    printf(" \n Back:   %f//%f//%f//%f      DP: %f", gFrustum[4][1], gFrustum[4][2], gFrustum[4][3], gFrustum[4][4], TestPlane(4, point));
-    printf(" \n Near:   %f//%f//%f//%f      DP: %f", gFrustum[5][1], gFrustum[5][2], gFrustum[5][3], gFrustum[5][4], TestPlane(5, point));
-	printf(" \n "); 
- }
 
 
 static float	CulRTMatrix[16];
