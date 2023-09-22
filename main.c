@@ -1,16 +1,18 @@
 #include "functions.h"
 
 
+// GLFWwindow * window;
+
+
+
 GLFWwindow * window;
 
 
-int main(int argc, char *argv[]){
+int main() {
 
     Init();
-    // Main_Loop();
-    Shutdown(0);
-    
+    Main_Loop();
+    Shutdown(1);
+
     return 0;
 }
-
-

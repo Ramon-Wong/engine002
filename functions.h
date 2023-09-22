@@ -16,12 +16,9 @@
 extern GLFWwindow * window;
 
 
-
-
-void                Init();
+int                 Init();
 void				Main_Loop();
-void                Shutdown(int);
-
+int                 Shutdown();
 
 
 #endif
