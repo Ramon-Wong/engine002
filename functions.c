@@ -50,9 +50,6 @@ void Main_Loop(void){
 	float Pose[] = {  0.01f,  0.01f, 8.00f};
 	float Upvx[] = {  0.01f,  1.00f, 0.01f};
 	
-						// Position        View		   Up Vector
-	// g_Camera.PositionCamera(0, 1.5f, 6,   0, 1.5f, 0,   0, 1, 0);
-
 	// SetupVAO( &vao, &vbo, &ebo, vertices, colors, indices, sizeof(vertices), sizeof(colors), sizeof(indices));
 	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, colors, texCoords,
 					indices,  sizeof(indices), 
@@ -61,7 +58,6 @@ void Main_Loop(void){
 	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box_vertices, box_normals, box_texcoords,
 					box_indices,  sizeof(box_indices), 
 					sizeof(box_vertices), sizeof(box_normals), sizeof(box_texcoords));
-
 
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
@@ -83,35 +79,15 @@ void Main_Loop(void){
 // texture setup end
 
 	glEnable(GL_DEPTH_TEST);  
-	
-	// int lock      = 0;
 
 	while(!glfwWindowShouldClose(wnd)){
 
 		LookAtM( View_Matrix, Pose, View, Upvx);
-		MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
+
 		MMultiply( ProjView, Proj_Matrix, View_Matrix);
 		setPlanes( ProjView);
 
 		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),			1,	GL_FALSE, ProjView);
-
-		
-
-		// float point[] = { 0.01f, 0.01f, 50.01f};
-
-
-		// if( lock == 0){
-		// 	// OutputPlanes(point);
-		// 	printf(" \n "); 
-		// 	// printf(" \n Right  frustum: %f", TestPlane(0, point));
-		// 	// printf(" \n Left   frustum: %f", TestPlane(1, point));
-		// 	// printf(" \n Bottom frustum: %f", TestPlane(2, point));
-		// 	// printf(" \n Top  frustum: %f", TestPlane(3, point));
-		// 	// printf(" \n Near   frustum: %f", TestPlane(4, point));
-		// 	// printf(" \n Front  frustum: %f", TestPlane(5, point));												
-		// 	// printf(" \n Point: %i", PointinFrustum(point)); 
-		// 	lock += 1;
-		// }
 
 		double current_time = glfwGetTime();
 		double delta		= (current_time - old_time) * rotations_per_tick * 360;
@@ -124,9 +100,8 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);}
 		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);}
 		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);}
-		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, 0.01f);}
-		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.01f);}
-
+		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, 0.005f);}
+		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -136,9 +111,9 @@ void Main_Loop(void){
 		glUseProgram( GLSL_Prog[0]);
 
 		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 50.0f);
-		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
-		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
-		// gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
+		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
+		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
+		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
 		gPopMatrix( GLSL_Prog[0], "modelMatrix");
 
    		glActiveTexture(GL_TEXTURE0);		
@@ -151,7 +126,6 @@ void Main_Loop(void){
 			fprintf(stderr, "OpenGL error in mainloop: %d\n", error);
 			Shut_Down(1);
 		}
-
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
@@ -181,3 +155,8 @@ void Shut_Down(int return_code){
 	glfwTerminate();
 	exit(return_code);
 }
+
+
+
+
+

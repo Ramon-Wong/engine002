@@ -22,40 +22,28 @@ void NormalizePlane(int side){
 
 void setPlanes( float * ProjView){
     
-	gFrustum[RIGHT][0]      = ProjView[ 3] - ProjView[ 0];          
-    gFrustum[RIGHT][1]      = ProjView[ 7] - ProjView[ 4];
-	gFrustum[RIGHT][2]      = ProjView[11] - ProjView[ 8];          
-    gFrustum[RIGHT][3]      = ProjView[15] - ProjView[12];
+	gFrustum[RIGHT][0]      = ProjView[ 3] - ProjView[ 0];          gFrustum[RIGHT][1]      = ProjView[ 7] - ProjView[ 4];
+	gFrustum[RIGHT][2]      = ProjView[11] - ProjView[ 8];          gFrustum[RIGHT][3]      = ProjView[15] - ProjView[12];
     NormalizePlane(RIGHT);
 
-	gFrustum[LEFT][0]       = ProjView[ 3] + ProjView[ 0];
-    gFrustum[LEFT][1]       = ProjView[ 7] + ProjView[ 4];
-	gFrustum[LEFT][2]       = ProjView[11] + ProjView[ 8];
-    gFrustum[LEFT][3]       = ProjView[15] + ProjView[12];
+	gFrustum[LEFT][0]       = ProjView[ 3] + ProjView[ 0];          gFrustum[LEFT][1]       = ProjView[ 7] + ProjView[ 4];
+	gFrustum[LEFT][2]       = ProjView[11] + ProjView[ 8];          gFrustum[LEFT][3]       = ProjView[15] + ProjView[12];
     NormalizePlane(LEFT);
 
-	gFrustum[BOTTOM][0]     = ProjView[ 3] + ProjView[ 1];
-    gFrustum[BOTTOM][1]     = ProjView[ 7] + ProjView[ 5];
-	gFrustum[BOTTOM][2]     = ProjView[11] + ProjView[ 9];
-    gFrustum[BOTTOM][3]     = ProjView[15] + ProjView[13];
+	gFrustum[BOTTOM][0]     = ProjView[ 3] + ProjView[ 1];          gFrustum[BOTTOM][1]     = ProjView[ 7] + ProjView[ 5];
+	gFrustum[BOTTOM][2]     = ProjView[11] + ProjView[ 9];          gFrustum[BOTTOM][3]     = ProjView[15] + ProjView[13];
     NormalizePlane(BOTTOM);
 
-	gFrustum[TOP][0]        = ProjView[ 3] - ProjView[ 1];
-    gFrustum[TOP][1]        = ProjView[ 7] - ProjView[ 5];
-	gFrustum[TOP][2]        = ProjView[11] - ProjView[ 9];
-    gFrustum[TOP][3]        = ProjView[15] - ProjView[13];
+	gFrustum[TOP][0]        = ProjView[ 3] - ProjView[ 1];          gFrustum[TOP][1]        = ProjView[ 7] - ProjView[ 5];
+	gFrustum[TOP][2]        = ProjView[11] - ProjView[ 9];          gFrustum[TOP][3]        = ProjView[15] - ProjView[13];
     NormalizePlane(TOP);
 
-    gFrustum[BACK][0]       = ProjView[ 3] - ProjView[ 2];
-    gFrustum[BACK][1]       = ProjView[ 7] - ProjView[ 6];
-	gFrustum[BACK][2]       = ProjView[11] - ProjView[10];
-    gFrustum[BACK][3]       = ProjView[15] - ProjView[14];
+    gFrustum[BACK][0]       = ProjView[ 3] - ProjView[ 2];          gFrustum[BACK][1]       = ProjView[ 7] - ProjView[ 6];
+	gFrustum[BACK][2]       = ProjView[11] - ProjView[10];          gFrustum[BACK][3]       = ProjView[15] - ProjView[14];
     NormalizePlane(BACK);
 
-	gFrustum[FRONT][0]      = ProjView[ 3] + ProjView[ 2];           
-    gFrustum[FRONT][1]      = ProjView[ 7] + ProjView[ 6];
-	gFrustum[FRONT][2]      = ProjView[11] + ProjView[10];           
-    gFrustum[FRONT][3]      = ProjView[15] + ProjView[14];
+	gFrustum[FRONT][0]      = ProjView[ 3] + ProjView[ 2];          gFrustum[FRONT][1]      = ProjView[ 7] + ProjView[ 6];
+	gFrustum[FRONT][2]      = ProjView[11] + ProjView[10];          gFrustum[FRONT][3]      = ProjView[15] + ProjView[14];
     NormalizePlane(FRONT);
 }
 
@@ -71,6 +59,7 @@ int TestPlane( int i, float * vec){
 
 }
 
+
 int PointinFrustum(float * vec){
 
     float sum = 0;
@@ -82,7 +71,9 @@ int PointinFrustum(float * vec){
 }
 
 
-
+// float * GetPlanes(){
+//     // return gFrustum;
+// }
 
 
 void Draw_Object( GLuint array_buffer, int size){
@@ -161,35 +152,6 @@ void MoveCamera(float * Pose, float * View, float speed){
 }
 
 
-// void RotateCamera(float * Pose, float * View, float angle, float x, float y, float z){
-//     float nVector[3];
-//     float vVector[3];
-
-//     vVector[0]  = View[0] - Pose[0];    // x
-//     vVector[1]  = View[1] - Pose[1];    // y, just in case
-//     vVector[2]  = View[2] - Pose[2];    // z
-
-// 	float cosTheta = (float)cos(angle);
-// 	float sinTheta = (float)sin(angle);
-
-// 	nVector[0]   = (cosTheta + (1 - cosTheta) * x * x)		* vVector[0];
-// 	nVector[0]  += ((1 - cosTheta) * x * y - z * sinTheta)	* vVector[1];
-// 	nVector[0]  += ((1 - cosTheta) * x * z + y * sinTheta)	* vVector[2];
-
-// 	nVector[1]   = ((1 - cosTheta) * x * y + z * sinTheta)	* vVector[0];
-// 	nVector[1]  += (cosTheta + (1 - cosTheta) * y * y)		* vVector[1];
-// 	nVector[1]  += ((1 - cosTheta) * y * z - x * sinTheta)	* vVector[2];
-
-// 	nVector[2]  = ((1 - cosTheta) * x * z - y * sinTheta)	* vVector[0];
-// 	nVector[2] += ((1 - cosTheta) * y * z + x * sinTheta)	* vVector[1];
-// 	nVector[2] += (cosTheta + (1 - cosTheta) * z * z)		* vVector[2];
-
-//     View[0] = Pose[0] + nVector[0];
-//     View[1] = Pose[1] + nVector[1];
-//     View[2] = Pose[2] + nVector[2];
-// }
-
-
 void RotateCamera(float* Pose, float* View, float angle, float x, float y, float z) {
     // Calculate the rotation matrix.
     float cosTheta = cos(angle);
@@ -207,7 +169,6 @@ void RotateCamera(float* Pose, float* View, float angle, float x, float y, float
     rotationMatrix[7] = (1 - cosTheta) * y * z + x * sinTheta;
     rotationMatrix[8] = cosTheta + (1 - cosTheta) * z * z;
 
-    // Apply the rotation matrix to the view vector.
     float newView[3];
     newView[0] = rotationMatrix[0] * (View[0] - Pose[0]) + rotationMatrix[1] * (View[1] - Pose[1]) + rotationMatrix[2] * (View[2] - Pose[2]);
     newView[1] = rotationMatrix[3] * (View[0] - Pose[0]) + rotationMatrix[4] * (View[1] - Pose[1]) + rotationMatrix[5] * (View[2] - Pose[2]);

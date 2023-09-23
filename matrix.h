@@ -22,4 +22,5 @@ void	    Normalize(float *);
 void	    MMultiply(float *, float *, float *);
 void	    MTransform(float *, float *, float *);
 
+void        MVectorMultiply( float *, float *, float *);
 #endif

@@ -102,10 +102,10 @@ void MMultiply(float * Mat, float * Mat1, float * Mat2){
 	float Result[16];
 
 	for(i = 0; i < 4; i++){
-		Result[i * 4] = (Mat2[i*4] * Mat1[0]) + (Mat2[i*4+1] * Mat1[4]) + (Mat2[i*4+2] * Mat1[8]) + (Mat2[i*4+3] * Mat1[12]);
-		Result[i * 4 + 1] = (Mat2[i*4] * Mat1[1]) + (Mat2[i*4+1] * Mat1[5]) + (Mat2[i*4+2] * Mat1[9]) + (Mat2[i*4+3] * Mat1[13]);
-		Result[i * 4 + 2] = (Mat2[i*4] * Mat1[2]) + (Mat2[i*4+1] * Mat1[6]) + (Mat2[i*4+2] * Mat1[10]) + (Mat2[i*4+3] * Mat1[14]);
-		Result[i * 4 + 3] = (Mat2[i*4] * Mat1[3]) + (Mat2[i*4+1] * Mat1[7]) + (Mat2[i*4+2] * Mat1[11]) + (Mat2[i*4+3] * Mat1[15]);
+		Result[i * 4] 		= (Mat2[i*4] * Mat1[0]) + (Mat2[i*4+1] * Mat1[4]) + (Mat2[i*4+2] * Mat1[8]) + (Mat2[i*4+3] * Mat1[12]);
+		Result[i * 4 + 1]	= (Mat2[i*4] * Mat1[1]) + (Mat2[i*4+1] * Mat1[5]) + (Mat2[i*4+2] * Mat1[9]) + (Mat2[i*4+3] * Mat1[13]);
+		Result[i * 4 + 2]	= (Mat2[i*4] * Mat1[2]) + (Mat2[i*4+1] * Mat1[6]) + (Mat2[i*4+2] * Mat1[10]) + (Mat2[i*4+3] * Mat1[14]);
+		Result[i * 4 + 3]	= (Mat2[i*4] * Mat1[3]) + (Mat2[i*4+1] * Mat1[7]) + (Mat2[i*4+2] * Mat1[11]) + (Mat2[i*4+3] * Mat1[15]);
 	}
 	memcpy(Mat, Result, sizeof(float[16]));
 }
@@ -122,4 +122,11 @@ void MTransform(float * Result, float * Data, float * Vec){
 
 float dotproduct( float * V1, float * V2){
 	return V1[0] * V2[0] + V1[1] * V2[1] + V1[2] * V2[2];
+}
+
+
+void MVectorMultiply( float * result, float * Mat, float * Vec){
+    result[0] = Mat[0] * Vec[0] + Mat[4] * Vec[1] + Mat[8]  * Vec[2] + Mat[12];
+    result[1] = Mat[1] * Vec[0] + Mat[5] * Vec[1] + Mat[9]  * Vec[2] + Mat[13];
+    result[2] = Mat[2] * Vec[0] + Mat[6] * Vec[1] + Mat[10] * Vec[2] + Mat[14];	
 }
