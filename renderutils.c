@@ -1,8 +1,9 @@
 #include "functions.h"
 
 
-static float gFrustum[6][4];
-
+static float        gFrustum[6][4];
+static float	    CulRTMatrix[16];
+static int		    counter = 0;
 
 
 void NormalizePlane(int side){
@@ -56,18 +57,42 @@ int TestPlane( int i, float * vec){
     }else{
         return 0;
     }
-
+ 
 }
 
 
-int PointinFrustum(float * vec){
+int PointinFrustum(void){
 
+    float result[3];
+    float zero[] = {0.0f, 0.0f, 0.0f};
     float sum = 0;
+
+    MVectorMultiply( result, CulRTMatrix, zero);
 	for(int i = 0; i < 6; i++ ){
-        sum += TestPlane(i, vec);
+        sum += TestPlane(i, result);
     }
 
     return sum;
+}
+
+
+int CubeinFrustum( float sCube){
+
+    float box_vert[8][3] = {{ sCube, sCube, sCube}, {-sCube, sCube, sCube}, {-sCube,-sCube, sCube}, { sCube,-sCube, sCube},
+                            { sCube,-sCube,-sCube}, {-sCube,-sCube,-sCube}, {-sCube, sCube,-sCube}, { sCube, sCube,-sCube},};
+
+    float point[3];
+    int point_in_Box      = 0;
+    
+    for(int i = 0; i < 8; i++){
+        MVectorMultiply( point, CulRTMatrix, box_vert[i]);
+
+        for(int plane = 0; plane < 6; plane++){
+            point_in_Box += TestPlane( plane, point);
+        }
+    }
+
+    return point_in_Box;
 }
 
 
@@ -91,8 +116,6 @@ void Draw_Object( GLuint array_buffer, int size){
 }
 
 
-static float	CulRTMatrix[16];
-static int		counter = 0;
 
 void gMatrixRotation( GLuint Prog, GLfloat angle, GLfloat x, GLfloat y, GLfloat z){
 

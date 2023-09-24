@@ -80,6 +80,10 @@ void Main_Loop(void){
 
 	glEnable(GL_DEPTH_TEST);  
 
+	int FPS		= 0;
+	int lock	= 0;
+	// int result	= 0;
+
 	while(!glfwWindowShouldClose(wnd)){
 
 		LookAtM( View_Matrix, Pose, View, Upvx);
@@ -94,14 +98,23 @@ void Main_Loop(void){
 
 		timer = 0.1 * delta;
 		rot += 0.005f;
+		FPS++;
+
+		if( current_time - old_time >= 1.0){
+			printf("\n FPS: %i", FPS);						
+			FPS			= 0;
+			old_time	= current_time;
+		}
+		
+
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);}
-		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);}
-		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);}
-		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);}
-		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);}
-		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, 0.005f);}
-		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);}
+		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);						lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);						lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);	lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);	lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, 0.005f);						lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);						lock = 0;}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -110,16 +123,29 @@ void Main_Loop(void){
 
 		glUseProgram( GLSL_Prog[0]);
 
-		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 50.0f);
+		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 10.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
+
+		
+		if(lock == 0){
+			// printf("\n result: %i", CubeinFrustum( 1.0f));
+			lock = 1;
+		}
+
+
+		if( CubeinFrustum( 1.0f) >= 40){
+		// if( result > 40){						// 40, we are not talkng about intercepting 
+   			glActiveTexture(GL_TEXTURE0);		
+			glBindTexture(GL_TEXTURE_2D, m_texture);
+
+			Draw_Object(VBO[0], 36);
+		// }
+		}
+
 		gPopMatrix( GLSL_Prog[0], "modelMatrix");
 
-   		glActiveTexture(GL_TEXTURE0);		
-		glBindTexture(GL_TEXTURE_2D, m_texture);
-
-		Draw_Object(VBO[0], 36);
 
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR) {
