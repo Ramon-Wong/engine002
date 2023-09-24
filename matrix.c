@@ -130,3 +130,16 @@ void MVectorMultiply( float * result, float * Mat, float * Vec){
     result[1] = Mat[1] * Vec[0] + Mat[5] * Vec[1] + Mat[9]  * Vec[2] + Mat[13];
     result[2] = Mat[2] * Vec[0] + Mat[6] * Vec[1] + Mat[10] * Vec[2] + Mat[14];	
 }
+
+
+void AddVector(float * Res, float * Vec1, float * Vec2){
+    Res[0]  = Vec1[0] + Vec2[0];
+    Res[1]  = Vec1[1] + Vec2[1];
+    Res[2]  = Vec1[2] + Vec2[2];
+}
+
+void SubstractVector(float * Res, float * Vec1, float * Vec2){
+    Res[0]  = Vec1[0] - Vec2[0];
+    Res[1]  = Vec1[1] - Vec2[1];
+    Res[2]  = Vec1[2] - Vec2[2];
+}

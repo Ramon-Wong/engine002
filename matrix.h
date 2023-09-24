@@ -23,4 +23,7 @@ void	    MMultiply(float *, float *, float *);
 void	    MTransform(float *, float *, float *);
 
 void        MVectorMultiply( float *, float *, float *);
+
+void        AddVector(float *, float *, float *);
+void        SubstractVector(float *, float *, float *);
 #endif

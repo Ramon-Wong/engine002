@@ -68,21 +68,15 @@ void Main_Loop(void){
 
 	GLuint 		m_texture = LoadTexture( GLSL_Prog[0], "data/skin2.tga", "tSampler", 0);   
 
-	// projection matrix outside the rendering loop
-	// GLuint ProjLocation		= glGetUniformLocation( GLSL_Prog[0], "uProjView");
-
 	LookAtM( View_Matrix, Pose, View, Upvx);
 	MMultiply( ProjView, Proj_Matrix, View_Matrix);
 
 	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),			1,	GL_FALSE, ProjView);
-
-// texture setup end
+	// texture setup end
 
 	glEnable(GL_DEPTH_TEST);  
 
 	int FPS		= 0;
-	int lock	= 0;
-	// int result	= 0;
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -106,15 +100,13 @@ void Main_Loop(void){
 			old_time	= current_time;
 		}
 		
-
-
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);}
-		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);						lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);						lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);	lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);	lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, 0.005f);						lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);						lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);}
+		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);}
+		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);}
+		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);}
+		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, 0.005f);}
+		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -127,13 +119,6 @@ void Main_Loop(void){
 		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
-
-		
-		if(lock == 0){
-			// printf("\n result: %i", CubeinFrustum( 1.0f));
-			lock = 1;
-		}
-
 
 		if( CubeinFrustum( 1.0f) >= 40){
 		// if( result > 40){						// 40, we are not talkng about intercepting 

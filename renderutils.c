@@ -16,7 +16,6 @@ void NormalizePlane(int side){
 	gFrustum[side][3] /= magnitude; 
 }
 
-
 // RIGHT   0       LEFT    1
 // BOTTOM  2       TOP     3
 // BACK    4       FRONT   5
@@ -57,17 +56,15 @@ int TestPlane( int i, float * vec){
     }else{
         return 0;
     }
- 
 }
 
 
-int PointinFrustum(void){
+int PointinFrustum(float * point){
 
     float result[3];
-    float zero[] = {0.0f, 0.0f, 0.0f};
     float sum = 0;
 
-    MVectorMultiply( result, CulRTMatrix, zero);
+    MVectorMultiply( result, CulRTMatrix, point);
 	for(int i = 0; i < 6; i++ ){
         sum += TestPlane(i, result);
     }
@@ -94,11 +91,6 @@ int CubeinFrustum( float sCube){
 
     return point_in_Box;
 }
-
-
-// float * GetPlanes(){
-//     // return gFrustum;
-// }
 
 
 void Draw_Object( GLuint array_buffer, int size){
@@ -163,10 +155,12 @@ void gPopMatrix(GLuint Prog, const char * uniform){
 void MoveCamera(float * Pose, float * View, float speed){
     float vVector[3];
 
-    vVector[0]  = View[0] - Pose[0];    // x
-    vVector[1]  = View[1] - Pose[1];    // y, just in case
-    vVector[2]  = View[2] - Pose[2];    // z
-	
+    // vVector[0]  = View[0] - Pose[0];    // x
+    // vVector[1]  = View[1] - Pose[1];    // y, just in case
+    // vVector[2]  = View[2] - Pose[2];    // z
+    SubstractVector( vVector, View, Pose);
+
+
     Pose[0] += vVector[0] * speed; 
     Pose[2] += vVector[2] * speed; 
 

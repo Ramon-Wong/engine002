@@ -41,7 +41,7 @@ void                CreateTexture( GLenum, GLuint *, unsigned char *, int, int, 
 GLuint              LoadTexture( GLuint, const char *, const char *, int);
 
 void                setPlanes( float *);
-int                 PointinFrustum(void);
+int                 PointinFrustum(float *);
 float *             GetPlanes(void);
 int                 CubeinFrustum( float);
 //                  use this with Pose and View as parameters and speed
