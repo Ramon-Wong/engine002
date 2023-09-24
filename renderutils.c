@@ -154,7 +154,6 @@ void gPopMatrix(GLuint Prog, const char * uniform){
 
 void MoveCamera(float * Pose, float * View, float speed){
     float vVector[3];
-
     SubstractVector( vVector, View, Pose);
 
     Pose[0] += vVector[0] * speed; 
@@ -196,9 +195,7 @@ void RotateCamera(float* Pose, float* View, float angle, float x, float y, float
 void StrafeCamera(float* Pose, float* View, float speed) {
     // Calculate the forward vector (view - pose).
     float forward[3];
-    forward[0] = View[0] - Pose[0];
-    forward[1] = View[1] - Pose[1];
-    forward[2] = View[2] - Pose[2];
+    SubstractVector( forward, View, Pose);
 
     // Calculate the right (strafe) direction using the cross product of forward and the up vector.
     float up[3] = {0.0f, 1.0f, 0.0f};  // Assuming up is in the positive Y direction.
