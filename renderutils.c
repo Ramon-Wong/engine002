@@ -155,11 +155,7 @@ void gPopMatrix(GLuint Prog, const char * uniform){
 void MoveCamera(float * Pose, float * View, float speed){
     float vVector[3];
 
-    // vVector[0]  = View[0] - Pose[0];    // x
-    // vVector[1]  = View[1] - Pose[1];    // y, just in case
-    // vVector[2]  = View[2] - Pose[2];    // z
     SubstractVector( vVector, View, Pose);
-
 
     Pose[0] += vVector[0] * speed; 
     Pose[2] += vVector[2] * speed; 
@@ -192,9 +188,7 @@ void RotateCamera(float* Pose, float* View, float angle, float x, float y, float
     newView[2] = rotationMatrix[6] * (View[0] - Pose[0]) + rotationMatrix[7] * (View[1] - Pose[1]) + rotationMatrix[8] * (View[2] - Pose[2]);
 
     // Update the new view vector.
-    View[0] = Pose[0] + newView[0];
-    View[1] = Pose[1] + newView[1];
-    View[2] = Pose[2] + newView[2];
+    AddVector(View, Pose, newView);
 }
 
 
