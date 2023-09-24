@@ -81,8 +81,6 @@ void Main_Loop(void){
 	glEnable(GL_DEPTH_TEST);  
 
 	int FPS		= 0;
-	int lock	= 0;
-	// int result	= 0;
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -127,12 +125,6 @@ void Main_Loop(void){
 		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
 		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
-
-		
-		if(lock == 0){
-			// printf("\n result: %i", CubeinFrustum( 1.0f));
-			lock = 1;
-		}
 
 
 		if( CubeinFrustum( 1.0f) >= 40){
