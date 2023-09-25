@@ -27,6 +27,8 @@ GLuint				GLSL_Prog[3];				// GLSL Program
 
 float				rot = 0.0f;
 
+float				BOXX[] = { 12.5f,-10.0f,-7.5f,-5.0f,-2.5f, 2.5f, 5.0f, 7.5f, 10.0f, 12.5f};
+
 
 void Main_Loop(void){
 	double old_time = glfwGetTime();
@@ -50,6 +52,8 @@ void Main_Loop(void){
 	float Pose[] = {  0.01f,  0.01f, 8.00f};
 	float Upvx[] = {  0.01f,  1.00f, 0.01f};
 	
+
+
 	// SetupVAO( &vao, &vbo, &ebo, vertices, colors, indices, sizeof(vertices), sizeof(colors), sizeof(indices));
 	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, colors, texCoords,
 					indices,  sizeof(indices), 
@@ -95,9 +99,9 @@ void Main_Loop(void){
 		FPS++;
 
 		if( current_time - old_time >= 1.0){
-			printf("\n FPS: %i", FPS);						
-			FPS			= 0;
-			old_time	= current_time;
+			// printf("\n FPS: %i", FPS);						
+			// FPS			= 0;
+			// old_time	= current_time;
 		}
 		
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);}
@@ -114,22 +118,59 @@ void Main_Loop(void){
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "frustum_cube"), 0.10f);
 
 		glUseProgram( GLSL_Prog[0]);
+		for(int x = 0; x < 10; x++){
+			for(int y = 0; y < 10; y++){
+				for(int z = 0; z < 10; z++){
+					gMatrixTranslation( GLSL_Prog[0], BOXX[x], BOXX[y], BOXX[z]);
+					gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
+					gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
+					gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
 
-		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 10.0f);
-		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
-		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
-		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
+					if( CubeinFrustum( 1.0f) >= 40){
+					// if( result > 40){						// 40, we are not talkng about intercepting 
+						glActiveTexture(GL_TEXTURE0);		
+						glBindTexture(GL_TEXTURE_2D, m_texture);
 
-		if( CubeinFrustum( 1.0f) >= 40){
-		// if( result > 40){						// 40, we are not talkng about intercepting 
-   			glActiveTexture(GL_TEXTURE0);		
-			glBindTexture(GL_TEXTURE_2D, m_texture);
-
-			Draw_Object(VBO[0], 36);
-		// }
+						Draw_Object(VBO[0], 36);
+					// }
+					}
+					gPopMatrix( GLSL_Prog[0], "modelMatrix");
+				}
+			}
 		}
 
-		gPopMatrix( GLSL_Prog[0], "modelMatrix");
+
+		// gMatrixTranslation( GLSL_Prog[0],-2.0f, 0.0f, 10.0f);
+		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
+		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
+		// gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
+
+		// if( CubeinFrustum( 1.0f) >= 40){
+		// // if( result > 40){						// 40, we are not talkng about intercepting 
+   		// 	glActiveTexture(GL_TEXTURE0);		
+		// 	glBindTexture(GL_TEXTURE_2D, m_texture);
+
+		// 	Draw_Object(VBO[0], 36);
+		// // }
+		// }
+		// gPopMatrix( GLSL_Prog[0], "modelMatrix");
+
+		// gMatrixTranslation( GLSL_Prog[0], 2.0f, 0.0f, 10.0f);
+		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
+		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
+		// gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
+
+		// if( CubeinFrustum( 1.0f) >= 40){
+		// // if( result > 40){						// 40, we are not talkng about intercepting 
+   		// 	glActiveTexture(GL_TEXTURE0);		
+		// 	glBindTexture(GL_TEXTURE_2D, m_texture);
+
+		// 	Draw_Object(VBO[0], 36);
+		// // }
+		// }
+		// gPopMatrix( GLSL_Prog[0], "modelMatrix");
+
+
 
 
 		GLenum error = glGetError();

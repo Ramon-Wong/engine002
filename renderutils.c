@@ -112,7 +112,6 @@ void Draw_Object( GLuint array_buffer, int size){
 void gMatrixRotation( GLuint Prog, GLfloat angle, GLfloat x, GLfloat y, GLfloat z){
 
     float Temp[16];
-
 	if( counter == 0){
 		MLoadIdentity( CulRTMatrix);
         MRotate( CulRTMatrix, angle, x, y, z);
@@ -129,7 +128,6 @@ void gMatrixRotation( GLuint Prog, GLfloat angle, GLfloat x, GLfloat y, GLfloat 
 void gMatrixTranslation( GLuint Prog, GLfloat x, GLfloat y, GLfloat z){
 
     float Temp[16];
-
 	if( counter == 0){
 		MLoadIdentity( CulRTMatrix);
         MTranslate( CulRTMatrix, x, y, z);

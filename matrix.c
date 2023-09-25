@@ -38,14 +38,11 @@ void MFrustum(float * Mat, float Left, float Right, float Bottom, float Top, flo
 
 void LookAtM( float * Mat, float * Pose, float * View, float * UpVx){
 	float X[3], Y[3], Z[3];
-	Z[0] = View[0] - Pose[0];
-	Z[1] = View[1] - Pose[1];
-	Z[2] = View[2] - Pose[2];
+
+	SubstractVector(Z, View, Pose);
 	Normalize(Z);
-	
 	CrossProduct( X, UpVx, Z); // Compute cross product of UpVx, Z
 	Normalize(X);
-	
 	CrossProduct( Y, Z, X); // reCompute vector Y
 	Normalize(Y);
 	
