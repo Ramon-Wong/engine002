@@ -7,20 +7,24 @@ uniform float   timer;
 uniform float   frustum_cube;
 
 in vec3         inPosition;             // Input vertex position
-in vec3         iArray2;                // Input tex_coords
-in vec2         iArray3;                // Input normals
+in vec3         iArray2;                // Input Normals    ( really ?)
+in vec2         iArray3;                // Input Texcoords  ( really ?)
 
-out vec3        oArray2;                // texcoords out
-out vec2        oArray3;                // normal out
+out vec3        oArray2;                // Normals      out
+out vec2        oArray3;                // TexCoords    out
 out float       _timer;
 
 
 void main() {
-    vec3 a      = inPosition; 
+    vec3 a          = inPosition; 
 
-    oArray2     = iArray2;
-    oArray3     = iArray3;
-    _timer      = timer;
+    // vec4 nNormal    = (modelMatrix * vec4(iArray2, 1.0));
+    vec4 transformedNormal = transpose( inverse(modelMatrix)) * vec4( iArray2, 0.0);
+    vec3 transformedNormal3 = normalize(transformedNormal.xyz);
+
+    oArray2         = transformedNormal3;
+    oArray3         = iArray3;
+    _timer          = timer;
     
     float cube_size = frustum_cube;
 

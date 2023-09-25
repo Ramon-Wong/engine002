@@ -5,20 +5,6 @@ const float rotations_per_tick		= 0.2f;
 	  float timer					= 0.0f;
 
 
-GLfloat vertices[]	= {  4.0f, 4.0f, -4.0f, 	
-						-4.0f, 4.0f, -4.0f,	
-						-4.0f,-4.0f, -4.0f, 	
-						 4.0f,-4.0f, -4.0f};	
-
-GLfloat colors[]	= {  1.0f, 0.0f, 0.0f, 		 0.0f, 1.0f, 0.0f,		 0.0f, 0.0f, 1.0f, 		1.0f, 1.0f, 1.0f};	
-
-GLfloat texCoords[] = {	0.0f, 0.0f,   // Top-left
-						1.0f, 0.0f,   // Bottom-left
-    					1.0f, 1.0f,   // Bottom-left
-    					0.0f, 1.0f }; // Bottom-right
-
-GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise 
-
 GLFWwindow * wnd;
 
 GLuint				VAO[3];						// Vertice Array Object holding ya, array object, buffer objects.
@@ -54,10 +40,10 @@ void Main_Loop(void){
 	
 
 
-	// SetupVAO( &vao, &vbo, &ebo, vertices, colors, indices, sizeof(vertices), sizeof(colors), sizeof(indices));
-	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, colors, texCoords,
-					indices,  sizeof(indices), 
-					sizeof(vertices), sizeof(colors), sizeof(texCoords));
+	// // SetupVAO( &vao, &vbo, &ebo, vertices, colors, indices, sizeof(vertices), sizeof(colors), sizeof(indices));
+	// SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, colors, texCoords,
+	// 				indices,  sizeof(indices), 
+	// 				sizeof(vertices), sizeof(colors), sizeof(texCoords));
 
 	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box_vertices, box_normals, box_texcoords,
 					box_indices,  sizeof(box_indices), 
@@ -79,7 +65,7 @@ void Main_Loop(void){
 	// texture setup end
 
 	glEnable(GL_DEPTH_TEST);  
-
+	glFrontFace(GL_CCW);
 	int FPS		= 0;
 
 	while(!glfwWindowShouldClose(wnd)){
@@ -118,42 +104,40 @@ void Main_Loop(void){
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "frustum_cube"), 0.10f);
 
 		glUseProgram( GLSL_Prog[0]);
-		for(int x = 0; x < 10; x++){
-			for(int y = 0; y < 10; y++){
-				for(int z = 0; z < 10; z++){
-					gMatrixTranslation( GLSL_Prog[0], BOXX[x], BOXX[y], BOXX[z]);
-					gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
-					gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
-					gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
+		// for(int x = 0; x < 10; x++){
+		// 	for(int y = 0; y < 10; y++){
+		// 		for(int z = 0; z < 10; z++){
+		// 			gMatrixTranslation( GLSL_Prog[0], BOXX[x], BOXX[y], BOXX[z]);
+		// 			gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
+		// 			gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
+		// 			gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
 
-					if( CubeinFrustum( 1.0f) >= 40){
-					// if( result > 40){						// 40, we are not talkng about intercepting 
-						glActiveTexture(GL_TEXTURE0);		
-						glBindTexture(GL_TEXTURE_2D, m_texture);
+		// 			if( CubeinFrustum( 1.0f) >= 40){
+		// 			// if( result > 40){						// 40, we are not talkng about intercepting 
+		// 				glActiveTexture(GL_TEXTURE0);		
+		// 				glBindTexture(GL_TEXTURE_2D, m_texture);
 
-						Draw_Object(VBO[0], 36);
-					// }
-					}
-					gPopMatrix( GLSL_Prog[0], "modelMatrix");
-				}
-			}
-		}
-
-
-		// gMatrixTranslation( GLSL_Prog[0],-2.0f, 0.0f, 10.0f);
-		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
-		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
-		// gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
-
-		// if( CubeinFrustum( 1.0f) >= 40){
-		// // if( result > 40){						// 40, we are not talkng about intercepting 
-   		// 	glActiveTexture(GL_TEXTURE0);		
-		// 	glBindTexture(GL_TEXTURE_2D, m_texture);
-
-		// 	Draw_Object(VBO[0], 36);
-		// // }
+		// 				Draw_Object(VBO[0], 36);
+		// 			// }
+		// 			}
+		// 			gPopMatrix( GLSL_Prog[0], "modelMatrix");
+		// 		}
+		// 	}
 		// }
-		// gPopMatrix( GLSL_Prog[0], "modelMatrix");
+		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 10.0f);
+		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
+		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
+		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
+
+		if( CubeinFrustum( 1.0f) >= 40){
+		// if( result > 40){						// 40, we are not talkng about intercepting 
+   			glActiveTexture(GL_TEXTURE0);		
+			glBindTexture(GL_TEXTURE_2D, m_texture);
+
+			Draw_Object(VBO[0], 36);
+		// }
+		}
+		gPopMatrix( GLSL_Prog[0], "modelMatrix");
 
 		// gMatrixTranslation( GLSL_Prog[0], 2.0f, 0.0f, 10.0f);
 		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);

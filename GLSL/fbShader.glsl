@@ -1,34 +1,31 @@
 #version 400
 
-in vec3             oArray2;            // texcoords
-in vec2             oArray3;            // normals 
-in float            _timer;
+in vec3 oArray2;            // Normals
+in vec2 oArray3;            // Texcoords 
 
-out vec4            fColor;             // Output fragment color
+out vec4 fColor;            // Output fragment color
 
-uniform sampler2D   tSampler; 
+uniform sampler2D tSampler;
 
 void main() {
     // Sample the texture
     vec4 texColor = texture(tSampler, oArray3);
-    vec4 aColor = vec4( 1.0, 1.0, 1.0, 1.0);
 
-    // Create a colorful vortex effect based on _timer
-    float angle = _timer * 2.0; // Adjust animation speed
-    float radius = length(oArray2); // Calculate distance from center
-    vec2 distortedCoords = oArray3.xy + 0.02 * radius * vec2(cos(angle), sin(angle)); // Adjust distortion strength
+    // Define the light direction (for example, a directional light)
+    vec3 lightDirection = normalize(vec3( 1.0, 2.0, -4.0)); // Adjust the light direction
 
-    // Sample the texture using the distorted coordinates
-    vec4 distortedColor = texture(tSampler, distortedCoords);
+    // Normalize the normal vector to ensure it has a length of 1
+    vec3 normal = oArray2;
 
-    // Blend the distorted color with the original color
-    texColor = mix(texColor, distortedColor, 0.7); // Adjust blending strength
+    // Calculate the dot product between the normal and light direction
+    float diffuse = max(dot(normal, lightDirection), 0.30);
 
-    // Add pulsating effect to the alpha channel
-    float pulsateAlpha = 1.5 * sin(_timer); // Adjust pulsation speed and strength
-    texColor.a *= pulsateAlpha;
+    // Define the base color of the surface
+    vec3 baseColor = vec3(1.0, 1.0, 1.0); // Adjust the base color
 
+    // Calculate the final color by applying diffuse lighting
+    vec3 finalColor = baseColor * diffuse;
 
-
-    fColor = texColor;
+    // Set the output color
+    fColor = vec4(finalColor * texColor.rgb, texColor.a);
 }
