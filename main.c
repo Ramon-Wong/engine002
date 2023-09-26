@@ -82,20 +82,27 @@ int main(void){
 		glLoadIdentity();
 		gluLookAt( 0, 0, 6, 0, 0, 0, 0, 1, 0);
 
-		glEnable(GL_TEXTURE_2D);
+		glBegin (GL_QUADS);
+			glVertex3f(-1.0,  1.0, 0.0);
+			glVertex3f(-1.0, -1.0, 0.0);		// 1
+			glVertex3f( 1.0, -1.0, 0.0);		// 2
+			glVertex3f( 1.0,  1.0, 0.0);		// 3
+		glEnd();
+
+		// glEnable(GL_TEXTURE_2D);
 
 		// glBindTexture(GL_TEXTURE_2D, m_texture);
 
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+		// glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		// glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, vertices);
+		// glEnableClientState(GL_VERTEX_ARRAY);
+		// glVertexPointer(3, GL_FLOAT, 0, vertices);
 
-		glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+		// glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
 
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_VERTEX_ARRAY);
+		// glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		// glDisableClientState(GL_VERTEX_ARRAY);
 
 		// glBindTexture(GL_TEXTURE_2D, 0);
 		// glDisable(GL_TEXTURE_2D);
