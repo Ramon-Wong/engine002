@@ -18,7 +18,7 @@ void main() {
     vec3 normal = oArray2;
 
     // Calculate the dot product between the normal and light direction
-    float diffuse = max(dot(normal, lightDirection), 0.30);
+    float diffuse = max(dot(normal, lightDirection), 0.40);
 
     // Define the base color of the surface
     vec3 baseColor = vec3(1.0, 1.0, 1.0); // Adjust the base color

@@ -39,7 +39,6 @@ void Main_Loop(void){
 	float Upvx[] = {  0.01f,  1.00f, 0.01f};
 	
 
-
 	// // SetupVAO( &vao, &vbo, &ebo, vertices, colors, indices, sizeof(vertices), sizeof(colors), sizeof(indices));
 	// SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, colors, texCoords,
 	// 				indices,  sizeof(indices), 

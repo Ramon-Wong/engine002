@@ -28,5 +28,7 @@ void main() {
     
     float cube_size = frustum_cube;
 
-    gl_Position = uProjView * modelMatrix * vec4( a, 1.0);
+    vec4 target     = uProjView * modelMatrix * vec4( a, 1.0);
+
+    gl_Position = target;
 }
