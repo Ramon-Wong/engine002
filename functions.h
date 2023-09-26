@@ -25,5 +25,10 @@ void                Init(void);
 void                Draw(void);
 void                Shutdown(int);
 
+void renderScene(GLFWwindow * window);
+
+void	generateShadowFBO();
+void	loadShadowShader();
+void    Release(void);
 
 #endif

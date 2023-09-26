@@ -19,6 +19,22 @@ void	glTexture( GLuint *, unsigned char *, int, int, int);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int main(void){
 
   	GLFWwindow 			*	window;
@@ -70,6 +86,18 @@ int main(void){
 
 	stbi_image_free(data);    
 
+	generateShadowFBO();
+	loadShadowShader();
+	
+	// This is important, if not here, FBO's depthbuffer won't be populated.
+	glEnable(GL_DEPTH_TEST);
+	glClearColor(0,0,0,1.0f);
+	
+	glEnable(GL_CULL_FACE);
+	
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
+
+
   	while (!glfwWindowShouldClose(window)){
 
 		if(glfwGetKey( window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
@@ -80,33 +108,16 @@ int main(void){
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 		glLoadIdentity();
-		gluLookAt( 0, 0, 6, 0, 0, 0, 0, 1, 0);
 
-		glBegin (GL_QUADS);
-			glVertex3f(-1.0,  1.0, 0.0);
-			glVertex3f(-1.0, -1.0, 0.0);		// 1
-			glVertex3f( 1.0, -1.0, 0.0);		// 2
-			glVertex3f( 1.0,  1.0, 0.0);		// 3
-		glEnd();
+		renderScene(window);		// Renderscene
+		// gluLookAt( 0, 0, 6, 0, 0, 0, 0, 1, 0);
 
-		// glEnable(GL_TEXTURE_2D);
-
-		// glBindTexture(GL_TEXTURE_2D, m_texture);
-
-		// glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		// glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-
-		// glEnableClientState(GL_VERTEX_ARRAY);
-		// glVertexPointer(3, GL_FLOAT, 0, vertices);
-
-		// glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
-
-		// glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		// glDisableClientState(GL_VERTEX_ARRAY);
-
-		// glBindTexture(GL_TEXTURE_2D, 0);
-		// glDisable(GL_TEXTURE_2D);
-
+		// glBegin (GL_QUADS);
+		// 	glVertex3f(-1.0,  1.0, 0.0);
+		// 	glVertex3f(-1.0, -1.0, 0.0);		// 1
+		// 	glVertex3f( 1.0, -1.0, 0.0);		// 2
+		// 	glVertex3f( 1.0,  1.0, 0.0);		// 3
+		// glEnd();
 
 		glfwPollEvents();
     	// glFlush();
@@ -114,6 +125,7 @@ int main(void){
 
   }
 
+	Release();
 	glDeleteTextures(1, &m_texture);	
 
   	glfwDestroyWindow(window);
