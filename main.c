@@ -84,7 +84,7 @@ int main(void){
 
 		glEnable(GL_TEXTURE_2D);
 
-		glBindTexture(GL_TEXTURE_2D, m_texture);
+		// glBindTexture(GL_TEXTURE_2D, m_texture);
 
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
@@ -97,8 +97,8 @@ int main(void){
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
 
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glDisable(GL_TEXTURE_2D);
+		// glBindTexture(GL_TEXTURE_2D, 0);
+		// glDisable(GL_TEXTURE_2D);
 
 
 		glfwPollEvents();
