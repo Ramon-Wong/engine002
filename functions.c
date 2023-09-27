@@ -33,10 +33,14 @@ void Main_Loop(void){
 
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
+	GLfloat		Orth_Matrix[16];
+
 	GLfloat		ProjView[16];
+	GLfloat		OrthView[16];
 
 	MLoadIdentity(Proj_Matrix); 
 	MLoadIdentity(View_Matrix); 
+	MLoadIdentity(Orth_Matrix); 
 
 	GLSL_Prog[0]		= glCreateProgram();
 	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/vbShader.glsl");
@@ -44,7 +48,8 @@ void Main_Loop(void){
 	LinkPrograms(GLSL_Prog[0]);
 
 	float aspect_ratio = ((float)600) / 800;
-	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
+	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);
+	MOrtho((float*)Orth_Matrix, -0.5f, 0.5f, -0.5f / aspect_ratio, 0.5f / aspect_ratio, 1.0f, 100.0f);
 	
 	float View[] = {  0.01f,  0.01f, 4.00f};
 	float Pose[] = {  0.01f,  0.01f, 8.00f};
@@ -73,6 +78,7 @@ void Main_Loop(void){
 
 	LookAtM( View_Matrix, Pose, View, Upvx);
 	MMultiply( ProjView, Proj_Matrix, View_Matrix);
+	
 
 	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),			1,	GL_FALSE, ProjView);
 
@@ -135,8 +141,10 @@ void Main_Loop(void){
 			Draw_Object(VBO[0], 36);
 		// }
 		}
-
 		gPopMatrix( GLSL_Prog[0], "modelMatrix");
+
+		Draw_Object(VAO[0], 4);
+
 
 
 		GLenum error = glGetError();
