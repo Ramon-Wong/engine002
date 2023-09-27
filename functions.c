@@ -81,7 +81,7 @@ void Main_Loop(void){
 	glEnable(GL_DEPTH_TEST);  
 
 	int FPS		= 0;
-	int lock	= 0;
+	// int lock	= 0;
 	// int result	= 0;
 
 	while(!glfwWindowShouldClose(wnd)){
@@ -101,7 +101,7 @@ void Main_Loop(void){
 		FPS++;
 
 		if( current_time - old_time >= 1.0){
-			printf("\n FPS: %i", FPS);						
+			// printf("\n FPS: %i", FPS);						
 			FPS			= 0;
 			old_time	= current_time;
 		}
@@ -109,12 +109,12 @@ void Main_Loop(void){
 
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);}
-		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);						lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);						lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);	lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);	lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, 0.005f);						lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);						lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);}
+		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);}
+		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);}
+		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);}
+		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, 0.005f);}
+		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -123,24 +123,21 @@ void Main_Loop(void){
 
 		glUseProgram( GLSL_Prog[0]);
 
-		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 10.0f);
-		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
-		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
-		// gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
 
-		if(lock == 0){	lock = 1;	}
+		for(int i = -4; i < 4; i++){
+			for(int n = -4; n < 4; n++){
+				gMatrixTranslation( GLSL_Prog[0], i * 2.0f, -4.0f, n * 2.0f);
+				// if( CubeinFrustum( 1.0f) >= 36){
+				// if( result > 40){						// 40, we are not talkng about intercepting 
+					glActiveTexture(GL_TEXTURE0);		
+					glBindTexture(GL_TEXTURE_2D, m_texture);
 
-		if( CubeinFrustum( 1.0f) >= 40){
-		// if( result > 40){						// 40, we are not talkng about intercepting 
-   			glActiveTexture(GL_TEXTURE0);		
-			glBindTexture(GL_TEXTURE_2D, m_texture);
-
-			Draw_Object(VBO[0], 36);
-		// }
+					Draw_Object(VBO[0], 36);
+				// }
+				// }
+				gPopMatrix( GLSL_Prog[0], "modelMatrix");
+			}	
 		}
-
-		gPopMatrix( GLSL_Prog[0], "modelMatrix");
-
 
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR) {
