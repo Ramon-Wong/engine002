@@ -1,10 +1,13 @@
 #version 400
 
 uniform mat4    uProjView;
+uniform mat4    uOrthView;
 uniform mat4    modelMatrix;
 
 uniform float   timer;
 uniform float   frustum_cube;
+
+uniform int     Ortho;
 
 in vec3         inPosition;             // Input vertex position
 in vec3         iArray2;                // Input tex_coords
@@ -24,5 +27,11 @@ void main() {
     
     float cube_size = frustum_cube;
 
-    gl_Position = uProjView * modelMatrix * vec4( a, 1.0);
+    if( Ortho == 0){
+        gl_Position = uProjView * modelMatrix * vec4( a, 1.0);
+    }
+
+    if(Ortho == 1){
+        gl_Position = uOrthView * vec4( a, 1.0);
+    }
 }

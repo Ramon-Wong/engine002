@@ -36,7 +36,6 @@ void Main_Loop(void){
 	GLfloat		Orth_Matrix[16];
 
 	GLfloat		ProjView[16];
-	GLfloat		OrthView[16];
 
 	MLoadIdentity(Proj_Matrix); 
 	MLoadIdentity(View_Matrix); 
@@ -76,11 +75,10 @@ void Main_Loop(void){
 	// projection matrix outside the rendering loop
 	// GLuint ProjLocation		= glGetUniformLocation( GLSL_Prog[0], "uProjView");
 
-	LookAtM( View_Matrix, Pose, View, Upvx);
-	MMultiply( ProjView, Proj_Matrix, View_Matrix);
+	// LookAtM( View_Matrix, Pose, View, Upvx);
+	// MMultiply( ProjView, Proj_Matrix, View_Matrix);
 	
-
-	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),			1,	GL_FALSE, ProjView);
+	// glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),			1,	GL_FALSE, ProjView);
 
 // texture setup end
 
@@ -96,6 +94,7 @@ void Main_Loop(void){
 		setPlanes( ProjView);
 
 		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),			1,	GL_FALSE, ProjView);
+		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uOrthView"),			1,	GL_FALSE, Orth_Matrix);
 
 		double current_time = glfwGetTime();
 		double delta		= (current_time - old_time) * rotations_per_tick * 360;
@@ -124,7 +123,7 @@ void Main_Loop(void){
 
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "timer"), timer);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "frustum_cube"), 0.10f);
-
+		
 		glUseProgram( GLSL_Prog[0]);
 
 		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 10.0f);
@@ -143,8 +142,13 @@ void Main_Loop(void){
 		}
 		gPopMatrix( GLSL_Prog[0], "modelMatrix");
 
-		Draw_Object(VAO[0], 4);
 
+		glUniform1i( glGetUniformLocation( GLSL_Prog[0], "Ortho"), 1);
+		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 0.0f);
+		gMatrixRotation( GLSL_Prog[0], 0, 0.0f, 0.0f, 0.0f);
+
+		Draw_Object(VAO[0], 6);
+		glUniform1i( glGetUniformLocation( GLSL_Prog[0], "Ortho"), 0);
 
 
 		GLenum error = glGetError();
