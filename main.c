@@ -19,7 +19,38 @@ void	glTexture( GLuint *, unsigned char *, int, int, int);
 
 
 
+void draw_cube(float size)
+{
+    glPushMatrix();
+    glTranslatef(-2, 2, 0); // move to upper left corner
+    glBegin(GL_TRIANGLES);
+        // front faces
+		glNormal3f(0,0,1);
+        glVertex3f( size, size, size);	glVertex3f(-size, size, size);	glVertex3f(-size,-size, size);
+        glVertex3f(-size,-size, size);	glVertex3f( size,-size, size);	glVertex3f( size, size, size);
+        // right faces
+		glNormal3f(1,0,0);
+        glVertex3f( size, size, size);	glVertex3f( size,-size, size);	glVertex3f( size,-size,-size);
+        glVertex3f( size,-size,-size);	glVertex3f( size, size,-size);	glVertex3f( size, size, size);
+        // top faces
+		glNormal3f(0,1,0);
+        glVertex3f( size, size, size);	glVertex3f( size, size,-size);	glVertex3f(-size, size,-size);
+        glVertex3f(-size, size,-size);	glVertex3f(-size, size, size);	glVertex3f( size, size, size);
+        // left faces
+		glNormal3f(-1,0,0);
+        glVertex3f(-size, size, size);	glVertex3f(-size, size,-size);	glVertex3f(-size,-size,-size);
+        glVertex3f(-size,-size,-size);	glVertex3f(-size,-size, size);	glVertex3f(-size, size, size);
+        // bottom faces
+		glNormal3f(0,-1,0);
+        glVertex3f(-size,-size,-size);	glVertex3f( size,-size,-size);	glVertex3f( size,-size, size);
+        glVertex3f( size,-size, size);	glVertex3f(-size,-size, size);	glVertex3f(-size,-size,-size);
+		glNormal3f(0,0,-1);
+        glVertex3f( size,-size,-size);	glVertex3f(-size,-size,-size);	glVertex3f(-size, size,-size);
+        glVertex3f(-size, size,-size);	glVertex3f( size, size,-size);	glVertex3f( size,-size,-size);
+    glEnd();
 
+    glPopMatrix();
+}
 
 
 
@@ -85,9 +116,6 @@ int main(void){
     }
 
 	stbi_image_free(data);    
-
-	generateShadowFBO();
-	loadShadowShader();
 	
 	// This is important, if not here, FBO's depthbuffer won't be populated.
 	glEnable(GL_DEPTH_TEST);
@@ -109,15 +137,36 @@ int main(void){
 
 		glLoadIdentity();
 
-		renderScene(window);		// Renderscene
-		// gluLookAt( 0, 0, 6, 0, 0, 0, 0, 1, 0);
+		//Camera position		float p_camera[3] = {32,20,0};
+		//Camera lookAt			float l_camera[3] = {2,0,-10};
 
-		// glBegin (GL_QUADS);
-		// 	glVertex3f(-1.0,  1.0, 0.0);
-		// 	glVertex3f(-1.0, -1.0, 0.0);		// 1
-		// 	glVertex3f( 1.0, -1.0, 0.0);		// 2
-		// 	glVertex3f( 1.0,  1.0, 0.0);		// 3
-		// glEnd();
+		//Light position		float p_light[3] = {3,20,0};
+		//Light lookAt			float l_light[3] = {0,0,-5};
+
+		gluLookAt( 32.0f, 20.0f,  0.0f, 
+					2.0f,  0.0f,-10.0f, 
+					0.0f,  1.0f, 0.0f);
+
+		glColor3f( 1.0, 1.0, 1.0);
+		glBegin(GL_QUADS);
+		
+		glVertex3f(-45, -2,-45);
+		glVertex3f(-45, -2, 25);
+		glVertex3f( 25, -2, 25);
+		glVertex3f( 25, -2,-45);
+		glEnd();
+
+		glColor3f( 1.0, 0.7, 0.7);
+		draw_cube(4.0f);
+		// Draw_Cube(4);
+
+	
+
+
+
+
+
+
 
 		glfwPollEvents();
     	// glFlush();
@@ -152,6 +201,31 @@ void glTexture( GLuint * texture, unsigned char * data, int x, int y, int b){
 
 }
 
+
+
+
+
+// void drawObjects(void) {
+//     // Ground
+//     glColor4f(0.3f, 0.3f, 0.3f, 1);
+//     glBegin(GL_QUADS);
+//     glVertex3f(-35, 2, -35);
+//     glVertex3f(-35, 2, 15);
+//     glVertex3f(15, 2, 15);
+//     glVertex3f(15, 2, -35);
+//     glEnd();
+
+//     glColor4f(0.9f, 0.9f, 0.9f, 1);
+
+//     // Instead of calling glTranslatef, we use your custom translation function
+//     startTranslate(0, 4, -16);
+//     drawCube(4); // Draw a cube with a size of 4 units
+//     endTranslate();
+
+//     startTranslate(0, 4, -5);
+//     drawCube(4); // Draw another cube with a size of 4 units
+//     endTranslate();
+// }
 
 
 
