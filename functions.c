@@ -122,18 +122,20 @@ void Main_Loop(void){
 		glUseProgram( GLSL_Prog[0]);
 
 
-		for(int i = -4; i < 4; i++){
-			for(int n = -4; n < 4; n++){
-				gMatrixTranslation( GLSL_Prog[0], i * 2.0f, -2.0f, n * 2.0f);
-				glActiveTexture(GL_TEXTURE0);		
-				glBindTexture(GL_TEXTURE_2D, m_texture);
+		// for(int i = -4; i < 4; i++){
+		// 	for(int n = -4; n < 4; n++){
+				gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 0.0f);
 
 				if( CubeinFrustum( 1.0f) >= 40){
+
+					glActiveTexture(GL_TEXTURE0);		
+					glBindTexture(GL_TEXTURE_2D, m_texture);
 					Draw_Object(VBO[0], 36);		
 					gPopMatrix( GLSL_Prog[0], "modelMatrix");
+
 				}	
-			}	
-		}
+		// 	}	
+		// }
 
 
 
