@@ -76,6 +76,23 @@ void MTranslate(float * Result, float x, float y, float z){
 }
 
 
+void MRotate(float * Mat, float angle, float x, float y, float z){
+	
+	angle = angle * PI / 180.0f;
+	float s = sin(angle);
+	float c = cos(angle);
+	float t = 1.0f - c;
+	
+	float tx = t * x;	float ty = t * y;	float tz = t * z;
+	float sz = s * z;	float sy = s * y;	float sx = s * x;
+	
+	Mat[0]  = tx * x + c;	Mat[4]  = tx * y - sz;	Mat[8]  = tx * z + sy;	Mat[12] = 0;
+	Mat[1]  = tx * y + sz;	Mat[5]  = ty * y + c;	Mat[9]  = ty * z - sx;	Mat[13] = 0; 
+	Mat[2]  = tx * z - sy;	Mat[6]  = ty * z + sx;	Mat[10] = tz * z + c;	Mat[14] = 0;
+	Mat[3]  = 0;			Mat[7]  = 0;			Mat[11] = 0;			Mat[15] = 1; 
+}
+
+
 void CrossProduct(float * Result, float * Vec1, float * Vec2){
 	Result[0] = Vec1[1] * Vec2[2] - Vec1[2] * Vec2[1];
 	Result[1] = Vec1[2] * Vec2[0] - Vec1[0] * Vec2[2];
@@ -117,4 +134,11 @@ void MTransform(float * Result, float * Data, float * Vec){
 
 float dotproduct( float * V1, float * V2){
 	return V1[0] * V2[0] + V1[1] * V2[1] + V1[2] * V2[2];
+}
+
+
+void MVectorMultiply( float * result, float * Mat, float * Vec){
+    result[0] = Mat[0] * Vec[0] + Mat[4] * Vec[1] + Mat[8]  * Vec[2] + Mat[12];
+    result[1] = Mat[1] * Vec[0] + Mat[5] * Vec[1] + Mat[9]  * Vec[2] + Mat[13];
+    result[2] = Mat[2] * Vec[0] + Mat[6] * Vec[1] + Mat[10] * Vec[2] + Mat[14];	
 }
