@@ -56,7 +56,7 @@ void	print_program_info_log(GLuint programme) {
 
 
 GLuint	ReadGLSLScript(GLuint Prog, uint I, const char * path){
-	//~ case of I parameter
+	//~ case of I parameterw
 	//~ 0 = GL_VERTEX_SHADER
 	//~ 1 = GL_FRAGMENT_SHADER
 	
