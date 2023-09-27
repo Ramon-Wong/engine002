@@ -124,16 +124,11 @@ void Main_Loop(void){
 		glUseProgram( GLSL_Prog[0]);
 
 		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 10.0f);
-		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
-		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
-		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
+		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
+		// gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
+		// gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
 
-		
-		if(lock == 0){
-			// printf("\n result: %i", CubeinFrustum( 1.0f));
-			lock = 1;
-		}
-
+		if(lock == 0){	lock = 1;	}
 
 		if( CubeinFrustum( 1.0f) >= 40){
 		// if( result > 40){						// 40, we are not talkng about intercepting 
