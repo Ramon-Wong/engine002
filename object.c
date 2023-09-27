@@ -46,6 +46,9 @@ GLubyte box_indices[]   =     { 0, 1, 2,   2, 3, 0,      // front
 
 
 
+
+
+
 /*
 
 GLfloat vertices2[] = { 1, 1, 1,  -1, 1, 1,  -1,-1, 1,   1,-1, 1,   // v0,v1,v2,v3 (front)

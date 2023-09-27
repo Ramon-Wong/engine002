@@ -23,6 +23,7 @@ GLFWwindow * wnd;
 
 GLuint				VAO[3];						// Vertice Array Object holding ya, array object, buffer objects.
 GLuint				VBO[3];
+GLuint				VCO[3];						// for the floor
 GLuint				GLSL_Prog[3];				// GLSL Program
 
 float				rot = 0.0f;
@@ -58,6 +59,7 @@ void Main_Loop(void){
 	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box_vertices, box_normals, box_texcoords,
 					box_indices,  sizeof(box_indices), 
 					sizeof(box_vertices), sizeof(box_normals), sizeof(box_texcoords));
+
 
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
@@ -99,12 +101,10 @@ void Main_Loop(void){
 		FPS++;
 
 		if( current_time - old_time >= 1.0){
-			printf("\n FPS: %i", FPS);						
 			FPS			= 0;
 			old_time	= current_time;
 		}
 		
-
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);}
 		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);}
@@ -121,22 +121,21 @@ void Main_Loop(void){
 
 		glUseProgram( GLSL_Prog[0]);
 
-		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 10.0f);
-		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 0.0f, 1.0f);
-		gMatrixRotation( GLSL_Prog[0], rot, 0.0f, 1.0f, 0.0f);
-		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
 
+		for(int i = -4; i < 4; i++){
+			for(int n = -4; n < 4; n++){
+				gMatrixTranslation( GLSL_Prog[0], i * 2.0f, -2.0f, n * 2.0f);
+				glActiveTexture(GL_TEXTURE0);		
+				glBindTexture(GL_TEXTURE_2D, m_texture);
 
-		if( CubeinFrustum( 1.0f) >= 40){
-		// if( result > 40){						// 40, we are not talkng about intercepting 
-   			glActiveTexture(GL_TEXTURE0);		
-			glBindTexture(GL_TEXTURE_2D, m_texture);
-
-			Draw_Object(VBO[0], 36);
-		// }
+				if( CubeinFrustum( 1.0f) >= 40){
+					Draw_Object(VBO[0], 36);		
+					gPopMatrix( GLSL_Prog[0], "modelMatrix");
+				}	
+			}	
 		}
 
-		gPopMatrix( GLSL_Prog[0], "modelMatrix");
+
 
 
 		GLenum error = glGetError();
