@@ -4,6 +4,17 @@
 
 GLuint	GLSL_Prog[3];				// GLSL Program
 
+GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 
+						-4.0f, 4.0f, -14.0f,
+						-4.0f,-4.0f, -14.0f, 
+						 4.0f,-4.0f, -14.0f};	
+
+GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
+
+
+
+
+
 
 void Shutdown(void){
 
@@ -41,6 +52,10 @@ void Mainloop(void){
 	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/VShader.glsl");
 	GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0], 1, "GLSL/FShader.glsl");
 	LinkPrograms(GLSL_Prog[0]);
+
+
+
+
 
 	glEnable(GL_DEPTH_TEST);                                  // enable depth-testing
 	glDepthFunc(GL_LESS);                                     // depth-testing interprets a smaller value as "closer"
