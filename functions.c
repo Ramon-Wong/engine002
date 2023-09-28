@@ -2,9 +2,17 @@
 
 
 
+GLuint	GLSL_Prog[3];				// GLSL Program
 
 
 void Shutdown(void){
+
+	if( GLSL_Prog[0]){
+		glDeleteProgram( GLSL_Prog[0]);
+		glDeleteShader( GLSL_Prog[1]);
+		glDeleteShader( GLSL_Prog[2]);		
+	}	
+
     glfwTerminate();
 }
 
@@ -13,7 +21,10 @@ void Mainloop(void){
 
 
 	ShaderSetup1();
-
+	GLSL_Prog[0]		= glCreateProgram();
+	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/vbShader.glsl");
+	GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0], 1, "GLSL/fbShader.glsl");
+	LinkPrograms(GLSL_Prog[0]);
 
 	glEnable(GL_DEPTH_TEST);                                  // enable depth-testing
 	glDepthFunc(GL_LESS);                                     // depth-testing interprets a smaller value as "closer"
