@@ -6,6 +6,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "matrix.h"
 
 // Resolution mode  800 x 600  
 // Resolution mode 1280 x 800  
