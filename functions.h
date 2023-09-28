@@ -7,7 +7,11 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-void                Init(void);
-void                Shutdown(int);
+
+
+
+
+void                Mainloop(void);
+void                Shutdown(void);
 
 #endif
