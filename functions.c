@@ -24,6 +24,9 @@ GLuint				VAO[3];						// Vertice Array Object holding ya, array object, buffer 
 
 
 
+void Draw();
+
+
 void Shutdown(void){
 
 	if( GLSL_Prog[0]){
@@ -91,8 +94,8 @@ void Mainloop(void){
       // Break the while loop when the user presses the Escape key.
 		if (glfwGetKey(wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS) { break;}
 
-		glUniform1f( glGetUniformLocation( GLSL_Program, "rotate_z"), rotate_z);
-		glUniform1f( glGetUniformLocation( GLSL_Program, "PI"), PI);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"), rotate_z);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"), PI);
 
 		Draw();	
       
@@ -101,4 +104,14 @@ void Mainloop(void){
 	}	
 
     Shutdown();
+}
+
+
+void Draw(){
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+	
+	glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
 }
