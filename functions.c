@@ -22,8 +22,8 @@ void Mainloop(void){
 
 	ShaderSetup1();
 	GLSL_Prog[0]		= glCreateProgram();
-	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/vbShader.glsl");
-	GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0], 1, "GLSL/fbShader.glsl");
+	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/VShader.glsl");
+	GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0], 1, "GLSL/FShader.glsl");
 	LinkPrograms(GLSL_Prog[0]);
 
 	glEnable(GL_DEPTH_TEST);                                  // enable depth-testing
