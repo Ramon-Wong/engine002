@@ -41,6 +41,8 @@ void Shutdown(void){
 
 void Mainloop(void){
 
+	double old_time = glfwGetTime();
+
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
 	GLfloat		Proj_View[16];
@@ -72,7 +74,7 @@ void Mainloop(void){
     GLenum error = glGetError();
     if (error != GL_NO_ERROR) {
         fprintf(stderr, "OpenGL error: %d\n", error);
-		Shut_Down(1);
+		Shutdown();
     }
 
 	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),	1,	GL_FALSE, Proj_View);
@@ -86,7 +88,7 @@ void Mainloop(void){
 
 	while(!glfwWindowShouldClose(wnd)) {                      // Render the game until the user closes the window.
 		double current_time = glfwGetTime();
-		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
+		double delta_rotate = (current_time - old_time) * 0.2f * 360;
 
 		rotate_z = 0.1 * delta_rotate;
 
