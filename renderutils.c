@@ -155,7 +155,7 @@ void gPopMatrix(GLuint Prog, const char * uniform){
 
 	// push stuf to the shader program
     glUniformMatrix4fv( glGetUniformLocation( Prog, uniform), 1, GL_FALSE, CulRTMatrix);
-	MLoadIdentity(CulRTMatrix);
+	// MLoadIdentity(CulRTMatrix);
 	counter = 0;
 }
 

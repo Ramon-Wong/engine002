@@ -24,6 +24,7 @@ void main() {
     oArray2     = iArray2;
     oArray3     = iArray3;
     _timer      = timer;
+    mat4 empty = mat4(1.0);
     
     float cube_size = frustum_cube;
 

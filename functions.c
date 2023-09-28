@@ -5,10 +5,11 @@ const float rotations_per_tick		= 0.2f;
 	  float timer					= 0.0f;
 
 
-GLfloat vertices[]	= {  4.0f, 4.0f, -4.0f, 	
-						-4.0f, 4.0f, -4.0f,	
-						-4.0f,-4.0f, -4.0f, 	
-						 4.0f,-4.0f, -4.0f};	
+
+GLfloat vertices[]	= {  0.2f, 0.2f, -1.0f, 	
+						-0.2f, 0.2f, -1.0f,	
+						-0.2f,-0.2f, -1.0f, 	
+						 0.2f,-0.2f, -1.0f};	
 
 GLfloat colors[]	= {  1.0f, 0.0f, 0.0f, 		 0.0f, 1.0f, 0.0f,		 0.0f, 0.0f, 1.0f, 		1.0f, 1.0f, 1.0f};	
 
@@ -48,8 +49,10 @@ void Main_Loop(void){
 
 	float aspect_ratio = ((float)600) / 800;
 	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);
-	MOrtho((float*)Orth_Matrix, -0.5f, 0.5f, -0.5f / aspect_ratio, 0.5f / aspect_ratio, 1.0f, 100.0f);
-	
+	// MOrtho((float*)Orth_Matrix, -0.5f, 0.5f, -0.5f / aspect_ratio, 0.5f / aspect_ratio, 1.0f, 100.0f);
+	// MOrtho((float*)Orth_Matrix, -0.5f * aspect_ratio, 0.5f * aspect_ratio, -0.28f, 0.28f, 1.0f, 100.0f);	
+	MFrustum( (float*)Orth_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);
+
 	float View[] = {  0.01f,  0.01f, 4.00f};
 	float Pose[] = {  0.01f,  0.01f, 8.00f};
 	float Upvx[] = {  0.01f,  1.00f, 0.01f};
@@ -104,7 +107,7 @@ void Main_Loop(void){
 		FPS++;
 
 		if( current_time - old_time >= 1.0){
-			printf("\n FPS: %i", FPS);						
+			// printf("\n FPS: %i", FPS);						
 			FPS			= 0;
 			old_time	= current_time;
 		}
@@ -132,24 +135,25 @@ void Main_Loop(void){
 		gMatrixRotation( GLSL_Prog[0], rot, 1.0f, 0.0f, 0.0f);
 
 
-		if( CubeinFrustum( 1.0f) >= 40){
+		// if( CubeinFrustum( 1.0f) >= 40){
 		// if( result > 40){						// 40, we are not talkng about intercepting 
    			glActiveTexture(GL_TEXTURE0);		
 			glBindTexture(GL_TEXTURE_2D, m_texture);
 
 			Draw_Object(VBO[0], 36);
 		// }
-		}
-		gPopMatrix( GLSL_Prog[0], "modelMatrix");
+		// }
+		// gPopMatrix( GLSL_Prog[0], "modelMatrix"); 
 
 
 		glUniform1i( glGetUniformLocation( GLSL_Prog[0], "Ortho"), 1);
 		gMatrixTranslation( GLSL_Prog[0], 0.0f, 0.0f, 0.0f);
-		gMatrixRotation( GLSL_Prog[0], 0, 0.0f, 0.0f, 0.0f);
+		// gMatrixRotation( GLSL_Prog[0], 0, 0.0f, 0.0f, 0.0f);
 
 		Draw_Object(VAO[0], 6);
 		glUniform1i( glGetUniformLocation( GLSL_Prog[0], "Ortho"), 0);
 
+		gPopMatrix( GLSL_Prog[0], "modelMatrix");
 
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR) {

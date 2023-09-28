@@ -13,9 +13,18 @@ void MLoadIdentity(float * mat){
 
 
 void MOrtho(float* Mat, float Left, float Right, float Bottom, float Top, float Near, float Far) {
-    Mat[0] = 2.0f / (Right - Left);		Mat[1] = 0.0f;		Mat[2] = 0.0f;		Mat[3] = 0.0f;
-    Mat[4] = 0.0f;		Mat[5] = 2.0f / (Top - Bottom);		Mat[6] = 0.0f;		Mat[7] = 0.0f;
-    Mat[8] = 0.0f;		Mat[9] = 0.0f;		Mat[10] = -2.0f / (Far - Near);		Mat[11] = 0.0f;
+    Mat[0] = 2.0f / (Right - Left);		
+	Mat[1] = 0.0f;		
+	Mat[2] = 0.0f;		
+	Mat[3] = 0.0f;
+    Mat[4] = 0.0f;		
+	Mat[5] = 2.0f / (Top - Bottom);
+	Mat[6] = 0.0f;		
+	Mat[7] = 0.0f;
+    Mat[8] = 0.0f;		
+	Mat[9] = 0.0f;		
+	Mat[10] = -2.0f / (Far - Near);		
+	Mat[11] = 0.0f;
 
     Mat[12] = -(Right + Left) / (Right - Left);
     Mat[13] = -(Top + Bottom) / (Top - Bottom);
