@@ -19,6 +19,22 @@ void Shutdown(void){
 
 void Mainloop(void){
 
+	GLfloat		Proj_Matrix[16];
+	GLfloat		View_Matrix[16];
+	GLfloat		Proj_View[16];
+
+	MLoadIdentity(Proj_Matrix);
+	MLoadIdentity(View_Matrix); 
+	MLoadIdentity(Proj_View); 
+
+	float View[] = {  0.0f,  0.0f, 12.0f};
+	float Pose[] = {  0.0f,  0.0f,  6.0f};
+	float Upvx[] = {  0.0f,  1.0f,  0.0f};
+
+	float aspect_ratio = ((float)600) / 800;
+	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 1000.0f);		
+	LookAtM( View_Matrix, Pose, View, Upvx);	
+	MMultiply( Proj_View, Proj_Matrix, View_Matrix);
 
 	ShaderSetup1();
 	GLSL_Prog[0]		= glCreateProgram();
