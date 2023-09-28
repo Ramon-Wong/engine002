@@ -9,6 +9,5 @@
 
 void                Init(void);
 void                Shutdown(int);
-void                ShaderSetup( const char *, const char * , unsigned int *, unsigned int, unsigned int);
 
 #endif
