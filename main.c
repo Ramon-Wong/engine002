@@ -23,7 +23,7 @@ int main(void){
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow * window = glfwCreateWindow( 800, 600, "Hello GLFW", NULL, NULL);
+	GLFWwindow * window = glfwCreateWindow( Screen_width, Screen_height, "Hello GLFW", NULL, NULL);
   if (!window) {
        glfwTerminate();
   }

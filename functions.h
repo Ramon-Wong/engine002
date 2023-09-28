@@ -7,9 +7,13 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+// Resolution mode  800 x 600  
+// Resolution mode 1280 x 800  
+// Resolution mode 1600 x 900  
+// Resolution mode 1920 x 1080 
 
-
-
+#define Screen_width    800
+#define Screen_height   600
 
 void                Mainloop(void);
 void                Shutdown(void);
