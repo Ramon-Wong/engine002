@@ -2,16 +2,24 @@
 
 
 
-GLuint	GLSL_Prog[3];				// GLSL Program
 
-GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 
-						-4.0f, 4.0f, -14.0f,
-						-4.0f,-4.0f, -14.0f, 
-						 4.0f,-4.0f, -14.0f};	
+GLfloat vertices[]	= {  4.0f, 4.0f, -4.0f, 	
+						-4.0f, 4.0f, -4.0f,	
+						-4.0f,-4.0f, -4.0f, 	
+						 4.0f,-4.0f, -4.0f};	
 
-GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
+GLfloat colors[]	= {  1.0f, 0.0f, 0.0f, 		 0.0f, 1.0f, 0.0f,		 0.0f, 0.0f, 1.0f, 		1.0f, 1.0f, 1.0f};	
+
+GLfloat texCoords[] = {	0.0f, 0.0f,   // Top-left
+						1.0f, 0.0f,   // Bottom-left
+    					1.0f, 1.0f,   // Bottom-left
+    					0.0f, 1.0f }; // Bottom-right
+
+GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise 
 
 
+GLuint				GLSL_Prog[3];				// GLSL Program
+GLuint				VAO[3];						// Vertice Array Object holding ya, array object, buffer objects.
 
 
 
@@ -53,8 +61,17 @@ void Mainloop(void){
 	GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0], 1, "GLSL/FShader.glsl");
 	LinkPrograms(GLSL_Prog[0]);
 
+	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, colors, texCoords,
+					indices,  sizeof(indices), 
+					sizeof(vertices), sizeof(colors), sizeof(texCoords));
 
+    GLenum error = glGetError();
+    if (error != GL_NO_ERROR) {
+        fprintf(stderr, "OpenGL error: %d\n", error);
+		Shut_Down(1);
+    }
 
+	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),	1,	GL_FALSE, Proj_View);
 
 
 	glEnable(GL_DEPTH_TEST);                                  // enable depth-testing
