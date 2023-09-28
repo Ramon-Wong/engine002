@@ -16,6 +16,12 @@
 #define Screen_width    800
 #define Screen_height   600
 
+
+//      Shaderutils.c 
+void	            ShaderSetup1();
+GLuint				ReadGLSLScript(GLuint, uint, const char *);
+void				LinkPrograms(GLuint);
+
 void                Mainloop(void);
 void                Shutdown(void);
 
