@@ -46,6 +46,7 @@ void Mainloop(void){
 	MLoadIdentity(View_Matrix); 
 	MLoadIdentity(Proj_View); 
 
+	double rotate_z;
 	float View[] = {  0.0f,  0.0f, 12.0f};
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float Upvx[] = {  0.0f,  1.0f,  0.0f};
@@ -81,11 +82,19 @@ void Mainloop(void){
     GLFWwindow * wnd = glfwGetCurrentContext();
 
 	while(!glfwWindowShouldClose(wnd)) {                      // Render the game until the user closes the window.
+		double current_time = glfwGetTime();
+		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
+
+		rotate_z = 0.1 * delta_rotate;
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     // wipe the drawing surface clear
       // Break the while loop when the user presses the Escape key.
 		if (glfwGetKey(wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS) { break;}
 
+		glUniform1f( glGetUniformLocation( GLSL_Program, "rotate_z"), rotate_z);
+		glUniform1f( glGetUniformLocation( GLSL_Program, "PI"), PI);
 
+		Draw();	
       
 		glfwPollEvents();                                       // Poll events to check for user input.
 		glfwSwapBuffers(wnd);                                   // Swap buffers to display the rendered image.
