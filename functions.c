@@ -11,6 +11,10 @@ void Shutdown(void){
 
 void Mainloop(void){
 
+
+	ShaderSetup1();
+
+
 	glEnable(GL_DEPTH_TEST);                                  // enable depth-testing
 	glDepthFunc(GL_LESS);                                     // depth-testing interprets a smaller value as "closer"
 	glViewport( 0, 0, Screen_width, Screen_height);
