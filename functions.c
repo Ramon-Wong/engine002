@@ -15,7 +15,7 @@ GLfloat texCoords[] = {	0.0f, 0.0f,   // Top-left
     					1.0f, 1.0f,   // Bottom-left
     					0.0f, 1.0f }; // Bottom-right
 
-GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise 
+GLubyte indices[]	= {  0, 2, 1, 2, 0, 3}; // anti clockwise 
 
 
 GLuint				GLSL_Prog[3];				// GLSL Program
@@ -56,9 +56,9 @@ void Mainloop(void){
 	MLoadIdentity(Proj_View); 
 
 	double rotate_z;
-	float View[] = {  0.0f,  0.0f, 12.0f};
-	float Pose[] = {  0.0f,  0.0f,  6.0f};
-	float Upvx[] = {  0.0f,  1.0f,  0.0f};
+	float View[] = {  0.01f,  0.01f, 4.00f};
+	float Pose[] = {  0.01f,  0.01f, 8.00f};
+	float Upvx[] = {  0.01f,  1.00f, 0.01f};
 
 	float aspect_ratio = ((float)600) / 800;
 	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 1000.0f);		
@@ -95,10 +95,11 @@ void Mainloop(void){
 		double delta_rotate = (current_time - old_time) * 0.2f * 360;
 
 		rotate_z = 0.1 * delta_rotate;
-
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     // wipe the drawing surface clear
       // Break the while loop when the user presses the Escape key.
 		if (glfwGetKey(wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS) { break;}
+
+
 
 		glUseProgram( GLSL_Prog[0]);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"), rotate_z);
