@@ -26,21 +26,23 @@ void Main_Loop(void){
 
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
+	GLfloat		Proj_View[16];
 
 	MLoadIdentity(Proj_Matrix);
-	MLoadIdentity(View_Matrix); 
- 
+	MLoadIdentity(View_Matrix);
+ 	MLoadIdentity(Proj_View);
+
 	float aspect_ratio = ((float)600) / 800;
 	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
-	
+
+
 	float View[] = {  0.0f,  0.0f, 12.0f};
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float Upvx[] = {  0.0f,  1.0f,  0.0f};
 	
 	LookAtM( View_Matrix, Pose, View, Upvx);
 
-	GLfloat ProjView[16];
-	MMultiply( ProjView, Proj_Matrix, View_Matrix);
+	MMultiply( Proj_View, Proj_Matrix, View_Matrix);
 
 
 	while(!glfwWindowShouldClose(wnd)){
@@ -55,15 +57,12 @@ void Main_Loop(void){
  
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		
 		glUseProgram( GLSL_Program[0]);
 		
 		glUniform1f( glGetUniformLocation( GLSL_Program[0], "RED"),				1.0f);
 		glUniform1f( glGetUniformLocation( GLSL_Program[0], "PI"),				PI);
 		glUniform1f( glGetUniformLocation( GLSL_Program[0], "rotate_z"),		rotate_z);
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Program[0], "uView_Matrix"),		1, GL_FALSE, View_Matrix);
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Program[0], "uProj_Matrix"), 	1, GL_FALSE, Proj_Matrix);
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Program[0], "uProjView"), 		1, GL_FALSE, ProjView);
+		glUniformMatrix4fv( glGetUniformLocation( GLSL_Program[0], "uProjView"), 		1, GL_FALSE, Proj_View);
 		
 		Draw();
 				
