@@ -46,13 +46,13 @@ void gPopMatrix(GLuint Prog, const char * uniform){
 }
 
 
-void Draw_Object( GLuint array_buffer, int size){
+void Draw_Geometry( GLenum shape, GLuint array_buffer, int size){
 	glBindVertexArray( array_buffer);
 	glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
     // Draw your geometry
-	glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_BYTE, 0);
+	glDrawElements( shape, size, GL_UNSIGNED_BYTE, 0);
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);

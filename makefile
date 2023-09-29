@@ -1,6 +1,6 @@
 CC					= gcc
-source				= main.c functions.c utils.c shaderutils.c renderutils.c matrix.c frustum.c
-objects				= main.o functions.o utils.o shaderutils.o renderutils.o matrix.o frustum.o
+source				= main.c functions.c utils.c shaderutils.c renderutils.c matrix.c frustum.c object.c
+objects				= main.o functions.o utils.o shaderutils.o renderutils.o matrix.o frustum.o object.o
 option				= -Wall
 compile 			= -Wall -c
 build				= -Wall -o

@@ -15,6 +15,7 @@ GLubyte indices[]	= {  0, 1, 2, 2, 3, 0};
 
 GLuint GLSL_Prog[3];
 GLuint VAO[3];
+GLuint VBO[3];
 
 void Draw_Object( GLuint, int);
 
@@ -32,6 +33,11 @@ void Shutdown(int return_code){
 	glDeleteBuffers(1, &VAO[2]);
 	glDeleteBuffers(1, &VAO[1]);
 	glDeleteVertexArrays(1, &VAO[0]);
+
+	glDeleteBuffers(1, &VBO[2]);
+	glDeleteBuffers(1, &VBO[1]);
+	glDeleteVertexArrays(1, &VBO[0]);
+
 
 	if( GLSL_Prog[0]){
 		glDeleteShader( GLSL_Prog[1]);
@@ -84,12 +90,14 @@ void Main_Loop(void){
 					indices,  sizeof(indices), 
 					sizeof(vertices), sizeof(Colors), sizeof(TexCoords));
 
+	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box_vertices, box_normals, box_texcoords,
+					box_indices,  sizeof(box_indices), 
+					sizeof(box_vertices), sizeof(box_normals), sizeof(box_texcoords));
+
 	while(!glfwWindowShouldClose(wnd)){
 
 		double current_time = glfwGetTime();
 		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
-
-		
 
 		rotate_z = 0.1 * delta_rotate;
  
@@ -115,9 +123,11 @@ void Main_Loop(void){
 
 		gMatrixTranslation( 0.0, 0.0, 0.0);
 		gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
+		gMatrixRotation( rotate_z, 0.0, 1.0, 0.0);
+		gMatrixRotation( rotate_z, 1.0, 0.0, 0.0);
 		gPopMatrix( GLSL_Prog[0], "ModelMatrix");
 
-		Draw_Object(VAO[0], 6);
+		Draw_Geometry( GL_LINES, VBO[0], 36);
 				
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
