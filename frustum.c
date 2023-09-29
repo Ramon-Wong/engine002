@@ -34,3 +34,14 @@ void setPlanes( float * ProjView){
     SetPlane( ProjView, BACK,       -ProjView[2], -ProjView[6], -ProjView[10], -ProjView[14]);
     SetPlane( ProjView, FRONT,       ProjView[2],  ProjView[6],  ProjView[10],  ProjView[14]);                
 }
+
+
+int PointinPlane( int i, float * vec){
+    float sum = (gFrustum[i][0] * vec[0]) + (gFrustum[i][1] * vec[1]) + (gFrustum[i][2] * vec[2]) + gFrustum[i][3];
+
+    if(sum >= 0.0){
+        return 1;
+    }else{
+        return -1;
+    }
+}

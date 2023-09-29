@@ -39,6 +39,7 @@ void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *
 void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei, GLsizei);
 
 void                setPlanes( float * ProjView);
+int                 PointinPlane( int, float *);
 
 void                gMatrixRotation( GLfloat, GLfloat, GLfloat, GLfloat);
 void                gMatrixTranslation( GLfloat, GLfloat, GLfloat);
