@@ -16,7 +16,7 @@ GLubyte indices[]	= {  0, 1, 2, 2, 3, 0};
 GLuint GLSL_Prog[3];
 GLuint VAO[3];
 
-
+void Draw_Object( GLuint, int);
 
 void CheckGLError(){
 	GLenum error = glGetError();
