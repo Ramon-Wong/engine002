@@ -29,6 +29,11 @@ void CheckGLError(){
 
 void Shutdown(int return_code){
 	
+
+	glDeleteBuffers(1, &VAO[2]);
+	glDeleteBuffers(1, &VAO[1]);
+	glDeleteVertexArrays(1, &VAO[0]);
+
 	if( GLSL_Prog[0]){
 		glDeleteShader( GLSL_Prog[1]);
 		glDeleteShader( GLSL_Prog[2]);		
