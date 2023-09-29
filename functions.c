@@ -12,13 +12,40 @@ GLfloat TexCoord[]	= {  0.0f, 0.0f,			 0.0f, 0.0f,			 0.0f, 0.0f,			 0.0f, 0.0f}
 
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
-GLFWwindow * wnd;
+
+GLuint GLSL_Prog[3];
 
 
+
+
+void Shut_Down(int return_code){
+	
+		
+	if( GLSL_Prog[0]){
+		glDeleteShader( GLSL_Prog[1]);
+		glDeleteShader( GLSL_Prog[2]);		
+		glDeleteProgram( GLSL_Prog[0]);		
+	}
+
+	glfwTerminate();
+	exit(return_code);
+}
 
 
 
 void Main_Loop(void){
+
+
+	ShaderSetup();
+  
+	GLSL_Prog[0]		= glCreateProgram();
+	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/VShader.glsl");
+	GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0], 1, "GLSL/FShader.glsl");
+	LinkPrograms(GLSL_Prog[0]);
+
+	GLFWwindow * wnd = glfwGetCurrentContext();
+
+
 	double old_time = glfwGetTime();
 
 	GLfloat		Proj_Matrix[16];
@@ -29,17 +56,14 @@ void Main_Loop(void){
 	MLoadIdentity(View_Matrix);
  	MLoadIdentity(Proj_View);
 
-	float aspect_ratio = ((float)600) / 800;
-	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
-
-
 	float View[] = {  0.0f,  0.0f, 12.0f};
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float Upvx[] = {  0.0f,  1.0f,  0.0f};
 	
 	LookAtM( View_Matrix, Pose, View, Upvx);
-
 	MMultiply( Proj_View, Proj_Matrix, View_Matrix);
+	float aspect_ratio = ((float)600) / 800;
+	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
 
 
 	while(!glfwWindowShouldClose(wnd)){
@@ -54,12 +78,12 @@ void Main_Loop(void){
  
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		glUseProgram( GLSL_Program[0]);
+		glUseProgram( GLSL_Prog[0]);
 		
-		glUniform1f( glGetUniformLocation( GLSL_Program[0], "RED"),				1.0f);
-		glUniform1f( glGetUniformLocation( GLSL_Program[0], "PI"),				PI);
-		glUniform1f( glGetUniformLocation( GLSL_Program[0], "rotate_z"),		rotate_z);
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Program[0], "uProjView"), 		1, GL_FALSE, Proj_View);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "RED"),			1.0f);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"),				PI);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"),		rotate_z);
+		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"), 		1, GL_FALSE, Proj_View);
 		
 		Draw();
 				
