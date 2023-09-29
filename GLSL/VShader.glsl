@@ -5,6 +5,7 @@ uniform mat4	uProjView;
 
 uniform float	PI;
 uniform float	rotate_z;
+uniform mat4	ModelMatrix;
 
 in vec3     iArray1;                // Input vertex position
 in vec3     iArray2;                // Input Colors
@@ -19,5 +20,5 @@ void main(){
 	b.x = a.x*cos(rad_angle) + a.y*sin(rad_angle);
 	b.y = a.y*cos(rad_angle) - a.x*sin(rad_angle);
 
-	gl_Position =  uProjView *  vec4( b, 1.0 );
+	gl_Position =  uProjView * ModelMatrix * vec4( b, 1.0 );
 }
