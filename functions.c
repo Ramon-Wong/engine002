@@ -14,7 +14,7 @@ GLubyte indices[]	= {  0, 1, 2, 2, 3, 0};
 
 
 GLuint GLSL_Prog[3];
-
+GLuint VAO[3];
 
 
 
@@ -71,7 +71,13 @@ void Main_Loop(void){
 	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
 	MMultiply( Proj_View, Proj_Matrix, View_Matrix);
 
+	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, Colors, TexCoords,
+					indices,  sizeof(indices), 
+					sizeof(vertices), sizeof(Colors), sizeof(TexCoords));
+
+
 	while(!glfwWindowShouldClose(wnd)){
+
 		double current_time = glfwGetTime();
 		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 
