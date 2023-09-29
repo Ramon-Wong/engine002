@@ -21,7 +21,10 @@ void				Draw(void);
 char *				ReadFile(const char *);
 
 void				ShaderSetup();
-GLuint              ReadGLSLScript(GLuint, uint, const char *);
+GLuint              ReadGLSLScript(GLuint, unsigned int, const char *);
 void	            LinkPrograms(GLuint);
+
+void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
+void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei, GLsizei);
 
 #endif
