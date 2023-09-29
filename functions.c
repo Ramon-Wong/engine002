@@ -8,7 +8,7 @@ const float rotations_per_tick = 0.2f;
 
 GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f,	-4.0f, 4.0f, -14.0f,	-4.0f,-4.0f, -14.0f,	 4.0f,-4.0f, -14.0f};
 GLfloat Colors[]	= {  1.0f, 1.0f,   1.0f,	 1.0f, 1.0f,   1.0f,	 1.0f, 1.0f,   1.0f,	 1.0f, 1.0f,   1.0f};
-GLfloat TexCoord[]	= {  0.0f, 0.0f,			 0.0f, 0.0f,			 0.0f, 0.0f,			 0.0f, 0.0f};
+GLfloat TexCoords[]	= {  0.0f, 0.0f,			 0.0f, 0.0f,			 0.0f, 0.0f,			 0.0f, 0.0f};
 
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
@@ -125,4 +125,18 @@ void Draw_Square(){
 
 void Draw(void){
 	Draw_Square();
+}
+
+void Draw_Object( GLuint array_buffer, int size){
+	glBindVertexArray( array_buffer);
+	glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+    // Draw your geometry
+	glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_BYTE, 0);
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	glBindVertexArray(0);
 }
