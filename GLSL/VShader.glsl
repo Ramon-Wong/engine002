@@ -1,4 +1,4 @@
-#version 120
+#version 400
 
 
 uniform mat4	uProjView;
@@ -6,7 +6,11 @@ uniform mat4	uProjView;
 uniform float	PI;
 uniform float	rotate_z;
 
-vec3			a = vec3( gl_Vertex.x, gl_Vertex.y,  gl_Vertex.z);
+in vec3     iArray1;                // Input vertex position
+in vec3     iArray2;                // Input Colors
+in vec2     iArray3;                // texcoords
+
+vec3			a = iArray1;
 vec3			b = a;
 
 void main(){
