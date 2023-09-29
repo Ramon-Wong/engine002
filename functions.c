@@ -6,7 +6,7 @@ float rotate_z = 0.0f;
 const float rotations_per_tick = 0.2f;
 
 
-GLfloat vertices[]	= {  0.1f, 0.1f, 0.0f,	-0.1f, 0.1f, 0.0f,	-0.1f,-0.1f, 0.0f,	0.1f,-0.1f, 0.0f};
+GLfloat vertices[]	= {  1.1f, 1.1f, 0.0f,	-1.1f, 1.1f, 0.0f,	-1.1f,-1.1f, 0.0f,	1.1f,-1.1f, 0.0f};
 GLfloat Colors[]	= {  1.0f, 1.0f, 1.0f,	 1.0f, 1.0f, 1.0f,	 1.0f, 1.0f, 1.0f,	1.0f, 1.0f, 1.0f};
 GLfloat TexCoords[]	= {  0.0f, 0.0f,	     0.0f, 0.0f,	     0.0f, 0.0f,		0.0f, 0.0f};
 
@@ -101,10 +101,10 @@ void Main_Loop(void){
 		LookAtM( View_Matrix, Pose, View, Upvx);				// Update Camera
 		MMultiply( Proj_View, Proj_Matrix, View_Matrix);
 		
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "RED"),			1.0f);
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"),				PI);
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"),		rotate_z);
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"), 		1, GL_FALSE, Orth_View);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "RED"),				1.0f);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"),					PI);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"),			rotate_z);
+		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"), 		1, GL_FALSE, Proj_View);
 
 		gMatrixTranslation( 0.0, 0.0, 0.0);
 		gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
