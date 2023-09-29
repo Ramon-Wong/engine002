@@ -2,3 +2,4 @@ main
 main.o
 *.o
 *.tga
+*.json

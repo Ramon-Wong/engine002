@@ -51,7 +51,7 @@ void Main_Loop(void){
 	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);
 	// MOrtho((float*)Orth_Matrix, -0.5f, 0.5f, -0.5f / aspect_ratio, 0.5f / aspect_ratio, 1.0f, 100.0f);
 	// MOrtho((float*)Orth_Matrix, -0.5f * aspect_ratio, 0.5f * aspect_ratio, -0.28f, 0.28f, 1.0f, 100.0f);	
-	MFrustum( (float*)Orth_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);
+	MOrtho( (float*)Orth_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);
 
 	float View[] = {  0.01f,  0.01f, 4.00f};
 	float Pose[] = {  0.01f,  0.01f, 8.00f};
