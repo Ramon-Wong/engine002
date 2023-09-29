@@ -126,16 +126,3 @@ GLuint LoadTexture(GLuint _glslProg, const char * path, const char * tagname, in
 
 
 
-void Draw_Object( GLuint array_buffer, int size){
-	glBindVertexArray( array_buffer);
-	glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
-    // Draw your geometry
-	glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_BYTE, 0);
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-	glBindVertexArray(0);
-}

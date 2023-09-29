@@ -26,5 +26,11 @@ void	            LinkPrograms(GLuint);
 
 void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
 void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei, GLsizei);
+
+void                gMatrixRotation( GLfloat, GLfloat, GLfloat, GLfloat);
+void                gMatrixTranslation( GLfloat, GLfloat, GLfloat);
+void                gPopMatrix(GLuint Prog, const char * uniform);
 void                Draw_Object( GLuint, int size);
+
+
 #endif
