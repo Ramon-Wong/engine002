@@ -13,7 +13,7 @@
 
 
 void				Init(void);
-void				Shut_Down(int);
+void				Shutdown(int);
 void				Main_Loop(void);
 void				Draw_Square(void);
 void				Draw(void);
