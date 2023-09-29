@@ -15,7 +15,7 @@ GLfloat texCoords[] = {	0.0f, 0.0f,   // Top-left
     					1.0f, 1.0f,   // Bottom-left
     					0.0f, 1.0f }; // Bottom-right
 
-GLubyte indices[]	= {  0, 2, 1, 2, 0, 3}; // anti clockwise 
+GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; // anti clockwise 
 
 
 GLuint				GLSL_Prog[3];				// GLSL Program
@@ -46,7 +46,8 @@ void Shutdown(void){
 
 void Mainloop(void){
 
-	// double old_time = glfwGetTime();
+	double old_time = glfwGetTime();
+	double rotate_z;
 
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
@@ -56,7 +57,6 @@ void Mainloop(void){
 	MLoadIdentity(View_Matrix); 
 	MLoadIdentity(Proj_View); 
 
-	// double rotate_z;
 	float View[] = {  0.01f,  0.01f, 4.00f};
 	float Pose[] = {  0.01f,  0.01f, 8.00f};
 	float Upvx[] = {  0.01f,  1.00f, 0.01f};
@@ -75,37 +75,36 @@ void Mainloop(void){
 	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, colors, texCoords,
 					indices,  sizeof(indices), 
 					sizeof(vertices), sizeof(colors), sizeof(texCoords));
+	glUseProgram( GLSL_Prog[0]); 
+	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),	1,	GL_FALSE, Proj_View);
 
-	// glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),	1,	GL_FALSE, Proj_View);
-
-	// glEnable(GL_DEPTH_TEST);                                  // enable depth-testing
-	// glDepthFunc(GL_LESS);                                     // depth-testing interprets a smaller value as "closer"
-	// glViewport( 0, 0, Screen_width, Screen_height);
+	glEnable(GL_DEPTH_TEST);                                  // enable depth-testing
+	glDepthFunc(GL_LESS);                                     // depth-testing interprets a smaller value as "closer"
+	glViewport( 0, 0, Screen_width, Screen_height);
 
     GLFWwindow * wnd = glfwGetCurrentContext();
 	// CheckGLErrors();
 
 	while(!glfwWindowShouldClose(wnd)) {                      // Render the game until the user closes the window.
-		// double current_time = glfwGetTime();
-		// double delta_rotate = (current_time - old_time) * 0.2f * 360;
+		double current_time = glfwGetTime();
+		double delta_rotate = (current_time - old_time) * 0.2f * 360;
 
-
-
-		// rotate_z = 0.1 * delta_rotate;
-		// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     // wipe the drawing surface clear
+		rotate_z = 0.1 * delta_rotate;
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     // wipe the drawing surface clear
       // Break the while loop when the user presses the Escape key.
 		if (glfwGetKey(wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS) { break;} 
 
- 		CheckGLError();
+		ClearGLError();
+		glUseProgram( GLSL_Prog[0]); 
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"), rotate_z);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"), PI);		
 
-		// glUseProgram( GLSL_Prog[0]); 
-		// glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"), rotate_z);
-		
-
-		// Draw_Object( VAO[0], 6);	
+		Draw_Object( VAO[0], 6);	
       
+	  	CheckGLError();
+
 		glfwPollEvents();                                       // Poll events to check for user input.
-		// glfwSwapBuffers(wnd);                                   // Swap buffers to display the rendered image.
+		glfwSwapBuffers(wnd);                                   // Swap buffers to display the rendered image.
 	}	
 
     Shutdown();
