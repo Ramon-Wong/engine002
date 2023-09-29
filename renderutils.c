@@ -1,6 +1,6 @@
 #include "functions.h"
 
-
+static float        gFrustum[6][4];
 static float	    CulRTMatrix[16];
 static int		    counter = 0;
 
@@ -59,7 +59,6 @@ void Draw_Object( GLuint array_buffer, int size){
 	glDisableVertexAttribArray(2);
 	glBindVertexArray(0);
 }
-
 
 
 void MoveCamera(float * Pose, float * View, float speed){
@@ -126,3 +125,38 @@ void StrafeCamera(float* Pose, float* View, float speed){
     View[0] += right[0] * speed;
     View[2] += right[2] * speed;
 }
+
+
+void NormalizePlane(int side){
+
+	float magnitude = (float)sqrt( gFrustum[side][0] * gFrustum[side][0] + gFrustum[side][1] * gFrustum[side][1] + gFrustum[side][2] * gFrustum[side][2] );
+
+	gFrustum[side][0] /= magnitude;
+	gFrustum[side][1] /= magnitude;
+	gFrustum[side][2] /= magnitude;
+	gFrustum[side][3] /= magnitude; 
+}
+
+
+void SetPlane( float * ProjView, int side, float A, float B, float C, float D){
+	gFrustum[side][0]      = ProjView[ 3] + A;          
+    gFrustum[side][1]      = ProjView[ 7] + B;
+	gFrustum[side][2]      = ProjView[11] + C;
+    gFrustum[side][3]      = ProjView[15] + D;
+
+    NormalizePlanes(side);
+}
+
+
+void setPlanes( float * ProjView){
+    
+    SetPlane( ProjView, RIGHT,      -ProjView[0], -ProjView[4], -ProjView[8],  -ProjView[12]);
+    SetPlane( ProjView, LEFT,        ProjView[0],  ProjView[4],  ProjView[8],   ProjView[12]);
+    SetPlane( ProjView, BOTTOM,      ProjView[1],  ProjView[5],  ProjView[9],   ProjView[13]);
+    SetPlane( ProjView, TOP,        -ProjView[1], -ProjView[5], -ProjView[9],  -ProjView[13]);
+    SetPlane( ProjView, BACK,       -ProjView[2], -ProjView[6], -ProjView[10], -ProjView[14]);
+    SetPlane( ProjView, FRONT,       ProjView[2],  ProjView[6],  ProjView[10],  ProjView[14]);                
+}
+
+
+

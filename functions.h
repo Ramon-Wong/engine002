@@ -11,6 +11,13 @@
 
 #include "matrix.h"
 
+#define RIGHT   0
+#define LEFT    1
+#define BOTTOM  2
+#define TOP     3
+#define BACK    4
+#define FRONT   5
+
 
 void				Init(void);
 void				Shutdown(int);
@@ -30,6 +37,8 @@ void                StrafeCamera(float*, float*, float);
 
 void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
 void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei, GLsizei);
+
+void                setPlanes( float * ProjView)
 
 void                gMatrixRotation( GLfloat, GLfloat, GLfloat, GLfloat);
 void                gMatrixTranslation( GLfloat, GLfloat, GLfloat);
