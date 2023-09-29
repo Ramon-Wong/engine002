@@ -60,11 +60,13 @@ void Main_Loop(void){
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
 	GLfloat		Orth_Matrix[16];
+	GLfloat		Orth_View[16];
 	GLfloat		Proj_View[16];
 
 	MLoadIdentity(Proj_Matrix);
 	MLoadIdentity(View_Matrix);
 	MLoadIdentity(Orth_Matrix);
+	MLoadIdentity(Orth_View);	
  	MLoadIdentity(Proj_View);
 
 	float View[] = {  0.0f,  0.0f, 12.0f};
@@ -75,7 +77,8 @@ void Main_Loop(void){
 	float aspect_ratio = ((float)600) / 800;
 	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// Projection is the frustum
 	MOrtho( (float*)Orth_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);		// Orthographic mode      
-	MMultiply( Proj_View, Orth_Matrix, View_Matrix);
+	MMultiply( Orth_View, Orth_Matrix, View_Matrix);
+	MMultiply( Proj_View, Proj_Matrix, View_Matrix);
 
 	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, Colors, TexCoords,
 					indices,  sizeof(indices), 
@@ -95,11 +98,13 @@ void Main_Loop(void){
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glUseProgram( GLSL_Prog[0]);
+		LookAtM( View_Matrix, Pose, View, Upvx);				// Update Camera
+		MMultiply( Proj_View, Proj_Matrix, View_Matrix);
 		
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "RED"),			1.0f);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"),				PI);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"),		rotate_z);
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"), 		1, GL_FALSE, Proj_View);
+		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"), 		1, GL_FALSE, Orth_View);
 
 		gMatrixTranslation( 0.0, 0.0, 0.0);
 		gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
