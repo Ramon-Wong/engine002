@@ -97,7 +97,10 @@ void Main_Loop(void){
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"),				PI);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"),		rotate_z);
 		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"), 		1, GL_FALSE, Proj_View);
-		
+
+		gMatrixTranslation( 2.0, 0.0, 0.0);
+		gPopMatrix( GLSL_Prog[0], "ModelMatrix");
+
 		Draw_Object(VAO[0], 6);
 				
 		glfwSwapBuffers(wnd);
