@@ -6,9 +6,9 @@ float rotate_z = 0.0f;
 const float rotations_per_tick = 0.2f;
 
 
-GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f,	-4.0f, 4.0f, -14.0f,	-4.0f,-4.0f, -14.0f,	 4.0f,-4.0f, -14.0f};
-GLfloat Colors[]	= {  1.0f, 1.0f,   1.0f,	 1.0f, 1.0f,   1.0f,	 1.0f, 1.0f,   1.0f,	 1.0f, 1.0f,   1.0f};
-GLfloat TexCoords[]	= {  0.0f, 0.0f,			 0.0f, 0.0f,			 0.0f, 0.0f,			 0.0f, 0.0f};
+GLfloat vertices[]	= {  0.1f, 0.1f, 0.0f,	-0.1f, 0.1f, 0.0f,	-0.1f,-0.1f, 0.0f,	0.1f,-0.1f, 0.0f};
+GLfloat Colors[]	= {  1.0f, 1.0f, 1.0f,	 1.0f, 1.0f, 1.0f,	 1.0f, 1.0f, 1.0f,	1.0f, 1.0f, 1.0f};
+GLfloat TexCoords[]	= {  0.0f, 0.0f,	     0.0f, 0.0f,		 0.0f, 0.0f,		0.0f, 0.0f};
 
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
@@ -59,10 +59,12 @@ void Main_Loop(void){
 
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
+	GLfloat		Orth_Matrix[16];
 	GLfloat		Proj_View[16];
 
 	MLoadIdentity(Proj_Matrix);
 	MLoadIdentity(View_Matrix);
+	MLoadIdentity(Orth_Matrix);
  	MLoadIdentity(Proj_View);
 
 	float View[] = {  0.0f,  0.0f, 12.0f};
@@ -72,7 +74,8 @@ void Main_Loop(void){
 	LookAtM( View_Matrix, Pose, View, Upvx);
 	float aspect_ratio = ((float)600) / 800;
 	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
-	MMultiply( Proj_View, Proj_Matrix, View_Matrix);
+	MOrtho( (float*)Orth_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
+	MMultiply( Proj_View, Orth_Matrix, View_Matrix);
 
 	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, Colors, TexCoords,
 					indices,  sizeof(indices), 
@@ -98,7 +101,8 @@ void Main_Loop(void){
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"),		rotate_z);
 		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"), 		1, GL_FALSE, Proj_View);
 
-		gMatrixTranslation( 2.0, 0.0, 0.0);
+		gMatrixTranslation( 0.0, 0.0, 0.0);
+		gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
 		gPopMatrix( GLSL_Prog[0], "ModelMatrix");
 
 		Draw_Object(VAO[0], 6);
