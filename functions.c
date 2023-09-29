@@ -75,8 +75,6 @@ void Mainloop(void){
 	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, colors, texCoords,
 					indices,  sizeof(indices), 
 					sizeof(vertices), sizeof(colors), sizeof(texCoords));
-	glUseProgram( GLSL_Prog[0]); 
-	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),	1,	GL_FALSE, Proj_View);
 
 	glEnable(GL_DEPTH_TEST);                                  // enable depth-testing
 	glDepthFunc(GL_LESS);                                     // depth-testing interprets a smaller value as "closer"
@@ -96,8 +94,10 @@ void Mainloop(void){
 
 		ClearGLError();
 		glUseProgram( GLSL_Prog[0]); 
+		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),	1,	GL_FALSE, Proj_View);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"), rotate_z);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"), PI);		
+
 
 		Draw_Object( VAO[0], 6);	
       
