@@ -18,6 +18,14 @@ GLuint GLSL_Prog[3];
 
 
 
+void glCheckError(){
+	GLenum error = glGetError();
+	while(error){
+		fprintf("Opengl Error code: %d\n", error);
+	}
+}
+
+
 void Shut_Down(int return_code){
 	
 		
@@ -30,7 +38,6 @@ void Shut_Down(int return_code){
 	glfwTerminate();
 	exit(return_code);
 }
-
 
 
 void Main_Loop(void){
@@ -77,7 +84,8 @@ void Main_Loop(void){
 		rotate_z = 0.1 * delta_rotate;
  
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+		glCheckError();
+
 		glUseProgram( GLSL_Prog[0]);
 		
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "RED"),			1.0f);
