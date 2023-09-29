@@ -8,7 +8,7 @@ const float rotations_per_tick = 0.2f;
 
 GLfloat vertices[]	= {  0.1f, 0.1f, 0.0f,	-0.1f, 0.1f, 0.0f,	-0.1f,-0.1f, 0.0f,	0.1f,-0.1f, 0.0f};
 GLfloat Colors[]	= {  1.0f, 1.0f, 1.0f,	 1.0f, 1.0f, 1.0f,	 1.0f, 1.0f, 1.0f,	1.0f, 1.0f, 1.0f};
-GLfloat TexCoords[]	= {  0.0f, 0.0f,	     0.0f, 0.0f,		 0.0f, 0.0f,		0.0f, 0.0f};
+GLfloat TexCoords[]	= {  0.0f, 0.0f,	     0.0f, 0.0f,	     0.0f, 0.0f,		0.0f, 0.0f};
 
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
@@ -73,8 +73,8 @@ void Main_Loop(void){
 	
 	LookAtM( View_Matrix, Pose, View, Upvx);
 	float aspect_ratio = ((float)600) / 800;
-	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
-	MOrtho( (float*)Orth_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
+	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// Projection is the frustum
+	MOrtho( (float*)Orth_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);		// Orthographic mode      
 	MMultiply( Proj_View, Orth_Matrix, View_Matrix);
 
 	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, Colors, TexCoords,
