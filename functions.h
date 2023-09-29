@@ -18,6 +18,12 @@
 #define BACK    4
 #define FRONT   5
 
+extern GLfloat      box_vertices[72];
+extern GLfloat      box_normals[72];
+extern GLfloat      box_colors[72];
+extern GLfloat      box_texcoords[48];
+extern GLubyte      box_indices[36];
+
 
 void				Init(void);
 void				Shutdown(int);
