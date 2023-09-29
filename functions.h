@@ -38,7 +38,7 @@ void                StrafeCamera(float*, float*, float);
 void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
 void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei, GLsizei);
 
-void                setPlanes( float * ProjView)
+void                setPlanes( float * ProjView);
 
 void                gMatrixRotation( GLfloat, GLfloat, GLfloat, GLfloat);
 void                gMatrixTranslation( GLfloat, GLfloat, GLfloat);

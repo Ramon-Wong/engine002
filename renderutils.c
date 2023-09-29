@@ -124,7 +124,7 @@ void StrafeCamera(float* Pose, float* View, float speed){
     Pose[2] += right[2] * speed;
     View[0] += right[0] * speed;
     View[2] += right[2] * speed;
-}
+} 
 
 
 void NormalizePlane(int side){
@@ -144,7 +144,7 @@ void SetPlane( float * ProjView, int side, float A, float B, float C, float D){
 	gFrustum[side][2]      = ProjView[11] + C;
     gFrustum[side][3]      = ProjView[15] + D;
 
-    NormalizePlanes(side);
+    NormalizePlane(side);
 }
 
 
