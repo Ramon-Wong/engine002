@@ -29,7 +29,6 @@ void CheckGLError(){
 
 void Shutdown(int return_code){
 	
-
 	glDeleteBuffers(1, &VAO[2]);
 	glDeleteBuffers(1, &VAO[1]);
 	glDeleteVertexArrays(1, &VAO[0]);
@@ -56,7 +55,6 @@ void Main_Loop(void){
 
 	GLFWwindow * wnd = glfwGetCurrentContext();
 
-
 	double old_time = glfwGetTime();
 
 	GLfloat		Proj_Matrix[16];
@@ -80,7 +78,6 @@ void Main_Loop(void){
 					indices,  sizeof(indices), 
 					sizeof(vertices), sizeof(Colors), sizeof(TexCoords));
 
-
 	while(!glfwWindowShouldClose(wnd)){
 
 		double current_time = glfwGetTime();
@@ -96,7 +93,7 @@ void Main_Loop(void){
 		
 		glUseProgram( GLSL_Prog[0]);
 		
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "RED"),				1.0f);
+		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "RED"),			1.0f);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"),				PI);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"),		rotate_z);
 		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"), 		1, GL_FALSE, Proj_View);
@@ -109,34 +106,3 @@ void Main_Loop(void){
 	}
 }
 
-
-
-
-void Draw_Square(){
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, vertices);
-	
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
-	
-	glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
-}
-
- 
-
-void Draw(void){
-	Draw_Square();
-}
-
-void Draw_Object( GLuint array_buffer, int size){
-	glBindVertexArray( array_buffer);
-	glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
-    // Draw your geometry
-	glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_BYTE, 0);
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-	glBindVertexArray(0);
-}
