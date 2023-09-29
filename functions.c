@@ -100,6 +100,7 @@ void Mainloop(void){
       // Break the while loop when the user presses the Escape key.
 		if (glfwGetKey(wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS) { break;}
 
+		glUseProgram( GLSL_Prog[0]);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"), rotate_z);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"), PI);
 
