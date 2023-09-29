@@ -89,15 +89,22 @@ void Main_Loop(void){
 		double current_time = glfwGetTime();
 		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 
-		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){
-			glfwSetWindowShouldClose( wnd, 1);
-		}
+		
 
 		rotate_z = 0.1 * delta_rotate;
  
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glUseProgram( GLSL_Prog[0]);
+
+		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);}
+		// if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);}
+		// if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);}
+		// if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);}
+		// if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);}
+		// if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, 0.005f);}
+		// if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);}
+
 		LookAtM( View_Matrix, Pose, View, Upvx);				// Update Camera
 		MMultiply( Proj_View, Proj_Matrix, View_Matrix);
 		
