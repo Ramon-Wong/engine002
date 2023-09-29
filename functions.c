@@ -25,7 +25,8 @@ GLuint				VAO[3];						// Vertice Array Object holding ya, array object, buffer 
 
 
 void Draw_Object( GLuint, int);
-
+void ClearGLError();
+void CheckGLError();
 
 void Shutdown(void){
 
@@ -45,7 +46,7 @@ void Shutdown(void){
 
 void Mainloop(void){
 
-	double old_time = glfwGetTime();
+	// double old_time = glfwGetTime();
 
 	GLfloat		Proj_Matrix[16];
 	GLfloat		View_Matrix[16];
@@ -55,7 +56,7 @@ void Mainloop(void){
 	MLoadIdentity(View_Matrix); 
 	MLoadIdentity(Proj_View); 
 
-	double rotate_z;
+	// double rotate_z;
 	float View[] = {  0.01f,  0.01f, 4.00f};
 	float Pose[] = {  0.01f,  0.01f, 8.00f};
 	float Upvx[] = {  0.01f,  1.00f, 0.01f};
@@ -75,40 +76,36 @@ void Mainloop(void){
 					indices,  sizeof(indices), 
 					sizeof(vertices), sizeof(colors), sizeof(texCoords));
 
-    GLenum error = glGetError();
-    if (error != GL_NO_ERROR) {
-        fprintf(stderr, "OpenGL error: %d\n", error);
-		Shutdown();
-    }
+	// glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),	1,	GL_FALSE, Proj_View);
 
-	glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"),	1,	GL_FALSE, Proj_View);
-
-
-	glEnable(GL_DEPTH_TEST);                                  // enable depth-testing
-	glDepthFunc(GL_LESS);                                     // depth-testing interprets a smaller value as "closer"
-	glViewport( 0, 0, Screen_width, Screen_height);
+	// glEnable(GL_DEPTH_TEST);                                  // enable depth-testing
+	// glDepthFunc(GL_LESS);                                     // depth-testing interprets a smaller value as "closer"
+	// glViewport( 0, 0, Screen_width, Screen_height);
 
     GLFWwindow * wnd = glfwGetCurrentContext();
+	// CheckGLErrors();
 
 	while(!glfwWindowShouldClose(wnd)) {                      // Render the game until the user closes the window.
-		double current_time = glfwGetTime();
-		double delta_rotate = (current_time - old_time) * 0.2f * 360;
+		// double current_time = glfwGetTime();
+		// double delta_rotate = (current_time - old_time) * 0.2f * 360;
 
-		rotate_z = 0.1 * delta_rotate;
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     // wipe the drawing surface clear
+
+
+		// rotate_z = 0.1 * delta_rotate;
+		// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     // wipe the drawing surface clear
       // Break the while loop when the user presses the Escape key.
-		if (glfwGetKey(wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS) { break;}
+		if (glfwGetKey(wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS) { break;} 
 
+ 		CheckGLError();
 
+		// glUseProgram( GLSL_Prog[0]); 
+		// glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"), rotate_z);
+		
 
-		glUseProgram( GLSL_Prog[0]);
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"), rotate_z);
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"), PI);
-
-		Draw_Object( VAO[0], 6);	
+		// Draw_Object( VAO[0], 6);	
       
 		glfwPollEvents();                                       // Poll events to check for user input.
-		glfwSwapBuffers(wnd);                                   // Swap buffers to display the rendered image.
+		// glfwSwapBuffers(wnd);                                   // Swap buffers to display the rendered image.
 	}	
 
     Shutdown();
@@ -127,4 +124,28 @@ void Draw_Object( GLuint array_buffer, int size){
     glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
 	glBindVertexArray(0);
+}
+
+
+
+void ClearGLError(){
+	while( glGetError() != GL_NO_ERROR); 
+}
+
+
+// void CheckGLError(){
+// 	while( GLenum error  = glGetError()){
+// 		fprintf(stderr, "OpenGL error: %d \n", error);
+// 	}
+// }
+
+
+
+
+void CheckGLError(){
+	GLenum error = glGetError();
+	while(error != GL_NO_ERROR) {
+		fprintf(stderr, "OpenGL error: %d\n", error);
+			// Shutdown();
+	}
 }
