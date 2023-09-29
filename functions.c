@@ -6,14 +6,11 @@ float rotate_z = 0.0f;
 const float rotations_per_tick = 0.2f;
 
 
-GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f, 
-						-4.0f, 4.0f, -14.0f,
-						-4.0f,-4.0f, -14.0f, 
-						 4.0f,-4.0f, -14.0f};	
-GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
+GLfloat vertices[]	= {  4.0f, 4.0f, -14.0f,	-4.0f, 4.0f, -14.0f,	-4.0f,-4.0f, -14.0f,	 4.0f,-4.0f, -14.0f};
+GLfloat Colors[]	= {  1.0f, 1.0f,   1.0f,	 1.0f, 1.0f,   1.0f,	 1.0f, 1.0f,   1.0f,	 1.0f, 1.0f,   1.0f};
+GLfloat TexCoord[]	= {  0.0f, 0.0f,			 0.0f, 0.0f,			 0.0f, 0.0f,			 0.0f, 0.0f};
 
-GLuint	uMatLoc[6];
-GLuint	bMatLoc[6];
+GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
 GLFWwindow * wnd;
 
