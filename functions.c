@@ -97,14 +97,15 @@ void Main_Loop(void){
 	float View[] = {  0.0f,  0.0f, 12.0f};
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float Upvx[] = {  0.0f,  1.0f,  0.0f};
-	
+	float point[] = { 0.0f, 0.0f, 0.0f};
+	int lock = 0;
+
 	LookAtM( View_Matrix, Pose, View, Upvx);
 	float aspect_ratio = ((float)600) / 800;
 	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// Projection is the frustum
 	MOrtho( (float*)Orth_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);		// Orthographic mode      
 	MMultiply( Orth_View, Orth_Matrix, View_Matrix);
 	MMultiply( Proj_View, Proj_Matrix, View_Matrix);
-
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -118,16 +119,36 @@ void Main_Loop(void){
 		glUseProgram( GLSL_Prog[0]);
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);}
-		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);}
-		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);}
-		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);}
-		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);}
-		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);}
-		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View,  0.005f);}
+		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);						lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);						lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);	lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);	lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);						lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View,  0.005f);						lock = 0;}
 
 		LookAtM( View_Matrix, Pose, View, Upvx);				// Update Camera
 		MMultiply( Proj_View, Proj_Matrix, View_Matrix);
-		
+
+		setPlanes(Proj_View);
+
+		if( lock == 0){
+			int v = 0;	
+			for(int i = 0; i < 6; i++){
+				v += PointinPlane(i, point);
+			}
+
+			printf("\n");
+			printf( "\n Point in Right	Plane: %i",	PointinPlane( RIGHT,	point));
+			printf( "\n Point in Left	Plane: %i",	PointinPlane( LEFT,		point));
+			printf( "\n Point in Back	Plane: %i",	PointinPlane( BACK,		point));
+			printf( "\n Point in Front	Plane: %i",	PointinPlane( FRONT,	point));
+			printf( "\n Point in Top	Plane: %i",	PointinPlane( TOP,		point));
+			printf( "\n Point in Bottom Plane: %i",	PointinPlane( BOTTOM,	point));
+			printf( "\n Total Value: %i", v );
+			printf("\n");
+			lock = 1;
+		}
+
 		glUniform3f( glGetUniformLocation( GLSL_Prog[0], "RGB"),				0.5f, 1.0f, 0.6f);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"),					PI);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"),			rotate_z);

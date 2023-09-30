@@ -3,12 +3,12 @@
                            
 
 // Define the vertices of the cube
-GLfloat box_vertices[] = {  1.0f, 1.0f, 1.0f,  -1.0f, 1.0f, 1.0f,  -1.0f,-1.0f, 1.0f,   1.0f,-1.0f, 1.0f,   // v0,v1.0fv2,v3 (front)
-                            1.0f, 1.0f, 1.0f,   1.0f,-1.0f, 1.0f,   1.0f,-1.0f,-1.0f,   1.0f, 1.0f,-1.0f,   // v0,v3,v4,v5 (right)
-                            1.0f, 1.0f, 1.0f,   1.0f, 1.0f,-1.0f,  -1.0f, 1.0f,-1.0f,  -1.0f, 1.0f, 1.0f,   // v0,v5,v6,v1 (top)
-                           -1.0f, 1.0f, 1.0f,  -1.0f, 1.0f,-1.0f,  -1.0f,-1.0f,-1.0f,  -1.0f,-1.0f, 1.0f,   // v1.0fv6,v7,v2 (left)
-                           -1.0f,-1.0f,-1.0f,   1.0f,-1.0f,-1.0f,   1.0f,-1.0f, 1.0f,  -1.0f,-1.0f, 1.0f,   // v7,v4,v3,v2 (bottom)
-                            1.0f,-1.0f,-1.0f,  -1.0f,-1.0f,-1.0f,  -1.0f, 1.0f,-1.0f,   1.0f, 1.0f,-1.0f}; // v4,v7,v6,v5 (back)
+GLfloat box_vertices[] = {  0.1f, 0.1f, 0.1f,  -0.1f, 0.1f, 0.1f,  -0.1f,-0.1f, 0.1f,   0.1f,-0.1f, 0.1f,   // v0,v0.1fv2,v3 (front)
+                            0.1f, 0.1f, 0.1f,   0.1f,-0.1f, 0.1f,   0.1f,-0.1f,-0.1f,   0.1f, 0.1f,-0.1f,   // v0,v3,v4,v5 (right)
+                            0.1f, 0.1f, 0.1f,   0.1f, 0.1f,-0.1f,  -0.1f, 0.1f,-0.1f,  -0.1f, 0.1f, 0.1f,   // v0,v5,v6,v1 (top)
+                           -0.1f, 0.1f, 0.1f,  -0.1f, 0.1f,-0.1f,  -0.1f,-0.1f,-0.1f,  -0.1f,-0.1f, 0.1f,   // v0.1fv6,v7,v2 (left)
+                           -0.1f,-0.1f,-0.1f,   0.1f,-0.1f,-0.1f,   0.1f,-0.1f, 0.1f,  -0.1f,-0.1f, 0.1f,   // v7,v4,v3,v2 (bottom)
+                            0.1f,-0.1f,-0.1f,  -0.1f,-0.1f,-0.1f,  -0.1f, 0.1f,-0.1f,   0.1f, 0.1f,-0.1f}; // v4,v7,v6,v5 (back)
 
 // Define normals (for lighting calculations)
 GLfloat box_normals[] = {    0.0f, 0.0f, 1.0f,    0.0f, 0.0f, 1.0f,    0.0f, 0.0f, 1.0f,    0.0f, 0.0f, 1.0f,        // Front face
