@@ -1,8 +1,7 @@
-#version 120
+#version 400
 
-uniform float RED;
+in vec3 _RGB;
 
 void main(){
-    gl_FragColor = vec4( RED, 1.0, 1.0, 1.0);
+    gl_FragColor = vec4( _RGB, 1.0);
 }
-

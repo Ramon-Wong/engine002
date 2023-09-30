@@ -29,14 +29,14 @@ void CheckGLError(){
 }
 
 
-void CS_Draw_Line(){
+void CS_DrawLine( GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2){
 
 	// glEnableClientState(GL_VERTEX_ARRAY);
-	GLfloat Lines[]	= {  5.0f, 0.0f, 0.0f,	-5.0f, 0.0f, 0.0f};
-	GLubyte index[0, 1];
+	GLfloat Lines[]	= {  x1, y1, z1,	x2, y2, z2};
+	GLubyte index[] = {0, 1};
 
 	glVertexPointer(3, GL_FLOAT, 0, Lines);
-	glDrawElements(GL_LINES, 6, GL_UNSIGNED_BYTE, index);
+	glDrawElements(GL_LINES, 2, GL_UNSIGNED_BYTE, index);
 	
 	// glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
 
@@ -118,17 +118,17 @@ void Main_Loop(void){
 		glUseProgram( GLSL_Prog[0]);
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);}
-		// if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);}
-		// if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);}
-		// if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);}
-		// if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);}
-		// if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, 0.005f);}
-		// if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);}
+		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);}
+		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);}
+		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);}
+		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);}
+		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);}
+		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View,  0.005f);}
 
 		LookAtM( View_Matrix, Pose, View, Upvx);				// Update Camera
 		MMultiply( Proj_View, Proj_Matrix, View_Matrix);
 		
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "RED"),				1.0f);
+		glUniform3f( glGetUniformLocation( GLSL_Prog[0], "RGB"),				0.5f, 1.0f, 0.6f);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"),					PI);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"),			rotate_z);
 		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"), 		1, GL_FALSE, Proj_View);
@@ -140,10 +140,25 @@ void Main_Loop(void){
 		gPopMatrix( GLSL_Prog[0], "ModelMatrix");
 
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, vertices);
-	
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
-	
+		for(int i = 0; i < 21; i++){
+
+			CS_DrawLine( -10.0f, -2.0f, 10.0f - i,	 10.0f, -2.0f, 10.0f - i);
+			CS_DrawLine( -10.0f + i, -2.0f,-10.0f, 	-10.0f + i, -2.0f, 10.0f);
+
+			CS_DrawLine( -10.0f + i, -2.0f,-10.0f,	-10.0f + i, 9.0f,-10.0f);
+			CS_DrawLine( -10.0f, -2.0f, 10.0f - i,	-10.0f, 9.0f, 10.0f - i);
+			if( i < 11){
+				CS_DrawLine( -10.0f, -1.0f + i,-10.0f,	 10.0f, -1.0f + i,-10.0f);
+				CS_DrawLine( -10.0f, -1.0f + i,-10.0f,	-10.0f, -1.0f + i, 10.0f);
+			}
+			
+
+
+		}
+
+		// CS_DrawLine( -10.0f, -2.0f,-10.0f,	 -10.0f, 19.0f,-10.0f);
+		// CS_DrawLine( -10.0f, -2.0f, 10.0f,	 -10.0f, 19.0f, 10.0f);
+
 		glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
 
 
