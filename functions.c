@@ -29,6 +29,20 @@ void CheckGLError(){
 }
 
 
+void CS_Draw_Line(){
+
+	// glEnableClientState(GL_VERTEX_ARRAY);
+	GLfloat Lines[]	= {  5.0f, 0.0f, 0.0f,	-5.0f, 0.0f, 0.0f};
+	GLubyte index[0, 1];
+
+	glVertexPointer(3, GL_FLOAT, 0, Lines);
+	glDrawElements(GL_LINES, 6, GL_UNSIGNED_BYTE, index);
+	
+	// glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
+
+}
+
+
 void Shutdown(int return_code){
 	
 	glDeleteBuffers(1, &VAO[2]);
@@ -125,13 +139,15 @@ void Main_Loop(void){
 		// gMatrixRotation( rotate_z, 1.0, 0.0, 0.0);
 		gPopMatrix( GLSL_Prog[0], "ModelMatrix");
 
-        // glEnableVertexAttribArray(0);
-        // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), vertices);
-        // glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, indices);
-        // glDisableVertexAttribArray(0);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(3, GL_FLOAT, 0, vertices);
+	
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+	
+		glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
 
 
-		// Draw_Geometry( GL_LINES, VCO[0], 4); 
+
 				
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
