@@ -102,7 +102,7 @@ void Main_Loop(void){
 
 	LookAtM( View_Matrix, Pose, View, Upvx);
 	float aspect_ratio = ((float)600) / 800;
-	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// Projection is the frustum
+	MFrustum( (float*)Proj_Matrix, 1.5f, -1.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// Projection is the frustum
 	MOrtho( (float*)Orth_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);		// Orthographic mode      
 	MMultiply( Orth_View, Orth_Matrix, View_Matrix);
 	MMultiply( Proj_View, Proj_Matrix, View_Matrix);
