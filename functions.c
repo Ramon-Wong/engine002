@@ -151,19 +151,23 @@ void Main_Loop(void){
 				CS_DrawLine( -10.0f, -1.0f + i,-10.0f,	 10.0f, -1.0f + i,-10.0f);
 				CS_DrawLine( -10.0f, -1.0f + i,-10.0f,	-10.0f, -1.0f + i, 10.0f);
 			}
-			
-
-
 		}
-
-		// CS_DrawLine( -10.0f, -2.0f,-10.0f,	 -10.0f, 19.0f,-10.0f);
-		// CS_DrawLine( -10.0f, -2.0f, 10.0f,	 -10.0f, 19.0f, 10.0f);
 
 		glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
 
+		// draw cube
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glUniform3f( glGetUniformLocation( GLSL_Prog[0], "RGB"),				1.0f, 1.0f, 1.0f);
+		gMatrixTranslation( 0.0, 0.0, 0.0);
+		// gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
+		// gMatrixRotation( rotate_z, 0.0, 1.0, 0.0);
+		// gMatrixRotation( rotate_z, 1.0, 0.0, 0.0);		
 
+		glVertexPointer(3, GL_FLOAT, 0, box_vertices);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, box_indices);
+		glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
+		// end draw
 
-				
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
 		CheckGLError();

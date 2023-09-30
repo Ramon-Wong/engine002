@@ -102,6 +102,13 @@ void MRotate(float * Mat, float angle, float x, float y, float z){
 }
 
 
+void MScale(float * Mat, float x, float y, float z){
+	Mat[0] *= x;	Mat[1] *= y;	Mat[2] *= z;	Mat[4] *= x;
+	Mat[5] *= y;	Mat[6] *= z;	Mat[8] *= x;	Mat[9] *= y;
+  	Mat[10] *= z;
+}
+
+
 void CrossProduct(float * Result, float * Vec1, float * Vec2){
 	Result[0] = Vec1[1] * Vec2[2] - Vec1[2] * Vec2[1];
 	Result[1] = Vec1[2] * Vec2[0] - Vec1[0] * Vec2[2];
