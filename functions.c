@@ -16,6 +16,7 @@ GLubyte indices[]	= {  0, 1, 2, 2, 3, 0};
 GLuint GLSL_Prog[3];
 GLuint VAO[3];
 GLuint VBO[3];
+GLuint VCO[3];
 
 void Draw_Object( GLuint, int);
 
@@ -37,6 +38,10 @@ void Shutdown(int return_code){
 	glDeleteBuffers(1, &VBO[2]);
 	glDeleteBuffers(1, &VBO[1]);
 	glDeleteVertexArrays(1, &VBO[0]);
+
+	glDeleteBuffers(1, &VCO[2]);
+	glDeleteBuffers(1, &VCO[1]);
+	glDeleteVertexArrays(1, &VCO[0]);
 
 
 	if( GLSL_Prog[0]){
@@ -86,13 +91,6 @@ void Main_Loop(void){
 	MMultiply( Orth_View, Orth_Matrix, View_Matrix);
 	MMultiply( Proj_View, Proj_Matrix, View_Matrix);
 
-	SetupVAOArray( &VAO[0], &VAO[1], &VAO[2], vertices, Colors, TexCoords,
-					indices,  sizeof(indices), 
-					sizeof(vertices), sizeof(Colors), sizeof(TexCoords));
-
-	SetupVAOArray( &VBO[0], &VBO[1], &VBO[2], box_vertices, box_normals, box_texcoords,
-					box_indices,  sizeof(box_indices), 
-					sizeof(box_vertices), sizeof(box_normals), sizeof(box_texcoords));
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -122,12 +120,12 @@ void Main_Loop(void){
 		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"), 		1, GL_FALSE, Proj_View);
 
 		gMatrixTranslation( 0.0, 0.0, 0.0);
-		gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
-		gMatrixRotation( rotate_z, 0.0, 1.0, 0.0);
-		gMatrixRotation( rotate_z, 1.0, 0.0, 0.0);
+		// gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
+		// gMatrixRotation( rotate_z, 0.0, 1.0, 0.0);
+		// gMatrixRotation( rotate_z, 1.0, 0.0, 0.0);
 		gPopMatrix( GLSL_Prog[0], "ModelMatrix");
 
-		Draw_Geometry( GL_LINES, VBO[0], 36);
+		// Draw_Geometry( GL_LINES, VCO[0], 4); 
 				
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();

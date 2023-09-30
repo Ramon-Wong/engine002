@@ -24,6 +24,8 @@ extern GLfloat      box_colors[72];
 extern GLfloat      box_texcoords[48];
 extern GLubyte      box_indices[36];
 
+extern GLfloat      grid_lines[36];
+extern GLubyte      grid_indices[4];
 
 void				Init(void);
 void				Shutdown(int);
@@ -41,6 +43,7 @@ void                MoveCamera(float *, float *, float);
 void                RotateCamera(float*, float*, float, float, float, float);
 void                StrafeCamera(float*, float*, float);
 
+void                SetupVAOSingle( GLuint *, GLuint *, GLuint *, GLfloat *, GLubyte *, GLsizei, GLsizei);
 void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
 void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei, GLsizei);
 
@@ -50,7 +53,7 @@ int                 PointinPlane( int, float *);
 void                gMatrixRotation( GLfloat, GLfloat, GLfloat, GLfloat);
 void                gMatrixTranslation( GLfloat, GLfloat, GLfloat);
 void                gPopMatrix(GLuint Prog, const char * uniform);
-void                Draw_Object( GLuint, int size);
+void                Draw_Geometry( GLenum, GLuint, int size);
 
 
 #endif

@@ -43,6 +43,21 @@ GLubyte box_indices[]   =     { 0, 1, 2,   2, 3, 0,      // front
                                20,21,22,  22,23,20};    // back
 
 
+GLfloat grid_lines[]    = { -20.0f, -2.0f, -20.0f,      20.0f, -2.0f, -20.0f,
+                            -20.0f, -2.0f,  20.0f,      20.0f, -2.0f,  20.0f};
+
+GLubyte grid_indices[]  = { 0, 1, 2, 3};
+
+
+
+
+
+
+
+
+
+
+
 
 
 
