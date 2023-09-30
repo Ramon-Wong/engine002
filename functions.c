@@ -125,6 +125,12 @@ void Main_Loop(void){
 		// gMatrixRotation( rotate_z, 1.0, 0.0, 0.0);
 		gPopMatrix( GLSL_Prog[0], "ModelMatrix");
 
+        // glEnableVertexAttribArray(0);
+        // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), vertices);
+        // glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, indices);
+        // glDisableVertexAttribArray(0);
+
+
 		// Draw_Geometry( GL_LINES, VCO[0], 4); 
 				
 		glfwSwapBuffers(wnd);
