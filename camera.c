@@ -14,6 +14,8 @@ void    _SetCamera( CAMERA *, float *, float *, float *);
 void    _Lookup( CAMERA *);
 void    _uProjView( CAMERA *, GLuint, const char *);
 void	_MoveCamera( CAMERA * Cam, float spd);
+void    _RotateCamera(  CAMERA * Cam, float, float, float, float);
+void    _StrafeCamera(  CAMERA * Cam, float);
 
 void Camera_Init(CAMERA * Cam){
 
@@ -28,6 +30,8 @@ void Camera_Init(CAMERA * Cam){
 	Cam->Lookup                 = (void (*)(void *))_Lookup;
     Cam->uProjView              = (void (*)(void *, GLuint, const char *))_uProjView;
 	Cam->MoveCamera				= (void (*)(void *, float))_MoveCamera;
+	Cam->RotateCamera			= (void (*)(void *, float, float, float, float))_RotateCamera;
+	Cam->StrafeCamera			= (void (*)(void *, float))_StrafeCamera;
 }
 
 
@@ -45,7 +49,7 @@ void    _SetCamera( CAMERA * Cam, float * pose, float * view, float * upvx){
 }
 
 
-void    _Lookup( CAMERA * Cam){
+void	_Lookup( CAMERA * Cam){
 
 	LookAtM( Cam->View_Matrix, Cam->Cam[0], Cam->Cam[1], Cam->Cam[2]);			// Update Camera
 	MMultiply( Cam->Proj_View, Cam->Proj_Matrix, Cam->View_Matrix);
@@ -53,12 +57,22 @@ void    _Lookup( CAMERA * Cam){
 }
 
 
- void _uProjView( CAMERA * Cam, GLuint program, const char * tagname){
+void	_uProjView( CAMERA * Cam, GLuint program, const char * tagname){
 
 	glUniformMatrix4fv( glGetUniformLocation( program, tagname), 1, GL_FALSE, Cam->Proj_View);
  }
 
 
-void _MoveCamera( CAMERA * Cam, float spd){
+void	_MoveCamera( CAMERA * Cam, float spd){
 	MoveCamera( Cam->Cam[0], Cam->Cam[1], spd);
 }
+
+void    _RotateCamera(  CAMERA * Cam, float angle, float x, float y, float z){
+	RotateCamera( Cam->Cam[0], Cam->Cam[1], angle, x, y, z);
+}
+
+
+void    _StrafeCamera(  CAMERA * Cam, float spd){
+	StrafeCamera( Cam->Cam[0], Cam->Cam[1], spd);
+}
+

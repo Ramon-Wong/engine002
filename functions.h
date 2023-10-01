@@ -88,8 +88,8 @@ typedef struct{
     void          (*uProjView)(void *, GLuint, const char *);
 
     void          (*MoveCamera)( void *, float);
-    void          (*RotateCamera)( void *);
-    void          (*StrafeCamera)( void *);
+    void          (*RotateCamera)( void *, float, float, float, float);
+    void          (*StrafeCamera)( void *, float);
 }CAMERA;
 
 void                Camera_Init(CAMERA *);
