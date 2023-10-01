@@ -45,3 +45,5 @@ int PointinPlane( int i, float * vec){
         return -1;
     }
 }
+
+

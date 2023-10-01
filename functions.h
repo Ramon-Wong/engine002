@@ -65,5 +65,22 @@ void                Draw_Geometry( GLenum, GLuint, int size);
 //     void    (*Render)(void*);
 // }OBJECT;
 
+// typedef struct{
+//     float       gFrustum[6][4];
+
+//     void        (*InitializePlanes)( void *, float * ProjView);
+//     int         (*PointinPlane)( void *, int, float *);
+// }FRUSTUM;
+
+
+typedef struct{
+    GLfloat         Proj_Matrix[16];        // frustum matrix
+    GLfloat         View_Matrix[16];        // Camera matrix
+    GLfloat         Orth_Matrix[16];        // Ortho 2D view
+    float           gFrustum[6][4];         // Frustum plane
+
+    void          (*SetProjection)( void *);
+    void          (*Lookup)( void *, float *, float *, float *);
+}CAMERA;
 
 #endif
