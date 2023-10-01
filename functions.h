@@ -56,4 +56,14 @@ void                gPopMatrix(GLuint Prog, const char * uniform);
 void                Draw_Geometry( GLenum, GLuint, int size);
 
 
+// typedef struct{
+//     GLfloat **  array1;                 // 2d array holding Vertices, normals, colors, and texcoords.
+//     GLubyte     indices;                // index
+
+//     int     (*Initialize)(void *);      // Set and initialize the data for Cube or square
+//     void    (*set)(void *, int);    
+//     void    (*Render)(void*);
+// }OBJECT;
+
+
 #endif
