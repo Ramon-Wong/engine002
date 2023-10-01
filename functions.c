@@ -72,7 +72,9 @@ void Shutdown(int return_code){
 void Main_Loop(void){
 
 	ShaderSetup();
-  
+	
+
+
 	GLSL_Prog[0]		= glCreateProgram();
 	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/VShader.glsl");
 	GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0], 1, "GLSL/FShader.glsl");
@@ -82,29 +84,34 @@ void Main_Loop(void){
 
 	double old_time = glfwGetTime();
 
-	GLfloat		Proj_Matrix[16];
-	GLfloat		View_Matrix[16];
-	GLfloat		Orth_Matrix[16];
-	GLfloat		Orth_View[16];
-	GLfloat		Proj_View[16];
+	// GLfloat		Proj_Matrix[16];
+	// GLfloat		View_Matrix[16];
+	// GLfloat		Orth_Matrix[16];
+	// GLfloat		Orth_View[16];
+	// GLfloat		Proj_View[16];
 
-	MLoadIdentity(Proj_Matrix);
-	MLoadIdentity(View_Matrix);
-	MLoadIdentity(Orth_Matrix);
-	MLoadIdentity(Orth_View);	
- 	MLoadIdentity(Proj_View);
+	CAMERA		Camera;		// soon to replace the code above.
+	Camera_Init(&Camera);	// * NEW SHIT
 
-	float View[] = {  0.0f,  0.0f, 12.0f};
+	// MLoadIdentity(Proj_Matrix);
+	// MLoadIdentity(View_Matrix);
+	// MLoadIdentity(Orth_Matrix);
+	// MLoadIdentity(Orth_View);	
+ 	// MLoadIdentity(Proj_View);
+
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
+	float View[] = {  0.0f,  0.0f, 12.0f};
 	float Upvx[] = {  0.0f,  1.0f,  0.0f};
 	
-	LookAtM( View_Matrix, Pose, View, Upvx);
-	float aspect_ratio = ((float)600) / 800;
-	MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// Projection is the frustum
-	MOrtho( (float*)Orth_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);		// Orthographic mode      
-	MMultiply( Orth_View, Orth_Matrix, View_Matrix);
-	MMultiply( Proj_View, Proj_Matrix, View_Matrix);
+	// LookAtM( View_Matrix, Pose, View, Upvx);
+	// float aspect_ratio = ((float)600) / 800;
+	// MFrustum( (float*)Proj_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// Projection is the frustum
+	// MOrtho( (float*)Orth_Matrix, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);		// Orthographic mode      
+	// MMultiply( Orth_View, Orth_Matrix, View_Matrix);
+	// MMultiply( Proj_View, Proj_Matrix, View_Matrix);
 
+	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
+	Camera.Lookup( &Camera, Pose, View, Upvx);																		// also New shit
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -125,13 +132,14 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);}
 		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			StrafeCamera( Pose, View,  0.005f);}
 
-		LookAtM( View_Matrix, Pose, View, Upvx);				// Update Camera
-		MMultiply( Proj_View, Proj_Matrix, View_Matrix);
+		// LookAtM( View_Matrix, Pose, View, Upvx);				// Update Camera
+		// MMultiply( Proj_View, Proj_Matrix, View_Matrix);
 		
 		glUniform3f( glGetUniformLocation( GLSL_Prog[0], "RGB"),				0.5f, 1.0f, 0.6f);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"),					PI);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"),			rotate_z);
-		glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"), 		1, GL_FALSE, Proj_View);
+		// glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"), 		1, GL_FALSE, Proj_View);
+		Camera.uProjView(&Camera, GLSL_Prog[0], "uProjView");
 
 		gMatrixTranslation( 0.0, 0.0, 0.0);
 		// gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);

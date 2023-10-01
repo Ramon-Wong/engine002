@@ -78,11 +78,15 @@ typedef struct{
     GLfloat         View_Matrix[16];        // Camera matrix
     GLfloat         Orth_Matrix[16];        // Ortho 2D view
     GLfloat         Proj_View[16];          // Projection * Camera VIew
+    GLfloat         Orth_View[16];          // Ortho * Camera VIew
     float           gFrustum[6][4];         // Frustum plane
 
-    void          (*SetProjection)( void *);
+    void          (*SetProjection)( void *, float, float, float, float, float, float);
     void          (*Lookup)( void *, float *, float *, float *);
     void          (*uProjView)(void *, GLuint, const char *);
 }CAMERA;
+
+void                Camera_Init(CAMERA *);
+
 
 #endif
