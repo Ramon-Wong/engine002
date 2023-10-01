@@ -111,7 +111,7 @@ void Main_Loop(void){
 	// MMultiply( Proj_View, Proj_Matrix, View_Matrix);
 
 	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
-	Camera.Lookup( &Camera, Pose, View, Upvx);																		// also New shit
+	Camera.SetCamera( &Camera, Pose, View, Upvx);																		// also New shit
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -125,8 +125,8 @@ void Main_Loop(void){
 		glUseProgram( GLSL_Prog[0]);
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);}
-		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			MoveCamera( Pose, View,-0.001f);}
-		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			MoveCamera( Pose, View, 0.001f);}
+		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			Camera.MoveCamera(&Camera, -0.001f);}
+		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			Camera.MoveCamera(&Camera,  0.001f);}
 		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			RotateCamera( Pose, View,-0.001f, 0.0f, 1.0f, 0.0f);}
 		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			RotateCamera( Pose, View, 0.001f, 0.0f, 1.0f, 0.0f);}
 		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			StrafeCamera( Pose, View, -0.005f);}
@@ -139,6 +139,7 @@ void Main_Loop(void){
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"),					PI);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"),			rotate_z);
 		// glUniformMatrix4fv( glGetUniformLocation( GLSL_Prog[0], "uProjView"), 		1, GL_FALSE, Proj_View);
+		Camera.Lookup(&Camera);
 		Camera.uProjView(&Camera, GLSL_Prog[0], "uProjView");
 
 		gMatrixTranslation( 0.0, 0.0, 0.0);
