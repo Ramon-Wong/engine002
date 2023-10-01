@@ -74,7 +74,7 @@ void                Draw_Geometry( GLenum, GLuint, int size);
 
 
 typedef struct{
-    float   Cam[3][3];
+    float   Cam[3][3];                      // Camera Pose/View/Upvx
     GLfloat         Proj_Matrix[16];        // frustum matrix
     GLfloat         View_Matrix[16];        // Camera matrix
     GLfloat         Orth_Matrix[16];        // Ortho 2D view
@@ -90,6 +90,8 @@ typedef struct{
     void          (*MoveCamera)( void *, float);
     void          (*RotateCamera)( void *, float, float, float, float);
     void          (*StrafeCamera)( void *, float);
+
+    // todo Frustum Culling!!
 }CAMERA;
 
 void                Camera_Init(CAMERA *);

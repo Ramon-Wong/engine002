@@ -2,12 +2,6 @@
 
 
 
-        //   (float* Mat, float Left, float Right, float Bottom, float Top, float Near, float Far)
-// MFrustum( (float*)Proj_Matrix, left, right, bottom, top, near, far);	// Projection is the frustum
-// MOrtho(   (float*)Orth_Matrix, left, right, bottom, top, near, far);		// Orthographic mode     
-
-
-
 
 void    _SetProjection( CAMERA *, float, float, float, float, float, float);
 void    _SetCamera( CAMERA *, float *, float *, float *);
