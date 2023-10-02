@@ -11,7 +11,7 @@ void	_MoveCamera( CAMERA *, float spd);
 void    _RotateCamera(  CAMERA *, float, float, float, float);
 void    _StrafeCamera(  CAMERA *, float);
 
-void	_SetPlane( CAMERA *);
+void	_SetPlanes( CAMERA *);
 
 
 
@@ -52,7 +52,7 @@ void	_Lookup( CAMERA * Cam){
 	LookAtM( Cam->View_Matrix, Cam->Cam[0], Cam->Cam[1], Cam->Cam[2]);			// Update Camera
 	MMultiply( Cam->Proj_View, Cam->Proj_Matrix, Cam->View_Matrix);
 	MMultiply( Cam->Orth_View, Cam->Orth_Matrix, Cam->View_Matrix);
-	_SetPlane( Cam);
+	_SetPlanes( Cam);
 }
 
 
@@ -77,34 +77,19 @@ void    _StrafeCamera(  CAMERA * Cam, float spd){
 }
 
 
-void	_SetPlane( CAMERA * Cam){
-	Cam->gFrustum[RIGHT][0]		= Cam->Proj_View[ 3] - Cam->Proj_View[0];
-	Cam->gFrustum[RIGHT][1]		= Cam->Proj_View[ 7] - Cam->Proj_View[4];
-	Cam->gFrustum[RIGHT][2]		= Cam->Proj_View[11] - Cam->Proj_View[8];
-	Cam->gFrustum[RIGHT][3]		= Cam->Proj_View[15] - Cam->Proj_View[12];
+void	setPlane( CAMERA * Cam, int side, float A, float, B, float C, float D){
+	Cam->gFrustum[side][0]	= Cam->Proj_View[ 3] + A;
+	Cam->gFrustum[side][1]	= Cam->Proj_View[ 7] + B;
+	Cam->gFrustum[side][2]	= Cam->Proj_View[11] + C;
+	Cam->gFrustum[side][3]	= Cam->Proj_View[15] + D;
+}
 
-	Cam->gFrustum[LEFT][0]		= Cam->Proj_View[ 3] + Cam->Proj_View[0];
-	Cam->gFrustum[LEFT][1]		= Cam->Proj_View[ 7] + Cam->Proj_View[4];
-	Cam->gFrustum[LEFT][2]		= Cam->Proj_View[11] + Cam->Proj_View[8];
-	Cam->gFrustum[LEFT][3]		= Cam->Proj_View[15] + Cam->Proj_View[12];
 
-	Cam->gFrustum[BOTTOM][0]	= Cam->Proj_View[ 3] + Cam->Proj_View[1];
-	Cam->gFrustum[BOTTOM][1]	= Cam->Proj_View[ 7] + Cam->Proj_View[5];
-	Cam->gFrustum[BOTTOM][2]	= Cam->Proj_View[11] + Cam->Proj_View[9];
-	Cam->gFrustum[BOTTOM][3]	= Cam->Proj_View[15] + Cam->Proj_View[13];
-
-	Cam->gFrustum[TOP][0]		= Cam->Proj_View[ 3] - Cam->Proj_View[1];
-	Cam->gFrustum[TOP][1]		= Cam->Proj_View[ 7] - Cam->Proj_View[5];
-	Cam->gFrustum[TOP][2]		= Cam->Proj_View[11] - Cam->Proj_View[9];
-	Cam->gFrustum[TOP][3]		= Cam->Proj_View[15] - Cam->Proj_View[13];
-
-	Cam->gFrustum[BACK][0]		= Cam->Proj_View[ 3] - Cam->Proj_View[2];
-	Cam->gFrustum[BACK][1]		= Cam->Proj_View[ 7] - Cam->Proj_View[6];
-	Cam->gFrustum[BACK][2]		= Cam->Proj_View[11] - Cam->Proj_View[10];
-	Cam->gFrustum[BACK][3]		= Cam->Proj_View[15] - Cam->Proj_View[14];
-
-	Cam->gFrustum[FRONT][0]		= Cam->Proj_View[ 3] + Cam->Proj_View[2];
-	Cam->gFrustum[FRONT][1]		= Cam->Proj_View[ 7] + Cam->Proj_View[6];
-	Cam->gFrustum[FRONT][2]		= Cam->Proj_View[11] + Cam->Proj_View[10];
-	Cam->gFrustum[FRONT][3]		= Cam->Proj_View[15] + Cam->Proj_View[14];
+void	_SetPlanes( CAMERA * Cam){
+	setPlane( Cam, RIGHT,	-Cam->Proj_View[0], -Cam->Proj_View[4], -Cam->Proj_View[8], -Cam->Proj_View[12]);
+	setPlane( Cam, LEFT,	 Cam->Proj_View[0],  Cam->Proj_View[4],  Cam->Proj_View[8],  Cam->Proj_View[12]);
+	setPlane( Cam, BOTTOM,	 Cam->Proj_View[1],  Cam->Proj_View[5],  Cam->Proj_View[9],  Cam->Proj_View[13]);
+	setPlane( Cam, TOP,		-Cam->Proj_View[1], -Cam->Proj_View[5], -Cam->Proj_View[9], -Cam->Proj_View[13]);
+	setPlane( Cam, BACK,	-Cam->Proj_View[2], -Cam->Proj_View[6], -Cam->Proj_View[10],-Cam->Proj_View[14]);
+	setPlane( Cam, FRONT,	 Cam->Proj_View[2],  Cam->Proj_View[6],  Cam->Proj_View[10], Cam->Proj_View[14]);
 }
