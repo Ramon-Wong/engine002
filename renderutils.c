@@ -1,51 +1,6 @@
 #include "functions.h"
 
 
-static float	    CulRTMatrix[16];
-static int		    counter = 0;
-
-
-void gMatrixRotation( GLfloat angle, GLfloat x, GLfloat y, GLfloat z){
-
-    float Temp[16];
-
-	if( counter == 0){
-		MLoadIdentity( CulRTMatrix);
-        MRotate( CulRTMatrix, angle, x, y, z);
-	}else if( counter > 0){
-        MLoadIdentity( Temp);
-        MRotate( Temp, angle, x, y, z);
-        MMultiply( CulRTMatrix, CulRTMatrix, Temp);
-    }
-
-    counter += 1;
-}
-
-
-void gMatrixTranslation( GLfloat x, GLfloat y, GLfloat z){
-
-    float Temp[16];
-
-	if( counter == 0){
-		MLoadIdentity( CulRTMatrix);
-        MTranslate( CulRTMatrix, x, y, z);
-	}else if( counter > 0){
-        MLoadIdentity( Temp);
-        MTranslate( CulRTMatrix, x, y, z);
-        MMultiply( CulRTMatrix, CulRTMatrix, Temp);
-    }
-
-    counter += 1;
-}
-
-
-void gPopMatrix(GLuint Prog, const char * uniform){
-
-    glUniformMatrix4fv( glGetUniformLocation( Prog, uniform), 1, GL_FALSE, CulRTMatrix);
-	counter = 0;
-}
-
-
 void Draw_Geometry( GLenum shape, GLuint array_buffer, int size){
 	glBindVertexArray( array_buffer);
 	glEnableVertexAttribArray(0);
@@ -62,21 +17,40 @@ void Draw_Geometry( GLenum shape, GLuint array_buffer, int size){
 
 
 
+void    _Init( GLSL_PROGRAM *, const char *, const char *);
+void    _EnableProgram( GLSL_PROGRAM *);
+void    _DisableProgram( GLSL_PROGRAM *);
+void    _Release( GLSL_PROGRAM *);
+GLuint  _GetProgram( GLSL_PROGRAM *);
 
-void    _Init( GLSL_PROGRAM * Prog, const char *, const char *);
-void    _EnableProgram( GLSL_PROGRAM * Prog);
-void    _DisableProgram( GLSL_PROGRAM * Prog);
-void    _Release(GLSL_PROGRAM * Prog);
-GLuint  _GetProgram(GLSL_PROGRAM * Prog);  
+void    _SetUniform3f( GLSL_PROGRAM *, const char *, float, float, float);
+void    _SetUniform1f( GLSL_PROGRAM *, const char *, float);
+void    _SetUniform1i( GLSL_PROGRAM *, const char *, int);
+
+void    _gMatrixRotation( GLSL_PROGRAM *, float, float, float, float);
+void    _gMatrixTranslation( GLSL_PROGRAM *, float, float, float);
+void    _gPopMatrix( GLSL_PROGRAM *, const char *);
+
 
 
 void GLSLProg_Init(GLSL_PROGRAM * Prog){
 
-    Prog->Init                  = (void (*)(void *, const char *, const char *))_Init;
-    Prog->EnableProgram         = (void (*)(void*))_EnableProgram;
-    Prog->DisableProgram        = (void (*)(void*))_DisableProgram;
-    Prog->Release               = (void (*)(void*))_Release;
-    Prog->GetProgram            = (GLuint (*)(void*))_GetProgram;
+    MLoadIdentity( Prog->TransRotMatrix);
+    Prog->Counter               = 0;
+
+    Prog->Init                  = (void (*)(void *, const char *, const char *))        _Init;
+    Prog->EnableProgram         = (void (*)(void*))                                     _EnableProgram;
+    Prog->DisableProgram        = (void (*)(void*))                                     _DisableProgram;
+    Prog->Release               = (void (*)(void*))                                     _Release;
+    Prog->GetProgram            = (GLuint (*)(void*))                                   _GetProgram;
+
+    Prog->SetUniform3f          = (void (*)(void*, const char *, float, float, float))  _SetUniform3f;
+    Prog->SetUniform1f          = (void (*)(void*, const char *, float))                _SetUniform1f;
+    Prog->SetUniform1i          = (void (*)(void*, const char *, int))                  _SetUniform1i;
+
+    Prog->gMatrixRotation       = (void (*)(void*, float, float, float, float))         _gMatrixRotation;
+    Prog->gMatrixTranslation    = (void (*)(void*, float, float, float))                _gMatrixTranslation;
+    Prog->gPopMatrix            = (void (*)(void*, const char *))                       _gPopMatrix;
 }
 
 
@@ -110,4 +84,58 @@ void    _Release(GLSL_PROGRAM * Prog){
 
 GLuint  _GetProgram(GLSL_PROGRAM * Prog){
     return Prog->GLSL_Prog[0];
+}
+
+
+void    _SetUniform3f( GLSL_PROGRAM * Prog, const char * str, float x, float y, float z){
+    glUniform3f( glGetUniformLocation( Prog->GLSL_Prog[0], str), x, y, z);
+}
+
+
+void    _SetUniform1f( GLSL_PROGRAM *  Prog, const char * str, float v){
+    glUniform1f( glGetUniformLocation( Prog->GLSL_Prog[0], str), v);
+}
+
+
+void    _SetUniform1i( GLSL_PROGRAM *  Prog, const char * str, int v){
+    glUniform1i( glGetUniformLocation( Prog->GLSL_Prog[0], str), v);
+}
+
+
+void    _gMatrixRotation( GLSL_PROGRAM * Prog, float angle, float x, float y, float z){
+    float Temp[16];
+
+	if( Prog->Counter == 0){
+		MLoadIdentity( Prog->TransRotMatrix);
+        MRotate( Prog->TransRotMatrix, angle, x, y, z);
+	}else if( counter > 0){
+        MLoadIdentity( Temp);
+        MRotate( Temp, angle, x, y, z);
+        MMultiply( Prog->TransRotMatrix, Prog->TransRotMatrix, Temp);
+    }
+
+    Prog->Counter += 1;
+}
+
+
+void    _gMatrixTranslation( GLSL_PROGRAM * Prog, float x, float y, float z){
+    float Temp[16];
+
+	if( Prog->Counter == 0){
+		MLoadIdentity( Prog->TransRotMatrix);
+        MTranslate( Prog->TransRotMatrix, x, y, z);
+	}else if( Prog->Counter > 0){
+        MLoadIdentity( Temp);
+        MTranslate( Prog->TransRotMatrix, x, y, z);
+        MMultiply( Prog->TransRotMatrix, Prog->TransRotMatrix, Temp);
+    }
+
+    Prog->Counter += 1;
+}
+
+
+void    _gPopMatrix( GLSL_PROGRAM * Prog, const char * uniform){
+
+    glUniformMatrix4fv( glGetUniformLocation( Prog->GLSL_Prog[0], uniform), 1, GL_FALSE, Prog->TransRotMatrix);
+	Prog->Counter = 0;
 }

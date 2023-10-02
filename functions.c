@@ -142,9 +142,14 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			Camera.StrafeCamera( &Camera, -0.005f);						lock = 0;}
 		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera.StrafeCamera( &Camera,  0.005f); 					lock = 0;}
 		
-		glUniform3f( glGetUniformLocation( Prog01.GetProgram(&Prog01), "RGB"),				0.5f, 1.0f, 0.6f);
-		glUniform1f( glGetUniformLocation( Prog01.GetProgram(&Prog01), "PI"),				PI);
-		glUniform1f( glGetUniformLocation( Prog01.GetProgram(&Prog01), "rotate_z"),			rotate_z);
+
+		Prog01.SetUniform3f( &Prog01, "RGB", 		0.5f, 1.0f, 1.0f);
+		Prog01.SetUniform1f( &Prog01, "PI",			PI);
+		Prog01.SetUniform1i( &Prog01, "Rotatez",	rotate_z);
+
+		// glUniform3f( glGetUniformLocation( Prog01.GetProgram( &Prog01), "RGB"),				0.5f, 1.0f, 0.6f);
+		// glUniform1f( glGetUniformLocation( Prog01.GetProgram( &Prog01), "PI"),				PI);
+		// glUniform1f( glGetUniformLocation( Prog01.GetProgram( &Prog01), "rotate_z"),			rotate_z);
 
 		Camera.Lookup(&Camera);
 		Camera.uProjView(&Camera, Prog01.GetProgram(&Prog01), "uProjView");
@@ -173,7 +178,8 @@ void Main_Loop(void){
 
 		// draw cube
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glUniform3f( glGetUniformLocation( Prog01.GetProgram(&Prog01), "RGB"),				1.0f, 1.0f, 1.0f);
+		// glUniform3f( glGetUniformLocation( Prog01.GetProgram(&Prog01), "RGB"),				1.0f, 1.0f, 1.0f);
+		Prog01.SetUniform3f( &Prog01, "RGB", 		1.0f, 1.0f, 1.0f);
 		gMatrixTranslation( 0.0, 0.0, 0.0);
 		// gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
 		// gMatrixRotation( rotate_z, 0.0, 1.0, 0.0);

@@ -57,12 +57,22 @@ void                Draw_Geometry( GLenum, GLuint, int size);
 
 typedef struct{
     GLuint          GLSL_Prog[3];
-    
+    float           TransRotMatrix[16]; 
+    int             Counter;
+
     void          (*Init)( void *, const char *, const char *);
     void          (*EnableProgram)( void *);
     void          (*DisableProgram)( void *);
     void          (*Release)(void *);
-    GLuint        (*GetProgram)(void *);  
+
+    GLuint        (*GetProgram)( void *);  
+    void          (*SetUniform3f)( void *, const char *, float, float, float);
+    void          (*SetUniform1f)( void *, const char *, float);
+    void          (*SetUniform1i)( void *, const char *, int);
+
+    void          (*gMatrixRotation)( void *, float, float, float, float);
+    void          (*gMatrixTranslation)( void *, float, float, float);
+    void          (*gPopMatrix)( void *, const char *);
 
 }GLSL_PROGRAM;
 
