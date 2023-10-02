@@ -84,9 +84,11 @@ void Main_Loop(void){
 
 	CAMERA				Camera;		
 	GLSL_PROGRAM		Prog01;
+	GLSL_PROGRAM		Prog02;
 
 	Camera_Init(&Camera);
 	GLSLProg_Init(&Prog01);
+	GLSLProg_Init(&Prog02);
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f};
@@ -98,6 +100,7 @@ void Main_Loop(void){
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
 
 	Prog01.Init( &Prog01, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
+	Prog02.Init( &Prog01, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};
@@ -131,8 +134,7 @@ void Main_Loop(void){
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		// glUseProgram( GLSL_Prog[0]);
-		Prog01.EnableProgram(&Prog01);
+		
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);							lock = 0;}
 		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			Camera.MoveCamera( &Camera, -0.001f);						lock = 0;}
@@ -141,24 +143,16 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			Camera.RotateCamera( &Camera, 0.001f, 0.0f, 1.0f, 0.0f);	lock = 0;}
 		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			Camera.StrafeCamera( &Camera, -0.005f);						lock = 0;}
 		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera.StrafeCamera( &Camera,  0.005f); 					lock = 0;}
-		
+		Camera.Lookup(&Camera);
 
+		Prog01.EnableProgram(&Prog01);
 		Prog01.SetUniform3f( &Prog01, "RGB", 		0.5f, 1.0f, 1.0f);
 		Prog01.SetUniform1f( &Prog01, "PI",			PI);
 		Prog01.SetUniform1i( &Prog01, "Rotatez",	rotate_z);
 
-		// glUniform3f( glGetUniformLocation( Prog01.GetProgram( &Prog01), "RGB"),				0.5f, 1.0f, 0.6f);
-		// glUniform1f( glGetUniformLocation( Prog01.GetProgram( &Prog01), "PI"),				PI);
-		// glUniform1f( glGetUniformLocation( Prog01.GetProgram( &Prog01), "rotate_z"),			rotate_z);
-
-		Camera.Lookup(&Camera);
 		Camera.uProjView(&Camera, Prog01.GetProgram(&Prog01), "uProjView");
 
-		gMatrixTranslation( 0.0, 0.0, 0.0);
-		// gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
-		// gMatrixRotation( rotate_z, 0.0, 1.0, 0.0);
-		// gMatrixRotation( rotate_z, 1.0, 0.0, 0.0);
-		gPopMatrix( Prog01.GetProgram(&Prog01), "ModelMatrix");
+		Prog01.gPopMatrix( &Prog01, "ModelMatrix");
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		for(int i = 0; i < 21; i++){
@@ -175,20 +169,29 @@ void Main_Loop(void){
 		}
 
 		glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
+		Prog01.DisableProgram(&Prog01);
 
-		// draw cube
-		glEnableClientState(GL_VERTEX_ARRAY);
-		// glUniform3f( glGetUniformLocation( Prog01.GetProgram(&Prog01), "RGB"),				1.0f, 1.0f, 1.0f);
-		Prog01.SetUniform3f( &Prog01, "RGB", 		1.0f, 1.0f, 1.0f);
-		gMatrixTranslation( 0.0, 0.0, 0.0);
-		// gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
-		// gMatrixRotation( rotate_z, 0.0, 1.0, 0.0);
-		// gMatrixRotation( rotate_z, 1.0, 0.0, 0.0);		
+		Prog01.DisableProgram(&Prog01);
 
-		glVertexPointer(3, GL_FLOAT, 0, box_vertices);
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, box_indices);
-		glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
-		// end draw
+		Prog01.DisableProgram(&Prog01);
+
+		// Prog02.EnableProgram(&Prog02);
+		// Camera.uProjView(&Camera, Prog02.GetProgram(&Prog02), "uProjView");		
+		// // draw cube
+		// glEnableClientState(GL_VERTEX_ARRAY);
+		// // glUniform3f( glGetUniformLocation( Prog01.GetProgram(&Prog01), "RGB"),				1.0f, 1.0f, 1.0f);
+		// Prog02.SetUniform3f( &Prog02, "RGB", 		1.0f, 1.0f, 1.0f);
+		// Prog02.gMatrixTranslation( &Prog02, 0.0, 0.0, 0.0);
+		// // gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
+		// // gMatrixRotation( rotate_z, 0.0, 1.0, 0.0);
+		// // gMatrixRotation( rotate_z, 1.0, 0.0, 0.0);		
+		// Prog02.gPopMatrix( &Prog02, "ModelMatrix");
+
+		// glVertexPointer(3, GL_FLOAT, 0, box_vertices);
+		// glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, box_indices);
+		// glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
+		// // end draw
+		// Prog02.DisableProgram(&Prog02);
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();

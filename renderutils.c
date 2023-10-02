@@ -108,7 +108,7 @@ void    _gMatrixRotation( GLSL_PROGRAM * Prog, float angle, float x, float y, fl
 	if( Prog->Counter == 0){
 		MLoadIdentity( Prog->TransRotMatrix);
         MRotate( Prog->TransRotMatrix, angle, x, y, z);
-	}else if( counter > 0){
+	}else if( Prog->Counter > 0){
         MLoadIdentity( Temp);
         MRotate( Temp, angle, x, y, z);
         MMultiply( Prog->TransRotMatrix, Prog->TransRotMatrix, Temp);
