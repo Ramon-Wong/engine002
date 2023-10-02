@@ -12,7 +12,7 @@ void    _RotateCamera(  CAMERA *, float, float, float, float);
 void    _StrafeCamera(  CAMERA *, float);
 
 void	_SetPlanes( CAMERA *);
-
+int		_PointinFrustum( CAMERA *, int, float *);
 
 
 void Camera_Init(CAMERA * Cam){
@@ -30,6 +30,8 @@ void Camera_Init(CAMERA * Cam){
 	Cam->MoveCamera				= (void (*)(void *, float))_MoveCamera;
 	Cam->RotateCamera			= (void (*)(void *, float, float, float, float))_RotateCamera;
 	Cam->StrafeCamera			= (void (*)(void *, float))_StrafeCamera;
+	// Cam->PointinFrustum			= (int  (*)(void *, int, float *))_PointinFrustum;
+	Cam->PointinFrustum			= (int  (*)(void *, int, float *))_PointinFrustum;
 }
 
 
@@ -38,7 +40,7 @@ void    _SetProjection( CAMERA * Cam, float left, float right, float bottom, flo
     MFrustum( (float*)Cam->Proj_Matrix, left, right, bottom, top, near, far);	// Projection is the frustum
     MOrtho(   (float*)Cam->Orth_Matrix, left, right, bottom, top, near, far);	// Orthographic mode     
 }
-
+ 
 
 void    _SetCamera( CAMERA * Cam, float * pose, float * view, float * upvx){
 	memcpy( Cam->Cam[0], pose, sizeof(float[3]));
@@ -57,7 +59,6 @@ void	_Lookup( CAMERA * Cam){
 
 
 void	_uProjView( CAMERA * Cam, GLuint program, const char * tagname){
-
 	glUniformMatrix4fv( glGetUniformLocation( program, tagname), 1, GL_FALSE, Cam->Proj_View);
  }
 
@@ -77,7 +78,7 @@ void    _StrafeCamera(  CAMERA * Cam, float spd){
 }
 
 
-void	setPlane( CAMERA * Cam, int side, float A, float, B, float C, float D){
+void	setPlane( CAMERA * Cam, int side, float A, float B, float C, float D){
 	Cam->gFrustum[side][0]	= Cam->Proj_View[ 3] + A;
 	Cam->gFrustum[side][1]	= Cam->Proj_View[ 7] + B;
 	Cam->gFrustum[side][2]	= Cam->Proj_View[11] + C;
@@ -92,4 +93,16 @@ void	_SetPlanes( CAMERA * Cam){
 	setPlane( Cam, TOP,		-Cam->Proj_View[1], -Cam->Proj_View[5], -Cam->Proj_View[9], -Cam->Proj_View[13]);
 	setPlane( Cam, BACK,	-Cam->Proj_View[2], -Cam->Proj_View[6], -Cam->Proj_View[10],-Cam->Proj_View[14]);
 	setPlane( Cam, FRONT,	 Cam->Proj_View[2],  Cam->Proj_View[6],  Cam->Proj_View[10], Cam->Proj_View[14]);
+}
+
+
+int		_PointinFrustum( CAMERA * Cam, int side, float * vec){
+
+    float sum = (Cam->gFrustum[side][0] * vec[0]) + (Cam->gFrustum[side][1] * vec[1]) + (Cam->gFrustum[side][2] * vec[2]) + Cam->gFrustum[side][3];
+
+    if(sum >= 0.0){
+        return 1;
+    }else{
+        return -1;
+    }
 }
