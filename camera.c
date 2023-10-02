@@ -12,7 +12,7 @@ void    _RotateCamera(  CAMERA *, float, float, float, float);
 void    _StrafeCamera(  CAMERA *, float);
 
 void	_SetPlanes( CAMERA *);
-int		_PointinFrustum( CAMERA *, int, float *);
+int		_PointinPlane( CAMERA *, int, float *);
 
 
 void Camera_Init(CAMERA * Cam){
@@ -30,8 +30,7 @@ void Camera_Init(CAMERA * Cam){
 	Cam->MoveCamera				= (void (*)(void *, float))_MoveCamera;
 	Cam->RotateCamera			= (void (*)(void *, float, float, float, float))_RotateCamera;
 	Cam->StrafeCamera			= (void (*)(void *, float))_StrafeCamera;
-	// Cam->PointinFrustum			= (int  (*)(void *, int, float *))_PointinFrustum;
-	Cam->PointinFrustum			= (int  (*)(void *, int, float *))_PointinFrustum;
+	Cam->PointinPlane			= (int  (*)(void *, int, float *))_PointinPlane;
 }
 
 
@@ -63,8 +62,22 @@ void	_uProjView( CAMERA * Cam, GLuint program, const char * tagname){
  }
 
 
+void	_SubstractVector( float * result, float * Vec1, float * Vec2){
+	result[0] = Vec2[0] - Vec1[0];
+	result[1] = Vec2[1] - Vec1[1];
+	result[2] = Vec2[2] - Vec1[2];
+}
+
+
 void	_MoveCamera( CAMERA * Cam, float spd){
-	MoveCamera( Cam->Cam[0], Cam->Cam[1], spd);
+
+	float Direction[3];
+	_SubstractVector( Direction, Cam->Cam[0], Cam->Cam[1]);
+
+	Cam->Cam[0][0]	+= Direction[0] * spd;
+	Cam->Cam[0][2]	+= Direction[2] * spd;
+	Cam->Cam[1][0]	+= Direction[0] * spd;
+	Cam->Cam[1][2]	+= Direction[2] * spd;
 }
 
 
@@ -74,7 +87,18 @@ void    _RotateCamera(  CAMERA * Cam, float angle, float x, float y, float z){
 
 
 void    _StrafeCamera(  CAMERA * Cam, float spd){
-	StrafeCamera( Cam->Cam[0], Cam->Cam[1], spd);
+	// StrafeCamera( Cam->Cam[0], Cam->Cam[1], spd);
+	float Direction[3];
+	_SubstractVector( Direction, Cam->Cam[0], Cam->Cam[1]);	
+
+    float right[3];
+    CrossProduct(right, Direction, Cam->Cam[2]);
+    Normalize(right);
+
+	Cam->Cam[0][0]	+= right[0] * spd;
+	Cam->Cam[0][2]	+= right[2] * spd;
+	Cam->Cam[1][0]	+= right[0] * spd;
+	Cam->Cam[1][2]	+= right[2] * spd;
 }
 
 
@@ -96,7 +120,7 @@ void	_SetPlanes( CAMERA * Cam){
 }
 
 
-int		_PointinFrustum( CAMERA * Cam, int side, float * vec){
+int		_PointinPlane( CAMERA * Cam, int side, float * vec){
 
     float sum = (Cam->gFrustum[side][0] * vec[0]) + (Cam->gFrustum[side][1] * vec[1]) + (Cam->gFrustum[side][2] * vec[2]) + Cam->gFrustum[side][3];
 

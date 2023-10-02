@@ -90,8 +90,11 @@ void Main_Loop(void){
 	
 	float aspect_ratio = ((float)600) / 800;
 
-	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
+	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.55f * aspect_ratio, 0.55f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
+
+	int lock = 0;
+	float point[] = { 0.0, 0.0, 0.0};
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -100,17 +103,37 @@ void Main_Loop(void){
 
 		rotate_z = 0.1 * delta_rotate;
  
+		if( lock == 0){
+			int v = 0;	
+			for(int i = 0; i < 6; i++){
+				v += Camera.PointinPlane( &Camera, i, point);
+			}
+
+			printf("\n");
+			printf( "\n Point in Right	Plane: %i",	Camera.PointinPlane( &Camera, RIGHT,	point));
+			printf( "\n Point in Left	Plane: %i",	Camera.PointinPlane( &Camera, LEFT,		point));
+			printf( "\n Point in Back	Plane: %i",	Camera.PointinPlane( &Camera, BACK,		point));
+			printf( "\n Point in Front	Plane: %i",	Camera.PointinPlane( &Camera, FRONT,	point));
+			printf( "\n Point in Top	Plane: %i",	Camera.PointinPlane( &Camera, TOP,		point));
+			printf( "\n Point in Bottom Plane: %i",	Camera.PointinPlane( &Camera, BOTTOM,	point));
+			printf( "\n Total Value: %i", v );
+			printf("\n");
+			lock = 1;
+		}
+
+
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glUseProgram( GLSL_Prog[0]);
 
-		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);}
-		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			Camera.MoveCamera( &Camera, -0.001f);}
-		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			Camera.MoveCamera( &Camera,  0.001f);}
-		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			Camera.RotateCamera( &Camera,-0.001f, 0.0f, 1.0f, 0.0f);}
-		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			Camera.RotateCamera( &Camera, 0.001f, 0.0f, 1.0f, 0.0f);}
-		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			Camera.StrafeCamera( &Camera, -0.005f);}
-		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera.StrafeCamera( &Camera,  0.005f);}
+		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);							lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			Camera.MoveCamera( &Camera, -0.001f);						lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			Camera.MoveCamera( &Camera,  0.001f);						lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			Camera.RotateCamera( &Camera,-0.001f, 0.0f, 1.0f, 0.0f);	lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			Camera.RotateCamera( &Camera, 0.001f, 0.0f, 1.0f, 0.0f);	lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			Camera.StrafeCamera( &Camera, -0.005f);						lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera.StrafeCamera( &Camera,  0.005f); 					lock = 0;}
 		
 		glUniform3f( glGetUniformLocation( GLSL_Prog[0], "RGB"),				0.5f, 1.0f, 0.6f);
 		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"),					PI);

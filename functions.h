@@ -80,7 +80,7 @@ typedef struct{
     void          (*MoveCamera)( void *, float);
     void          (*RotateCamera)( void *, float, float, float, float);
     void          (*StrafeCamera)( void *, float);
-    int           (*PointinFrustum)(void *, int, float *);
+    int           (*PointinPlane)(void *, int, float *);
 
     // todo Frustum Culling!!
 }CAMERA;
