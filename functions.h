@@ -52,6 +52,21 @@ void                gPopMatrix(GLuint Prog, const char * uniform);
 void                Draw_Geometry( GLenum, GLuint, int size);
 
 
+
+
+
+typedef struct{
+    GLuint          GLSL_Prog[3];
+    
+    void          (*Init)( void *, const char *, const char *);
+    void          (*EnableProgram)( void *);
+    void          (*DisableProgram)( void *);
+    void          (*Release)(void *);
+    GLuint        (*GetProgram)(void *);  
+
+}GLSL_PROGRAM;
+
+
 #define RIGHT   0
 #define LEFT    1
 #define BOTTOM  2
@@ -82,6 +97,6 @@ typedef struct{
 }CAMERA;
 
 void                Camera_Init(CAMERA *);
-
+void                GLSLProg_Init(GLSL_PROGRAM *);
 
 #endif
