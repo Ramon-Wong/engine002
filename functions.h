@@ -56,31 +56,21 @@ void                gPopMatrix(GLuint Prog, const char * uniform);
 void                Draw_Geometry( GLenum, GLuint, int size);
 
 
-// typedef struct{
-//     GLfloat **  array1;                 // 2d array holding Vertices, normals, colors, and texcoords.
-//     GLubyte     indices;                // index
-
-//     int     (*Initialize)(void *);      // Set and initialize the data for Cube or square
-//     void    (*set)(void *, int);    
-//     void    (*Render)(void*);
-// }OBJECT;
-
-// typedef struct{
-//     float       gFrustum[6][4];
-
-//     void        (*InitializePlanes)( void *, float * ProjView);
-//     int         (*PointinPlane)( void *, int, float *);
-// }FRUSTUM;
-
+#define RIGHT   0
+#define LEFT    1
+#define BOTTOM  2
+#define TOP     3
+#define BACK    4
+#define FRONT   5
 
 typedef struct{
-    float   Cam[3][3];                      // Camera Pose/View/Upvx
-    GLfloat         Proj_Matrix[16];        // frustum matrix
-    GLfloat         View_Matrix[16];        // Camera matrix
-    GLfloat         Orth_Matrix[16];        // Ortho 2D view
-    GLfloat         Proj_View[16];          // Projection * Camera VIew
-    GLfloat         Orth_View[16];          // Ortho * Camera VIew
-    float           gFrustum[6][4];         // Frustum plane
+    float   Cam[3][3];                              // Camera Pose/View/Upvx
+    GLfloat         Proj_Matrix[16];                // frustum matrix
+    GLfloat         View_Matrix[16];                // Camera matrix
+    GLfloat         Orth_Matrix[16];                // Ortho 2D view
+    GLfloat         Proj_View[16];                  // Projection * Camera VIew
+    GLfloat         Orth_View[16];                  // Ortho * Camera VIew
+    float           gFrustum[6][4];                 // Frustum plane
 
     void          (*SetProjection)( void *, float, float, float, float, float, float);
     void          (*SetCamera)( void *, float *, float *, float *); 

@@ -7,9 +7,13 @@ void    _SetProjection( CAMERA *, float, float, float, float, float, float);
 void    _SetCamera( CAMERA *, float *, float *, float *);
 void    _Lookup( CAMERA *);
 void    _uProjView( CAMERA *, GLuint, const char *);
-void	_MoveCamera( CAMERA * Cam, float spd);
-void    _RotateCamera(  CAMERA * Cam, float, float, float, float);
-void    _StrafeCamera(  CAMERA * Cam, float);
+void	_MoveCamera( CAMERA *, float spd);
+void    _RotateCamera(  CAMERA *, float, float, float, float);
+void    _StrafeCamera(  CAMERA *, float);
+
+void	_SetPlane( CAMERA *);
+
+
 
 void Camera_Init(CAMERA * Cam){
 
@@ -48,6 +52,7 @@ void	_Lookup( CAMERA * Cam){
 	LookAtM( Cam->View_Matrix, Cam->Cam[0], Cam->Cam[1], Cam->Cam[2]);			// Update Camera
 	MMultiply( Cam->Proj_View, Cam->Proj_Matrix, Cam->View_Matrix);
 	MMultiply( Cam->Orth_View, Cam->Orth_Matrix, Cam->View_Matrix);
+	_SetPlane( Cam);
 }
 
 
@@ -61,6 +66,7 @@ void	_MoveCamera( CAMERA * Cam, float spd){
 	MoveCamera( Cam->Cam[0], Cam->Cam[1], spd);
 }
 
+
 void    _RotateCamera(  CAMERA * Cam, float angle, float x, float y, float z){
 	RotateCamera( Cam->Cam[0], Cam->Cam[1], angle, x, y, z);
 }
@@ -70,3 +76,35 @@ void    _StrafeCamera(  CAMERA * Cam, float spd){
 	StrafeCamera( Cam->Cam[0], Cam->Cam[1], spd);
 }
 
+
+void	_SetPlane( CAMERA * Cam){
+	Cam->gFrustum[RIGHT][0]		= Cam->Proj_View[ 3] - Cam->Proj_View[0];
+	Cam->gFrustum[RIGHT][1]		= Cam->Proj_View[ 7] - Cam->Proj_View[4];
+	Cam->gFrustum[RIGHT][2]		= Cam->Proj_View[11] - Cam->Proj_View[8];
+	Cam->gFrustum[RIGHT][3]		= Cam->Proj_View[15] - Cam->Proj_View[12];
+
+	Cam->gFrustum[LEFT][0]		= Cam->Proj_View[ 3] + Cam->Proj_View[0];
+	Cam->gFrustum[LEFT][1]		= Cam->Proj_View[ 7] + Cam->Proj_View[4];
+	Cam->gFrustum[LEFT][2]		= Cam->Proj_View[11] + Cam->Proj_View[8];
+	Cam->gFrustum[LEFT][3]		= Cam->Proj_View[15] + Cam->Proj_View[12];
+
+	Cam->gFrustum[BOTTOM][0]	= Cam->Proj_View[ 3] + Cam->Proj_View[1];
+	Cam->gFrustum[BOTTOM][1]	= Cam->Proj_View[ 7] + Cam->Proj_View[5];
+	Cam->gFrustum[BOTTOM][2]	= Cam->Proj_View[11] + Cam->Proj_View[9];
+	Cam->gFrustum[BOTTOM][3]	= Cam->Proj_View[15] + Cam->Proj_View[13];
+
+	Cam->gFrustum[TOP][0]		= Cam->Proj_View[ 3] - Cam->Proj_View[1];
+	Cam->gFrustum[TOP][1]		= Cam->Proj_View[ 7] - Cam->Proj_View[5];
+	Cam->gFrustum[TOP][2]		= Cam->Proj_View[11] - Cam->Proj_View[9];
+	Cam->gFrustum[TOP][3]		= Cam->Proj_View[15] - Cam->Proj_View[13];
+
+	Cam->gFrustum[BACK][0]		= Cam->Proj_View[ 3] - Cam->Proj_View[2];
+	Cam->gFrustum[BACK][1]		= Cam->Proj_View[ 7] - Cam->Proj_View[6];
+	Cam->gFrustum[BACK][2]		= Cam->Proj_View[11] - Cam->Proj_View[10];
+	Cam->gFrustum[BACK][3]		= Cam->Proj_View[15] - Cam->Proj_View[14];
+
+	Cam->gFrustum[FRONT][0]		= Cam->Proj_View[ 3] + Cam->Proj_View[2];
+	Cam->gFrustum[FRONT][1]		= Cam->Proj_View[ 7] + Cam->Proj_View[6];
+	Cam->gFrustum[FRONT][2]		= Cam->Proj_View[11] + Cam->Proj_View[10];
+	Cam->gFrustum[FRONT][3]		= Cam->Proj_View[15] + Cam->Proj_View[14];
+}
