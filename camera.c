@@ -69,6 +69,13 @@ void	_SubstractVector( float * result, float * Vec1, float * Vec2){
 }
 
 
+void	_AddVector( float * result, float * Vec1, float * Vec2){
+	result[0] = Vec2[0] + Vec1[0];
+	result[1] = Vec2[1] + Vec1[1];
+	result[2] = Vec2[2] + Vec1[2];
+}
+
+
 void	_MoveCamera( CAMERA * Cam, float spd){
 
 	float Direction[3];
@@ -82,7 +89,27 @@ void	_MoveCamera( CAMERA * Cam, float spd){
 
 
 void    _RotateCamera(  CAMERA * Cam, float angle, float x, float y, float z){
-	RotateCamera( Cam->Cam[0], Cam->Cam[1], angle, x, y, z);
+
+	float nView[3];
+	float Direction[3];
+	_SubstractVector( Direction, Cam->Cam[0], Cam->Cam[1]);
+
+	float cosTheta = (float)cos(angle);
+	float sinTheta = (float)sin(angle);
+
+	nView[0] 	 = (cosTheta + (1 - cosTheta) * x * x)		* Direction[0];
+	nView[0] 	+= ((1 - cosTheta) * x * y - z * sinTheta)	* Direction[1];
+	nView[0] 	+= ((1 - cosTheta) * x * z + y * sinTheta)	* Direction[2];
+
+	nView[1] 	 = ((1 - cosTheta) * x * y + z * sinTheta)	* Direction[0];
+	nView[1] 	+= (cosTheta + (1 - cosTheta) * y * y)		* Direction[1];
+	nView[1] 	+= ((1 - cosTheta) * y * z - x * sinTheta)	* Direction[2];
+
+	nView[2] 	 = ((1 - cosTheta) * x * z - y * sinTheta)	* Direction[0];
+	nView[2] 	+= ((1 - cosTheta) * y * z + x * sinTheta)	* Direction[1];
+	nView[2] 	+= (cosTheta + (1 - cosTheta) * z * z)		* Direction[2];
+
+	_AddVector( Cam->Cam[1], Cam->Cam[0], nView);
 }
 
 

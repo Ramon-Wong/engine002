@@ -39,10 +39,6 @@ void				ShaderSetup();
 GLuint              ReadGLSLScript(GLuint, unsigned int, const char *);
 void	            LinkPrograms(GLuint);
 
-void                MoveCamera(float *, float *, float);
-void                RotateCamera(float*, float*, float, float, float, float);
-void                StrafeCamera(float*, float*, float);
-
 void                SetupVAOSingle( GLuint *, GLuint *, GLuint *, GLfloat *, GLubyte *, GLsizei, GLsizei);
 void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
 void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei, GLsizei);
