@@ -13,10 +13,11 @@ GLfloat TexCoords[]	= {  0.0f, 0.0f,	     0.0f, 0.0f,	     0.0f, 0.0f,		0.0f, 0.
 GLubyte indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
 
-GLuint GLSL_Prog[3];
+// GLuint GLSL_Prog[3];
 GLuint VAO[3];
 GLuint VBO[3];
 GLuint VCO[3];
+
 
 void Draw_Object( GLuint, int);
 
@@ -57,11 +58,11 @@ void Shutdown(int return_code){
 	glDeleteVertexArrays(1, &VCO[0]);
 
 
-	if( GLSL_Prog[0]){
-		glDeleteShader( GLSL_Prog[1]);
-		glDeleteShader( GLSL_Prog[2]);		
-		glDeleteProgram( GLSL_Prog[0]);		
-	}
+	// if( GLSL_Prog[0]){
+	// 	glDeleteShader( GLSL_Prog[1]);
+	// 	glDeleteShader( GLSL_Prog[2]);		
+	// 	glDeleteProgram( GLSL_Prog[0]);		
+	// }
 
 	glfwTerminate();
 	exit(return_code);
@@ -72,17 +73,20 @@ void Main_Loop(void){
 
 	ShaderSetup();
 
-	GLSL_Prog[0]		= glCreateProgram();
-	GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/VShader.glsl");
-	GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0], 1, "GLSL/FShader.glsl");
-	LinkPrograms(GLSL_Prog[0]);
+	// GLSL_Prog[0]		= glCreateProgram();
+	// GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/VShader.glsl");
+	// GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0], 1, "GLSL/FShader.glsl");
+	// LinkPrograms(GLSL_Prog[0]);
 
 	GLFWwindow * wnd = glfwGetCurrentContext();
 
 	double old_time = glfwGetTime();
 
-	CAMERA		Camera;		// soon to replace the code above.
-	Camera_Init(&Camera);	// * NEW SHIT
+	CAMERA				Camera;		
+	GLSL_PROGRAM		Prog01;
+
+	Camera_Init(&Camera);
+	GLSLProg_Init(&Prog01);
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f};
@@ -92,6 +96,8 @@ void Main_Loop(void){
 
 	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.55f * aspect_ratio, 0.55f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
+
+	Prog01.Init( &Prog01, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};
@@ -125,7 +131,8 @@ void Main_Loop(void){
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		glUseProgram( GLSL_Prog[0]);
+		// glUseProgram( GLSL_Prog[0]);
+		Prog01.EnableProgram(&Prog01);
 
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);							lock = 0;}
 		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			Camera.MoveCamera( &Camera, -0.001f);						lock = 0;}
@@ -135,18 +142,18 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			Camera.StrafeCamera( &Camera, -0.005f);						lock = 0;}
 		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera.StrafeCamera( &Camera,  0.005f); 					lock = 0;}
 		
-		glUniform3f( glGetUniformLocation( GLSL_Prog[0], "RGB"),				0.5f, 1.0f, 0.6f);
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "PI"),					PI);
-		glUniform1f( glGetUniformLocation( GLSL_Prog[0], "rotate_z"),			rotate_z);
+		glUniform3f( glGetUniformLocation( Prog01.GetProgram(&Prog01), "RGB"),				0.5f, 1.0f, 0.6f);
+		glUniform1f( glGetUniformLocation( Prog01.GetProgram(&Prog01), "PI"),				PI);
+		glUniform1f( glGetUniformLocation( Prog01.GetProgram(&Prog01), "rotate_z"),			rotate_z);
 
 		Camera.Lookup(&Camera);
-		Camera.uProjView(&Camera, GLSL_Prog[0], "uProjView");
+		Camera.uProjView(&Camera, Prog01.GetProgram(&Prog01), "uProjView");
 
 		gMatrixTranslation( 0.0, 0.0, 0.0);
 		// gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
 		// gMatrixRotation( rotate_z, 0.0, 1.0, 0.0);
 		// gMatrixRotation( rotate_z, 1.0, 0.0, 0.0);
-		gPopMatrix( GLSL_Prog[0], "ModelMatrix");
+		gPopMatrix( Prog01.GetProgram(&Prog01), "ModelMatrix");
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		for(int i = 0; i < 21; i++){
@@ -166,7 +173,7 @@ void Main_Loop(void){
 
 		// draw cube
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glUniform3f( glGetUniformLocation( GLSL_Prog[0], "RGB"),				1.0f, 1.0f, 1.0f);
+		glUniform3f( glGetUniformLocation( Prog01.GetProgram(&Prog01), "RGB"),				1.0f, 1.0f, 1.0f);
 		gMatrixTranslation( 0.0, 0.0, 0.0);
 		// gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
 		// gMatrixRotation( rotate_z, 0.0, 1.0, 0.0);
@@ -181,5 +188,10 @@ void Main_Loop(void){
 		glfwPollEvents();
 		CheckGLError();
 	}
+
+	// clean stuff that is out of the loop.
+	Prog01.Release( &Prog01);
+
+
 }
 
