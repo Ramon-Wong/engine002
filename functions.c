@@ -100,7 +100,7 @@ void Main_Loop(void){
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
 
 	Prog01.Init( &Prog01, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
-	Prog02.Init( &Prog01, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
+	Prog02.Init( &Prog02, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};
@@ -171,27 +171,29 @@ void Main_Loop(void){
 		glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
 		Prog01.DisableProgram(&Prog01);
 
-		Prog01.DisableProgram(&Prog01);
+		// Use Program 2
 
-		Prog01.DisableProgram(&Prog01);
+		Prog02.EnableProgram(&Prog02);
+		Prog02.SetUniform3f( &Prog02, "RGB", 		0.5f, 1.0f, 1.0f);
+		Prog02.SetUniform1f( &Prog02, "PI",			PI);
+		Prog02.SetUniform1i( &Prog02, "Rotatez",	rotate_z);
+		Camera.uProjView( &Camera, Prog02.GetProgram(&Prog02), "uProjView");
 
-		// Prog02.EnableProgram(&Prog02);
-		// Camera.uProjView(&Camera, Prog02.GetProgram(&Prog02), "uProjView");		
-		// // draw cube
-		// glEnableClientState(GL_VERTEX_ARRAY);
-		// // glUniform3f( glGetUniformLocation( Prog01.GetProgram(&Prog01), "RGB"),				1.0f, 1.0f, 1.0f);
-		// Prog02.SetUniform3f( &Prog02, "RGB", 		1.0f, 1.0f, 1.0f);
-		// Prog02.gMatrixTranslation( &Prog02, 0.0, 0.0, 0.0);
-		// // gMatrixRotation( rotate_z, 0.0, 0.0, 1.0);
-		// // gMatrixRotation( rotate_z, 0.0, 1.0, 0.0);
-		// // gMatrixRotation( rotate_z, 1.0, 0.0, 0.0);		
-		// Prog02.gPopMatrix( &Prog02, "ModelMatrix");
+		glEnableClientState(GL_VERTEX_ARRAY);									// Enable Vertex Arrays
+		
+		Prog02.SetUniform3f( &Prog02, "RGB", 		1.0f, 1.0f, 1.0f);
+		Prog02.gMatrixTranslation( &Prog02, 0.0, 0.0, 0.0);
+		Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 0.0, 1.0);
+		Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 1.0, 0.0);
+		Prog02.gMatrixRotation( &Prog02, rotate_z, 1.0, 0.0, 0.0);
+		Prog02.gPopMatrix( &Prog02, "ModelMatrix");
 
-		// glVertexPointer(3, GL_FLOAT, 0, box_vertices);
-		// glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, box_indices);
-		// glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
-		// // end draw
-		// Prog02.DisableProgram(&Prog02);
+		glVertexPointer(3, GL_FLOAT, 0, box_vertices);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, box_indices);
+		glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
+
+		Prog02.DisableProgram(&Prog02);
+
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
@@ -200,7 +202,7 @@ void Main_Loop(void){
 
 	// clean stuff that is out of the loop.
 	Prog01.Release( &Prog01);
-
+	Prog02.Release( &Prog02);
 
 }
 
