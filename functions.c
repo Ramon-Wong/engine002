@@ -32,14 +32,11 @@ void CheckGLError(){
 
 void CS_DrawLine( GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2){
 
-	// glEnableClientState(GL_VERTEX_ARRAY);
 	GLfloat Lines[]	= {  x1, y1, z1,	x2, y2, z2};
 	GLubyte index[] = {0, 1};
 
 	glVertexPointer(3, GL_FLOAT, 0, Lines);
 	glDrawElements(GL_LINES, 2, GL_UNSIGNED_BYTE, index);
-	
-	// glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
 }
 
 
@@ -57,13 +54,6 @@ void Shutdown(int return_code){
 	glDeleteBuffers(1, &VCO[1]);
 	glDeleteVertexArrays(1, &VCO[0]);
 
-
-	// if( GLSL_Prog[0]){
-	// 	glDeleteShader( GLSL_Prog[1]);
-	// 	glDeleteShader( GLSL_Prog[2]);		
-	// 	glDeleteProgram( GLSL_Prog[0]);		
-	// }
-
 	glfwTerminate();
 	exit(return_code);
 }
@@ -73,22 +63,19 @@ void Main_Loop(void){
 
 	ShaderSetup();
 
-	// GLSL_Prog[0]		= glCreateProgram();
-	// GLSL_Prog[1]		= ReadGLSLScript( GLSL_Prog[0], 0, "GLSL/VShader.glsl");
-	// GLSL_Prog[2]		= ReadGLSLScript( GLSL_Prog[0], 1, "GLSL/FShader.glsl");
-	// LinkPrograms(GLSL_Prog[0]);
-
 	GLFWwindow * wnd = glfwGetCurrentContext();
 
 	double old_time = glfwGetTime();
 
-	CAMERA				Camera;		
-	GLSL_PROGRAM		Prog01;
-	GLSL_PROGRAM		Prog02;
+	CAMERA				Camera;
+	GLSL_PROGRAM		Prog01;			// Landscape
+	GLSL_PROGRAM		Prog02;			// Objects
+	GLSL_PROGRAM		Prog03;			// using Orthographics
 
 	Camera_Init(&Camera);
 	GLSLProg_Init(&Prog01);
 	GLSLProg_Init(&Prog02);
+	GLSLProg_Init(&Prog03);
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f};
@@ -96,11 +83,12 @@ void Main_Loop(void){
 	
 	float aspect_ratio = ((float)600) / 800;
 
-	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.55f * aspect_ratio, 0.55f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
+	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
 
 	Prog01.Init( &Prog01, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
 	Prog02.Init( &Prog02, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
+	Prog03.Init( &Prog03, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};
@@ -130,12 +118,8 @@ void Main_Loop(void){
 			lock = 1;
 		}
 
-
-
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		
-
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);							lock = 0;}
 		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			Camera.MoveCamera( &Camera, -0.001f);						lock = 0;}
 		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			Camera.MoveCamera( &Camera,  0.001f);						lock = 0;}
@@ -150,7 +134,13 @@ void Main_Loop(void){
 		Prog01.SetUniform1f( &Prog01, "PI",			PI);
 		Prog01.SetUniform1i( &Prog01, "Rotatez",	rotate_z);
 
+		// MMultiply( Proj_View, mFrustum, Camera.View_Matrix);
+		// glUniformMatrix4fv( glGetUniformLocation( Prog01.GetProgram(&Prog01 ), "uProjView"), 1, GL_FALSE, Proj_View);	// using custom Proj_View
+		// glUniformMatrix4fv( glGetUniformLocation( program, tagname), 1, GL_FALSE, Cam->Proj_View);
 		Camera.uProjView(&Camera, Prog01.GetProgram(&Prog01), "uProjView");
+
+
+	
 
 		Prog01.gPopMatrix( &Prog01, "ModelMatrix");
 
@@ -194,6 +184,10 @@ void Main_Loop(void){
 
 		Prog02.DisableProgram(&Prog02);
 
+		// Prog03.EnableProgram(&Prog03);
+
+
+		// Prog03.DisableProgram(&Prog03);
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
@@ -203,6 +197,6 @@ void Main_Loop(void){
 	// clean stuff that is out of the loop.
 	Prog01.Release( &Prog01);
 	Prog02.Release( &Prog02);
-
+	Prog03.Release( &Prog03);
 }
 
