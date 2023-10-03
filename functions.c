@@ -68,6 +68,7 @@ void Main_Loop(void){
 	double old_time = glfwGetTime();
 
 	CAMERA				Camera;
+
 	GLSL_PROGRAM		Prog01;			// Landscape
 	GLSL_PROGRAM		Prog02;			// Objects
 	GLSL_PROGRAM		Prog03;			// using Orthographics
@@ -84,6 +85,7 @@ void Main_Loop(void){
 	float aspect_ratio = ((float)600) / 800;
 
 	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
+	Camera.SetOrthoGraphic( &Camera, 3.5f, -3.5f, -3.5f * aspect_ratio, 3.5f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
 
 	Prog01.Init( &Prog01, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
@@ -139,9 +141,6 @@ void Main_Loop(void){
 		// glUniformMatrix4fv( glGetUniformLocation( program, tagname), 1, GL_FALSE, Cam->Proj_View);
 		Camera.uProjView(&Camera, Prog01.GetProgram(&Prog01), "uProjView");
 
-
-	
-
 		Prog01.gPopMatrix( &Prog01, "ModelMatrix");
 
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -184,10 +183,26 @@ void Main_Loop(void){
 
 		Prog02.DisableProgram(&Prog02);
 
-		// Prog03.EnableProgram(&Prog03);
+		Prog03.EnableProgram(&Prog03);
+		Prog03.SetUniform3f( &Prog03, "RGB", 		1.0f, 1.0f, 1.0f);
+		Prog03.SetUniform1f( &Prog03, "PI",			PI);
+		Prog03.SetUniform1i( &Prog03, "Rotatez",	rotate_z);
+		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
+
+		Prog03.gMatrixTranslation( &Prog03, 0.0, 0.0, 1.0);
+		// Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 0.0, 1.0);
+		// Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 1.0, 0.0);
+		// Prog02.gMatrixRotation( &Prog02, rotate_z, 1.0, 0.0, 0.0);
+		Prog03.gPopMatrix( &Prog03, "ModelMatrix");
 
 
-		// Prog03.DisableProgram(&Prog03);
+		glEnableClientState(GL_VERTEX_ARRAY);	
+		glVertexPointer(3, GL_FLOAT, 0, vertices);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+
+		glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
+
+		Prog03.DisableProgram(&Prog03);
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();

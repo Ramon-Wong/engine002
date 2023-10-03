@@ -88,20 +88,23 @@ typedef struct{
     float   Cam[3][3];                              // Camera Pose/View/Upvx
     GLfloat         Proj_Matrix[16];                // frustum matrix
     GLfloat         View_Matrix[16];                // Camera matrix
+    GLfloat         Temp_Matrix[16];                // Temp Camera matrix
     GLfloat         Orth_Matrix[16];                // Ortho 2D view
     GLfloat         Proj_View[16];                  // Projection * Camera VIew
     GLfloat         Orth_View[16];                  // Ortho * Camera VIew
     float           gFrustum[6][4];                 // Frustum plane
 
     void          (*SetProjection)( void *, float, float, float, float, float, float);
+    void          (*SetOrthoGraphic)( void *, float, float, float, float, float, float);
     void          (*SetCamera)( void *, float *, float *, float *); 
     void          (*Lookup)( void *);
-    void          (*uProjView)(void *, GLuint, const char *);
+    void          (*uProjView)( void *, GLuint, const char *);
+    void          (*oProjView)( void *, GLuint, const char *);
 
     void          (*MoveCamera)( void *, float);
     void          (*RotateCamera)( void *, float, float, float, float);
     void          (*StrafeCamera)( void *, float);
-    int           (*PointinPlane)(void *, int, float *);
+    int           (*PointinPlane)( void *, int, float *);
 
     // todo Frustum Culling!!
 }CAMERA;
