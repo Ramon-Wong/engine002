@@ -10,6 +10,7 @@ void    _Lookup( CAMERA *);
 void    _uProjView( CAMERA *, GLuint, const char *);
 void    _oProjView( CAMERA *, GLuint, const char *);
 void	_MoveCamera( CAMERA *, float spd);
+void    _MouseCamera( CAMERA *, float, float);
 void    _RotateCamera(  CAMERA *, float, float, float, float);
 void    _StrafeCamera(  CAMERA *, float);
 
@@ -18,6 +19,9 @@ int		_PointinPlane( CAMERA *, int, float *);
 
 
 void Camera_Init(CAMERA * Cam){
+
+	Cam->MouseCoord[0] = 0.0f;
+	Cam->MouseCoord[1] = 0.0f;
 
 	MLoadIdentity(Cam->Proj_Matrix);
 	MLoadIdentity(Cam->View_Matrix);
@@ -33,6 +37,7 @@ void Camera_Init(CAMERA * Cam){
     Cam->uProjView              = (void (*)(void *, GLuint, const char *))_uProjView;
 	Cam->oProjView              = (void (*)(void *, GLuint, const char *))_oProjView;
 	Cam->MoveCamera				= (void (*)(void *, float))_MoveCamera;
+	Cam->MouseCamera			= (void (*)(void *, float, float))_MouseCamera;
 	Cam->RotateCamera			= (void (*)(void *, float, float, float, float))_RotateCamera;
 	Cam->StrafeCamera			= (void (*)(void *, float))_StrafeCamera;
 	Cam->PointinPlane			= (int  (*)(void *, int, float *))_PointinPlane;
@@ -59,7 +64,6 @@ void    _SetCamera( CAMERA * Cam, float * pose, float * view, float * upvx){
 
 
 void	_Lookup( CAMERA * Cam){
-
 	LookAtM( Cam->View_Matrix, Cam->Cam[0], Cam->Cam[1], Cam->Cam[2]);			// Update Camera
 	MMultiply( Cam->Orth_View, Cam->Orth_Matrix, Cam->View_Matrix);				// <=move this line to a function like _uProjView
 	_SetPlanes( Cam);
@@ -126,6 +130,22 @@ void    _RotateCamera(  CAMERA * Cam, float angle, float x, float y, float z){
 	nView[2] 	+= (cosTheta + (1 - cosTheta) * z * z)		* Direction[2];
 
 	_AddVector( Cam->Cam[1], Cam->Cam[0], nView);
+}
+
+
+void    _MouseCamera( CAMERA * Cam, float x, float y){
+
+	float DeltaX = x - Cam->MouseCoord[0];
+	float DeltaY = y - Cam->MouseCoord[1];
+
+	float sensitive_x = 0.01f;
+	float sensitive_y = 0.01f;
+
+	_RotateCamera(Cam, sensitive_x * DeltaX, 0.0f, 1.0f, 0.0f);
+	_RotateCamera(Cam, sensitive_y * DeltaY, 1.0f, 0.0f, 0.0f);
+
+	Cam->MouseCoord[0] = x;
+	Cam->MouseCoord[1] = y;
 }
 
 

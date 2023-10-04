@@ -94,6 +94,8 @@ void Main_Loop(void){
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};
+	double  currentMouseX;
+	double  currentMouseY;
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -130,6 +132,10 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			Camera.StrafeCamera( &Camera, -0.005f);						lock = 0;}
 		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera.StrafeCamera( &Camera,  0.005f); 					lock = 0;}
 		Camera.Lookup(&Camera);
+		
+		glfwGetCursorPos( wnd, &currentMouseX, &currentMouseY);
+
+		Camera.MouseCamera(&Camera, currentMouseX, currentMouseX);
 
 		Prog01.EnableProgram(&Prog01);
 		Prog01.SetUniform3f( &Prog01, "RGB", 		0.5f, 1.0f, 1.0f);
