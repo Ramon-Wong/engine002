@@ -94,6 +94,7 @@ void Main_Loop(void){
 	Prog01.Init( &Prog01, "GLSL/VShader1.glsl", "GLSL/FShader1.glsl");
 	Prog02.Init( &Prog02, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
+	Prog03.LoadTexture( &Prog03, "data/skin2.tga", "tSampler", 0);											// Location 0 = gl_Texture0
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};
@@ -111,15 +112,15 @@ void Main_Loop(void){
 				v += Camera.PointinPlane( &Camera, i, point);
 			}
 
-			printf("\n");
-			printf( "\n Point in Right	Plane: %i",	Camera.PointinPlane( &Camera, RIGHT,	point));
-			printf( "\n Point in Left	Plane: %i",	Camera.PointinPlane( &Camera, LEFT,		point));
-			printf( "\n Point in Back	Plane: %i",	Camera.PointinPlane( &Camera, BACK,		point));
-			printf( "\n Point in Front	Plane: %i",	Camera.PointinPlane( &Camera, FRONT,	point));
-			printf( "\n Point in Top	Plane: %i",	Camera.PointinPlane( &Camera, TOP,		point));    
-			printf( "\n Point in Bottom Plane: %i",	Camera.PointinPlane( &Camera, BOTTOM,	point));
-			printf( "\n Total Value: %i", v );
-			printf("\n");
+			// printf("\n");
+			// printf( "\n Point in Right	Plane: %i",	Camera.PointinPlane( &Camera, RIGHT,	point));
+			// printf( "\n Point in Left	Plane: %i",	Camera.PointinPlane( &Camera, LEFT,		point));
+			// printf( "\n Point in Back	Plane: %i",	Camera.PointinPlane( &Camera, BACK,		point));
+			// printf( "\n Point in Front	Plane: %i",	Camera.PointinPlane( &Camera, FRONT,	point));
+			// printf( "\n Point in Top	Plane: %i",	Camera.PointinPlane( &Camera, TOP,		point));    
+			// printf( "\n Point in Bottom Plane: %i",	Camera.PointinPlane( &Camera, BOTTOM,	point));
+			// printf( "\n Total Value: %i", v );
+			// printf("\n");
 			lock = 1;
 		}
 
