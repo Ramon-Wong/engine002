@@ -87,6 +87,8 @@ typedef struct{
     void          (*gPopMatrix)( void *, const char *);
 
     void          (*LoadTexture)( void *, const char *, const char *, int);
+    void          (*EnableTexture)(void *, GLenum);
+    void          (*DisableTexture)(void *);
 
 }GLSL_PROGRAM;
 

@@ -187,10 +187,12 @@ void Main_Loop(void){
 
 		Prog03.EnableProgram(&Prog03);
 		Prog03.SetUniform3f( &Prog03, "RGB", 		1.0f, 1.0f, 1.0f);
+		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
 		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
 
 		Rect.Render(&Rect, 2.0f, 1.0f);
 
+		Prog03.DisableTexture(&Prog03);
 		Prog03.DisableProgram(&Prog03);
 
 		glfwSwapBuffers(wnd);

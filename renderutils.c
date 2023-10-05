@@ -32,9 +32,10 @@ void    _SetUniform1i( GLSL_PROGRAM *, const char *, int);
 void    _gMatrixRotation( GLSL_PROGRAM *, float, float, float, float);
 void    _gMatrixTranslation( GLSL_PROGRAM *, float, float, float);
 void    _gPopMatrix( GLSL_PROGRAM *, const char *);
+
 void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, int);
-
-
+void    _EnableTexture( GLSL_PROGRAM *, GLenum);
+void    _DisableTexture( GLSL_PROGRAM *);
 
 
 void GLSLProg_Init(GLSL_PROGRAM * Prog){
@@ -56,6 +57,8 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     Prog->gMatrixTranslation    = (void (*)(void*, float, float, float))                _gMatrixTranslation;
     Prog->gPopMatrix            = (void (*)(void*, const char *))                       _gPopMatrix;
     Prog->LoadTexture           = (void (*)(void*, const char *, const char *, int))    _LoadTexture;
+    Prog->EnableTexture         = (void (*)(void*, GLenum))                             _EnableTexture;
+    Prog->DisableTexture        = (void (*)(void*))                                     _DisableTexture;
     Prog->gTexture              = 0;
 }
 
@@ -192,5 +195,15 @@ void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagna
 		glBindTexture(GL_TEXTURE_2D, 0);
 		printf("\n texture Process %i/%i/%i \n", x, y, n);		
     }
+}
 
+
+void    _EnableTexture( GLSL_PROGRAM * Prog, GLenum location){
+  	glActiveTexture( location);
+    glBindTexture(GL_TEXTURE_2D, Prog->gTexture);
+}
+
+
+void    _DisableTexture( GLSL_PROGRAM *){
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
