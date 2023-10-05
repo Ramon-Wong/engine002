@@ -53,6 +53,17 @@ void                Draw_Geometry( GLenum, GLuint, int size);
 
 
 
+typedef struct{
+    GLubyte         indices[6];
+    float           size;
+    float           vertices[12];
+    float           TexCoords[8];
+
+    void          (*Render)(void *);
+}RECTANGLE;
+
+void Rectangle_Init( RECTANGLE *, float, float, float);
+
 
 
 typedef struct{

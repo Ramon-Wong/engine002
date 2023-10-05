@@ -47,13 +47,35 @@ GLfloat grid_lines[]    = { -20.0f, -2.0f, -20.0f,      20.0f, -2.0f, -20.0f,
                             -20.0f, -2.0f,  20.0f,      20.0f, -2.0f,  20.0f};
 
 GLubyte grid_indices[]  = { 0, 1, 2, 3};
+                            //  0     1     2       3     4     5       6     7     8      9     10    11  
+// GLfloat vertices[]	= {  1.1f, 1.1f, 0.0f,	-1.1f, 1.1f, 0.0f,	-1.1f,-1.1f, 0.0f,	1.1f,-1.1f, 0.0f};
+// GLfloat Colors[]	= {  1.0f, 1.0f, 1.0f,	 1.0f, 1.0f, 1.0f,	 1.0f, 1.0f, 1.0f,	1.0f, 1.0f, 1.0f};
+// GLfloat TexCoords[]	= {  0.0f, 0.0f,	     0.0f, 0.0f,	     0.0f, 0.0f,		0.0f, 0.0f};
+
+GLubyte _indices[]	= {  0, 1, 2, 2, 3, 0}; 
+
+void _Render( RECTANGLE * Rectangle);
+
+void Rectangle_Init( RECTANGLE * Rectangle, float size, float x, float y){
+
+    Rectangle->size = size;
+    Rectangle->vertices[0]  = x + size; Rectangle->vertices[3]  = x - size; Rectangle->vertices[6]  = x - size; Rectangle->vertices[9]  = x + size;
+    Rectangle->vertices[1]  = y + size; Rectangle->vertices[4]  = y + size; Rectangle->vertices[7]  = y - size; Rectangle->vertices[10] =  - size;
+    Rectangle->vertices[2]  = 0.0f;     Rectangle->vertices[5]  = 0.0f;     Rectangle->vertices[8]  = 0.0f;     Rectangle->vertices[11] = 0.0f;
+
+    Rectangle->Render   = (void (*)(void *))_Render;
+}
 
 
+void _Render( RECTANGLE * Rectangle){
+    
+    glEnableClientState(GL_VERTEX_ARRAY);
+    
+    glVertexPointer(3, GL_FLOAT, 0, Rectangle->vertices);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, _indices);
 
-
-
-
-
+    glDisableClientState(GL_VERTEX_ARRAY);
+}
 
 
 

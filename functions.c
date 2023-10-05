@@ -73,13 +73,16 @@ void Main_Loop(void){
 	GLSL_PROGRAM		Prog02;			// Objects
 	GLSL_PROGRAM		Prog03;			// using Orthographics
 
+	RECTANGLE			Rect;
+
 	Camera_Init(&Camera);
 	GLSLProg_Init(&Prog01);
 	GLSLProg_Init(&Prog02);
 	GLSLProg_Init(&Prog03);
+	Rectangle_Init(&Rect, 1.0f, 1.0f, 0.0f);	
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
-	float View[] = {  0.0f,  0.0f, 12.0f};
+	float View[] = {  0.0f,  0.0f, 12.0f}; 
 	float Upvx[] = {  0.0f,  1.0f,  0.0f};
 	
 	float aspect_ratio = ((float)600) / 800;
@@ -94,8 +97,6 @@ void Main_Loop(void){
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};
-	double  currentMouseX;
-	double  currentMouseY;
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -133,9 +134,6 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera.StrafeCamera( &Camera,  0.005f); 					lock = 0;}
 		Camera.Lookup(&Camera);
 		
-		glfwGetCursorPos( wnd, &currentMouseX, &currentMouseY);
-
-		Camera.MouseCamera(&Camera, currentMouseX, currentMouseX);
 
 		Prog01.EnableProgram(&Prog01);
 		Prog01.SetUniform3f( &Prog01, "RGB", 		0.5f, 1.0f, 1.0f);
@@ -201,12 +199,12 @@ void Main_Loop(void){
 		// Prog02.gMatrixRotation( &Prog02, rotate_z, 1.0, 0.0, 0.0);
 		Prog03.gPopMatrix( &Prog03, "ModelMatrix");
 
+		Rect.Render(&Rect);
+		// glEnableClientState(GL_VERTEX_ARRAY);	
+		// glVertexPointer(3, GL_FLOAT, 0, vertices);
+		// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
 
-		glEnableClientState(GL_VERTEX_ARRAY);	
-		glVertexPointer(3, GL_FLOAT, 0, vertices);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
-
-		glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
+		// glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
 
 		Prog03.DisableProgram(&Prog03);
 
@@ -221,3 +219,21 @@ void Main_Loop(void){
 	Prog03.Release( &Prog03);
 }
 
+
+// Enable client states for vertices, texture coordinates, and normals
+// glEnableClientState(GL_VERTEX_ARRAY);
+// glEnableClientState(GL_TEXTURE_COORD_ARRAY); // Enable texture coordinates
+// glEnableClientState(GL_NORMAL_ARRAY); // Enable normals
+
+// Define pointers for vertices, texture coordinates, and normals
+// glVertexPointer(3, GL_FLOAT, 0, vertices);
+// glTexCoordPointer(2, GL_FLOAT, 0, texcoords); // Assuming texcoords is an array of 2D texture coordinates
+// glNormalPointer(GL_FLOAT, 0, normals); // Assuming normals is an array of normals
+
+// Draw the elements
+// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+
+// Disable client states when you're done rendering
+// glDisableClientState(GL_VERTEX_ARRAY);
+// glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+// glDisableClientState(GL_NORMAL_ARRAY);
