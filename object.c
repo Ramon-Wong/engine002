@@ -73,7 +73,7 @@ void _Render( RECTANGLE * Rect, float x, float y){
     Rect->vertices[2]  = 0.0f;           Rect->vertices[5]  = 0.0f;           Rect->vertices[8]  = 0.0f;           Rect->vertices[11] = 0.0f;
 
     GLfloat Colors[]	= {  1.0f, 1.0f, 1.0f,	 1.0f, 1.0f, 1.0f,	 1.0f, 1.0f, 1.0f,	1.0f, 1.0f, 1.0f};
-    GLfloat TexCoords[]	= {  0.0f, 0.0f,	0.0f, 0.0f,	     0.0f, 0.0f,	0.0f, 0.0f};
+    GLfloat TexCoords[]	= {  0.0f, 0.0f,	1.0f, 0.0f,	     1.0f, 1.0f,	0.0f, 1.0f};
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
@@ -89,9 +89,6 @@ void _Render( RECTANGLE * Rect, float x, float y){
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
-
-
-
 
 
 
