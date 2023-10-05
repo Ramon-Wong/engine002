@@ -59,7 +59,7 @@ typedef struct{
     float           vertices[12];
     float           TexCoords[8];
 
-    void          (*Render)(void *);
+    void          (*Render)(void *, float, float);
 }RECTANGLE;
 
 void Rectangle_Init( RECTANGLE *, float, float, float);

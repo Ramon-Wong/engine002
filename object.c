@@ -54,24 +54,28 @@ GLubyte grid_indices[]  = { 0, 1, 2, 3};
 
 GLubyte _indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
-void _Render( RECTANGLE * Rectangle);
+void _Render( RECTANGLE *, float, float);
 
-void Rectangle_Init( RECTANGLE * Rectangle, float size, float x, float y){
+void Rectangle_Init( RECTANGLE * Rect, float size, float x, float y){
 
-    Rectangle->size = size;
-    Rectangle->vertices[0]  = x + size; Rectangle->vertices[3]  = x - size; Rectangle->vertices[6]  = x - size; Rectangle->vertices[9]  = x + size;
-    Rectangle->vertices[1]  = y + size; Rectangle->vertices[4]  = y + size; Rectangle->vertices[7]  = y - size; Rectangle->vertices[10] =  - size;
-    Rectangle->vertices[2]  = 0.0f;     Rectangle->vertices[5]  = 0.0f;     Rectangle->vertices[8]  = 0.0f;     Rectangle->vertices[11] = 0.0f;
+    Rect->size = size;
+    Rect->vertices[0]  = x + size; Rect->vertices[3]  = x - size; Rect->vertices[6]  = x - size; Rect->vertices[9]  = x + size;
+    Rect->vertices[1]  = y + size; Rect->vertices[4]  = y + size; Rect->vertices[7]  = y - size; Rect->vertices[10] = y - size;
+    Rect->vertices[2]  = 0.0f;     Rect->vertices[5]  = 0.0f;     Rect->vertices[8]  = 0.0f;     Rect->vertices[11] = 0.0f;
 
-    Rectangle->Render   = (void (*)(void *))_Render;
+    Rect->Render   = (void (*)(void *, float, float))_Render;
 }
 
 
-void _Render( RECTANGLE * Rectangle){
-    
+void _Render( RECTANGLE * Rect, float x, float y){
+
+    Rect->vertices[0]  = x + Rect->size; Rect->vertices[3]  = x - Rect->size; Rect->vertices[6]  = x - Rect->size; Rect->vertices[9]  = x + Rect->size;
+    Rect->vertices[1]  = y + Rect->size; Rect->vertices[4]  = y + Rect->size; Rect->vertices[7]  = y - Rect->size; Rect->vertices[10] = y - Rect->size;
+    Rect->vertices[2]  = 0.0f;           Rect->vertices[5]  = 0.0f;           Rect->vertices[8]  = 0.0f;           Rect->vertices[11] = 0.0f;
+
     glEnableClientState(GL_VERTEX_ARRAY);
     
-    glVertexPointer(3, GL_FLOAT, 0, Rectangle->vertices);
+    glVertexPointer(3, GL_FLOAT, 0, Rect->vertices);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, _indices);
 
     glDisableClientState(GL_VERTEX_ARRAY);

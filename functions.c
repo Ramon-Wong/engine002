@@ -79,7 +79,7 @@ void Main_Loop(void){
 	GLSLProg_Init(&Prog01);
 	GLSLProg_Init(&Prog02);
 	GLSLProg_Init(&Prog03);
-	Rectangle_Init(&Rect, 1.0f, 1.0f, 0.0f);	
+	Rectangle_Init(&Rect, 1.0f, 2.0f, 1.0f);	
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f}; 
@@ -91,9 +91,9 @@ void Main_Loop(void){
 	Camera.SetOrthoGraphic( &Camera, 3.5f, -3.5f, -3.5f * aspect_ratio, 3.5f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
 
-	Prog01.Init( &Prog01, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
-	Prog02.Init( &Prog02, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
-	Prog03.Init( &Prog03, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
+	Prog01.Init( &Prog01, "GLSL/VShader1.glsl", "GLSL/FShader1.glsl");
+	Prog02.Init( &Prog02, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
+	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};
@@ -116,7 +116,7 @@ void Main_Loop(void){
 			printf( "\n Point in Left	Plane: %i",	Camera.PointinPlane( &Camera, LEFT,		point));
 			printf( "\n Point in Back	Plane: %i",	Camera.PointinPlane( &Camera, BACK,		point));
 			printf( "\n Point in Front	Plane: %i",	Camera.PointinPlane( &Camera, FRONT,	point));
-			printf( "\n Point in Top	Plane: %i",	Camera.PointinPlane( &Camera, TOP,		point));
+			printf( "\n Point in Top	Plane: %i",	Camera.PointinPlane( &Camera, TOP,		point));    
 			printf( "\n Point in Bottom Plane: %i",	Camera.PointinPlane( &Camera, BOTTOM,	point));
 			printf( "\n Total Value: %i", v );
 			printf("\n");
@@ -140,9 +140,6 @@ void Main_Loop(void){
 		Prog01.SetUniform1f( &Prog01, "PI",			PI);
 		Prog01.SetUniform1i( &Prog01, "Rotatez",	rotate_z);
 
-		// MMultiply( Proj_View, mFrustum, Camera.View_Matrix);
-		// glUniformMatrix4fv( glGetUniformLocation( Prog01.GetProgram(&Prog01 ), "uProjView"), 1, GL_FALSE, Proj_View);	// using custom Proj_View
-		// glUniformMatrix4fv( glGetUniformLocation( program, tagname), 1, GL_FALSE, Cam->Proj_View);
 		Camera.uProjView(&Camera, Prog01.GetProgram(&Prog01), "uProjView");
 
 		Prog01.gPopMatrix( &Prog01, "ModelMatrix");
@@ -189,22 +186,9 @@ void Main_Loop(void){
 
 		Prog03.EnableProgram(&Prog03);
 		Prog03.SetUniform3f( &Prog03, "RGB", 		1.0f, 1.0f, 1.0f);
-		Prog03.SetUniform1f( &Prog03, "PI",			PI);
-		Prog03.SetUniform1i( &Prog03, "Rotatez",	rotate_z);
 		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
 
-		Prog03.gMatrixTranslation( &Prog03, 0.0, 0.0, 1.0);
-		// Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 0.0, 1.0);
-		// Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 1.0, 0.0);
-		// Prog02.gMatrixRotation( &Prog02, rotate_z, 1.0, 0.0, 0.0);
-		Prog03.gPopMatrix( &Prog03, "ModelMatrix");
-
-		Rect.Render(&Rect);
-		// glEnableClientState(GL_VERTEX_ARRAY);	
-		// glVertexPointer(3, GL_FLOAT, 0, vertices);
-		// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
-
-		// glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
+		Rect.Render(&Rect, 2.0f, 1.0f);
 
 		Prog03.DisableProgram(&Prog03);
 
@@ -219,21 +203,3 @@ void Main_Loop(void){
 	Prog03.Release( &Prog03);
 }
 
-
-// Enable client states for vertices, texture coordinates, and normals
-// glEnableClientState(GL_VERTEX_ARRAY);
-// glEnableClientState(GL_TEXTURE_COORD_ARRAY); // Enable texture coordinates
-// glEnableClientState(GL_NORMAL_ARRAY); // Enable normals
-
-// Define pointers for vertices, texture coordinates, and normals
-// glVertexPointer(3, GL_FLOAT, 0, vertices);
-// glTexCoordPointer(2, GL_FLOAT, 0, texcoords); // Assuming texcoords is an array of 2D texture coordinates
-// glNormalPointer(GL_FLOAT, 0, normals); // Assuming normals is an array of normals
-
-// Draw the elements
-// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
-
-// Disable client states when you're done rendering
-// glDisableClientState(GL_VERTEX_ARRAY);
-// glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-// glDisableClientState(GL_NORMAL_ARRAY);

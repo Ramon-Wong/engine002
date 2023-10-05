@@ -1,11 +1,6 @@
 #version 400
 
-
 uniform mat4	uProjView;
-
-uniform float	PI;
-uniform float	rotate_z;
-uniform mat4	ModelMatrix;
 uniform vec3	RGB;
 
 in vec3     iArray1;                // Input vertex position
@@ -17,5 +12,5 @@ out vec3	_RGB;
 void main(){
 
 	_RGB = RGB;
-	gl_Position =  uProjView * ModelMatrix * vec4( iArray1, 1.0 );
+	gl_Position =  uProjView * vec4( iArray1, 1.0 );
 }
