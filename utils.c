@@ -1,7 +1,7 @@
 #include "functions.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb/stb_image.h>
+// #define STB_IMAGE_IMPLEMENTATION
+// #include <stb/stb_image.h>
 
 
 
@@ -102,57 +102,57 @@ void SetupVAOArray( GLuint * vao, GLuint * vbo, GLuint * ebo,
 
 
 
-void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
+// void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
 
-// glTexImage2D(GL_TEXTURE_2D, 0, GL_STENCIL_INDEX,     width, height, 0, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE,       NULL);      Stencil
-// glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8,  width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8,   NULL);      Depth
-// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,               width, height, 0, GL_RGB,           GL_UNSIGNED_BYTE,       data);      Color
+// // glTexImage2D(GL_TEXTURE_2D, 0, GL_STENCIL_INDEX,     width, height, 0, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE,       NULL);      Stencil
+// // glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8,  width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8,   NULL);      Depth
+// // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,               width, height, 0, GL_RGB,           GL_UNSIGNED_BYTE,       data);      Color
 
-	glGenTextures(1, texture);
-	glBindTexture( tTarget, *texture);
+// 	glGenTextures(1, texture);
+// 	glBindTexture( tTarget, *texture);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-}
+//     glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+// }
 
 
 
-GLuint LoadTexture(GLuint _glslProg, const char * path, const char * tagname, int location){
+// GLuint LoadTexture(GLuint _glslProg, const char * path, const char * tagname, int location){
 
-    int x,y,n;
-	printf("\nLoading %s", path);
-    unsigned char * data = stbi_load( path, &x, &y, &n, 0);
+//     int x,y,n;
+// 	printf("\nLoading %s", path);
+//     unsigned char * data = stbi_load( path, &x, &y, &n, 0);
 
-	if (data == NULL) { 
-		printf("\nCan't open tga file");
-		return 0;
-    } else {
-		GLuint			texture;
+// 	if (data == NULL) { 
+// 		printf("\nCan't open tga file");
+// 		return 0;
+//     } else {
+// 		GLuint			texture;
 
-		if(n == 3){
-			CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGB);
-		}else if(n == 4){
-			CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGBA);
-		}
+// 		if(n == 3){
+// 			CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGB);
+// 		}else if(n == 4){
+// 			CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGBA);
+// 		}
 
-		glUseProgram( _glslProg);                                                // Use the shader program
-		GLuint textureLocation = glGetUniformLocation(  _glslProg, tagname);
+// 		glUseProgram( _glslProg);                                                   // Use the shader program
+// 		GLuint textureLocation = glGetUniformLocation(  _glslProg, tagname);
 		
-		glBindTexture(GL_TEXTURE_2D, texture);                                    	// Bind your texture to GL_TEXTURE0    
-		glUniform1i(textureLocation, location);                                     // 0 corresponds to GL_TEXTURE0
+// 		glBindTexture(GL_TEXTURE_2D, texture);                                    	// Bind your texture to GL_TEXTURE0    
+// 		glUniform1i(textureLocation, location);                                     // 0 corresponds to GL_TEXTURE0
 
-		stbi_image_free(data);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		printf("\n texture Process %i/%i/%i \n", x, y, n);
+// 		stbi_image_free(data);
+// 		glBindTexture(GL_TEXTURE_2D, 0);
+// 		printf("\n texture Process %i/%i/%i \n", x, y, n);
 
-		return texture;
-    }
-}
+// 		return texture;
+//     }
+// }
 
 
 

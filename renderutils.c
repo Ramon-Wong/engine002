@@ -1,5 +1,7 @@
 #include "functions.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
 
 void Draw_Geometry( GLenum shape, GLuint array_buffer, int size){
 	glBindVertexArray( array_buffer);
@@ -30,6 +32,8 @@ void    _SetUniform1i( GLSL_PROGRAM *, const char *, int);
 void    _gMatrixRotation( GLSL_PROGRAM *, float, float, float, float);
 void    _gMatrixTranslation( GLSL_PROGRAM *, float, float, float);
 void    _gPopMatrix( GLSL_PROGRAM *, const char *);
+void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, int);
+
 
 
 
@@ -51,6 +55,8 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     Prog->gMatrixRotation       = (void (*)(void*, float, float, float, float))         _gMatrixRotation;
     Prog->gMatrixTranslation    = (void (*)(void*, float, float, float))                _gMatrixTranslation;
     Prog->gPopMatrix            = (void (*)(void*, const char *))                       _gPopMatrix;
+    Prog->LoadTexture           = (void (*)(void*, const char *, const char *, int))    _LoadTexture;
+    Prog->gTexture              = 0;
 }
 
 
@@ -78,6 +84,10 @@ void    _Release(GLSL_PROGRAM * Prog){
 		glDeleteShader( Prog->GLSL_Prog[1]);
 		glDeleteShader( Prog->GLSL_Prog[2]);		
 		glDeleteProgram( Prog->GLSL_Prog[0]);		
+
+        if( Prog->gTexture != 0){
+            glDeleteTextures(1, &Prog->gTexture);
+        }
 	}
 }
 
@@ -138,4 +148,49 @@ void    _gPopMatrix( GLSL_PROGRAM * Prog, const char * uniform){
 
     glUniformMatrix4fv( glGetUniformLocation( Prog->GLSL_Prog[0], uniform), 1, GL_FALSE, Prog->TransRotMatrix);
 	Prog->Counter = 0;
+}
+
+
+void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
+
+	glGenTextures(1, texture);
+	glBindTexture( tTarget, *texture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+}
+
+
+void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagname, int location){
+
+    int x,y,n;
+	printf("\nLoading %s", path);
+    unsigned char * data = stbi_load( path, &x, &y, &n, 0);
+
+	if (data == NULL) { 
+		printf("\nCan't open tga file");
+    } else {
+		GLuint			texture;
+
+		if(n == 3){
+			CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGB);
+		}else if(n == 4){
+			CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGBA);
+		}
+
+		glUseProgram( Prog->GLSL_Prog[0]);                                                  // Use the shader program
+		
+		glBindTexture(GL_TEXTURE_2D, Prog->gTexture);                                    	// Bind your texture to GL_TEXTURE0    
+		glUniform1i( glGetUniformLocation(  Prog->GLSL_Prog[0], tagname), location);        // 0 corresponds to GL_TEXTURE0
+
+		stbi_image_free(data);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		printf("\n texture Process %i/%i/%i \n", x, y, n);		
+    }
+
 }

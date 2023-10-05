@@ -70,6 +70,7 @@ typedef struct{
     GLuint          GLSL_Prog[3];
     float           TransRotMatrix[16]; 
     int             Counter;
+    GLuint          gTexture;
 
     void          (*Init)( void *, const char *, const char *);
     void          (*EnableProgram)( void *);
@@ -84,6 +85,8 @@ typedef struct{
     void          (*gMatrixRotation)( void *, float, float, float, float);
     void          (*gMatrixTranslation)( void *, float, float, float);
     void          (*gPopMatrix)( void *, const char *);
+
+    void          (*LoadTexture)( void *, const char *, const char *, int);
 
 }GLSL_PROGRAM;
 
