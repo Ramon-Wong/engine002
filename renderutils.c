@@ -186,14 +186,14 @@ void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagna
 		}
 
 		glUseProgram( Prog->GLSL_Prog[0]);                                                  // Use the shader program
-		
+
 		glBindTexture(GL_TEXTURE_2D, Prog->gTexture);                                    	// Bind your texture to GL_TEXTURE0    
 		glUniform1i( glGetUniformLocation(  Prog->GLSL_Prog[0], tagname), location);        // 0 corresponds to GL_TEXTURE0
         printf("\n Load texture at %i", Prog->gTexture);
 
-		stbi_image_free(data);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		printf("\n texture Process %i/%i/%i \n", x, y, n);		
+        stbi_image_free(data);
     }
 }
 
