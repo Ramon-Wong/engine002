@@ -90,6 +90,9 @@ typedef struct{
     void          (*EnableTexture)(void *, GLenum);
     void          (*DisableTexture)(void *);
 
+    GLuint          bufferID;
+    void          (*ShaderBufferObject)(void *, int, float *, const char *);
+
 }GLSL_PROGRAM;
 
 

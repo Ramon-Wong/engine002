@@ -37,6 +37,8 @@ void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, int);
 void    _EnableTexture( GLSL_PROGRAM *, GLenum);
 void    _DisableTexture( GLSL_PROGRAM *);
 
+void    _ShaderBufferObject( GLSL_PROGRAM *, int, float *, const char *);
+
 
 void GLSLProg_Init(GLSL_PROGRAM * Prog){
 
@@ -60,6 +62,9 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     Prog->EnableTexture         = (void (*)(void*, GLenum))                             _EnableTexture;
     Prog->DisableTexture        = (void (*)(void*))                                     _DisableTexture;
     Prog->gTexture              = 0;
+
+    Prog->bufferID              = 0;
+    Prog->ShaderBufferObject    = (void (*)(void*, int, float *, const char *))         _ShaderBufferObject;
 }
 
 
@@ -90,6 +95,10 @@ void    _Release(GLSL_PROGRAM * Prog){
 
         if( Prog->gTexture != 0){
             glDeleteTextures(1, &Prog->gTexture);
+        }
+
+        if( Prog->bufferID != 0){
+            glDeleteBuffers(1, &Prog->bufferID);
         }
 	}
 }
@@ -206,4 +215,20 @@ void    _EnableTexture( GLSL_PROGRAM * Prog, GLenum location){
 
 void    _DisableTexture( GLSL_PROGRAM *){
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+
+void    _ShaderBufferObject( GLSL_PROGRAM * Prog, int size, float * dataArray, const char * tagname){
+
+    glGenBuffers( 1, &Prog->bufferID);
+    glBindBuffer( GL_UNIFORM_BUFFER, Prog->bufferID);
+
+    glBufferData(GL_UNIFORM_BUFFER, size, dataArray, GL_STATIC_DRAW);
+
+    // Bind the buffer to a binding point in the shader
+    GLuint bindingIndex = 0; // Choose an appropriate binding point
+    GLuint bindingPoint = glGetUniformBlockIndex( Prog->GLSL_Prog[0], tagname);
+    glUniformBlockBinding( Prog->GLSL_Prog[0], bindingPoint, bindingIndex);
+    glBindBufferBase(GL_UNIFORM_BUFFER, bindingIndex, Prog->bufferID);
+
 }
