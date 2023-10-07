@@ -25,7 +25,8 @@ int main(void){
 
 	glfwMakeContextCurrent(wnd);
  
-   // Initialize GLEW
+   	// Initialize GLEW
+   	
     GLenum glewInitResult = glewInit();
     if (glewInitResult != GLEW_OK) {
         fprintf(stderr, "Error initializing GLEW: %s\n", glewGetErrorString(glewInitResult));

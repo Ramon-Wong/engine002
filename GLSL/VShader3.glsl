@@ -2,10 +2,10 @@
 
 uniform mat4	uProjView;
 
-layout (std140) uniform DataCube {
-    float data[2048]; // 2048 elements
-};
-
+layout (packed) uniform _Coord {
+    // float coord.data[8]; // 2048 elements
+    vec2 data[4];
+}coord;
 
 in vec3     iArray1;                // Input vertex position
 
@@ -15,13 +15,11 @@ vec2		texCoordArray[4];
 
 
 void main(){
-
-    DataCube.data[0];
-
-    texCoordArray[0] = vec2( 0.0, 0.0);
-    texCoordArray[1] = vec2( 1.0, 0.0);
-    texCoordArray[2] = vec2( 1.0, 1.0);
-    texCoordArray[3] = vec2( 0.0, 1.0);
+    
+    texCoordArray[0] = coord.data[0];//vec2( coord.coord.data[2], coord.coord.data[3]); 
+    texCoordArray[1] = coord.data[1];//vec2( coord.coord.data[2], coord.coord.data[3]);
+    texCoordArray[2] = coord.data[2];//vec2( coord.coord.data[4], coord.coord.data[5]);
+    texCoordArray[3] = coord.data[3];//vec2( coord.coord.data[6], coord.coord.data[7]);
 
 	_texCoords = texCoordArray[gl_VertexID];
 
