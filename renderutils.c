@@ -197,6 +197,7 @@ void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagna
 		glUseProgram( Prog->GLSL_Prog[0]);                                                  // Use the shader program
 
 		glBindTexture(GL_TEXTURE_2D, Prog->gTexture);                                    	// Bind your texture to GL_TEXTURE0    
+        
 		glUniform1i( glGetUniformLocation(  Prog->GLSL_Prog[0], tagname), location);        // 0 corresponds to GL_TEXTURE0
         printf("\n Load texture at %i", Prog->gTexture);
 
@@ -218,17 +219,54 @@ void    _DisableTexture( GLSL_PROGRAM *){
 }
 
 
-void    _ShaderBufferObject( GLSL_PROGRAM * Prog, int size, float * dataArray, const char * tagname){
+// void    _ShaderBufferObject( GLSL_PROGRAM * Prog, int size, float * dataArray, const char * tagname){
 
-    glGenBuffers( 1, &Prog->bufferID);
-    glBindBuffer( GL_UNIFORM_BUFFER, Prog->bufferID);
+//     glUseProgram( Prog->GLSL_Prog[0]);  
 
-    glBufferData(GL_UNIFORM_BUFFER, size, dataArray, GL_STATIC_DRAW);
+//     glGenBuffers( 1, &Prog->bufferID);
+//     glBindBuffer( GL_UNIFORM_BUFFER, Prog->bufferID);
 
-    // Bind the buffer to a binding point in the shader
-    GLuint bindingIndex = 0; // Choose an appropriate binding point
-    GLuint bindingPoint = glGetUniformBlockIndex( Prog->GLSL_Prog[0], tagname);
-    glUniformBlockBinding( Prog->GLSL_Prog[0], bindingPoint, bindingIndex);
-    glBindBufferBase(GL_UNIFORM_BUFFER, bindingIndex, Prog->bufferID);
+//     glBufferData(GL_UNIFORM_BUFFER, size, NULL, GL_DYNAMIC_DRAW);
 
+//     // // Bind the buffer to a binding point in the shader
+//     // GLuint bindingIndex = 0; // Choose an appropriate binding point
+//     GLuint bindingPoint = glGetUniformBlockIndex( Prog->GLSL_Prog[0], tagname);
+//     GLuint loc = glGetUniformLocation(  Prog->GLSL_Prog[0], "uProjView");
+
+//     printf("\n Binding point: %i\n", bindingPoint);
+//     printf("\n Binding point: %i\n", loc);
+
+//     // glBindBufferBase(GL_UNIFORM_BUFFER, bindingIndex, Prog->bufferID);
+//     // glUniformBlockBinding( Prog->GLSL_Prog[0], bindingPoint, bindingIndex);
+//     glBindBuffer(GL_UNIFORM_BUFFER, 0);
+// }
+
+
+// void _ShaderBufferObject(GLSL_PROGRAM *Prog, int size, float *dataArray, const char *tagname) {
+
+// }
+
+void __ShaderBufferObject(GLSL_PROGRAM * Prog, int size, float * dataArray, const char * tagname) {
+
+    glUseProgram(Prog->GLSL_Prog[0]);
+    glGenBuffers(1, &Prog->bufferID);
+    glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID);
+
+    // Allocate memory for the buffer
+    glBufferData(GL_UNIFORM_BUFFER, size, dataArray, GL_DYNAMIC_DRAW);
+
+    // Get the binding point (uniform block index) based on the tagname
+    GLuint bindingPoint = glGetUniformBlockIndex(Prog->GLSL_Prog[0], tagname);
+
+    // Check if the binding point is valid
+    if(bindingPoint == GL_INVALID_INDEX) {
+        printf("\n Error: Uniform block with tagname '%s' not found.\n", tagname);
+        return; // Handle the error appropriately
+    }
+
+    // Bind the buffer to the binding point
+    glUniformBlockBinding(Prog->GLSL_Prog[0], bindingPoint, bindingPoint);
+    glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, Prog->bufferID);
+
+    // Note: You don't need to unbind the buffer here, as it's not necessary
 }

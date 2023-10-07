@@ -8,6 +8,19 @@ in vec2     iArray3;                // texcoords
 out vec2	_texCoords;
 vec2		texCoordArray[4];
 
+layout (std140) uniform DataBlock {
+    float RadiusInner;
+    float RadiusOuter;
+};
+
+
+// layout(location = 0) buffer DataBlock{
+//     float data[2048];
+// };
+
+// layout (binding = 0) buffer DataBlock;
+
+// layout (location = 0) buffer DataBlock;
 
 void main(){
 

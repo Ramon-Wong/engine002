@@ -61,6 +61,7 @@ void Shutdown(int return_code){
 
 void Main_Loop(void){
 
+	glEnable(GL_DEBUG_OUTPUT);
 	ShaderSetup();
 
 	GLFWwindow * wnd = glfwGetCurrentContext();
@@ -91,13 +92,40 @@ void Main_Loop(void){
 	Camera.SetOrthoGraphic( &Camera, 3.5f, -3.5f, -3.5f * aspect_ratio, 3.5f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
 
+
+
+	int lock		= 0;
+	float point[]	= { 0.0, 0.0, 0.0};
+
+    float length    = 1.0 / 16;					// Texcoords
+    int size        = 16 * 16 * 8; 				// 16 * 16 * 8
+    float texcoord[size];
+	int counter     = 0;
+
+    for(int i = 0; i < 16; i++){
+        for(int n = 0; n < 16; n++){
+
+            texcoord[counter]   = n * length;         // Corner 1
+            texcoord[counter+1] = i * length;
+            texcoord[counter+2] = (n + 1) * length;   // Corner 2
+            texcoord[counter+3] = i * length;
+            texcoord[counter+4] = n * length;         // Corner 3
+            texcoord[counter+5] = (i + 1) * length;
+            texcoord[counter+6] = (n + 1) * length;   // Corner 4
+            texcoord[counter+7] = (i + 1) * length;
+            
+            counter += 8;
+        }
+    }
+
 	Prog01.Init( &Prog01, "GLSL/VShader1.glsl", "GLSL/FShader1.glsl");
 	Prog02.Init( &Prog02, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
+	Prog03.ShaderBufferObject( &Prog03, sizeof(texcoord), texcoord, "DataBlock");    
 	Prog03.LoadTexture( &Prog03, "data/skin2.tga", "tSampler", 0);											// Location 0 = gl_Texture0
 
-	int lock = 0;
-	float point[] = { 0.0, 0.0, 0.0};
+	
+
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -196,7 +224,7 @@ void Main_Loop(void){
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
-		CheckGLError();
+		// CheckGLError();
 	}
 
 	// clean stuff that is out of the loop.

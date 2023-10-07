@@ -65,33 +65,34 @@ GLuint	ReadGLSLScript(GLuint Prog, unsigned int I, const char * path){
 	//~ 0 = GL_VERTEX_SHADER
 	//~ 1 = GL_FRAGMENT_SHADER
 	
-	GLuint glsl_vertex;
+	GLuint glsl;
 	int params;	
 	char * vv	= ReadFile(path);
 		
 	printf("Compiling Shader: %s\n", path);
 	
 	if( I == 0){
-		glsl_vertex		= glCreateShader(GL_VERTEX_SHADER);
+		glsl		= glCreateShader(GL_VERTEX_SHADER);
 	}else if( I == 1){
-		glsl_vertex		= glCreateShader(GL_FRAGMENT_SHADER);
+		glsl		= glCreateShader(GL_FRAGMENT_SHADER);
 	}
 	
-	glShaderSource( glsl_vertex, 1, (const GLchar **)&vv, 0);
-	glCompileShader(glsl_vertex);
+	glShaderSource( glsl, 1, (const GLchar **)&vv, 0);
+	glCompileShader(glsl);
 		
 	params	= -1;
-	glGetShaderiv(glsl_vertex, GL_COMPILE_STATUS, &params);	
+	glGetShaderiv(glsl, GL_COMPILE_STATUS, &params);	
+
 		
 	if(GL_TRUE != params) {
 		printf("Error Compiling: %s\n", path);
-		print_shader_info_log(glsl_vertex);
+		print_shader_info_log(glsl);
 	}
 		
-	glAttachShader( Prog, glsl_vertex);	
+	glAttachShader( Prog, glsl);	
 	free(vv);
 
-	return glsl_vertex;
+	return glsl;
 }
 
 
