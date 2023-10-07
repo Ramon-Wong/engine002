@@ -21,13 +21,7 @@ GLuint VCO[3];
 
 void Draw_Object( GLuint, int);
 
-void CheckGLError(){
-	GLenum error = glGetError();
-	while(error != GL_NO_ERROR) {
-		fprintf(stderr, "OpenGL error: %d\n", error);
-			// Shutdown();
-	}
-}
+
 
 
 void CS_DrawLine( GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GLfloat z2){
@@ -41,7 +35,7 @@ void CS_DrawLine( GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GL
 
 
 void Shutdown(int return_code){
-	
+
 	glDeleteBuffers(1, &VAO[2]);
 	glDeleteBuffers(1, &VAO[1]);
 	glDeleteVertexArrays(1, &VAO[0]);
@@ -56,6 +50,15 @@ void Shutdown(int return_code){
 
 	glfwTerminate();
 	exit(return_code);
+}
+
+
+void CheckGLError(){
+	GLenum error = glGetError();
+	while(error != GL_NO_ERROR) {
+		fprintf(stderr, "OpenGL error: %d\n", error);
+		Shutdown(0);
+	}
 }
 
 
@@ -80,7 +83,7 @@ void Main_Loop(void){
 	GLSLProg_Init(&Prog01);
 	GLSLProg_Init(&Prog02);
 	GLSLProg_Init(&Prog03);
-	Rectangle_Init(&Rect, 1.0f, 2.0f, 1.0f);	
+	Rectangle_Init(&Rect, 1.5f, 1.0f, 1.0f);	
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f}; 
@@ -99,34 +102,33 @@ void Main_Loop(void){
 
     float length    = 1.0 / 16;					// Texcoords
     int size        = 16 * 16 * 8; 				// 16 * 16 * 8
-    float texcoord[size];
+    // DATABLOCK		DataBlock;
+	float DataBlock[size];
 	int counter     = 0;
 
     for(int i = 0; i < 16; i++){
         for(int n = 0; n < 16; n++){
-
-            texcoord[counter]   = n * length;         // Corner 1
-            texcoord[counter+1] = i * length;
-            texcoord[counter+2] = (n + 1) * length;   // Corner 2
-            texcoord[counter+3] = i * length;
-            texcoord[counter+4] = n * length;         // Corner 3
-            texcoord[counter+5] = (i + 1) * length;
-            texcoord[counter+6] = (n + 1) * length;   // Corner 4
-            texcoord[counter+7] = (i + 1) * length;
+			DataBlock[counter + 0] = n * length;         // Corner 1
+			DataBlock[counter + 1] = i * length;
+			DataBlock[counter + 2] = (n + 1) * length;   // Corner 2
+			DataBlock[counter + 3] = i * length;
+			DataBlock[counter + 4] = n * length;		  // Corner 3
+			DataBlock[counter + 5] = (i + 1) * length;
+			DataBlock[counter + 6] = (n + 1) * length;   // Corner 4
+			DataBlock[counter + 7] = (i + 1) * length;
             
             counter += 8;
         }
     }
 
+	// printf("Datablock: %f//%f//%f//%f//", DataBlock[0], DataBlock[1], DataBlock[2], DataBlock[3]);
+
 	Prog01.Init( &Prog01, "GLSL/VShader1.glsl", "GLSL/FShader1.glsl");
 	Prog02.Init( &Prog02, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
-	Prog03.ShaderBufferObject( &Prog03, sizeof(texcoord), texcoord, "DataBlock");    
-	Prog03.LoadTexture( &Prog03, "data/skin2.tga", "tSampler", 0);											// Location 0 = gl_Texture0
-
+	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", 0);											// Location 0 = gl_Texture0
+	Prog03.ShaderBufferObject( &Prog03, 2048 * sizeof(float), DataBlock, "DataCube");    
 	
-
-
 	while(!glfwWindowShouldClose(wnd)){
 
 		double current_time = glfwGetTime();
@@ -224,12 +226,12 @@ void Main_Loop(void){
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
-		// CheckGLError();
+		CheckGLError();
 	}
-
-	// clean stuff that is out of the loop.
 	Prog01.Release( &Prog01);
 	Prog02.Release( &Prog02);
 	Prog03.Release( &Prog03);
+	// clean stuff that is out of the loop.
+
 }
 

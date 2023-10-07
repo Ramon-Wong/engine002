@@ -25,13 +25,21 @@ int main(void){
 
 	glfwMakeContextCurrent(wnd);
  
+   // Initialize GLEW
+    GLenum glewInitResult = glewInit();
+    if (glewInitResult != GLEW_OK) {
+        fprintf(stderr, "Error initializing GLEW: %s\n", glewGetErrorString(glewInitResult));
+        glfwTerminate();
+        Shutdown(1);
+    }
+
 	printf("GL VENDOR:--- %s \n", glGetString(GL_VENDOR));
 	printf("GL RENDERER:- %s \n", glGetString(GL_RENDERER));
 	printf("GL VERSION:-- %s \n", glGetString(GL_VERSION));
 	printf("GL SHADING:-- %s \n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-  Main_Loop();
-  Shutdown(0);
+	Main_Loop();
+	Shutdown(0);
   
-  return 0;
+	return 0;
 }
