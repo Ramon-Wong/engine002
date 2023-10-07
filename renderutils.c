@@ -248,25 +248,21 @@ void    _DisableTexture( GLSL_PROGRAM *){
 
 void __ShaderBufferObject(GLSL_PROGRAM * Prog, int size, float * dataArray, const char * tagname) {
 
-    glUseProgram(Prog->GLSL_Prog[0]);
-    glGenBuffers(1, &Prog->bufferID);
-    glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID);
+    glGenBuffers( 1, &Prog->bufferID);
+    glBindBuffer( GL_UNIFORM_BUFFER, Prog->bufferID);
 
-    // Allocate memory for the buffer
-    glBufferData(GL_UNIFORM_BUFFER, size, dataArray, GL_DYNAMIC_DRAW);
+    // Update the UBO data
+    glBufferSubData( GL_UNIFORM_BUFFER, 0, size, &dataArray);
 
-    // Get the binding point (uniform block index) based on the tagname
+    // Bind the UBO to the binding point
     GLuint bindingPoint = glGetUniformBlockIndex(Prog->GLSL_Prog[0], tagname);
-
-    // Check if the binding point is valid
-    if(bindingPoint == GL_INVALID_INDEX) {
-        printf("\n Error: Uniform block with tagname '%s' not found.\n", tagname);
-        return; // Handle the error appropriately
+    if( bindingPoint == GL_INVALID_INDEX){
+        printf("\n GL_UNIFORM_BUFFER: invalid index  \n");
+        return;
     }
-
-    // Bind the buffer to the binding point
-    glUniformBlockBinding(Prog->GLSL_Prog[0], bindingPoint, bindingPoint);
-    glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, Prog->bufferID);
+    glBindBufferBase( GL_UNIFORM_BUFFER, bindingPoint, Prog->bufferID);
+    // Unbind the UBO (optional)
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     // Note: You don't need to unbind the buffer here, as it's not necessary
 }
