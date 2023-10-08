@@ -266,12 +266,11 @@ void _ShaderBufferObject(GLSL_PROGRAM * Prog, int size, float * dataArray, const
     glGenBuffers( 1, &Prog->bufferID);
     glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID);
 
-    glBufferData(GL_UNIFORM_BUFFER, size, dataArray, GL_DYNAMIC_DRAW);
+    glBufferData(GL_UNIFORM_BUFFER, size, dataArray, GL_STATIC_DRAW);
     // glBufferSubData(GL_UNIFORM_BUFFER, 0, size, dataArray);
-
     GLuint bindingPoint = glGetUniformBlockIndex(Prog->GLSL_Prog[0], tagname);
     if (bindingPoint == GL_INVALID_INDEX) {
-        printf("GL_UNIFORM_BUFFER: Invalid Index\n");
+        printf("GL_UNIFORM_BUFFER: %s Invalid Index\n", tagname);
         return;
     }
 

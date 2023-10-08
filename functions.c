@@ -100,36 +100,31 @@ void Main_Loop(void){
 	int lock		= 0;
 	float point[]	= { 0.0, 0.0, 0.0};
 
-    // float length    = 1.0 / 16;					// Texcoords
-    // int size        = 16 * 16 * 8; 				// 16 * 16 * 8
-    // DATABLOCK		DataBlock;
-	// float DataBlock[size];
-	// int counter     = 0;
+    float length    = 1.0 / 16;					// Texcoords
+    int size        = 16 * 16 * 8; 				// 16 * 16 * 8
 
-    // for(int i = 0; i < 16; i++){
-    //     for(int n = 0; n < 16; n++){
-	// 		DataBlock[counter + 0] = n * length;         // Corner 1
-	// 		DataBlock[counter + 1] = i * length;
-	// 		DataBlock[counter + 2] = (n + 1) * length;   // Corner 2
-	// 		DataBlock[counter + 3] = i * length;
-	// 		DataBlock[counter + 4] = n * length;		  // Corner 3
-	// 		DataBlock[counter + 5] = (i + 1) * length;
-	// 		DataBlock[counter + 6] = (n + 1) * length;   // Corner 4
-	// 		DataBlock[counter + 7] = (i + 1) * length;            
-    //         counter += 8;
-    //     }
-    // }
+	float DataBlock[size];
+	int counter     = 0;
 
-	// printf("Datablock: %f//%f//%f//%f//", DataBlock[0], DataBlock[1], DataBlock[2], DataBlock[3]);
-	//				  { 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f}
-	float tCoord[8]  = { 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f};
-
+    for(int i = 0; i < 16; i++){
+        for(int n = 0; n < 16; n++){
+			DataBlock[counter + 0] = n * length;         // Corner 1
+			DataBlock[counter + 1] = i * length;
+			DataBlock[counter + 2] = (n + 1) * length;   // Corner 2
+			DataBlock[counter + 3] = i * length;
+			DataBlock[counter + 4] = (n + 1) * length;	 // Corner 3
+			DataBlock[counter + 5] = (i + 1) * length;
+			DataBlock[counter + 6] = n * length;   // Corner 4
+			DataBlock[counter + 7] = (i + 1) * length;            
+            counter += 8;
+        }
+    }
 
 	Prog01.Init( &Prog01, "GLSL/VShader1.glsl", "GLSL/FShader1.glsl");
 	Prog02.Init( &Prog02, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", 0);											// Location 0 = gl_Texture0
-	Prog03.ShaderBufferObject( &Prog03, sizeof(float[8]), tCoord, "_Coord");    
+	Prog03.ShaderBufferObject( &Prog03, sizeof(float[2048]), DataBlock, "_Fontmap");    
 	
 	while(!glfwWindowShouldClose(wnd)){
 
