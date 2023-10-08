@@ -3,10 +3,7 @@
 uniform mat4	uProjView;
 
 layout (packed) uniform _Fontmap {
-//     // float coord.data[10][8]; // 2048 elements
-    // float data[2048]; 
-    vec2 data[1024]; 
-    // vec2  data[256][4];
+    vec2 data[1024];     
 }coord;
 
 in vec3     iArray1;                // Input vertex position
@@ -22,7 +19,6 @@ void main(){
     texCoordArray[1] = coord.data[loc+1]; 
     texCoordArray[2] = coord.data[loc+2];
     texCoordArray[3] = coord.data[loc+3];
-
 
 	_texCoords = texCoordArray[gl_VertexID];
 
