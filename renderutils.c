@@ -219,47 +219,6 @@ void    _DisableTexture( GLSL_PROGRAM *){
 }
 
 
-// void    _ShaderBufferObject( GLSL_PROGRAM * Prog, int size, float * dataArray, const char * tagname){
-
-//     glUseProgram( Prog->GLSL_Prog[0]);  
-
-//     glGenBuffers( 1, &Prog->bufferID);
-//     glBindBuffer( GL_UNIFORM_BUFFER, Prog->bufferID);
-
-//     glBufferData(GL_UNIFORM_BUFFER, size, NULL, GL_DYNAMIC_DRAW);
-
-//     // // Bind the buffer to a binding point in the shader
-//     GLuint bindingPoint = glGetUniformBlockIndex( Prog->GLSL_Prog[0], tagname);
-
-//     printf("\n Binding point: %i\n", bindingPoint);
-
-//     glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, Prog->bufferID);
-//     glUniformBlockBinding( Prog->GLSL_Prog[0], bindingPoint, 0);
-//     // glBindBuffer(GL_UNIFORM_BUFFER, 0);
-// }
-
-
-// void _ShaderBufferObject(GLSL_PROGRAM *Prog, int size, float *dataArray, const char *tagname) {
-
-// }
-
-// void _ShaderBufferObject(GLSL_PROGRAM * Prog, int size, float * dataArray, const char * tagname) {
-
-//     glGenBuffers( 1, &Prog->bufferID);
-//     glBindBuffer( GL_UNIFORM_BUFFER, Prog->bufferID);
-
-//     glBufferData(GL_UNIFORM_BUFFER, size, NULL, GL_STATIC_DRAW);   
-//     glBufferSubData( GL_UNIFORM_BUFFER, 0, size, &dataArray);
-
-//     GLuint bindingPoint = glGetUniformBlockIndex(Prog->GLSL_Prog[0], tagname);
-//     if( bindingPoint == GL_INVALID_INDEX){
-//         printf("\n GL_UNIFORM_BUFFER: invalid index  \n");
-//         return;
-//     }
-//     glBindBufferBase( GL_UNIFORM_BUFFER, bindingPoint, Prog->bufferID);
-//     glBindBuffer(GL_UNIFORM_BUFFER, 0);
-// }
-
     
 void _ShaderBufferObject(GLSL_PROGRAM * Prog, int size, float * dataArray, const char * tagname) {
 
@@ -267,7 +226,8 @@ void _ShaderBufferObject(GLSL_PROGRAM * Prog, int size, float * dataArray, const
     glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID);
 
     glBufferData(GL_UNIFORM_BUFFER, size, dataArray, GL_STATIC_DRAW);
-    // glBufferSubData(GL_UNIFORM_BUFFER, 0, size, dataArray);
+//     glBufferData(GL_UNIFORM_BUFFER, size, NULL, GL_STATIC_DRAW);   
+//     glBufferSubData( GL_UNIFORM_BUFFER, 0, size, &dataArray);
     GLuint bindingPoint = glGetUniformBlockIndex(Prog->GLSL_Prog[0], tagname);
     if (bindingPoint == GL_INVALID_INDEX) {
         printf("GL_UNIFORM_BUFFER: %s Invalid Index\n", tagname);
@@ -282,41 +242,3 @@ void _ShaderBufferObject(GLSL_PROGRAM * Prog, int size, float * dataArray, const
 
 
 
-/*
-void _ShaderBufferObject(GLSL_PROGRAM * Prog, int size, float * dataArray, const char * tagname) {
-
-    glGenBuffers( 1, &Prog->bufferID);
-    glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID);
-
-    GLenum error = glGetError();
-    if (error != GL_NO_ERROR) {
-        printf("OpenGL Error Before Buffer Creation 1: %d\n", error);
-        return;
-    }
-
-    glBufferData(GL_UNIFORM_BUFFER, size, NULL, GL_DYNAMIC_DRAW);
-    
-    error = glGetError();
-    if (error != GL_NO_ERROR) {
-        printf("OpenGL Error After Buffer Creation: %d\n", error);
-        return;
-    }
-
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, size, dataArray);
-
-    error = glGetError();
-    if (error != GL_NO_ERROR) {
-        printf("OpenGL Error During Data Upload: %d\n", error);
-        return;
-    }
-
-    GLuint bindingPoint = glGetUniformBlockIndex(Prog->GLSL_Prog[0], tagname);
-    if (bindingPoint == GL_INVALID_INDEX) {
-        printf("GL_UNIFORM_BUFFER: Invalid Index\n");
-        return;
-    }
-
-    glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, Prog->bufferID);
-    // glBindBuffer(GL_UNIFORM_BUFFER, 0);
-}
-*/
