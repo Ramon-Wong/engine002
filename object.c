@@ -89,6 +89,14 @@ void _Render( RECTANGLE * Rect, float x, float y){
 }
 
 
+void PrintString( const char * str, ...){
+    va_list args;
+    va_start(args, str);
+    
+    printf( str, args);
+    va_end(args);
+}
+
 
 
 /*
