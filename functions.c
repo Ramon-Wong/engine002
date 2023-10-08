@@ -83,7 +83,7 @@ void Main_Loop(void){
 	GLSLProg_Init(&Prog01);
 	GLSLProg_Init(&Prog02);
 	GLSLProg_Init(&Prog03);
-	Rectangle_Init(&Rect, 0.5f, 1.0f, 1.0f);	
+	Rectangle_Init(&Rect, 0.25f, 0.5f, 1.0f, 1.0f);	
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f}; 

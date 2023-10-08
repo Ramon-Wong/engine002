@@ -55,11 +55,13 @@ GLubyte _indices[]	= {  0, 1, 2, 2, 3, 0};
 
 void _Render( RECTANGLE *, float, float);
 
-void Rectangle_Init( RECTANGLE * Rect, float size, float x, float y){
+void Rectangle_Init( RECTANGLE * Rect, float width, float height, float x, float y){
 
-    Rect->size = size;
-    Rect->vertices[0]  = x + size; Rect->vertices[3]  = x - size; Rect->vertices[6]  = x - size; Rect->vertices[9]  = x + size;
-    Rect->vertices[1]  = y + size; Rect->vertices[4]  = y + size; Rect->vertices[7]  = y - size; Rect->vertices[10] = y - size;
+    Rect->width     = width;
+    Rect->height    = height;
+
+    Rect->vertices[0]  = x + width;     Rect->vertices[3]  = x - width;     Rect->vertices[6]  = x - width;     Rect->vertices[9]  = x + width;
+    Rect->vertices[1]  = y + height;    Rect->vertices[4]  = y + height;    Rect->vertices[7]  = y - height;    Rect->vertices[10] = y - height;
     Rect->vertices[2]  = 0.0f;     Rect->vertices[5]  = 0.0f;     Rect->vertices[8]  = 0.0f;     Rect->vertices[11] = 0.0f;
 
     Rect->Render   = (void (*)(void *, float, float))_Render;
@@ -68,8 +70,8 @@ void Rectangle_Init( RECTANGLE * Rect, float size, float x, float y){
 
 void _Render( RECTANGLE * Rect, float x, float y){
 
-    Rect->vertices[0]  = x + Rect->size; Rect->vertices[3]  = x - Rect->size; Rect->vertices[6]  = x - Rect->size; Rect->vertices[9]  = x + Rect->size;
-    Rect->vertices[1]  = y + Rect->size; Rect->vertices[4]  = y + Rect->size; Rect->vertices[7]  = y - Rect->size; Rect->vertices[10] = y - Rect->size;
+    Rect->vertices[0]  = x + Rect->width;   Rect->vertices[3]  = x - Rect->width;   Rect->vertices[6]  = x - Rect->width;   Rect->vertices[9]  = x + Rect->width;
+    Rect->vertices[1]  = y + Rect->height;  Rect->vertices[4]  = y + Rect->height;  Rect->vertices[7]  = y - Rect->height;  Rect->vertices[10] = y - Rect->height;
     Rect->vertices[2]  = 0.0f;           Rect->vertices[5]  = 0.0f;           Rect->vertices[8]  = 0.0f;           Rect->vertices[11] = 0.0f;
 
     GLfloat TexCoords[]	= {  0.0f, 0.0f,	1.0f, 0.0f,	     1.0f, 1.0f,	0.0f, 1.0f};
