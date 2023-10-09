@@ -37,7 +37,7 @@ void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, int);
 void    _EnableTexture( GLSL_PROGRAM *, GLenum);
 void    _DisableTexture( GLSL_PROGRAM *);
 
-void    _ShaderBufferObject( GLSL_PROGRAM *, int, float *, const char *);
+void    _uBufferObject( GLSL_PROGRAM *, int, void *, const char *);
 
 
 void GLSLProg_Init(GLSL_PROGRAM * Prog){
@@ -64,7 +64,7 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     Prog->gTexture              = 0;
 
     Prog->bufferID              = 0;
-    Prog->ShaderBufferObject    = (void (*)(void*, int, float *, const char *))         _ShaderBufferObject;
+    Prog->uBufferObject         = (void (*)(void*, int, void *, const char *))          _uBufferObject;
 }
 
 
@@ -219,7 +219,7 @@ void    _DisableTexture( GLSL_PROGRAM *){
 }
 
     
-void _ShaderBufferObject(GLSL_PROGRAM * Prog, int size, float * dataArray, const char * tagname) {
+void _ShaderBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char * tagname) {
 
     glGenBuffers( 1, &Prog->bufferID);
     glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID);

@@ -96,7 +96,6 @@ void Main_Loop(void){
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
 
 
-
 	int lock		= 0;
 	float point[]	= { 0.0, 0.0, 0.0};
 
@@ -108,13 +107,13 @@ void Main_Loop(void){
 
     for(int i = 0; i < 16; i++){
         for(int n = 0; n < 16; n++){
-			DataBlock[counter + 0] = n * length;         // Corner 1
-			DataBlock[counter + 1] = i * length;
-			DataBlock[counter + 2] = (n + 1) * length;   // Corner 2
+			DataBlock[counter + 0] = n * length;         	// Corner 1
+			DataBlock[counter + 1] = i * length;			
+			DataBlock[counter + 2] = (n + 1) * length;   	// Corner 2
 			DataBlock[counter + 3] = i * length;
-			DataBlock[counter + 4] = (n + 1) * length;	 // Corner 3
+			DataBlock[counter + 4] = (n + 1) * length;	 	// Corner 3
 			DataBlock[counter + 5] = (i + 1) * length;
-			DataBlock[counter + 6] = n * length;   // Corner 4
+			DataBlock[counter + 6] = n * length;   			// Corner 4
 			DataBlock[counter + 7] = (i + 1) * length;            
             counter += 8;
         }
@@ -124,7 +123,7 @@ void Main_Loop(void){
 	Prog02.Init( &Prog02, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", 0);											// Location 0 = gl_Texture0
-	Prog03.ShaderBufferObject( &Prog03, sizeof(float[2048]), DataBlock, "_Fontmap");    
+	Prog03.uBufferObject( &Prog03, sizeof(float[2048]), DataBlock, "_Fontmap");    
 	
 	while(!glfwWindowShouldClose(wnd)){
 
