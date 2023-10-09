@@ -37,7 +37,7 @@ void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, int);
 void    _EnableTexture( GLSL_PROGRAM *, GLenum);
 void    _DisableTexture( GLSL_PROGRAM *);
 
-void    _ShaderBufferObject( GLSL_PROGRAM *, int, float *, const char *);
+void    _ShaderBufferObject( GLSL_PROGRAM *, int, float *, const char *, GLenum);
 
 
 void GLSLProg_Init(GLSL_PROGRAM * Prog){
@@ -64,7 +64,7 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     Prog->gTexture              = 0;
 
     Prog->bufferID              = 0;
-    Prog->ShaderBufferObject    = (void (*)(void*, int, float *, const char *))         _ShaderBufferObject;
+    Prog->ShaderBufferObject    = (void (*)(void*, int, float *, const char *, GLenum))         _ShaderBufferObject;
 }
 
 
@@ -220,14 +220,12 @@ void    _DisableTexture( GLSL_PROGRAM *){
 
 
     
-void _ShaderBufferObject(GLSL_PROGRAM * Prog, int size, float * dataArray, const char * tagname) {
+void _ShaderBufferObject(GLSL_PROGRAM * Prog, int size, float * dataArray, const char * tagname, GLenum usage) {
 
     glGenBuffers( 1, &Prog->bufferID);
     glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID);
 
-    glBufferData(GL_UNIFORM_BUFFER, size, dataArray, GL_STATIC_DRAW);
-//     glBufferData(GL_UNIFORM_BUFFER, size, NULL, GL_STATIC_DRAW);   
-//     glBufferSubData( GL_UNIFORM_BUFFER, 0, size, &dataArray);
+    glBufferData(GL_UNIFORM_BUFFER, size, dataArray, usage);        // GL_STATIC_DRAW or GL_DYNAMIC_DRAW
     GLuint bindingPoint = glGetUniformBlockIndex(Prog->GLSL_Prog[0], tagname);
     if (bindingPoint == GL_INVALID_INDEX) {
         printf("GL_UNIFORM_BUFFER: %s Invalid Index\n", tagname);
@@ -240,5 +238,9 @@ void _ShaderBufferObject(GLSL_PROGRAM * Prog, int size, float * dataArray, const
 }
 
 
-
+    //      glBindBuffer(GL_UNIFORM_BUFFER, *vbo); 
+    //      glBufferData(GL_UNIFORM_BUFFER, size1 + size2 + size3, NULL, GL_STATIC_DRAW);
+    //      glBufferSubData(GL_UNIFORM_BUFFER,     0,             size1, array1);
+    //      glBufferSubData(GL_UNIFORM_BUFFER, size1,             size2, array2);
+    //      glBufferSubData(GL_UNIFORM_BUFFER, size1 + size2,     size3, array3);
 
