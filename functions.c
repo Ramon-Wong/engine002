@@ -125,7 +125,11 @@ void Main_Loop(void){
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", 0);											// Location 0 = gl_Texture0
 	Prog03.uBufferObject( &Prog03, sizeof(float[2048]), DataBlock, "_Fontmap", GL_STATIC_DRAW);    
-	
+
+	char message[] = "Hello Cruel World!!";
+	Prog03.uBufferObject( &Prog03, sizeof(message), message, "_MESSAGE", GL_STATIC_DRAW);   
+
+
 	while(!glfwWindowShouldClose(wnd)){
 
 		double current_time = glfwGetTime();
@@ -212,11 +216,14 @@ void Main_Loop(void){
 
 		Prog02.DisableProgram(&Prog02);
 
+		// Use Program 3
+
 		Prog03.EnableProgram(&Prog03);
+		
 		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
 
 		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
-		Rect.Render(&Rect, 2.0f, 1.0f);
+		Rect.RenderInstances(&Rect, 2.0f, 1.0f, 10);
 
 		Prog03.DisableTexture(&Prog03);
 		Prog03.DisableProgram(&Prog03);

@@ -93,7 +93,7 @@ typedef struct{
     void          (*DisableTexture)(void *);
 
     GLuint          bufferID;
-    void          (*uBufferObject)(void *, int, float *, const char *, GLenum);
+    void          (*uBufferObject)(void *, int, void *, const char *, GLenum);
 
 }GLSL_PROGRAM;
 
