@@ -58,10 +58,13 @@ void                Draw_Geometry( GLenum, GLuint, int size);
 typedef struct{
     GLubyte         indices[6];
     float           size;
+    float           width;
+    float           height;
     float           vertices[12];
     float           TexCoords[8];
 
     void          (*Render)(void *, float, float);
+    void          (*RenderInstances)(void *, float, float, int);
 }RECTANGLE;
 
 
@@ -131,6 +134,6 @@ typedef struct{
 
 void                Camera_Init(CAMERA *);
 void                GLSLProg_Init(GLSL_PROGRAM *);
-void                Rectangle_Init( RECTANGLE *, float, float, float);
+void                Rectangle_Init( RECTANGLE *, float, float, float, float);
 
 #endif

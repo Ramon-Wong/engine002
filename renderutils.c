@@ -219,7 +219,7 @@ void    _DisableTexture( GLSL_PROGRAM *){
 }
 
     
-void _ShaderBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char * tagname) {
+void _uBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char * tagname) {
 
     glGenBuffers( 1, &Prog->bufferID);
     glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID);
