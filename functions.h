@@ -12,12 +12,14 @@
 
 #include "matrix.h"
 
-#define RIGHT   0
-#define LEFT    1
-#define BOTTOM  2
-#define TOP     3
-#define BACK    4
-#define FRONT   5
+#define             RIGHT       0
+#define             LEFT        1
+#define             BOTTOM      2
+#define             TOP         3
+#define             BACK        4
+#define             FRONT       5
+
+#define             MAX_SHADER  5
 
 extern GLfloat      box_vertices[72];
 extern GLfloat      box_normals[72];
@@ -53,15 +55,11 @@ int                 PointinPlane( int, float *);
 void                Draw_Geometry( GLenum, GLuint, int size);
 
 
-
-
 typedef struct{
     GLubyte         indices[6];
-    float           size;
     float           width;
     float           height;
     float           vertices[12];
-    float           TexCoords[8];
 
     void          (*Render)(void *, float, float);
     void          (*RenderInstances)(void *, float, float, int);
@@ -92,18 +90,12 @@ typedef struct{
     void          (*EnableTexture)(void *, GLenum);
     void          (*DisableTexture)(void *);
 
-    GLuint          bufferID;
+    GLuint          bufferID[MAX_SHADER];
+    GLuint          shadercount;
     void          (*uBufferObject)(void *, int, void *, const char *);
 
 }GLSL_PROGRAM;
 
-
-#define RIGHT   0
-#define LEFT    1
-#define BOTTOM  2
-#define TOP     3
-#define BACK    4
-#define FRONT   5
 
 typedef struct{
     float           Cam[3][3];                      // Camera Pose/View/Upvx

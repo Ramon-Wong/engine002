@@ -63,7 +63,7 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     Prog->DisableTexture        = (void (*)(void*))                                     _DisableTexture;
     Prog->gTexture              = 0;
 
-    Prog->bufferID              = 0;
+    Prog->shadercount           = 0;
     Prog->uBufferObject         = (void (*)(void*, int, void *, const char *))          _uBufferObject;
 }
 
@@ -97,9 +97,14 @@ void    _Release(GLSL_PROGRAM * Prog){
             glDeleteTextures(1, &Prog->gTexture);
         }
 
-        if( Prog->bufferID != 0){
-            glDeleteBuffers(1, &Prog->bufferID);
+        if( Prog->shadercount > 0){
+            for(int i = 0; i < MAX_SHADER; i++){
+                if( Prog->bufferID[i] != 0){   glDeleteBuffers(1, &Prog->bufferID[i]);}
+            }
         }
+
+
+
 	}
 }
 
@@ -221,8 +226,8 @@ void    _DisableTexture( GLSL_PROGRAM *){
     
 void _uBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char * tagname) {
 
-    glGenBuffers( 1, &Prog->bufferID);
-    glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID);
+    glGenBuffers( 1, &Prog->bufferID[Prog->shadercount]);
+    glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID[Prog->shadercount]);
 
     glBufferData(GL_UNIFORM_BUFFER, size, dataArray, GL_STATIC_DRAW);
     // glBufferSubData(GL_UNIFORM_BUFFER, 0, size, dataArray);
@@ -232,7 +237,9 @@ void _uBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char 
         return;
     }
 
-    glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, Prog->bufferID);
+    glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, Prog->bufferID[Prog->shadercount]);
     glUniformBlockBinding( Prog->GLSL_Prog[0], bindingPoint, 0);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+    Prog->shadercount += 1;
 }
