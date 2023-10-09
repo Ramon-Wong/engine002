@@ -54,6 +54,7 @@ GLubyte grid_indices[]  = { 0, 1, 2, 3};
 GLubyte _indices[]	= {  0, 1, 2, 2, 3, 0}; 
 
 void _Render( RECTANGLE *, float, float);
+void _RenderInstance( RECTANGLE *, float, float, int);
 
 void Rectangle_Init( RECTANGLE * Rect, float width, float height, float x, float y){
 
@@ -72,20 +73,12 @@ void _Render( RECTANGLE * Rect, float x, float y){
 
     Rect->vertices[0]  = x + Rect->width;   Rect->vertices[3]  = x - Rect->width;   Rect->vertices[6]  = x - Rect->width;   Rect->vertices[9]  = x + Rect->width;
     Rect->vertices[1]  = y + Rect->height;  Rect->vertices[4]  = y + Rect->height;  Rect->vertices[7]  = y - Rect->height;  Rect->vertices[10] = y - Rect->height;
-    Rect->vertices[2]  = 0.0f;           Rect->vertices[5]  = 0.0f;           Rect->vertices[8]  = 0.0f;           Rect->vertices[11] = 0.0f;
-
-    GLfloat TexCoords[]	= {  0.0f, 0.0f,	1.0f, 0.0f,	     1.0f, 1.0f,	0.0f, 1.0f};
+    Rect->vertices[2]  = 0.0f;              Rect->vertices[5]  = 0.0f;              Rect->vertices[8]  = 0.0f;              Rect->vertices[11] = 0.0f;
 
     glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
     glVertexPointer(3, GL_FLOAT, 0, Rect->vertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, TexCoords);
-
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, _indices);
-
     glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 

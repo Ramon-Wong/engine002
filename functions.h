@@ -62,6 +62,7 @@ typedef struct{
     float           TexCoords[8];
 
     void          (*Render)(void *, float, float);
+    void          (*RenderInstances)(void *, float, float, int);
 }RECTANGLE;
 
 void                Rectangle_Init( RECTANGLE *, float, float, float, float);
@@ -92,7 +93,7 @@ typedef struct{
     void          (*DisableTexture)(void *);
 
     GLuint          bufferID;
-    void          (*ShaderBufferObject)(void *, int, float *, const char *, GLenum);
+    void          (*uBufferObject)(void *, int, float *, const char *, GLenum);
 
 }GLSL_PROGRAM;
 
