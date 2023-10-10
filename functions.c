@@ -62,6 +62,20 @@ void CheckGLError(){
 }
 
 
+void StrtoArray(const char *string, int *array, int array_size) {
+    int str_len = strlen(string);
+    for (int i = 0; i < array_size; i++) {
+        if (i < str_len) {
+            array[i] = (int)string[i] - 32;
+        } else {
+            // If we've reached the end of the string, fill the rest with -1
+            array[i] = -1;
+        }
+    }
+}
+
+
+
 void Main_Loop(void){
 
 	glEnable(GL_DEBUG_OUTPUT);
@@ -83,7 +97,7 @@ void Main_Loop(void){
 	GLSLProg_Init(&Prog01);
 	GLSLProg_Init(&Prog02);
 	GLSLProg_Init(&Prog03);
-	Rectangle_Init(&Rect, 1.5f, 1.5f, 1.0f, 1.0f);	
+	Rectangle_Init(&Rect, 0.075f, 0.075f, 2.5f, 1.0f);	
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f}; 
@@ -119,10 +133,20 @@ void Main_Loop(void){
         }
     }
 
-	int messageInt[32];
-	for (int i = 0; i < 32; i++) {
-    	messageInt[i] = 32+i;
+	const char msg[] = "Ahmad, Game dev? moeilijk no mpp!";
+	int messageInt[64];
+
+	// for (int i = 0; i < 64; i++) {
+    // 	messageInt[i] = 32+i;
+	// }
+
+	StrtoArray( msg, messageInt, 64);
+
+	for (int i = 0; i < 64; i++) {
+    	 printf("x%ix", messageInt[i]);
 	}
+
+
 
 	Prog01.Init( &Prog01, "GLSL/VShader1.glsl", "GLSL/FShader1.glsl");
 	Prog02.Init( &Prog02, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
@@ -130,7 +154,7 @@ void Main_Loop(void){
 	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", 0);											// Location 0 = gl_Texture0
 
 	Prog03.uBufferObject( &Prog03, sizeof(float[2048]), DataBlock, "Fontmap", GL_STATIC_DRAW);    
-	Prog03.uBufferObject( &Prog03, sizeof(int[32]), messageInt, "_Message", GL_DYNAMIC_DRAW);
+	Prog03.uBufferObject( &Prog03, sizeof(int[64]), messageInt, "_Message", GL_DYNAMIC_DRAW);
 
 
 	while(!glfwWindowShouldClose(wnd)){
@@ -223,7 +247,7 @@ void Main_Loop(void){
 		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
 
 		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
-		Rect.Render(&Rect, 2.0f, 1.0f);
+		Rect.RenderInstances(&Rect, 3.5f, 1.0f, 64);
 
 		Prog03.DisableTexture(&Prog03);
 		Prog03.DisableProgram(&Prog03);
