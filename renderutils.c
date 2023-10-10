@@ -37,7 +37,7 @@ void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, int);
 void    _EnableTexture( GLSL_PROGRAM *, GLenum);
 void    _DisableTexture( GLSL_PROGRAM *);
 
-void    _uBufferObject( GLSL_PROGRAM *, int, void *, const char *);
+void    _uBufferObject( GLSL_PROGRAM *, int, void *, const char *, GLenum);
 
 
 void GLSLProg_Init(GLSL_PROGRAM * Prog){
@@ -64,7 +64,7 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     Prog->gTexture              = 0;
 
     Prog->shadercount           = 0;
-    Prog->uBufferObject         = (void (*)(void*, int, void *, const char *))          _uBufferObject;
+    Prog->uBufferObject         = (void (*)(void*, int, void *, const char *, GLenum))  _uBufferObject;
 }
 
 
@@ -224,22 +224,22 @@ void    _DisableTexture( GLSL_PROGRAM *){
 }
 
     
-void _uBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char * tagname) {
+void _uBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char * tagname, GLenum type) {
 
     glGenBuffers( 1, &Prog->bufferID[Prog->shadercount]);
     glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID[Prog->shadercount]);
 
-    glBufferData(GL_UNIFORM_BUFFER, size, dataArray, GL_STATIC_DRAW);
+    glBufferData(GL_UNIFORM_BUFFER, size, dataArray, type);
     // glBufferSubData(GL_UNIFORM_BUFFER, 0, size, dataArray);
     GLuint bindingPoint = glGetUniformBlockIndex(Prog->GLSL_Prog[0], tagname);
     if (bindingPoint == GL_INVALID_INDEX) {
-        printf("GL_UNIFORM_BUFFER: %s Invalid Index\n", tagname);
+        printf("GL_UNIFORM_BUFFER: %s Invalid Index.\n", tagname);
         return;
     }
 
     glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, Prog->bufferID[Prog->shadercount]);
     glUniformBlockBinding( Prog->GLSL_Prog[0], bindingPoint, 0);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    // glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     Prog->shadercount += 1;
 }
