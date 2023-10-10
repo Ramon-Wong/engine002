@@ -37,7 +37,7 @@ void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, int);
 void    _EnableTexture( GLSL_PROGRAM *, GLenum);
 void    _DisableTexture( GLSL_PROGRAM *);
 
-void    _uBufferObject( GLSL_PROGRAM *, int, void *, const char *, GLenum, int);
+void    _uBufferObject( GLSL_PROGRAM *, int, void *, const char *, GLenum);
 
 
 void GLSLProg_Init(GLSL_PROGRAM * Prog){
@@ -45,26 +45,26 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     MLoadIdentity( Prog->TransRotMatrix);
     Prog->Counter               = 0;
 
-    Prog->Init                  = (void (*)(void *, const char *, const char *))                _Init;
-    Prog->EnableProgram         = (void (*)(void*))                                             _EnableProgram;
-    Prog->DisableProgram        = (void (*)(void*))                                             _DisableProgram;
-    Prog->Release               = (void (*)(void*))                                             _Release;
-    Prog->GetProgram            = (GLuint (*)(void*))                                           _GetProgram;
+    Prog->Init                  = (void (*)(void *, const char *, const char *))           _Init;
+    Prog->EnableProgram         = (void (*)(void*))                                        _EnableProgram;
+    Prog->DisableProgram        = (void (*)(void*))                                        _DisableProgram;
+    Prog->Release               = (void (*)(void*))                                        _Release;
+    Prog->GetProgram            = (GLuint (*)(void*))                                      _GetProgram;
 
-    Prog->SetUniform3f          = (void (*)(void*, const char *, float, float, float))          _SetUniform3f;
-    Prog->SetUniform1f          = (void (*)(void*, const char *, float))                        _SetUniform1f;
-    Prog->SetUniform1i          = (void (*)(void*, const char *, int))                          _SetUniform1i;
+    Prog->SetUniform3f          = (void (*)(void*, const char *, float, float, float))     _SetUniform3f;
+    Prog->SetUniform1f          = (void (*)(void*, const char *, float))                   _SetUniform1f;
+    Prog->SetUniform1i          = (void (*)(void*, const char *, int))                     _SetUniform1i;
 
-    Prog->gMatrixRotation       = (void (*)(void*, float, float, float, float))                 _gMatrixRotation;
-    Prog->gMatrixTranslation    = (void (*)(void*, float, float, float))                        _gMatrixTranslation;
-    Prog->gPopMatrix            = (void (*)(void*, const char *))                               _gPopMatrix;
-    Prog->LoadTexture           = (void (*)(void*, const char *, const char *, int))            _LoadTexture;
-    Prog->EnableTexture         = (void (*)(void*, GLenum))                                     _EnableTexture;
-    Prog->DisableTexture        = (void (*)(void*))                                             _DisableTexture;
+    Prog->gMatrixRotation       = (void (*)(void*, float, float, float, float))            _gMatrixRotation;
+    Prog->gMatrixTranslation    = (void (*)(void*, float, float, float))                   _gMatrixTranslation;
+    Prog->gPopMatrix            = (void (*)(void*, const char *))                          _gPopMatrix;
+    Prog->LoadTexture           = (void (*)(void*, const char *, const char *, int))       _LoadTexture;
+    Prog->EnableTexture         = (void (*)(void*, GLenum))                                _EnableTexture;
+    Prog->DisableTexture        = (void (*)(void*))                                        _DisableTexture;
     Prog->gTexture              = 0;
 
-    Prog->shadercount           = 0;
-    Prog->uBufferObject         = (void (*)(void*, int, void *, const char *, GLenum, int))     _uBufferObject;
+    Prog->UBOcount              = 0;
+    Prog->uBufferObject         = (void (*)(void*, int, void *, const char *, GLenum))     _uBufferObject;
 }
 
 
@@ -97,7 +97,7 @@ void    _Release(GLSL_PROGRAM * Prog){
             glDeleteTextures(1, &Prog->gTexture);
         }
 
-        if( Prog->shadercount > 0){
+        if( Prog->UBOcount > 0){
             for(int i = 0; i < MAX_SHADER; i++){
                 if( Prog->bufferID[i] != 0){   glDeleteBuffers(1, &Prog->bufferID[i]);}
             }
@@ -224,10 +224,10 @@ void    _DisableTexture( GLSL_PROGRAM *){
 }
 
     
-void _uBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char * tagname, GLenum type, int layout) {
+void _uBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char * tagname, GLenum type) {
 
-    glGenBuffers( 1, &Prog->bufferID[Prog->shadercount]);
-    glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID[Prog->shadercount]);
+    glGenBuffers( 1, &Prog->bufferID[Prog->UBOcount]);
+    glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID[Prog->UBOcount]);
 
     glBufferData(GL_UNIFORM_BUFFER, size, dataArray, type);
     // glBufferSubData(GL_UNIFORM_BUFFER, 0, size, dataArray);
@@ -237,9 +237,11 @@ void _uBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char 
         return;
     }
 
-    glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, Prog->bufferID[Prog->shadercount]);
-    glUniformBlockBinding( Prog->GLSL_Prog[0], bindingPoint, layout);
+    glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, Prog->bufferID[Prog->UBOcount]);
+    glUniformBlockBinding( Prog->GLSL_Prog[0], bindingPoint, Prog->UBOcount);
+    // glUniformBlockBinding set to Prog->shadercount
+    // for Layout bindings
     // glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-    Prog->shadercount += 1;
+    Prog->UBOcount += 1;
 }

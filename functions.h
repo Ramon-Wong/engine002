@@ -89,8 +89,8 @@ typedef struct{
     void          (*DisableTexture)(void *);
 
     GLuint          bufferID[MAX_SHADER];
-    GLuint          shadercount;
-    void          (*uBufferObject)(void *, int, void *, const char *, GLenum, int);
+    GLuint          UBOcount;                       // set for Uniform Buffer Object count
+    void          (*uBufferObject)(void *, int, void *, const char *, GLenum);
 
 }GLSL_PROGRAM;
 
