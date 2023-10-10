@@ -3,8 +3,6 @@
 uniform mat4	uProjView;
 
 
-
-
 layout(packed) uniform Fontmap {
     float data[2048];
 }coord;
