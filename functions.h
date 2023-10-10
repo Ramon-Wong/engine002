@@ -90,7 +90,7 @@ typedef struct{
 
     GLuint          bufferID[MAX_SHADER];
     GLuint          shadercount;
-    void          (*uBufferObject)(void *, int, void *, const char *, GLenum);
+    void          (*uBufferObject)(void *, int, void *, const char *, GLenum, int);
 
 }GLSL_PROGRAM;
 

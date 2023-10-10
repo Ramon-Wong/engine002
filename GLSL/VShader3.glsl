@@ -23,8 +23,9 @@ vec2		texCoordArray[4];
 
 void main(){
     
-    int loc = (msg.data[12] + 12) * 8;
+    int loc = (msg.data[1]) * 8;
 
+    
     texCoordArray[0] = vec2( coord.data[loc+0], coord.data[loc+1]); 
     texCoordArray[1] = vec2( coord.data[loc+2], coord.data[loc+3]);
     texCoordArray[2] = vec2( coord.data[loc+4], coord.data[loc+5]);

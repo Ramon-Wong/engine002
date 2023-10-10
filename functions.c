@@ -129,8 +129,8 @@ void Main_Loop(void){
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");	
 	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", 0);											// Location 0 = gl_Texture0
 
-	Prog03.uBufferObject( &Prog03, sizeof(float[2048]), DataBlock, "Fontmap", GL_STATIC_DRAW);    
-	Prog03.uBufferObject( &Prog03, sizeof(int[32]), messageInt, "_Message", GL_DYNAMIC_DRAW);
+	Prog03.uBufferObject( &Prog03, sizeof(float[2048]), DataBlock, "Fontmap", GL_STATIC_DRAW, 0);    
+	Prog03.uBufferObject( &Prog03, sizeof(int[32]), messageInt, "_Message", GL_DYNAMIC_DRAW, 1);
 
 
 	while(!glfwWindowShouldClose(wnd)){
