@@ -119,9 +119,10 @@ void Main_Loop(void){
         }
     }
 
-	char message[] = "Hello Cruel World";
-
-
+	int messageInt[32];
+	for (int i = 0; i < 32; i++) {
+    	messageInt[i] = 32+i;
+	}
 
 	Prog01.Init( &Prog01, "GLSL/VShader1.glsl", "GLSL/FShader1.glsl");
 	Prog02.Init( &Prog02, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
@@ -129,7 +130,7 @@ void Main_Loop(void){
 	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", 0);											// Location 0 = gl_Texture0
 
 	Prog03.uBufferObject( &Prog03, sizeof(float[2048]), DataBlock, "Fontmap", GL_STATIC_DRAW);    
-	Prog03.uBufferObject( &Prog03, sizeof(message), message, "_MESSAGE", GL_DYNAMIC_DRAW);
+	Prog03.uBufferObject( &Prog03, sizeof(int[32]), messageInt, "_Message", GL_DYNAMIC_DRAW);
 
 
 	while(!glfwWindowShouldClose(wnd)){
