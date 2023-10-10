@@ -102,9 +102,6 @@ void    _Release(GLSL_PROGRAM * Prog){
                 if( Prog->bufferID[i] != 0){   glDeleteBuffers(1, &Prog->bufferID[i]);}
             }
         }
-
-
-
 	}
 }
 
