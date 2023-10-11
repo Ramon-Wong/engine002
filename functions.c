@@ -238,11 +238,11 @@ void Main_Loop(void){
 
 		Prog03.EnableProgram(&Prog03);
 
+		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
+
 		const char msg[] = "UPDATE! Game dev? EASY PEASY!";
 		StrtoArray( msg, messageInt, 64);
 		Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
-
-		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
 
 		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
 		Rect.RenderInstances(&Rect, 3.5f, 1.0f, 64);

@@ -2,6 +2,12 @@
 #define _OBJECT_H
 
 
+#define             RIGHT       0
+#define             LEFT        1
+#define             BOTTOM      2
+#define             TOP         3
+#define             BACK        4
+#define             FRONT       5
 
 
 #define             MAX_SHADER  5

@@ -11,15 +11,9 @@
 #include <math.h>
 
 #include "matrix.h"
+#include "objects.h"
 
-#define             RIGHT       0
-#define             LEFT        1
-#define             BOTTOM      2
-#define             TOP         3
-#define             BACK        4
-#define             FRONT       5
 
-#define             MAX_SHADER  5
 
 extern GLfloat      box_vertices[72];
 extern GLfloat      box_normals[72];
@@ -33,8 +27,6 @@ extern GLubyte      grid_indices[4];
 void				Init(void);
 void				Shutdown(int);
 void				Main_Loop(void);
-void				Draw_Square(void);
-void				Draw(void);
 
 char *				ReadFile(const char *);
 
@@ -48,9 +40,6 @@ void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfl
 
 void                setPlanes( float * ProjView);
 int                 PointinPlane( int, float *);
-
-void                Draw_Geometry( GLenum, GLuint, int size);
-
 
 
 void                Camera_Init(CAMERA *);
