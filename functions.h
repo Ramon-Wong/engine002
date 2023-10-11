@@ -126,4 +126,12 @@ void                Camera_Init(CAMERA *);
 void                GLSLProg_Init(GLSL_PROGRAM *);
 void                Rectangle_Init( RECTANGLE *, float, float, float, float);
 
+
+#define SUBSTRACT_VECTOR(result, Vec1, Vec2) do { \
+    result[0] = Vec2[0] - Vec1[0]; \
+    result[1] = Vec2[1] - Vec1[1]; \
+    result[2] = Vec2[2] - Vec1[2]; \
+} while(0)
+
+
 #endif

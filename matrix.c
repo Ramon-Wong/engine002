@@ -119,9 +119,7 @@ void CrossProduct(float * Result, float * Vec1, float * Vec2){
 void Normalize(float * Vec){
 	float Magnitude = sqrt(Vec[0] * Vec[0] + Vec[1] * Vec[1] + Vec[2] * Vec[2]);
 	
-	Vec[0] /= Magnitude;
-	Vec[1] /= Magnitude;
-	Vec[2] /= Magnitude;
+	Vec[0] /= Magnitude;	Vec[1] /= Magnitude;	Vec[2] /= Magnitude;
 }
 
 
