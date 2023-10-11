@@ -49,7 +49,6 @@ void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfl
 void                setPlanes( float * ProjView);
 int                 PointinPlane( int, float *);
 
-
 void                Draw_Geometry( GLenum, GLuint, int size);
 
 
@@ -91,6 +90,7 @@ typedef struct{
     GLuint          bufferID[MAX_SHADER];
     GLuint          UBOcount;                       // set for Uniform Buffer Object count
     void          (*uBufferObject)(void *, int, void *, const char *, GLenum);
+    void          (*ObjectUpdate)(void *, int , void *, int, int);
 
 }GLSL_PROGRAM;
 

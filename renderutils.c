@@ -38,7 +38,7 @@ void    _EnableTexture( GLSL_PROGRAM *, GLenum);
 void    _DisableTexture( GLSL_PROGRAM *);
 
 void    _uBufferObject( GLSL_PROGRAM *, int, void *, const char *, GLenum);
-
+void    _ObjectUpdate(GLSL_PROGRAM *, int, void *, int, int);
 
 void GLSLProg_Init(GLSL_PROGRAM * Prog){
 
@@ -65,6 +65,7 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
 
     Prog->UBOcount              = 0;
     Prog->uBufferObject         = (void (*)(void*, int, void *, const char *, GLenum))     _uBufferObject;
+    Prog->ObjectUpdate          = (void (*)(void*, int, void *, int, int))                 _ObjectUpdate;
 }
 
 
@@ -241,4 +242,11 @@ void _uBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char 
     // glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     Prog->UBOcount += 1;
+}
+
+
+void _ObjectUpdate(GLSL_PROGRAM *Prog, int index, void *data, int start, int size){
+    glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID[index]);
+    glBufferSubData(GL_UNIFORM_BUFFER, start, size, data);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }

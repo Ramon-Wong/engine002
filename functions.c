@@ -136,15 +136,8 @@ void Main_Loop(void){
 	const char msg[] = "Ahmad, Game dev? moeilijk no mpp!";
 	int messageInt[64];
 
-	// for (int i = 0; i < 64; i++) {
-    // 	messageInt[i] = 32+i;
-	// }
-
 	StrtoArray( msg, messageInt, 64);
 
-	for (int i = 0; i < 64; i++) {
-    	 printf("x%ix", messageInt[i]);
-	}
 
 
 
@@ -183,7 +176,7 @@ void Main_Loop(void){
 		}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+
 		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);							lock = 0;}
 		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			Camera.MoveCamera( &Camera, -0.001f);						lock = 0;}
 		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			Camera.MoveCamera( &Camera,  0.001f);						lock = 0;}
@@ -244,6 +237,11 @@ void Main_Loop(void){
 		Prog02.DisableProgram(&Prog02);
 
 		Prog03.EnableProgram(&Prog03);
+
+		const char msg[] = "UPDATE! Game dev? EASY PEASY!";
+		StrtoArray( msg, messageInt, 64);
+		Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
+
 		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
 
 		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
