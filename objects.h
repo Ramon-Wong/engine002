@@ -2,6 +2,8 @@
 #define _OBJECT_H
 
 
+
+
 #define             MAX_SHADER  5
 
 typedef struct{

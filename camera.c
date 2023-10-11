@@ -82,25 +82,10 @@ void	_oProjView( CAMERA * Cam, GLuint program, const char * tagname){
 }
 
 
-void	_SubstractVector( float * result, float * Vec1, float * Vec2){
-	result[0] = Vec2[0] - Vec1[0];
-	result[1] = Vec2[1] - Vec1[1];
-	result[2] = Vec2[2] - Vec1[2];
-}
-
-
-void	_AddVector( float * result, float * Vec1, float * Vec2){
-	result[0] = Vec2[0] + Vec1[0];
-	result[1] = Vec2[1] + Vec1[1];
-	result[2] = Vec2[2] + Vec1[2];
-}
-
-
 void	_MoveCamera( CAMERA * Cam, float spd){
 
 	float Direction[3];
 	SUBSTRACT_VECTOR(Direction, Cam->Cam[0], Cam->Cam[1]);
-	// _SubstractVector( Direction, Cam->Cam[0], Cam->Cam[1]);
 
 	Cam->Cam[0][0]	+= Direction[0] * spd;
 	Cam->Cam[0][2]	+= Direction[2] * spd;
@@ -114,7 +99,6 @@ void    _RotateCamera(  CAMERA * Cam, float angle, float x, float y, float z){
 	float nView[3];
 	float Direction[3];
 	SUBSTRACT_VECTOR(Direction, Cam->Cam[0], Cam->Cam[1]);
-	// _SubstractVector( Direction, Cam->Cam[0], Cam->Cam[1]);
 
 	float cosTheta = (float)cos(angle);
 	float sinTheta = (float)sin(angle);
@@ -131,7 +115,7 @@ void    _RotateCamera(  CAMERA * Cam, float angle, float x, float y, float z){
 	nView[2] 	+= ((1 - cosTheta) * y * z + x * sinTheta)	* Direction[1];
 	nView[2] 	+= (cosTheta + (1 - cosTheta) * z * z)		* Direction[2];
 
-	_AddVector( Cam->Cam[1], Cam->Cam[0], nView);
+	ADD_VECTOR( Cam->Cam[1], Cam->Cam[0], nView);
 }
 
 
@@ -154,7 +138,7 @@ void    _MouseCamera( CAMERA * Cam, float x, float y){
 void    _StrafeCamera(  CAMERA * Cam, float spd){
 	// StrafeCamera( Cam->Cam[0], Cam->Cam[1], spd);
 	float Direction[3];
-	_SubstractVector( Direction, Cam->Cam[0], Cam->Cam[1]);	
+	SUBSTRACT_VECTOR( Direction, Cam->Cam[0], Cam->Cam[1]);	
 
     float right[3];
     CrossProduct(right, Direction, Cam->Cam[2]);
