@@ -242,22 +242,20 @@ void Main_Loop(void){
 		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
 
 
-		const char msg[] = "UPDATE! Game dev? EASY PEASY! A+B+C+D+E+F+G+H+I+J+K ";
+		const char msg[] = "UPDATE! Game dev? EASY PEASY! \n A+B+C+D+E+F+G+H+I+J+K ";
 		StrtoArray( msg, messageInt, 64);
 		Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
-		Rect.RenderInstances(&Rect, 3.0f, 0.8f, 64);
+		Rect.RenderInstances(&Rect, 3.0f, 0.82f, 64);
 
-		const char zsg[] = "FOR SCIENCE!! ABCDEF!";
-		StrtoArray( zsg, messageInt, 64);
-		Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
-		Rect.RenderInstances(&Rect, 3.0f, 0.40f, 64);
+		// const char zsg[] = "FOR SCIENCE!! ABCDEF!";
+		// StrtoArray( zsg, messageInt, 64);
+		// Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
+		// Rect.RenderInstances(&Rect, 3.0f, 0.65f, 64);
 
-		const char tsg[] = "In between!";
-		StrtoArray( tsg, messageInt, 64);
-		Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
-		Rect.RenderInstances(&Rect, 3.0f, 0.6f, 64);
-
-
+		// const char tsg[] = "In between!";
+		// StrtoArray( tsg, messageInt, 64);
+		// Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
+		// Rect.RenderInstances(&Rect, 3.0f, 0.48f, 64);
 
 		Prog03.DisableTexture(&Prog03);
 		Prog03.DisableProgram(&Prog03);
