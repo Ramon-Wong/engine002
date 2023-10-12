@@ -23,7 +23,7 @@ void main(){
 
     int instanceID = int(gl_InstanceID);
 
-    if( msg.data[gl_InstanceID] >= 0){
+    if( msg.data[gl_InstanceID] > 0){
 
         int loc = (msg.data[gl_InstanceID]) * 8;
 
@@ -34,6 +34,6 @@ void main(){
 
         _texCoords = texCoordArray[gl_VertexID];
 
-	    gl_Position =  uProjView * vec4( iArray1.x - (instanceID * 0.15), iArray1.y, iArray1.z, 1.0 );
+	    gl_Position =  uProjView * vec4( iArray1.x - (instanceID * 0.15), iArray1.y +(instanceID * 0.0), iArray1.z, 1.0 );
     }
 }
