@@ -40,6 +40,8 @@ void    _DisableTexture( GLSL_PROGRAM *);
 void    _uBufferObject( GLSL_PROGRAM *, int, void *, const char *, GLenum);
 void    _ObjectUpdate(GLSL_PROGRAM *, int, void *, int, int);
 
+
+
 void GLSLProg_Init(GLSL_PROGRAM * Prog){
 
     MLoadIdentity( Prog->TransRotMatrix);
@@ -250,3 +252,28 @@ void _ObjectUpdate(GLSL_PROGRAM *Prog, int index, void *data, int start, int siz
     glBufferSubData(GL_UNIFORM_BUFFER, start, size, data);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
+
+
+
+void _BufferData0( GLenum tBuffer, GLenum tTarget, int size1, void * data1){
+    glBufferData( tBuffer, size1, NULL, tTarget);
+    glBufferSubData( tBuffer, 0, size1, data1);
+}
+
+
+void _BufferData1( GLenum tBuffer, GLenum tTarget, int size1, void * data1, int size2, void * data2){
+
+    glBufferData( tBuffer, size1 + size2, NULL, tTarget);
+    glBufferSubData( tBuffer, 0, size1, data1);
+    glBufferSubData( tBuffer, size1, size2, data2);
+}
+
+
+void _BufferData2( GLenum tBuffer, GLenum tTarget, int size1, void * data1, int size2, void * data2, int size3, void * data3){
+
+    glBufferData( tBuffer, size1 + size2 + size3, NULL, tTarget);
+    glBufferSubData( tBuffer, 0, size1, data1);
+    glBufferSubData( tBuffer, size1, size2, data2);
+    glBufferSubData( tBuffer, size2, size3, data3);
+}
+

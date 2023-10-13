@@ -149,11 +149,23 @@ void Main_Loop(void){
 	Prog03.uBufferObject( &Prog03, sizeof(float[2048]), DataBlock, "Fontmap", GL_STATIC_DRAW);    
 	Prog03.uBufferObject( &Prog03, sizeof(int[64]), messageInt, "_Message", GL_DYNAMIC_DRAW);
 
-
+	int Frame = 0;
+	int FPS;
 	while(!glfwWindowShouldClose(wnd)){
 
 		double current_time = glfwGetTime();
 		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
+
+		double dTime		= current_time - old_time;
+		Frame++;
+
+		if( dTime > 1.0){
+			FPS = Frame;
+			Frame = 0;
+			dTime = 0.0;
+			old_time = current_time;
+		}
+
 
 		rotate_z = 0.1 * delta_rotate;
  
@@ -242,20 +254,17 @@ void Main_Loop(void){
 		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
 
 
-		const char msg[] = "UPDATE! Game dev? EASY PEASY! \n A+B+C+D+E+F+G+H+I+J+K ";
+		// const char msg[] = "UPDATE! Game dev? EASY PEASY! A+B+C+D+E+F+G+H+I+J+K ";
 		StrtoArray( msg, messageInt, 64);
 		Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
 		Rect.RenderInstances(&Rect, 3.0f, 0.82f, 64);
 
-		// const char zsg[] = "FOR SCIENCE!! ABCDEF!";
-		// StrtoArray( zsg, messageInt, 64);
-		// Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
-		// Rect.RenderInstances(&Rect, 3.0f, 0.65f, 64);
+		char nsg[64];
+		sprintf( nsg, "Frame Per Second: %i", FPS);
+		StrtoArray( nsg, messageInt, 64);
+		Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
+		Rect.RenderInstances(&Rect, 3.0f, 2.4f, 64);
 
-		// const char tsg[] = "In between!";
-		// StrtoArray( tsg, messageInt, 64);
-		// Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
-		// Rect.RenderInstances(&Rect, 3.0f, 0.48f, 64);
 
 		Prog03.DisableTexture(&Prog03);
 		Prog03.DisableProgram(&Prog03);
