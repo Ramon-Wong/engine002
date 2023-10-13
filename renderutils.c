@@ -223,14 +223,18 @@ void    _DisableTexture( GLSL_PROGRAM *){
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+
+void _BufferData0( GLenum, GLenum, int, void *);
+
     
 void _uBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char * tagname, GLenum type) {
 
     glGenBuffers( 1, &Prog->bufferID[Prog->UBOcount]);
     glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID[Prog->UBOcount]);
 
-    glBufferData(GL_UNIFORM_BUFFER, size, dataArray, type);
+    // glBufferData(GL_UNIFORM_BUFFER, size, dataArray, type);
     // glBufferSubData(GL_UNIFORM_BUFFER, 0, size, dataArray);
+    _BufferData0( GL_UNIFORM_BUFFER, type, size, dataArray);
     GLuint bindingPoint = glGetUniformBlockIndex(Prog->GLSL_Prog[0], tagname);
     if (bindingPoint == GL_INVALID_INDEX) {
         printf("GL_UNIFORM_BUFFER: %s Invalid Index.\n", tagname);
