@@ -224,7 +224,6 @@ void    _DisableTexture( GLSL_PROGRAM *){
 }
 
 
-void _BufferData0( GLenum, GLenum, int, void *);
 
     
 void _uBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char * tagname, GLenum type) {
@@ -259,25 +258,5 @@ void _ObjectUpdate(GLSL_PROGRAM *Prog, int index, void *data, int start, int siz
 
 
 
-void _BufferData0( GLenum tBuffer, GLenum tTarget, int size1, void * data1){
-    glBufferData( tBuffer, size1, NULL, tTarget);
-    glBufferSubData( tBuffer, 0, size1, data1);
-}
 
-
-void _BufferData1( GLenum tBuffer, GLenum tTarget, int size1, void * data1, int size2, void * data2){
-
-    glBufferData( tBuffer, size1 + size2, NULL, tTarget);
-    glBufferSubData( tBuffer, 0, size1, data1);
-    glBufferSubData( tBuffer, size1, size2, data2);
-}
-
-
-void _BufferData2( GLenum tBuffer, GLenum tTarget, int size1, void * data1, int size2, void * data2, int size3, void * data3){
-
-    glBufferData( tBuffer, size1 + size2 + size3, NULL, tTarget);
-    glBufferSubData( tBuffer, 0, size1, data1);
-    glBufferSubData( tBuffer, size1, size2, data2);
-    glBufferSubData( tBuffer, size2, size3, data3);
-}
 
