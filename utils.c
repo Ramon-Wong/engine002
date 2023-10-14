@@ -206,7 +206,7 @@ void _BufferData2( GLenum tBuffer, GLenum tTarget,  int size1, void * data1,
 
 	//   // switch back to window-system-provided framebuffer
 	//   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-	// }
+	// } data3
 
 
 

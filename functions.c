@@ -90,14 +90,18 @@ void Main_Loop(void){
 	GLSL_PROGRAM		Prog01;			// Landscape
 	GLSL_PROGRAM		Prog02;			// Objects
 	GLSL_PROGRAM		Prog03;			// using Orthographics
+	GLSL_PROGRAM		Prog04;			// using FBO
 
 	RECTANGLE			Rect;
+	RECTANGLE			Rect_FBO;
 
 	Camera_Init(&Camera);
 	GLSLProg_Init(&Prog01);
 	GLSLProg_Init(&Prog02);
 	GLSLProg_Init(&Prog03);
+	GLSLProg_Init(&Prog04);
 	Rectangle_Init(&Rect, 0.075f, 0.075f, 2.5f, 1.0f);	
+	Rectangle_Init(&Rect_FBO, 1.0f, 1.0f, 3.0f, 2.0f);	
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f}; 
@@ -157,8 +161,11 @@ void Main_Loop(void){
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");	
 	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", 0);											// Location 0 = gl_Texture0
 
-	Prog03.uBufferObject( &Prog03, sizeof(float[2048]), DataBlock, "Fontmap", GL_STATIC_DRAW);    
+	Prog03.uBufferObject( &Prog03, sizeof(float[2048]), DataBlock, "Fontmap", GL_STATIC_DRAW);    			// this is setting the texcoord
 	Prog03.uBufferObject( &Prog03, sizeof(int[64]), messageInt, "_Message", GL_DYNAMIC_DRAW);
+
+	Prog04.Init( &Prog04, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
+	//Prog04.LoadTexture( &Prog04, "data/font.tga", "tSampler", 0);			???
 
 	int Frame = 0;
 	int FPS;
@@ -259,26 +266,53 @@ void Main_Loop(void){
 
 		Prog02.DisableProgram(&Prog02);
 
-		Prog03.EnableProgram(&Prog03);
+		// Prog03.EnableProgram(&Prog03);
 
-		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
-		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
+		// Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
+		// Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
 
 
-		// const char msg[] = "UPDATE! Game dev? EASY PEASY! A+B+C+D+E+F+G+H+I+J+K ";
-		StrtoArray( msg, messageInt, 64);
-		Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
+		// // const char msg[] = "UPDATE! Game dev? EASY PEASY! A+B+C+D+E+F+G+H+I+J+K ";
+		// StrtoArray( msg, messageInt, 64);
+		// Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
+		// Rect.RenderInstances(&Rect, 3.0f, 0.82f, 64);
+
+		// char nsg[64];
+		// sprintf( nsg, "Frame Per Second: %i", FPS);
+		// StrtoArray( nsg, messageInt, 64);
+		// Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
+		// Rect.RenderInstances(&Rect, 3.0f, 2.4f, 64);
+
+
+		// Prog03.DisableTexture(&Prog03);
+		// Prog03.DisableProgram(&Prog03);
+
+
+		Prog04.EnableProgram(&Prog04);
+
+		Camera.oProjView( &Camera, Prog04.GetProgram(&Prog04), "uProjView");	// need seperate camera system!
+		Prog04.EnableTexture(&Prog04, GL_TEXTURE0);
+
+
+		// // const char msg[] = "UPDATE! Game dev? EASY PEASY! A+B+C+D+E+F+G+H+I+J+K ";
+		// StrtoArray( msg, messageInt, 64);
+		// Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
+		glBindFramebuffer(GL_FRAMEBUFFER, *FBO_DepthMap[0]);
 		Rect.RenderInstances(&Rect, 3.0f, 0.82f, 64);
 
-		char nsg[64];
-		sprintf( nsg, "Frame Per Second: %i", FPS);
-		StrtoArray( nsg, messageInt, 64);
-		Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
-		Rect.RenderInstances(&Rect, 3.0f, 2.4f, 64);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		// char nsg[64];
+		// sprintf( nsg, "Frame Per Second: %i", FPS);
+		// StrtoArray( nsg, messageInt, 64);
+		// Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
+		Rect_FBO.Render(&Rect_FBO, 3.0f, 2.0f);
 
 
-		Prog03.DisableTexture(&Prog03);
-		Prog03.DisableProgram(&Prog03);
+		Prog04.DisableTexture(&Prog04);
+		Prog04.DisableProgram(&Prog04);
+
+
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
@@ -287,6 +321,7 @@ void Main_Loop(void){
 	Prog01.Release( &Prog01);
 	Prog02.Release( &Prog02);
 	Prog03.Release( &Prog03);
+	Prog04.Release( &Prog04);
 
 	glDeleteTextures(1, FBO_DepthMap[0]);
     glDeleteFramebuffers(1, FBO_DepthMap[1]);
@@ -297,4 +332,7 @@ void Main_Loop(void){
 	// clean stuff that is out of the loop.
 
 }
+
+
+
 

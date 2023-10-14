@@ -41,11 +41,9 @@ void                createDepthMapFBO(GLuint *, int, int, GLuint *);
 void                setPlanes( float * ProjView);
 int                 PointinPlane( int, float *);
 
-
 void                Camera_Init(CAMERA *);
 void                GLSLProg_Init(GLSL_PROGRAM *);
 void                Rectangle_Init( RECTANGLE *, float, float, float, float);
-
 
 
 
