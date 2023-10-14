@@ -91,6 +91,11 @@ typedef struct{
     void          (*EnableTexture)(void *, GLenum);
     void          (*DisableTexture)(void *);
 
+    void          (*CreateDepthMapFBO)(void*, int width, int height);
+    void          (*CreateColorMapFBO)(void*, int width, int height);
+    void          (*UseDepthMapFBO)(void*);
+    void          (*USeColorMapFBO)(void*);
+
 }GLSL_PROGRAM;
 
 

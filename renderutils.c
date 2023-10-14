@@ -37,6 +37,12 @@ void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, int);
 void    _EnableTexture( GLSL_PROGRAM *, GLenum);
 void    _DisableTexture( GLSL_PROGRAM *);
 
+void    _CreateDepthMapFBO(GLSL_PROGRAM *, int, int);
+void    _CreateColorMapFBO(GLSL_PROGRAM *, int, int);
+void    _UseDepthMapFBO(GLSL_PROGRAM *);
+void    _USeColorMapFBO(GLSL_PROGRAM *);
+
+
 
 void GLSLProg_Init(GLSL_PROGRAM * Prog){
 
@@ -207,3 +213,50 @@ void    _EnableTexture( GLSL_PROGRAM * Prog, GLenum location){
 void    _DisableTexture( GLSL_PROGRAM *){
     glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+
+void    _CreateDepthMapFBO(GLSL_PROGRAM * Prog, int width, int height){
+
+    glGenFramebuffers(1, &Prog->fBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, Prog->fBuffer);
+
+    glGenTextures(1, &Prog->gTexture);
+    glBindTexture(GL_TEXTURE_2D, Prog->gTexture);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);    
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, Prog->gTexture, 0);
+    // Check if the framebuffer is complete
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        printf("Error: Framebuffer is not complete.\n");
+    // Unbind the framebuffer
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+
+void    _CreateColorMapFBO(GLSL_PROGRAM * Prog, int width, int height){
+
+    glGenFramebuffers(1, &Prog->fBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, Prog->fBuffer);
+
+    glGenTextures(1, &Prog->gTexture);
+    glBindTexture(GL_TEXTURE_2D, Prog->gTexture);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Prog->gTexture, 0);
+    // Check if the framebuffer is complete
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        printf("Error: Framebuffer is not complete.\n");
+    // Unbind the framebuffer
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
