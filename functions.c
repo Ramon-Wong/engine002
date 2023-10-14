@@ -79,7 +79,7 @@ void Main_Loop(void){
 	GLSLProg_Init(&Prog01);
 	GLSLProg_Init(&Prog02);
 	GLSLProg_Init(&Prog03);
-	Rectangle_Init(&Rect, 1.0f, 2.0f, 1.0f);	
+	Rectangle_Init(&Rect, 1.5f, 1.60f, 0.8f);	
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f}; 
@@ -189,7 +189,7 @@ void Main_Loop(void){
 		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
 
 		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
-		Rect.Render(&Rect, 2.0f, 1.0f);
+		Rect.Render(&Rect, 1.7f, 1.0f);
 
 		Prog03.DisableTexture(&Prog03);
 		Prog03.DisableProgram(&Prog03);

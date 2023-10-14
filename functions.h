@@ -71,6 +71,7 @@ typedef struct{
     float           TransRotMatrix[16]; 
     int             Counter;
     GLuint          gTexture;
+    GLuint          fBuffer;
 
     void          (*Init)( void *, const char *, const char *);
     void          (*EnableProgram)( void *);
