@@ -212,21 +212,21 @@ void _BufferData2( GLenum tBuffer, GLenum tTarget,  int size1, void * data1,
 
 
 
-void createDepthMapFBO(GLuint *fbo, GLuint *depthMap, int width, int height){
+// void createDepthMapFBO(GLuint *fbo, GLuint *depthMap, int width, int height){
 
-    glGenFramebuffers(1, fbo);
-    glBindFramebuffer(GL_FRAMEBUFFER, *fbo);
+//     glGenFramebuffers(1, fbo);
+//     glBindFramebuffer(GL_FRAMEBUFFER, *fbo);
 
-    unsigned char * data = NULL;
-    CreateTexture(GL_TEXTURE_2D, depthMap, data, width, height, GL_DEPTH_COMPONENT);
+//     unsigned char * data = NULL;
+//     CreateTexture(GL_TEXTURE_2D, depthMap, data, width, height, GL_DEPTH_COMPONENT);
 
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, *depthMap, 0);
+//     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, *depthMap, 0);
 
-    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        printf("Error: Framebuffer is not complete.\n");
+//     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+//         printf("Error: Framebuffer is not complete.\n");
 
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
+//     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+// }
 
 
 

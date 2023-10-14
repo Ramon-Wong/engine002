@@ -110,6 +110,17 @@ void Main_Loop(void){
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
 
 
+	GLuint *	FBO_DepthMap[2];
+	for(int i = 0; i < 2; i++) {
+    	FBO_DepthMap[i] = (GLuint*)malloc(sizeof(GLuint));
+    	if (FBO_DepthMap[i] == NULL) {
+    		// Handle memory allocation error
+    	}
+	}
+
+	createDepthMapFBO( FBO_DepthMap[0], 800, 600, FBO_DepthMap[1]);
+
+
 	int lock		= 0;
 	float point[]	= { 0.0, 0.0, 0.0};
 
@@ -276,6 +287,13 @@ void Main_Loop(void){
 	Prog01.Release( &Prog01);
 	Prog02.Release( &Prog02);
 	Prog03.Release( &Prog03);
+
+	glDeleteTextures(1, FBO_DepthMap[0]);
+    glDeleteFramebuffers(1, FBO_DepthMap[1]);
+    
+	for (int i = 0; i < 2; i++) {
+    	free(FBO_DepthMap[i]);
+	}
 	// clean stuff that is out of the loop.
 
 }

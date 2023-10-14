@@ -36,6 +36,8 @@ void                SetupVAOSingle( GLuint *, GLuint *, GLuint *, GLfloat *, GLu
 void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
 void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei, GLsizei);
 
+void                createDepthMapFBO(GLuint *, int, int, GLuint *);
+
 void                setPlanes( float * ProjView);
 int                 PointinPlane( int, float *);
 
