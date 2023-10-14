@@ -297,11 +297,11 @@ void Main_Loop(void){
 		// // const char msg[] = "UPDATE! Game dev? EASY PEASY! A+B+C+D+E+F+G+H+I+J+K ";
 		// StrtoArray( msg, messageInt, 64);
 		// Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
-		glBindFramebuffer(GL_FRAMEBUFFER, *FBO_DepthMap[0]);
+		// glBindFramebuffer(GL_FRAMEBUFFER, *FBO_DepthMap[0]);
 		Rect.RenderInstances(&Rect, 3.0f, 0.82f, 64);
 
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		// glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		// char nsg[64];
 		// sprintf( nsg, "Frame Per Second: %i", FPS);
 		// StrtoArray( nsg, messageInt, 64);
