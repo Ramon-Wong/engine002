@@ -39,9 +39,8 @@ void    _DisableTexture( GLSL_PROGRAM *);
 
 void    _CreateDepthMapFBO(GLSL_PROGRAM *, int, int);
 void    _CreateColorMapFBO(GLSL_PROGRAM *, int, int);
-void    _UseDepthMapFBO(GLSL_PROGRAM *);
-void    _USeColorMapFBO(GLSL_PROGRAM *);
-
+void    _EnableBufferObj(void*);
+void    _DisableBufferObj(void*); 
 
 
 void GLSLProg_Init(GLSL_PROGRAM * Prog){
@@ -160,19 +159,7 @@ void    _gPopMatrix( GLSL_PROGRAM * Prog, const char * uniform){
 }
 
 
-void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
 
-	glGenTextures(1, texture);
-	glBindTexture( tTarget, *texture);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-}
 
 
 void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagname, int location){
@@ -212,6 +199,22 @@ void    _EnableTexture( GLSL_PROGRAM * Prog, GLenum location){
 
 void    _DisableTexture( GLSL_PROGRAM *){
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+
+
+void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
+
+	glGenTextures(1, texture);
+	glBindTexture( tTarget, *texture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 }
 
 
@@ -260,3 +263,12 @@ void    _CreateColorMapFBO(GLSL_PROGRAM * Prog, int width, int height){
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+
+void    _EnableBufferObj(void*){
+    glBindFramebuffer(GL_FRAMEBUFFER, Prog->fBuffer);
+}
+
+
+void    _DisableBufferObj(void*){
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}

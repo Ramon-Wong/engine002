@@ -93,8 +93,9 @@ typedef struct{
 
     void          (*CreateDepthMapFBO)(void*, int width, int height);
     void          (*CreateColorMapFBO)(void*, int width, int height);
-    void          (*UseDepthMapFBO)(void*);
-    void          (*USeColorMapFBO)(void*);
+    void          (*EnableBufferObj)(void*);
+    void          (*DisableBufferObj)(void*);
+
 
 }GLSL_PROGRAM;
 
