@@ -95,6 +95,7 @@ void Main_Loop(void){
 	Prog02.Init( &Prog02, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 	Prog03.LoadTexture( &Prog03, "data/skin2.tga", "tSampler", 0);											// Location 0 = gl_Texture0
+	// Prog03.CreateColorMapFBO( &Prog03, 800, 600);
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};
