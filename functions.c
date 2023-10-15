@@ -62,6 +62,7 @@ void Shutdown(int return_code){
 void Main_Loop(void){
 
 	ShaderSetup();
+	glEnable(GL_DEPTH_TEST);
 
 	GLFWwindow * wnd = glfwGetCurrentContext();
 
@@ -94,8 +95,9 @@ void Main_Loop(void){
 	Prog01.Init( &Prog01, "GLSL/VShader1.glsl", "GLSL/FShader1.glsl");
 	Prog02.Init( &Prog02, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
-	Prog03.LoadTexture( &Prog03, "data/skin2.tga", "tSampler", 0);											// Location 0 = gl_Texture0
+	// Prog03.LoadTexture( &Prog03, "data/skin2.tga", "tSampler", 0);											// Location 0 = gl_Texture0
 	// Prog03.CreateColorMapFBO( &Prog03, 800, 600);
+	Prog03.CreateDepthMapFBO( &Prog03, 800, 600);
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};
@@ -136,6 +138,7 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera.StrafeCamera( &Camera,  0.005f); 					lock = 0;}
 		Camera.Lookup(&Camera);
 		
+		Prog03.EnableBufferObj(&Prog03);				// Eh capture the whole screen?
 
 		Prog01.EnableProgram(&Prog01);
 		Prog01.SetUniform3f( &Prog01, "RGB", 		0.5f, 1.0f, 1.0f);
@@ -185,6 +188,7 @@ void Main_Loop(void){
 		glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
 
 		Prog02.DisableProgram(&Prog02);
+		Prog03.DisableBufferObj(&Prog03);
 
 		Prog03.EnableProgram(&Prog03);
 		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
@@ -194,6 +198,8 @@ void Main_Loop(void){
 
 		Prog03.DisableTexture(&Prog03);
 		Prog03.DisableProgram(&Prog03);
+
+		
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();

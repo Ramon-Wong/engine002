@@ -11,10 +11,10 @@ vec2		texCoordArray[4];
 
 void main(){
 
-    texCoordArray[0] = vec2(0.0, 0.0);
-    texCoordArray[1] = vec2(1.0, 0.0);
-    texCoordArray[2] = vec2(1.0, 1.0);
-    texCoordArray[3] = vec2(0.0, 1.0);
+    texCoordArray[0] = vec2(0.0, 1.0);
+    texCoordArray[1] = vec2(1.0, 1.0);
+    texCoordArray[2] = vec2(1.0, 0.0);
+    texCoordArray[3] = vec2(0.0, 0.0);
 
 	_texCoords = texCoordArray[gl_VertexID];
 

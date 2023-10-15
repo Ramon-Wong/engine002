@@ -270,6 +270,7 @@ void    _CreateColorMapFBO( GLSL_PROGRAM * Prog, int width, int height){
 
 void    _EnableBufferObj( GLSL_PROGRAM * Prog){
     glBindFramebuffer(GL_FRAMEBUFFER, Prog->fBuffer);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 
