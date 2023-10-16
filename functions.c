@@ -153,6 +153,28 @@ void Main_Loop(void){
 
 		Prog02.DisableProgram(&Prog02);
 
+
+
+		Prog02.EnableProgram(&Prog02);
+		Prog02.SetUniform3f( &Prog02, "RGB", 		0.5f, 1.0f, 1.0f);
+		Prog02.SetUniform1f( &Prog02, "PI",			PI);
+		Prog02.SetUniform1i( &Prog02, "Rotatez",	rotate_z);
+		Camera.uProjView( &Camera, Prog02.GetProgram(&Prog02), "uProjView");
+
+		glEnableClientState(GL_VERTEX_ARRAY);									// Enable Vertex Arrays
+		
+		Prog02.SetUniform3f( &Prog02, "RGB", 		1.0f, 1.0f, 1.0f);
+		Prog02.gMatrixTranslation( &Prog02, -3.0f, -0.5f, 0.0f);
+		Prog02.gPopMatrix( &Prog02, "ModelMatrix");
+
+		glVertexPointer(3, GL_FLOAT, 0, box_vertices);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, box_indices);
+		glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
+
+		Prog02.DisableProgram(&Prog02);
+
+
+
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
 		CheckGLError();

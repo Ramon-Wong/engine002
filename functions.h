@@ -96,7 +96,6 @@ typedef struct{
     void          (*EnableBufferObj)(void*);
     void          (*DisableBufferObj)(void*);
 
-
 }GLSL_PROGRAM;
 
 
