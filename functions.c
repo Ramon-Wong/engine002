@@ -162,9 +162,10 @@ void Main_Loop(void){
 	
 	Prog03.uBufferObject( &Prog03, sizeof(float[2048]), DataBlock, "Fontmap", GL_STATIC_DRAW);    			// this is setting the texcoord
 	Prog03.uBufferObject( &Prog03, sizeof(int[64]), messageInt, "_Message", GL_DYNAMIC_DRAW);
+	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", 0);											// Location 0 = gl_Texture0
 
 	Prog04.Init( &Prog04, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
-	Prog04.LoadTexture( &Prog04, "data/font.tga", "tSampler", 0);											// Location 0 = gl_Texture0
+	Prog04.LoadTexture( &Prog04, "data/font.tga", "tSampler", 1);											// Location 0 = gl_Texture0
 	//Prog04.LoadTexture( &Prog04, "data/font.tga", "tSampler", 0);			???
 
 	int Frame = 0;
@@ -266,26 +267,26 @@ void Main_Loop(void){
 
 		Prog02.DisableProgram(&Prog02);
 
-		// Prog03.EnableProgram(&Prog03);
+		Prog03.EnableProgram(&Prog03);
 
-		// Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
-		// Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
-
-
-		// // const char msg[] = "UPDATE! Game dev? EASY PEASY! A+B+C+D+E+F+G+H+I+J+K ";
-		// StrtoArray( msg, messageInt, 64);
-		// Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
-		// Rect.RenderInstances(&Rect, 3.0f, 0.82f, 64);
-
-		// char nsg[64];
-		// sprintf( nsg, "Frame Per Second: %i", FPS);
-		// StrtoArray( nsg, messageInt, 64);
-		// Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
-		// Rect.RenderInstances(&Rect, 3.0f, 2.4f, 64);
+		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
+		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
 
 
-		// Prog03.DisableTexture(&Prog03);
-		// Prog03.DisableProgram(&Prog03);
+		// const char msg[] = "UPDATE! Game dev? EASY PEASY! A+B+C+D+E+F+G+H+I+J+K ";
+		StrtoArray( msg, messageInt, 64);
+		Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
+		Rect.RenderInstances(&Rect, 3.0f, 0.82f, 64);
+
+		char nsg[64];
+		sprintf( nsg, "Frame Per Second: %i", FPS);
+		StrtoArray( nsg, messageInt, 64);
+		Prog03.ObjectUpdate(&Prog03, 1, messageInt, 0, sizeof(int[64]));
+		Rect.RenderInstances(&Rect, 3.0f, 2.4f, 64);
+
+
+		Prog03.DisableTexture(&Prog03);
+		Prog03.DisableProgram(&Prog03);
 
 
 		Prog04.EnableProgram(&Prog04);
