@@ -132,11 +132,15 @@ void Main_Loop(void){
 		Prog01.DisableProgram(&Prog01);
 
 		// Use Program 2
+		// *************************************'
+		// Scene!!
+		// *************************************'
 
 		Prog02.EnableProgram(&Prog02);											// Enable GLSL_Program 2
 		Prog02.SetUniform3f( &Prog02, "RGB", 		0.5f, 1.0f, 1.0f);
 		Prog02.SetUniform1f( &Prog02, "PI",			PI);
 		Prog02.SetUniform1i( &Prog02, "Rotatez",	rotate_z);
+		Prog02.EnableTexture(&Prog02, GL_TEXTURE0);
 		Camera.uProjView( &Camera, Prog02.GetProgram(&Prog02), "uProjView");
 
 		glEnableClientState(GL_VERTEX_ARRAY);									// Enable Vertex Arrays
@@ -154,9 +158,8 @@ void Main_Loop(void){
 		Prog02.DisableProgram(&Prog02);
 
 		Prog02.EnableProgram(&Prog02);											// Enable GLSL_Program 2
-		Prog02.SetUniform3f( &Prog02, "RGB", 		0.5f, 1.0f, 1.0f);
-		Prog02.SetUniform1f( &Prog02, "PI",			PI);
-		Prog02.SetUniform1i( &Prog02, "Rotatez",	rotate_z);
+		Prog02.gMatrixTranslation( &Prog02, 0.0f, -0.0f, 0.0f);
+		Prog02.gPopMatrix( &Prog02, "ModelMatrix");
 		Camera.uProjView( &Camera, Prog02.GetProgram(&Prog02), "uProjView");
 
 		glEnableClientState(GL_VERTEX_ARRAY);									// Enable Vertex Arrays
@@ -168,8 +171,14 @@ void Main_Loop(void){
 		glVertexPointer(3, GL_FLOAT, 0, vertices);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
 		glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
-		Prog02.DisableProgram(&Prog02); 										// disable Vertex Arrays
+		Prog02.DisableTexture(&Prog02);
+		Prog02.DisableProgram(&Prog02); 										// disable GLSL_Program 2
+		
 
+		// Use Program 2
+		// *************************************'
+		// End of Scene!!
+		// *************************************'
 
 
 		glfwSwapBuffers(wnd);
