@@ -6,7 +6,7 @@ float rotate_z = 0.0f;
 const float rotations_per_tick = 0.2f;
 
 
-GLfloat vertices[]	= {  1.1f, 1.1f, 0.0f,	-1.1f, 1.1f, 0.0f,	-1.1f,-1.1f, 0.0f,	1.1f,-1.1f, 0.0f};
+GLfloat vertices[]	= {  10.1f,-1.5f, 10.1f,	-10.1f,-1.5f, 10.1f,	-10.1f,-1.5f,-10.1f,	10.1f,-1.5f,-10.1f};
 GLfloat Colors[]	= {  1.0f, 1.0f, 1.0f,	 1.0f, 1.0f, 1.0f,	 1.0f, 1.0f, 1.0f,	1.0f, 1.0f, 1.0f};
 GLfloat TexCoords[]	= {  0.0f, 0.0f,	     0.0f, 0.0f,	     0.0f, 0.0f,		0.0f, 0.0f};
 
@@ -132,7 +132,7 @@ void Main_Loop(void){
 
 		// Use Program 2
 
-		Prog02.EnableProgram(&Prog02);
+		Prog02.EnableProgram(&Prog02);											// Enable GLSL_Program 2
 		Prog02.SetUniform3f( &Prog02, "RGB", 		0.5f, 1.0f, 1.0f);
 		Prog02.SetUniform1f( &Prog02, "PI",			PI);
 		Prog02.SetUniform1i( &Prog02, "Rotatez",	rotate_z);
@@ -150,12 +150,9 @@ void Main_Loop(void){
 		glVertexPointer(3, GL_FLOAT, 0, box_vertices);
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, box_indices);
 		glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
-
 		Prog02.DisableProgram(&Prog02);
 
-
-
-		Prog02.EnableProgram(&Prog02);
+		Prog02.EnableProgram(&Prog02);											// Enable GLSL_Program 2
 		Prog02.SetUniform3f( &Prog02, "RGB", 		0.5f, 1.0f, 1.0f);
 		Prog02.SetUniform1f( &Prog02, "PI",			PI);
 		Prog02.SetUniform1i( &Prog02, "Rotatez",	rotate_z);
@@ -164,14 +161,13 @@ void Main_Loop(void){
 		glEnableClientState(GL_VERTEX_ARRAY);									// Enable Vertex Arrays
 		
 		Prog02.SetUniform3f( &Prog02, "RGB", 		1.0f, 1.0f, 1.0f);
-		Prog02.gMatrixTranslation( &Prog02, -3.0f, -0.5f, 0.0f);
+		Prog02.gMatrixTranslation( &Prog02, 0.0f, -0.5f, 0.0f);
 		Prog02.gPopMatrix( &Prog02, "ModelMatrix");
 
-		glVertexPointer(3, GL_FLOAT, 0, box_vertices);
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, box_indices);
+		glVertexPointer(3, GL_FLOAT, 0, vertices);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
 		glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
-
-		Prog02.DisableProgram(&Prog02);
+		Prog02.DisableProgram(&Prog02); 										// disable Vertex Arrays
 
 
 
@@ -183,4 +179,5 @@ void Main_Loop(void){
 	Prog01.Release( &Prog01);
 	Prog02.Release( &Prog02);
 }
+
 
