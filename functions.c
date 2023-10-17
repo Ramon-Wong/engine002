@@ -74,6 +74,7 @@ void Main_Loop(void){
 
 	Prog01.Init( &Prog01, "GLSL/VShader1.glsl", "GLSL/FShader1.glsl");
 	Prog02.Init( &Prog02, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
+	Prog02.LoadTexture( &Prog02, "data/skin2.tga", "tSampler", 0);			// ???
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};
