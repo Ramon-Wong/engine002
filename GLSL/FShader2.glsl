@@ -7,17 +7,19 @@ in vec4 ShadowCoord;
 
 void main(){
 
-    float fDepth        = FragPos.z / FragPos.w;
-    float shadowDepth   = texture(tSampler, ShadowCoord.xy).r;
+    float fDepth        = FragPos.z / (FragPos.w * 50.0 );
 
-    shadowDepth = shadowDepth - 0.5;
+    vec2 nCoord         = ShadowCoord.xy;
+    float shadowDepth   = texture(tSampler, nCoord).r;
 
+    shadowDepth = shadowDepth;
 
     if (fDepth > shadowDepth) {
-        gl_FragColor = vec4( 0.0, 0.0, 0.0, 1.0);
+        gl_FragColor = vec4( 0.1, 0.1, 0.1, 1.0);
     } else {
         gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0);
     }    
 
+    
     // gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0);
 }

@@ -9,6 +9,7 @@ void    _SetCamera( CAMERA *, float *, float *, float *);
 void    _Lookup( CAMERA *);
 void    _uProjView( CAMERA *, GLuint, const char *);
 void    _oProjView( CAMERA *, GLuint, const char *);
+void    _iProjView( CAMERA *, GLuint, const char *);
 void	_MoveCamera( CAMERA *, float spd);
 void    _MouseCamera( CAMERA *, float, float);
 void    _RotateCamera(  CAMERA *, float, float, float, float);

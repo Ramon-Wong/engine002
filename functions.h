@@ -107,7 +107,7 @@ typedef struct{
 #define FRONT   5
 
 typedef struct{
-    float           Cam[3][3];                      // Camera Pose/View/Upvx
+    float           Cam[3][3];                      // Camera Pose/View/Upvx/ new *reverse*
     float           MouseCoord[2];                  // Mouse Coords
     GLfloat         Proj_Matrix[16];                // frustum matrix
     GLfloat         View_Matrix[16];                // Camera matrix
