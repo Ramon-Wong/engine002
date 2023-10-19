@@ -62,12 +62,13 @@ void Main_Loop(void){
 	GLSLProg_Init(&Prog02);
 	Rectangle_Init(&Rect, 1.5f, 1.60f, 0.8f);	
 
-	float Pose[] = {  0.0f,  0.0f, 13.0f};
-	float View[] = {  0.0f,  0.5f,  9.0f}; 
+	float aspect_ratio = ((float)600) / 800;
+	float Z = 20.0f;
+
+	float Pose[] = {  0.0f,  0.0f,  6.0f + Z};
+	float View[] = {  0.0f,  0.5f,  9.0f + Z}; 
 	float Upvx[] = {  0.0f,  1.0f,  0.0f};
 	
-	float aspect_ratio = ((float)600) / 800;
-
 	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.25f, 100.0f);	// NEW SHIT
 	Camera.SetOrthoGraphic( &Camera, 3.5f, -3.5f, -3.5f * aspect_ratio, 3.5f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
@@ -106,31 +107,31 @@ void Main_Loop(void){
 		
 		// Prog03.EnableBufferObj(&Prog03);				// Eh capture the whole screen?
 
-		Prog01.EnableProgram(&Prog01);
-		Prog01.SetUniform3f( &Prog01, "RGB", 		0.5f, 1.0f, 1.0f);
-		Prog01.SetUniform1f( &Prog01, "PI",			PI);
-		Prog01.SetUniform1i( &Prog01, "Rotatez",	rotate_z);
+		// Prog01.EnableProgram(&Prog01);
+		// Prog01.SetUniform3f( &Prog01, "RGB", 		0.5f, 1.0f, 1.0f);
+		// Prog01.SetUniform1f( &Prog01, "PI",			PI);
+		// Prog01.SetUniform1i( &Prog01, "Rotatez",	rotate_z);
 
-		Camera.uProjView(&Camera, Prog01.GetProgram(&Prog01), "uProjView");
+		// Camera.uProjView(&Camera, Prog01.GetProgram(&Prog01), "uProjView");
 
-		Prog01.gPopMatrix( &Prog01, "ModelMatrix");
+		// Prog01.gPopMatrix( &Prog01, "ModelMatrix");
 
-		glEnableClientState(GL_VERTEX_ARRAY);
-		for(int i = 0; i < 21; i++){
+		// glEnableClientState(GL_VERTEX_ARRAY);
+		// for(int i = 0; i < 21; i++){
 
-			CS_DrawLine( -10.0f, -2.0f, (10.0f - i) + 25.0f,	 10.0f, -2.0f, (10.0f - i) + 25.0f);
-			CS_DrawLine( -10.0f + i, -2.0f,-10.0f + 25.0f, 	-10.0f + i, -2.0f, 10.0f + 25.0f);
+		// 	CS_DrawLine( -10.0f, -2.0f, (10.0f - i) + Z,	 10.0f, -2.0f, (10.0f - i) + Z);
+		// 	CS_DrawLine( -10.0f + i, -2.0f,-10.0f + Z, 		-10.0f + i, -2.0f, 10.0f + Z);
 
-			CS_DrawLine( -10.0f + i, -2.0f,-10.0f + 25.0f,	-10.0f + i, 9.0f,-10.0f  + 25.0f);
-			CS_DrawLine( -10.0f, -2.0f, (10.0f - i) + 25.0f,	-10.0f, 9.0f, 10.0f - i  + 25.0f);
-			if( i < 11){
-				CS_DrawLine( -10.0f, -1.0f + i,-10.0f + 25.0f,	 10.0f, -1.0f + i,-10.0f  + 25.0f);
-				CS_DrawLine( -10.0f, -1.0f + i,-10.0f + 25.0f,	-10.0f, -1.0f + i, 10.0f  + 25.0f);
-			}
-		}
+		// 	CS_DrawLine( -10.0f + i, -2.0f,-10.0f + Z,		-10.0f + i, 9.0f,-10.0f  + Z);
+		// 	CS_DrawLine( -10.0f, -2.0f, (10.0f - i) + Z,	-10.0f, 9.0f, 10.0f - i  + Z);
+		// 	if( i < 11){
+		// 		CS_DrawLine( -10.0f, -1.0f + i,-10.0f + Z,	 10.0f, -1.0f + i,-10.0f  + Z);
+		// 		CS_DrawLine( -10.0f, -1.0f + i,-10.0f + Z,	-10.0f, -1.0f + i, 10.0f  + Z);
+		// 	}
+		// }
 
-		glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
-		Prog01.DisableProgram(&Prog01);
+		// glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
+		// Prog01.DisableProgram(&Prog01);
 
 		// Use Program 2
 		// *************************************'
@@ -146,7 +147,7 @@ void Main_Loop(void){
 		glEnableClientState(GL_VERTEX_ARRAY);									// Enable Vertex Arrays
 		
 		Prog02.SetUniform3f( &Prog02, "RGB", 		1.0f, 1.0f, 1.0f);
-		Prog02.gMatrixTranslation( &Prog02, 0.0f, -0.5f, 25.0f);
+		Prog02.gMatrixTranslation( &Prog02, 0.0f, -0.5f, Z);
 		Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0f, 0.0f, 1.0f);
 		Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0f, 1.0f, 0.0f);
 		Prog02.gMatrixRotation( &Prog02, rotate_z, 1.0f, 0.0f, 0.0f);
@@ -158,14 +159,14 @@ void Main_Loop(void){
 		Prog02.DisableProgram(&Prog02);
 
 		Prog02.EnableProgram(&Prog02);											// Enable GLSL_Program 2
-		Prog02.gMatrixTranslation( &Prog02, 0.0f, -0.0f, 25.0f);
+		Prog02.gMatrixTranslation( &Prog02, 0.0f, -0.0f, Z);
 		Prog02.gPopMatrix( &Prog02, "ModelMatrix");
 		Camera.uProjView( &Camera, Prog02.GetProgram(&Prog02), "uProjView");
 
 		glEnableClientState(GL_VERTEX_ARRAY);									// Enable Vertex Arrays
 		
 		Prog02.SetUniform3f( &Prog02, "RGB", 		1.0f, 1.0f, 1.0f);
-		Prog02.gMatrixTranslation( &Prog02, 0.0f, -0.5f, 25.0f);
+		Prog02.gMatrixTranslation( &Prog02, 0.0f, -0.5f, Z);
 		Prog02.gPopMatrix( &Prog02, "ModelMatrix");
 
 		glVertexPointer(3, GL_FLOAT, 0, vertices);
