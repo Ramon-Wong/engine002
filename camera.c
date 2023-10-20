@@ -26,7 +26,7 @@ void Camera_Init(CAMERA * Cam){
 	MLoadIdentity(Cam->Proj_Matrix);
 	MLoadIdentity(Cam->View_Matrix);
 	MLoadIdentity(Cam->Orth_Matrix);
-	MLoadIdentity(Cam->Temp_Matrix);
+	MLoadIdentity(Cam->static_Matrix);
 	MLoadIdentity(Cam->Orth_View);
  	MLoadIdentity(Cam->Proj_View);
 
@@ -59,7 +59,7 @@ void    _SetCamera( CAMERA * Cam, float * pose, float * view, float * upvx){
 	memcpy( Cam->Cam[1], view, sizeof(float[3]));
 	memcpy( Cam->Cam[2], upvx, sizeof(float[3]));
 
-	LookAtM( Cam->Temp_Matrix, Cam->Cam[0], Cam->Cam[1], Cam->Cam[2]);
+	LookAtM( Cam->static_Matrix, Cam->Cam[0], Cam->Cam[1], Cam->Cam[2]);
 }
 
 
@@ -77,7 +77,7 @@ void	_uProjView( CAMERA * Cam, GLuint program, const char * tagname){
 
 
 void	_oProjView( CAMERA * Cam, GLuint program, const char * tagname){
-	MMultiply( Cam->Proj_View, Cam->Orth_Matrix, Cam->Temp_Matrix);	
+	MMultiply( Cam->Proj_View, Cam->Orth_Matrix, Cam->static_Matrix);	
 	glUniformMatrix4fv( glGetUniformLocation( program, tagname), 1, GL_FALSE, Cam->Proj_View);
 }
 

@@ -49,7 +49,7 @@ typedef struct{
     float           MouseCoord[2];                  // Mouse Coords
     GLfloat         Proj_Matrix[16];                // frustum matrix
     GLfloat         View_Matrix[16];                // Camera matrix
-    GLfloat         Temp_Matrix[16];                // Temp Camera matrix
+    GLfloat         static_Matrix[16];              // static camera fix to the screen
     GLfloat         Orth_Matrix[16];                // Ortho 2D view
     GLfloat         Proj_View[16];                  // Projection * Camera VIew
     GLfloat         Orth_View[16];                  // Ortho * Camera VIew
