@@ -154,7 +154,7 @@ void Main_Loop(void){
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 	// Prog03.LoadTexture( &Prog03, "data/skin2.tga", "tSampler", 0);											// Location 0 = gl_Texture0
 	// Prog03.CreateColorMapFBO( &Prog03, 800, 600);
-	Prog03.CreateDepthMapFBO( &Prog03, 800, 600);
+	// Prog03.CreateDepthMapFBO( &Prog03, 800, 600);
 	fb_Obj.CreateDepthMapFBO( &fb_Obj, 800, 600);
 
 	int lock = 0;
@@ -182,7 +182,7 @@ void Main_Loop(void){
 			// printf( "\n Point in Bottom Plane: %i",	Camera.PointinPlane( &Camera, BOTTOM,	point));
 			// printf( "\n Total Value: %i", v );
 			// printf("\n");
-			lock = 1; 
+			lock = 1;  
 		}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
