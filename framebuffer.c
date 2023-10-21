@@ -5,6 +5,7 @@ void    __CreateDepthMapFBO( FRAMEBUFFER_OBJECT *, int, int);
 void    __CreateColorMapFBO( FRAMEBUFFER_OBJECT *, int, int);
 void    __EnableBufferObj( FRAMEBUFFER_OBJECT *);
 void    __DisableBufferObj( FRAMEBUFFER_OBJECT *); 
+void    __BindTexture( FRAMEBUFFER_OBJECT *, GLenum); 
 void    __Release( FRAMEBUFFER_OBJECT *); 
 
 
@@ -16,6 +17,8 @@ void                FrameBuffer_Init(FRAMEBUFFER_OBJECT * FB_OBJ){
 
     FB_OBJ->EnableBufferObj         = (void (*)(void*))                     __EnableBufferObj;
     FB_OBJ->DisableBufferObj        = (void (*)(void*))                     __DisableBufferObj;
+    FB_OBJ->BindTextute             = (void (*)(void*))                     __BindTexture;
+
     FB_OBJ->Release                 = (void (*)(void*))                     __Release;
 }
 
@@ -73,6 +76,12 @@ void    __EnableBufferObj( FRAMEBUFFER_OBJECT * FB_OBJ){
 
 void    __DisableBufferObj( FRAMEBUFFER_OBJECT * FB_OBJ){
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+
+void    __BindTexture( FRAMEBUFFER_OBJECT * FB_OBJ, GLenum location){
+  	glActiveTexture( location);
+    glBindTexture(GL_TEXTURE_2D, FB_OBJ->gTexture);
 }
 
 

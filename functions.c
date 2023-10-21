@@ -26,6 +26,7 @@ GLSL_PROGRAM		Prog03;			// using Orthographics
 
 RECTANGLE			Rect;
 
+FRAMEBUFFER_OBJECT	fb_Obj;
 
 
 void Draw_Object( GLuint, int);
@@ -136,6 +137,7 @@ void Main_Loop(void){
 	GLSLProg_Init(&Prog02);
 	GLSLProg_Init(&Prog03);
 	Rectangle_Init(&Rect, 1.5f, 1.60f, 0.8f);	
+	FrameBuffer_Init(&fb_Obj);
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f}; 
@@ -153,6 +155,7 @@ void Main_Loop(void){
 	// Prog03.LoadTexture( &Prog03, "data/skin2.tga", "tSampler", 0);											// Location 0 = gl_Texture0
 	// Prog03.CreateColorMapFBO( &Prog03, 800, 600);
 	Prog03.CreateDepthMapFBO( &Prog03, 800, 600);
+	fb_Obj.CreateDepthMapFBO( &fb_Obj, 800, 600);
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};
@@ -219,5 +222,6 @@ void Main_Loop(void){
 	Prog01.Release( &Prog01);
 	Prog02.Release( &Prog02);
 	Prog03.Release( &Prog03);
+	fb_Obj.Release(&fb_Obj);
 }
 

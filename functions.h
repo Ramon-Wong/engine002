@@ -109,6 +109,9 @@ typedef struct{
 
     void          (*EnableBufferObj)(void*);
     void          (*DisableBufferObj)(void*);
+
+    void          (*BindTexture)(void*, GLenum);
+
     void          (*Release)(void*);
 }FRAMEBUFFER_OBJECT;
 
