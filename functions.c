@@ -18,6 +18,15 @@ GLuint VAO[3];
 GLuint VBO[3];
 GLuint VCO[3];
 
+CAMERA				Camera;
+
+GLSL_PROGRAM		Prog01;			// Landscape
+GLSL_PROGRAM		Prog02;			// Objects
+GLSL_PROGRAM		Prog03;			// using Orthographics
+
+RECTANGLE			Rect;
+
+
 
 void Draw_Object( GLuint, int);
 
@@ -37,6 +46,59 @@ void CS_DrawLine( GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GLfloat y2, GL
 
 	glVertexPointer(3, GL_FLOAT, 0, Lines);
 	glDrawElements(GL_LINES, 2, GL_UNSIGNED_BYTE, index);
+}
+
+
+
+void Scene(){
+
+	Prog01.EnableProgram(&Prog01);
+	Prog01.SetUniform3f( &Prog01, "RGB", 		0.5f, 1.0f, 1.0f);
+	Prog01.SetUniform1f( &Prog01, "PI",			PI);
+	Prog01.SetUniform1i( &Prog01, "Rotatez",	rotate_z);
+
+	Camera.uProjView(&Camera, Prog01.GetProgram(&Prog01), "uProjView");
+
+	Prog01.gPopMatrix( &Prog01, "ModelMatrix");
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	for(int i = 0; i < 21; i++){
+
+		CS_DrawLine( -10.0f, -2.0f, 10.0f - i,	 10.0f, -2.0f, 10.0f - i);
+		CS_DrawLine( -10.0f + i, -2.0f,-10.0f, 	-10.0f + i, -2.0f, 10.0f);
+
+		CS_DrawLine( -10.0f + i, -2.0f,-10.0f,	-10.0f + i, 9.0f,-10.0f);
+		CS_DrawLine( -10.0f, -2.0f, 10.0f - i,	-10.0f, 9.0f, 10.0f - i);
+		if( i < 11){
+			CS_DrawLine( -10.0f, -1.0f + i,-10.0f,	 10.0f, -1.0f + i,-10.0f);
+			CS_DrawLine( -10.0f, -1.0f + i,-10.0f,	-10.0f, -1.0f + i, 10.0f);
+		}
+	}
+
+	glDisableClientState(GL_VERTEX_ARRAY); 									// disable vertex arrays
+	Prog01.DisableProgram(&Prog01);
+																			// Use Program 2
+	Prog02.EnableProgram(&Prog02);
+	Prog02.SetUniform3f( &Prog02, "RGB", 		0.5f, 1.0f, 1.0f);
+	Prog02.SetUniform1f( &Prog02, "PI",			PI);
+	Prog02.SetUniform1i( &Prog02, "Rotatez",	rotate_z);
+	Camera.uProjView( &Camera, Prog02.GetProgram(&Prog02), "uProjView");
+
+	glEnableClientState(GL_VERTEX_ARRAY);									// Enable Vertex Arrays
+		
+	Prog02.SetUniform3f( &Prog02, "RGB", 		1.0f, 1.0f, 1.0f);
+	Prog02.gMatrixTranslation( &Prog02, 0.0, 0.0, 0.0);
+	Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 0.0, 1.0);
+	Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 1.0, 0.0);
+	Prog02.gMatrixRotation( &Prog02, rotate_z, 1.0, 0.0, 0.0);
+	Prog02.gPopMatrix( &Prog02, "ModelMatrix");
+
+	glVertexPointer(3, GL_FLOAT, 0, box_vertices);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, box_indices);
+	glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
+																			// End Program 2
+	Prog02.DisableProgram(&Prog02);
+
 }
 
 
@@ -68,13 +130,6 @@ void Main_Loop(void){
 
 	double old_time = glfwGetTime();
 
-	CAMERA				Camera;
-
-	GLSL_PROGRAM		Prog01;			// Landscape
-	GLSL_PROGRAM		Prog02;			// Objects
-	GLSL_PROGRAM		Prog03;			// using Orthographics
-
-	RECTANGLE			Rect;
 
 	Camera_Init(&Camera);
 	GLSLProg_Init(&Prog01);
@@ -124,7 +179,7 @@ void Main_Loop(void){
 			// printf( "\n Point in Bottom Plane: %i",	Camera.PointinPlane( &Camera, BOTTOM,	point));
 			// printf( "\n Total Value: %i", v );
 			// printf("\n");
-			lock = 1;
+			lock = 1; 
 		}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -138,57 +193,11 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera.StrafeCamera( &Camera,  0.005f); 					lock = 0;}
 		Camera.Lookup(&Camera);
 		
-		Prog03.EnableBufferObj(&Prog03);				// Eh capture the whole screen?
+		Prog03.EnableBufferObj(&Prog03);										// Eh capture the whole screen?
 
-		Prog01.EnableProgram(&Prog01);
-		Prog01.SetUniform3f( &Prog01, "RGB", 		0.5f, 1.0f, 1.0f);
-		Prog01.SetUniform1f( &Prog01, "PI",			PI);
-		Prog01.SetUniform1i( &Prog01, "Rotatez",	rotate_z);
+		Scene();
 
-		Camera.uProjView(&Camera, Prog01.GetProgram(&Prog01), "uProjView");
-
-		Prog01.gPopMatrix( &Prog01, "ModelMatrix");
-
-		glEnableClientState(GL_VERTEX_ARRAY);
-		for(int i = 0; i < 21; i++){
-
-			CS_DrawLine( -10.0f, -2.0f, 10.0f - i,	 10.0f, -2.0f, 10.0f - i);
-			CS_DrawLine( -10.0f + i, -2.0f,-10.0f, 	-10.0f + i, -2.0f, 10.0f);
-
-			CS_DrawLine( -10.0f + i, -2.0f,-10.0f,	-10.0f + i, 9.0f,-10.0f);
-			CS_DrawLine( -10.0f, -2.0f, 10.0f - i,	-10.0f, 9.0f, 10.0f - i);
-			if( i < 11){
-				CS_DrawLine( -10.0f, -1.0f + i,-10.0f,	 10.0f, -1.0f + i,-10.0f);
-				CS_DrawLine( -10.0f, -1.0f + i,-10.0f,	-10.0f, -1.0f + i, 10.0f);
-			}
-		}
-
-		glDisableClientState(GL_VERTEX_ARRAY); // disable vertex arrays
-		Prog01.DisableProgram(&Prog01);
-
-		// Use Program 2
-
-		Prog02.EnableProgram(&Prog02);
-		Prog02.SetUniform3f( &Prog02, "RGB", 		0.5f, 1.0f, 1.0f);
-		Prog02.SetUniform1f( &Prog02, "PI",			PI);
-		Prog02.SetUniform1i( &Prog02, "Rotatez",	rotate_z);
-		Camera.uProjView( &Camera, Prog02.GetProgram(&Prog02), "uProjView");
-
-		glEnableClientState(GL_VERTEX_ARRAY);									// Enable Vertex Arrays
-		
-		Prog02.SetUniform3f( &Prog02, "RGB", 		1.0f, 1.0f, 1.0f);
-		Prog02.gMatrixTranslation( &Prog02, 0.0, 0.0, 0.0);
-		Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 0.0, 1.0);
-		Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 1.0, 0.0);
-		Prog02.gMatrixRotation( &Prog02, rotate_z, 1.0, 0.0, 0.0);
-		Prog02.gPopMatrix( &Prog02, "ModelMatrix");
-
-		glVertexPointer(3, GL_FLOAT, 0, box_vertices);
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, box_indices);
-		glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
-
-		Prog02.DisableProgram(&Prog02);
-		Prog03.DisableBufferObj(&Prog03);
+		Prog03.DisableBufferObj(&Prog03);										// Disable capture the whole screen
 
 		Prog03.EnableProgram(&Prog03);
 		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
@@ -199,7 +208,7 @@ void Main_Loop(void){
 		Prog03.DisableTexture(&Prog03);
 		Prog03.DisableProgram(&Prog03);
 
-		
+		Scene();				
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();

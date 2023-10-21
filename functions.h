@@ -100,6 +100,9 @@ typedef struct{
 }GLSL_PROGRAM;
 
 
+
+
+
 #define RIGHT   0
 #define LEFT    1
 #define BOTTOM  2

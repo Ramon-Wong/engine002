@@ -224,7 +224,7 @@ void    _CreateDepthMapFBO( GLSL_PROGRAM * Prog, int width, int height){
     glGenFramebuffers(1, &Prog->fBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, Prog->fBuffer);
 
-    _CreateXTexture( &Prog->gTexture, NULL, 800, 600, GL_DEPTH_COMPONENT, GL_FLOAT);
+    _CreateXTexture( &Prog->gTexture, NULL, width, height, GL_DEPTH_COMPONENT, GL_FLOAT);
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, Prog->gTexture, 0);
     // Check if the framebuffer is complete
@@ -240,7 +240,7 @@ void    _CreateColorMapFBO( GLSL_PROGRAM * Prog, int width, int height){
     glGenFramebuffers(1, &Prog->fBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, Prog->fBuffer);
 
-    _CreateXTexture( &Prog->gTexture, NULL, 800, 600, GL_RGBA, GL_UNSIGNED_BYTE);
+    _CreateXTexture( &Prog->gTexture, NULL, width, height, GL_RGBA, GL_UNSIGNED_BYTE);
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Prog->gTexture, 0);
     // Check if the framebuffer is complete
