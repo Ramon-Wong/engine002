@@ -100,7 +100,7 @@ typedef struct{
 }GLSL_PROGRAM;
 
 
-typedef_struct{
+typedef struct{
     GLuint          gTexture;
     GLuint          fBuffer;
 
@@ -149,5 +149,6 @@ typedef struct{
 
 void                Camera_Init(CAMERA *);
 void                GLSLProg_Init(GLSL_PROGRAM *);
+void                FrameBuffer_Init(FRAMEBUFFER_OBJECT*);
 
 #endif
