@@ -17,7 +17,7 @@ void                FrameBuffer_Init(FRAMEBUFFER_OBJECT * FB_OBJ){
 
     FB_OBJ->EnableBufferObj         = (void (*)(void*))                     __EnableBufferObj;
     FB_OBJ->DisableBufferObj        = (void (*)(void*))                     __DisableBufferObj;
-    FB_OBJ->BindTextute             = (void (*)(void*))                     __BindTexture;
+    FB_OBJ->BindTexture             = (void (*)(void*, GLenum))             __BindTexture;
 
     FB_OBJ->Release                 = (void (*)(void*))                     __Release;
 }

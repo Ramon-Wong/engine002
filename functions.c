@@ -195,20 +195,25 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			Camera.StrafeCamera( &Camera, -0.005f);						lock = 0;}
 		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera.StrafeCamera( &Camera,  0.005f); 					lock = 0;}
 		Camera.Lookup(&Camera);
-		
-		Prog03.EnableBufferObj(&Prog03);										// Eh capture the whole screen?
+		 
+		// Prog03.EnableBufferObj(&Prog03);										// Eh capture the whole screen?
+		fb_Obj.EnableBufferObj(&fb_Obj);
 
 		Scene();
 
-		Prog03.DisableBufferObj(&Prog03);										// Disable capture the whole screen
+		fb_Obj.DisableBufferObj(&fb_Obj);
+		// Prog03.DisableBufferObj(&Prog03);										// Disable capture the whole screen
 
 		Prog03.EnableProgram(&Prog03);
 		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
 
-		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
+		// Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
+		fb_Obj.BindTexture(&fb_Obj, GL_TEXTURE0);
 		Rect.Render(&Rect, 1.7f, 1.0f);
+		
+		glBindTexture(GL_TEXTURE_2D, 0);
 
-		Prog03.DisableTexture(&Prog03);
+		// Prog03.DisableTexture(&Prog03);
 		Prog03.DisableProgram(&Prog03);
 
 		Scene();				
