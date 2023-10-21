@@ -109,6 +109,7 @@ typedef_struct{
 
     void          (*EnableBufferObj)(void*);
     void          (*DisableBufferObj)(void*);
+    void          (*Release)(void*);
 }FRAMEBUFFER_OBJECT;
 
 
