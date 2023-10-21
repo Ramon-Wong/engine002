@@ -91,8 +91,8 @@ typedef struct{
     void          (*EnableTexture)(void *, GLenum);
     void          (*DisableTexture)(void *);
 
-    void          (*CreateDepthMapFBO)(void*, int width, int height);
-    void          (*CreateColorMapFBO)(void*, int width, int height);
+    void          (*CreateDepthMapFBO)(void*, int, int);
+    void          (*CreateColorMapFBO)(void*, int, int);
     void          (*EnableBufferObj)(void*);
     void          (*DisableBufferObj)(void*);
 
@@ -100,7 +100,16 @@ typedef struct{
 }GLSL_PROGRAM;
 
 
+typedef_struct{
+    GLuint          gTexture;
+    GLuint          fBuffer;
 
+    void          (*CreateDepthMapFBO)( void*, int, int);
+    void          (*CreateColorMapFBO)( void*, int, int);
+
+    void          (*EnableBufferObj)(void*);
+    void          (*DisableBufferObj)(void*);
+}FRAMEBUFFER_OBJECT;
 
 
 #define RIGHT   0
