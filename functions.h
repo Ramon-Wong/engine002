@@ -27,7 +27,6 @@ extern GLubyte      box_indices[36];
 extern GLfloat      grid_lines[36];
 extern GLubyte      grid_indices[4];
 
-void				Init(void);
 void				Shutdown(int);
 void				Main_Loop(void);
 void				Draw_Square(void);
