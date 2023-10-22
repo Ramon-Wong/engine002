@@ -7,12 +7,10 @@
 // gcc -Wall -c "%f" functions.c utils.c ShaderUtils.c Matrix4x.c
 // gcc -Wall -o "%e" "%f" functions.c utils.c ShaderUtils.c Matrix4x.c -lGLEW -lglfw -lGL -lGLU -lm
 
-
-
   
 int main(void){
 
-  if( glfwInit() != GL_TRUE){     }
+  if( glfwInit() != GL_TRUE){     Shutdown(1);}
   
 	GLFWwindow * wnd = glfwCreateWindow( 800, 600, "Hello Triangle", NULL, NULL);
 
@@ -31,7 +29,7 @@ int main(void){
 
 
   Main_Loop();
-
+  Shutdown(0);
   
   return 0;
 }
