@@ -43,7 +43,4 @@ void Main_Loop(void){
 		CheckGLError();
 	}
 	// clean stuff that is out of the loop.
-
-
-
 }

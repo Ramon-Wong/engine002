@@ -10,15 +10,8 @@
 #include <math.h>
 
 
-void				Init(void);
 void				Shutdown(int);
 void				Main_Loop(void);
-
-char *				ReadFile(const char *);
-
-void				ShaderSetup();
-GLuint              ReadGLSLScript(GLuint, unsigned int, const char *);
-void	            LinkPrograms(GLuint);
 
 
 #endif
