@@ -131,7 +131,6 @@ void Main_Loop(void){
 
 	double old_time = glfwGetTime();
 
-
 	Camera_Init(&Camera);
 	GLSLProg_Init(&Prog01);
 	GLSLProg_Init(&Prog02);
