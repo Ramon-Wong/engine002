@@ -186,7 +186,8 @@ void	_SetPlanes( CAMERA * Cam){
 
 int		_PointinPlane( CAMERA * Cam, int side, float * vec){
 
-    float sum = (Cam->gFrustum[side][0] * vec[0]) + (Cam->gFrustum[side][1] * vec[1]) + (Cam->gFrustum[side][2] * vec[2]) + Cam->gFrustum[side][3];
+    float sum = 0;
+	sum = (Cam->gFrustum[side][0] * vec[0]) + (Cam->gFrustum[side][1] * vec[1]) + (Cam->gFrustum[side][2] * vec[2]) + Cam->gFrustum[side][3];
 
     if(sum >= 0.0){
         return 1;

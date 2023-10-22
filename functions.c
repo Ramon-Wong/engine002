@@ -62,7 +62,8 @@ void Main_Loop(void){
 	GLSLProg_Init(&Prog02);
 	Rectangle_Init(&Rect, 1.5f, 1.60f, 0.8f);	
 
-	float aspect_ratio = ((float)600) / 800;
+	float aspect_ratio = 0.0f;
+	aspect_ratio = ((float)600) / 800;
 	float Z = 20.0f;
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f + Z};
