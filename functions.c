@@ -273,7 +273,7 @@ void Main_Loop(void){
 		Prog03.EnableProgram(&Prog03);
 
 		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
-		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);								// TEXTURE BINDING!!!
+		Prog03.EnableTexture(&Prog03, tTexture0, GL_TEXTURE0);								// TEXTURE BINDING!!!
 
 		// const char msg[] = "UPDATE! Game dev? EASY PEASY! A+B+C+D+E+F+G+H+I+J+K ";
 		StrtoArray( msg, messageInt, 64);
@@ -294,7 +294,7 @@ void Main_Loop(void){
 		Prog04.EnableProgram(&Prog04);
 
 		Camera.oProjView( &Camera, Prog04.GetProgram(&Prog04), "uProjView");	// need seperate camera system!
-		Prog04.EnableTexture(&Prog04, GL_TEXTURE0);
+		Prog04.EnableTexture(&Prog04, tTexture1, GL_TEXTURE0);
 
 		Rect_FBO.Render(&Rect_FBO, 3.0f, 3.0f);
 

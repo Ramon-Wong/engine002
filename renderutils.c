@@ -34,7 +34,7 @@ void    _gMatrixTranslation( GLSL_PROGRAM *, float, float, float);
 void    _gPopMatrix( GLSL_PROGRAM *, const char *);
 
 void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, unsigned int *, int);
-void    _EnableTexture( GLSL_PROGRAM *, GLenum);
+void    _EnableTexture( GLSL_PROGRAM *, unsigned int, GLenum);
 void    _DisableTexture( GLSL_PROGRAM *);
 
 void    _uBufferObject( GLSL_PROGRAM *, int, void *, const char *, GLenum);
@@ -61,7 +61,7 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     Prog->gMatrixTranslation    = (void (*)(void*, float, float, float))                            _gMatrixTranslation;
     Prog->gPopMatrix            = (void (*)(void*, const char *))                                   _gPopMatrix;
     Prog->LoadTexture           = (void (*)(void*, const char *, const char *, unsigned int *,int)) _LoadTexture;
-    Prog->EnableTexture         = (void (*)(void*, GLenum))                                         _EnableTexture;
+    Prog->EnableTexture         = (void (*)(void*, unsigned int, GLenum))                           _EnableTexture;
     Prog->DisableTexture        = (void (*)(void*))                                                 _DisableTexture;
     Prog->gTexture              = 0;
 
@@ -212,9 +212,9 @@ void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagna
 }
 
 
-void    _EnableTexture( GLSL_PROGRAM * Prog, GLenum location){
+void    _EnableTexture( GLSL_PROGRAM * Prog, unsigned int texture, GLenum location){
   	glActiveTexture( location);
-    glBindTexture(GL_TEXTURE_2D, Prog->gTexture);
+    glBindTexture(GL_TEXTURE_2D, texture);
 }
 
 

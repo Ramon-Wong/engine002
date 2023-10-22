@@ -33,7 +33,7 @@ typedef struct{
     void          (*gPopMatrix)( void *, const char *);
 
     void          (*LoadTexture)( void *, const char *, const char *, unsigned int *, int);
-    void          (*EnableTexture)(void *, GLenum);
+    void          (*EnableTexture)(void *, unsigned int, GLenum);
     void          (*DisableTexture)(void *);
 
     GLuint          bufferID[MAX_SHADER];
