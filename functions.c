@@ -95,6 +95,9 @@ void Main_Loop(void){
 	RECTANGLE			Rect;
 	RECTANGLE			Rect_FBO;
 
+	unsigned int		tTexture0;
+	unsigned int		tTexture1;
+
 	Camera_Init(&Camera);
 	GLSLProg_Init(&Prog01);
 	GLSLProg_Init(&Prog02);
@@ -162,10 +165,10 @@ void Main_Loop(void){
 	
 	Prog03.uBufferObject( &Prog03, sizeof(float[2048]), DataBlock, "Fontmap", GL_STATIC_DRAW);    			// this is setting the texcoord
 	Prog03.uBufferObject( &Prog03, sizeof(int[64]), messageInt, "_Message", GL_DYNAMIC_DRAW);
-	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", 0);											// Location 0 = gl_Texture0
+	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", &tTexture0, 0);											// Location 0 = gl_Texture0
 
 	Prog04.Init( &Prog04, "GLSL/VShader2.glsl", "GLSL/FShader2.glsl");
-	Prog04.LoadTexture( &Prog04, "data/font.tga", "tSampler", 1);											// Location 0 = gl_Texture0
+	Prog04.LoadTexture( &Prog04, "data/font.tga", "tSampler", &tTexture1, 1);											// Location 0 = gl_Texture0
 	//Prog04.LoadTexture( &Prog04, "data/font.tga", "tSampler", 0);			???
 
 	int Frame = 0;
@@ -312,6 +315,9 @@ void Main_Loop(void){
 	glDeleteTextures(1, FBO_DepthMap[0]);
     glDeleteFramebuffers(1, FBO_DepthMap[1]);
     
+	glDeleteTextures(1, &tTexture0);
+	glDeleteTextures(1, &tTexture1);
+
 	for (int i = 0; i < 2; i++) {
     	free(FBO_DepthMap[i]);
 	}

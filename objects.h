@@ -32,7 +32,7 @@ typedef struct{
     void          (*gMatrixTranslation)( void *, float, float, float);
     void          (*gPopMatrix)( void *, const char *);
 
-    void          (*LoadTexture)( void *, const char *, const char *, int);
+    void          (*LoadTexture)( void *, const char *, const char *, unsigned int *, int);
     void          (*EnableTexture)(void *, GLenum);
     void          (*DisableTexture)(void *);
 

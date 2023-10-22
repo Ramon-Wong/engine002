@@ -33,7 +33,7 @@ void    _gMatrixRotation( GLSL_PROGRAM *, float, float, float, float);
 void    _gMatrixTranslation( GLSL_PROGRAM *, float, float, float);
 void    _gPopMatrix( GLSL_PROGRAM *, const char *);
 
-void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, int);
+void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, unsigned int *, int);
 void    _EnableTexture( GLSL_PROGRAM *, GLenum);
 void    _DisableTexture( GLSL_PROGRAM *);
 
@@ -47,27 +47,27 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     MLoadIdentity( Prog->TransRotMatrix);
     Prog->Counter               = 0;
 
-    Prog->Init                  = (void (*)(void *, const char *, const char *))           _Init;
-    Prog->EnableProgram         = (void (*)(void*))                                        _EnableProgram;
-    Prog->DisableProgram        = (void (*)(void*))                                        _DisableProgram;
-    Prog->Release               = (void (*)(void*))                                        _Release;
-    Prog->GetProgram            = (GLuint (*)(void*))                                      _GetProgram;
+    Prog->Init                  = (void (*)(void *, const char *, const char *))                    _Init;
+    Prog->EnableProgram         = (void (*)(void*))                                                 _EnableProgram;
+    Prog->DisableProgram        = (void (*)(void*))                                                 _DisableProgram;
+    Prog->Release               = (void (*)(void*))                                                 _Release;
+    Prog->GetProgram            = (GLuint (*)(void*))                                               _GetProgram;
 
-    Prog->SetUniform3f          = (void (*)(void*, const char *, float, float, float))     _SetUniform3f;
-    Prog->SetUniform1f          = (void (*)(void*, const char *, float))                   _SetUniform1f;
-    Prog->SetUniform1i          = (void (*)(void*, const char *, int))                     _SetUniform1i;
+    Prog->SetUniform3f          = (void (*)(void*, const char *, float, float, float))              _SetUniform3f;
+    Prog->SetUniform1f          = (void (*)(void*, const char *, float))                            _SetUniform1f;
+    Prog->SetUniform1i          = (void (*)(void*, const char *, int))                              _SetUniform1i;
 
-    Prog->gMatrixRotation       = (void (*)(void*, float, float, float, float))            _gMatrixRotation;
-    Prog->gMatrixTranslation    = (void (*)(void*, float, float, float))                   _gMatrixTranslation;
-    Prog->gPopMatrix            = (void (*)(void*, const char *))                          _gPopMatrix;
-    Prog->LoadTexture           = (void (*)(void*, const char *, const char *, int))       _LoadTexture;
-    Prog->EnableTexture         = (void (*)(void*, GLenum))                                _EnableTexture;
-    Prog->DisableTexture        = (void (*)(void*))                                        _DisableTexture;
+    Prog->gMatrixRotation       = (void (*)(void*, float, float, float, float))                     _gMatrixRotation;
+    Prog->gMatrixTranslation    = (void (*)(void*, float, float, float))                            _gMatrixTranslation;
+    Prog->gPopMatrix            = (void (*)(void*, const char *))                                   _gPopMatrix;
+    Prog->LoadTexture           = (void (*)(void*, const char *, const char *, unsigned int *,int)) _LoadTexture;
+    Prog->EnableTexture         = (void (*)(void*, GLenum))                                         _EnableTexture;
+    Prog->DisableTexture        = (void (*)(void*))                                                 _DisableTexture;
     Prog->gTexture              = 0;
 
     Prog->UBOcount              = 0;
-    Prog->uBufferObject         = (void (*)(void*, int, void *, const char *, GLenum))     _uBufferObject;
-    Prog->ObjectUpdate          = (void (*)(void*, int, void *, int, int))                 _ObjectUpdate;
+    Prog->uBufferObject         = (void (*)(void*, int, void *, const char *, GLenum))              _uBufferObject;
+    Prog->ObjectUpdate          = (void (*)(void*, int, void *, int, int))                          _ObjectUpdate;
 }
 
 
@@ -183,7 +183,7 @@ void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int 
 }
 
 
-void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagname, int location){
+void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagname, unsigned int * texture, int location){
 
     int x,y,n;
 	printf("\nLoading %s", path);
@@ -194,17 +194,16 @@ void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagna
     } else {
 
 		if(n == 3){
-			CreateTexture( GL_TEXTURE_2D, &Prog->gTexture, data, x, y, GL_RGB);
+			CreateTexture( GL_TEXTURE_2D, texture, data, x, y, GL_RGB);
 		}else if(n == 4){
-			CreateTexture( GL_TEXTURE_2D, &Prog->gTexture, data, x, y, GL_RGBA);
+			CreateTexture( GL_TEXTURE_2D, texture, data, x, y, GL_RGBA);
 		}
 
 		glUseProgram( Prog->GLSL_Prog[0]);                                                  // Use the shader program
-
-		glBindTexture(GL_TEXTURE_2D, Prog->gTexture);                                    	// Bind your texture to GL_TEXTURE0    
+		glBindTexture(GL_TEXTURE_2D, *texture);                                    	        // Bind your texture to GL_TEXTURE0    
         
 		glUniform1i( glGetUniformLocation(  Prog->GLSL_Prog[0], tagname), location);        // 0 corresponds to GL_TEXTURE0
-        printf("\n Load texture at %i", Prog->gTexture);
+        printf("\n Load texture at %i", *texture);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 		printf("\n texture Process %i/%i/%i \n", x, y, n);		
