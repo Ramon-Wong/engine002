@@ -4,7 +4,7 @@
 CAMERA				Camera;
 GLSL_PROGRAM		Prog03;		
 RECTANGLE			Rect;
-unsigned int		tTexture00;
+unsigned int		tTexture;
 
 
 void CheckGLError(){
@@ -19,6 +19,7 @@ void CheckGLError(){
 void Shutdown(int return_code){
 	
 	Prog03.Release( &Prog03);
+	glDeleteTextures(1, &tTexture);
 
 	glfwTerminate();
 	exit(return_code);
@@ -45,7 +46,7 @@ void Main_Loop(void){
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
 
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
-	Prog03.LoadTexture( &Prog03, "data/skin2.tga", "tSampler", 0);											// Location 0 = gl_Texture0
+	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", &tTexture, 0);								// Location 0 = gl_Texture0
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};
@@ -75,7 +76,8 @@ void Main_Loop(void){
 		Prog03.EnableProgram(&Prog03);
 		Camera.uProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
 
-		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
+		// Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
+		Prog03.EnableTexture(&Prog03, tTexture, GL_TEXTURE0);					// TEXTURE BINDING!!!
 		Rect.Render(&Rect, 0.0f, 0.0f);
 
 		Prog03.DisableTexture(&Prog03);
