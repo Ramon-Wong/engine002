@@ -4,6 +4,7 @@
 CAMERA				Camera;
 GLSL_PROGRAM		Prog03;		
 RECTANGLE			Rect;
+unsigned int		tTexture00;
 
 
 void CheckGLError(){

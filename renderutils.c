@@ -33,40 +33,40 @@ void    _gMatrixRotation( GLSL_PROGRAM *, float, float, float, float);
 void    _gMatrixTranslation( GLSL_PROGRAM *, float, float, float);
 void    _gPopMatrix( GLSL_PROGRAM *, const char *);
 
-void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, int);
-void    _EnableTexture( GLSL_PROGRAM *, GLenum);
+void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, unsigned int *, int);
+void    _EnableTexture( GLSL_PROGRAM *, unsigned int, GLenum);
 void    _DisableTexture( GLSL_PROGRAM *);
 
-// void    _CreateDepthMapFBO( GLSL_PROGRAM *, int, int);
-// void    _CreateColorMapFBO( GLSL_PROGRAM *, int, int);
-// void    _EnableBufferObj( GLSL_PROGRAM *);
-// void    _DisableBufferObj( GLSL_PROGRAM *); 
+void    _uBufferObject( GLSL_PROGRAM *, int, void *, const char *, GLenum);
+void    _ObjectUpdate(GLSL_PROGRAM *, int, void *, int, int);
 
-void    _CreateXTexture( GLuint *, unsigned char *, int, int, GLenum, GLenum);
+
 
 void GLSLProg_Init(GLSL_PROGRAM * Prog){
 
     MLoadIdentity( Prog->TransRotMatrix);
     Prog->Counter               = 0;
 
-    Prog->Init                  = (void (*)(void *, const char *, const char *))        _Init;
-    Prog->EnableProgram         = (void (*)(void*))                                     _EnableProgram;
-    Prog->DisableProgram        = (void (*)(void*))                                     _DisableProgram;
-    Prog->Release               = (void (*)(void*))                                     _Release;
-    Prog->GetProgram            = (GLuint (*)(void*))                                   _GetProgram;
+    Prog->Init                  = (void (*)(void *, const char *, const char *))                    _Init;
+    Prog->EnableProgram         = (void (*)(void*))                                                 _EnableProgram;
+    Prog->DisableProgram        = (void (*)(void*))                                                 _DisableProgram;
+    Prog->Release               = (void (*)(void*))                                                 _Release;
+    Prog->GetProgram            = (GLuint (*)(void*))                                               _GetProgram;
 
-    Prog->SetUniform3f          = (void (*)(void*, const char *, float, float, float))  _SetUniform3f;
-    Prog->SetUniform1f          = (void (*)(void*, const char *, float))                _SetUniform1f;
-    Prog->SetUniform1i          = (void (*)(void*, const char *, int))                  _SetUniform1i;
+    Prog->SetUniform3f          = (void (*)(void*, const char *, float, float, float))              _SetUniform3f;
+    Prog->SetUniform1f          = (void (*)(void*, const char *, float))                            _SetUniform1f;
+    Prog->SetUniform1i          = (void (*)(void*, const char *, int))                              _SetUniform1i;
 
-    Prog->gMatrixRotation       = (void (*)(void*, float, float, float, float))         _gMatrixRotation;
-    Prog->gMatrixTranslation    = (void (*)(void*, float, float, float))                _gMatrixTranslation;
-    Prog->gPopMatrix            = (void (*)(void*, const char *))                       _gPopMatrix;
-    Prog->LoadTexture           = (void (*)(void*, const char *, const char *, int))    _LoadTexture;
-    Prog->EnableTexture         = (void (*)(void*, GLenum))                             _EnableTexture;
-    Prog->DisableTexture        = (void (*)(void*))                                     _DisableTexture;
-    Prog->gTexture              = 0;
-    Prog->fBuffer               = 0;
+    Prog->gMatrixRotation       = (void (*)(void*, float, float, float, float))                     _gMatrixRotation;
+    Prog->gMatrixTranslation    = (void (*)(void*, float, float, float))                            _gMatrixTranslation;
+    Prog->gPopMatrix            = (void (*)(void*, const char *))                                   _gPopMatrix;
+    Prog->LoadTexture           = (void (*)(void*, const char *, const char *, unsigned int *,int)) _LoadTexture;
+    Prog->EnableTexture         = (void (*)(void*, unsigned int, GLenum))                           _EnableTexture;
+    Prog->DisableTexture        = (void (*)(void*))                                                 _DisableTexture;
+
+    Prog->UBOcount              = 0;
+    Prog->uBufferObject         = (void (*)(void*, int, void *, const char *, GLenum))              _uBufferObject;
+    Prog->ObjectUpdate          = (void (*)(void*, int, void *, int, int))                          _ObjectUpdate;
 }
 
 
@@ -95,8 +95,10 @@ void    _Release(GLSL_PROGRAM * Prog){
 		glDeleteShader( Prog->GLSL_Prog[2]);		
 		glDeleteProgram( Prog->GLSL_Prog[0]);		
 
-        if( Prog->gTexture != 0){
-            glDeleteTextures(1, &Prog->gTexture);
+        if( Prog->UBOcount > 0){
+            for(int i = 0; i < MAX_SHADER; i++){
+                if( Prog->bufferID[i] != 0){   glDeleteBuffers(1, &Prog->bufferID[i]);}
+            }
         }
 	}
 }
@@ -161,7 +163,22 @@ void    _gPopMatrix( GLSL_PROGRAM * Prog, const char * uniform){
 }
 
 
-void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagname, int location){
+void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
+
+	glGenTextures(1, texture);
+	glBindTexture( tTarget, *texture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+}
+
+
+void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagname, unsigned int * texture, int location){
 
     int x,y,n;
 	printf("\nLoading %s", path);
@@ -172,16 +189,16 @@ void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagna
     } else {
 
 		if(n == 3){
-            _CreateXTexture( &Prog->gTexture, data, x, y, GL_RGB, GL_UNSIGNED_BYTE);
+			CreateTexture( GL_TEXTURE_2D, texture, data, x, y, GL_RGB);
 		}else if(n == 4){
-            _CreateXTexture( &Prog->gTexture, data, x, y, GL_RGBA, GL_UNSIGNED_BYTE);
+			CreateTexture( GL_TEXTURE_2D, texture, data, x, y, GL_RGBA);
 		}
 
 		glUseProgram( Prog->GLSL_Prog[0]);                                                  // Use the shader program
-
-		glBindTexture(GL_TEXTURE_2D, Prog->gTexture);                                    	// Bind your texture to GL_TEXTURE0    
+		glBindTexture(GL_TEXTURE_2D, *texture);                                    	        // Bind your texture to GL_TEXTURE0    
+        
 		glUniform1i( glGetUniformLocation(  Prog->GLSL_Prog[0], tagname), location);        // 0 corresponds to GL_TEXTURE0
-        printf("\n Load texture at %i", Prog->gTexture);
+        printf("\n Load texture at %i", *texture);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 		printf("\n texture Process %i/%i/%i \n", x, y, n);		
@@ -190,9 +207,9 @@ void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagna
 }
 
 
-void    _EnableTexture( GLSL_PROGRAM * Prog, GLenum location){
+void    _EnableTexture( GLSL_PROGRAM * Prog, unsigned int texture, GLenum location){
   	glActiveTexture( location);
-    glBindTexture(GL_TEXTURE_2D, Prog->gTexture);
+    glBindTexture(GL_TEXTURE_2D, texture);
 }
 
 
@@ -201,59 +218,39 @@ void    _DisableTexture( GLSL_PROGRAM *){
 }
 
 
-void _CreateXTexture( GLuint * texture, unsigned char * DATA, int width, int height, GLenum format, GLenum type){
 
-	glGenTextures( 1, texture);
-	glBindTexture( GL_TEXTURE_2D, *texture);
+    
+void _uBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char * tagname, GLenum type) {
 
-    glTexImage2D( GL_TEXTURE_2D, 0, format, width, height, 0, format, type, DATA);
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glGenBuffers( 1, &Prog->bufferID[Prog->UBOcount]);
+    glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID[Prog->UBOcount]);
+
+    // glBufferData(GL_UNIFORM_BUFFER, size, dataArray, type);
+    // glBufferSubData(GL_UNIFORM_BUFFER, 0, size, dataArray);
+    _BufferData0( GL_UNIFORM_BUFFER, type, size, dataArray);
+    GLuint bindingPoint = glGetUniformBlockIndex(Prog->GLSL_Prog[0], tagname);
+    if (bindingPoint == GL_INVALID_INDEX) {
+        printf("GL_UNIFORM_BUFFER: %s Invalid Index.\n", tagname);
+        return;
+    }
+
+    glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, Prog->bufferID[Prog->UBOcount]);
+    glUniformBlockBinding( Prog->GLSL_Prog[0], bindingPoint, Prog->UBOcount);
+    // glUniformBlockBinding set to Prog->shadercount
+    // for Layout bindings
+    // glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+    Prog->UBOcount += 1;
 }
 
 
-// void    _CreateDepthMapFBO( GLSL_PROGRAM * Prog, int width, int height){
-
-//     glGenFramebuffers(1, &Prog->fBuffer);
-//     glBindFramebuffer(GL_FRAMEBUFFER, Prog->fBuffer);
-
-//     _CreateXTexture( &Prog->gTexture, NULL, width, height, GL_DEPTH_COMPONENT, GL_FLOAT);
-
-//     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, Prog->gTexture, 0);
-//     // Check if the framebuffer is complete
-//     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-//         printf("Error: Framebuffer is not complete.\n");
-//     // Unbind the framebuffer
-//     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-// }
+void _ObjectUpdate(GLSL_PROGRAM *Prog, int index, void *data, int start, int size){
+    glBindBuffer(GL_UNIFORM_BUFFER, Prog->bufferID[index]);
+    glBufferSubData(GL_UNIFORM_BUFFER, start, size, data);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
 
 
-// void    _CreateColorMapFBO( GLSL_PROGRAM * Prog, int width, int height){
 
-//     glGenFramebuffers(1, &Prog->fBuffer);
-//     glBindFramebuffer(GL_FRAMEBUFFER, Prog->fBuffer);
-
-//     _CreateXTexture( &Prog->gTexture, NULL, width, height, GL_RGBA, GL_UNSIGNED_BYTE);
-
-//     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Prog->gTexture, 0);
-//     // Check if the framebuffer is complete
-//     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-//         printf("Error: Framebuffer is not complete.\n");
-//     // Unbind the framebuffer
-//     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-// }
-
-
-// void    _EnableBufferObj( GLSL_PROGRAM * Prog){
-//     glBindFramebuffer(GL_FRAMEBUFFER, Prog->fBuffer);
-//     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-// }
-
-
-// void    _DisableBufferObj( GLSL_PROGRAM * Prog){
-//     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-// }
 
 

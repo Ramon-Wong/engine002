@@ -11,12 +11,14 @@
 
 #include "matrix.h"
 
-#define RIGHT   0
-#define LEFT    1
-#define BOTTOM  2
-#define TOP     3
-#define BACK    4
-#define FRONT   5
+#define RIGHT       0
+#define LEFT        1
+#define BOTTOM      2
+#define TOP         3
+#define BACK        4
+#define FRONT       5
+
+#define MAX_SHADER  4
 
 extern GLfloat      box_vertices[72];
 extern GLfloat      box_normals[72];
@@ -70,8 +72,6 @@ typedef struct{
     GLuint          GLSL_Prog[3];
     float           TransRotMatrix[16]; 
     int             Counter;
-    GLuint          gTexture;
-    GLuint          fBuffer;
 
     void          (*Init)( void *, const char *, const char *);
     void          (*EnableProgram)( void *);
@@ -87,10 +87,14 @@ typedef struct{
     void          (*gMatrixTranslation)( void *, float, float, float);
     void          (*gPopMatrix)( void *, const char *);
 
-    void          (*LoadTexture)( void *, const char *, const char *, int);
-    void          (*EnableTexture)(void *, GLenum);
+    void          (*LoadTexture)( void *, const char *, const char *, unsigned int *, int);
+    void          (*EnableTexture)(void *, unsigned int, GLenum);
     void          (*DisableTexture)(void *);
 
+    GLuint          bufferID[MAX_SHADER];
+    GLuint          UBOcount;                       // set for Uniform Buffer Object count
+    void          (*uBufferObject)(void *, int, void *, const char *, GLenum);
+    void          (*ObjectUpdate)(void *, int , void *, int, int);
 
 }GLSL_PROGRAM;
 
