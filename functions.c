@@ -1,9 +1,6 @@
 #include "functions.h"
 
 
-float rotate_z = 0.0f;
-const float rotations_per_tick = 0.2f;
-
 CAMERA				Camera;
 GLSL_PROGRAM		Prog03;		
 RECTANGLE			Rect;
@@ -33,8 +30,6 @@ void Main_Loop(void){
 
 	GLFWwindow * wnd = glfwGetCurrentContext();
 
-	double old_time = glfwGetTime();
-
 	Camera_Init(&Camera);
 	GLSLProg_Init(&Prog03);
 	Rectangle_Init(&Rect, 1.0f, 2.0f, 1.0f);	
@@ -55,11 +50,6 @@ void Main_Loop(void){
 	float point[] = { 0.0, 0.0, 0.0};
 
 	while(!glfwWindowShouldClose(wnd)){
-
-		double current_time = glfwGetTime();
-		double delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
-
-		rotate_z = 0.1 * delta_rotate;
  
 		if( lock == 0){
 			int v = 0;	
