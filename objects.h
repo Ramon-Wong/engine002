@@ -16,7 +16,6 @@ typedef struct{
     GLuint          GLSL_Prog[3];
     float           TransRotMatrix[16]; 
     int             Counter;
-    GLuint          gTexture;
 
     void          (*Init)( void *, const char *, const char *);
     void          (*EnableProgram)( void *);

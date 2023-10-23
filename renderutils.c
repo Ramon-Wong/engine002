@@ -63,7 +63,6 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     Prog->LoadTexture           = (void (*)(void*, const char *, const char *, unsigned int *,int)) _LoadTexture;
     Prog->EnableTexture         = (void (*)(void*, unsigned int, GLenum))                           _EnableTexture;
     Prog->DisableTexture        = (void (*)(void*))                                                 _DisableTexture;
-    Prog->gTexture              = 0;
 
     Prog->UBOcount              = 0;
     Prog->uBufferObject         = (void (*)(void*, int, void *, const char *, GLenum))              _uBufferObject;
@@ -95,10 +94,6 @@ void    _Release(GLSL_PROGRAM * Prog){
 		glDeleteShader( Prog->GLSL_Prog[1]);
 		glDeleteShader( Prog->GLSL_Prog[2]);		
 		glDeleteProgram( Prog->GLSL_Prog[0]);		
-
-        if( Prog->gTexture != 0){
-            glDeleteTextures(1, &Prog->gTexture);
-        }
 
         if( Prog->UBOcount > 0){
             for(int i = 0; i < MAX_SHADER; i++){
