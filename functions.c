@@ -5,7 +5,7 @@
 CAMERA				Camera;
 GLSL_PROGRAM		Prog01;			// Landscape
 
-
+GLfloat vertices[]	= {  1.1f, 1.1f, 0.0f,	-1.1f, 1.1f, 0.0f,	-1.1f,-1.1f, 0.0f,	1.1f,-1.1f, 0.0f};
 
 
 void CheckGLError(){
@@ -32,20 +32,20 @@ void Main_Loop(void){
 
 	GLFWwindow * wnd = glfwGetCurrentContext();
 
-	// GLSLProg_Init(&Prog01);
-	// Camera_Init(&Camera);
+	GLSLProg_Init(&Prog01);
+	Camera_Init(&Camera);
 
 	// double old_time = glfwGetTime();
 	
-	// float Pose[] = {  0.0f,  0.0f,  6.0f};
-	// float View[] = {  0.0f,  0.0f, 12.0f}; 
-	// float Upvx[] = {  0.0f,  1.0f,  0.0f};
+	float Pose[] = {  0.0f,  0.0f,  6.0f};
+	float View[] = {  0.0f,  0.0f, 12.0f}; 
+	float Upvx[] = {  0.0f,  1.0f,  0.0f};
 	
-	// float aspect_ratio = ((float)600) / 800;
+	float aspect_ratio = ((float)600) / 800;
 
-	// Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
-	// Camera.SetCamera( &Camera, Pose, View, Upvx);
-	// Prog01.Init( &Prog01, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
+	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
+	Camera.SetCamera( &Camera, Pose, View, Upvx);
+	Prog01.Init( &Prog01, "GLSL/VShader.glsl", "GLSL/FShader.glsl");
 
 	while(!glfwWindowShouldClose(wnd)){
 
@@ -60,4 +60,6 @@ void Main_Loop(void){
 		CheckGLError();
 	}
 	// clean stuff that is out of the loop.
+
+	Prog01.Release( &Prog01);
 }

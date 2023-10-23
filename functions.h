@@ -14,5 +14,11 @@
 void				Shutdown(int);
 void				Main_Loop(void);
 
+void				ShaderSetup();
+GLuint              ReadGLSLScript(GLuint, unsigned int, const char *);
+void	            LinkPrograms(GLuint);
+
+void                Camera_Init(CAMERA *);
+void                GLSLProg_Init(GLSL_PROGRAM *);
 
 #endif
