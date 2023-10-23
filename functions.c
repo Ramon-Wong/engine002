@@ -164,29 +164,29 @@ void Main_Loop(void){
 
 		// Use Program 2
 
-		Prog02.EnableProgram(&Prog02);
-		Prog02.SetUniform3f( &Prog02, "RGB", 		0.5f, 1.0f, 1.0f);
-		Prog02.SetUniform1f( &Prog02, "PI",			PI);
-		Prog02.SetUniform1i( &Prog02, "Rotatez",	rotate_z);
-		Camera.uProjView( &Camera, Prog02.GetProgram(&Prog02), "uProjView");
+		// Prog02.EnableProgram(&Prog02);
+		// Prog02.SetUniform3f( &Prog02, "RGB", 		0.5f, 1.0f, 1.0f);
+		// Prog02.SetUniform1f( &Prog02, "PI",			PI);
+		// Prog02.SetUniform1i( &Prog02, "Rotatez",	rotate_z);
+		// Camera.uProjView( &Camera, Prog02.GetProgram(&Prog02), "uProjView");
 
-		glEnableClientState(GL_VERTEX_ARRAY);									// Enable Vertex Arrays
+		// glEnableClientState(GL_VERTEX_ARRAY);									// Enable Vertex Arrays
 		
-		Prog02.SetUniform3f( &Prog02, "RGB", 		1.0f, 1.0f, 1.0f);
-		Prog02.gMatrixTranslation( &Prog02, 0.0, 0.0, 0.0);
-		Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 0.0, 1.0);
-		Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 1.0, 0.0);
-		Prog02.gMatrixRotation( &Prog02, rotate_z, 1.0, 0.0, 0.0);
-		Prog02.gPopMatrix( &Prog02, "ModelMatrix");
+		// Prog02.SetUniform3f( &Prog02, "RGB", 		1.0f, 1.0f, 1.0f);
+		// Prog02.gMatrixTranslation( &Prog02, 0.0, 0.0, 0.0);
+		// Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 0.0, 1.0);
+		// Prog02.gMatrixRotation( &Prog02, rotate_z, 0.0, 1.0, 0.0);
+		// Prog02.gMatrixRotation( &Prog02, rotate_z, 1.0, 0.0, 0.0);
+		// Prog02.gPopMatrix( &Prog02, "ModelMatrix");
 
-		glVertexPointer(3, GL_FLOAT, 0, box_vertices);
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, box_indices);
-		glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
+		// glVertexPointer(3, GL_FLOAT, 0, box_vertices);
+		// glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, box_indices);
+		// glDisableClientState(GL_VERTEX_ARRAY); 									// disable Vertex Arrays
 
-		Prog02.DisableProgram(&Prog02);
+		// Prog02.DisableProgram(&Prog02);
 
 		Prog03.EnableProgram(&Prog03);
-		Camera.oProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
+		Camera.uProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
 
 		Prog03.EnableTexture(&Prog03, GL_TEXTURE0);
 		Rect.Render(&Rect, 2.0f, 1.0f);
