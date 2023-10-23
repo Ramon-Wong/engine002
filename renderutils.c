@@ -37,6 +37,12 @@ void    _LoadTexture( GLSL_PROGRAM *, const char *, const char *, int);
 void    _EnableTexture( GLSL_PROGRAM *, GLenum);
 void    _DisableTexture( GLSL_PROGRAM *);
 
+// void    _CreateDepthMapFBO( GLSL_PROGRAM *, int, int);
+// void    _CreateColorMapFBO( GLSL_PROGRAM *, int, int);
+// void    _EnableBufferObj( GLSL_PROGRAM *);
+// void    _DisableBufferObj( GLSL_PROGRAM *); 
+
+void    _CreateXTexture( GLuint *, unsigned char *, int, int, GLenum, GLenum);
 
 void GLSLProg_Init(GLSL_PROGRAM * Prog){
 
@@ -60,6 +66,7 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     Prog->EnableTexture         = (void (*)(void*, GLenum))                             _EnableTexture;
     Prog->DisableTexture        = (void (*)(void*))                                     _DisableTexture;
     Prog->gTexture              = 0;
+    Prog->fBuffer               = 0;
 }
 
 
@@ -154,21 +161,6 @@ void    _gPopMatrix( GLSL_PROGRAM * Prog, const char * uniform){
 }
 
 
-void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
-
-	glGenTextures(1, texture);
-	glBindTexture( tTarget, *texture);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-}
-
-
 void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagname, int location){
 
     int x,y,n;
@@ -180,9 +172,9 @@ void    _LoadTexture( GLSL_PROGRAM * Prog, const char * path, const char * tagna
     } else {
 
 		if(n == 3){
-			CreateTexture( GL_TEXTURE_2D, &Prog->gTexture, data, x, y, GL_RGB);
+            _CreateXTexture( &Prog->gTexture, data, x, y, GL_RGB, GL_UNSIGNED_BYTE);
 		}else if(n == 4){
-			CreateTexture( GL_TEXTURE_2D, &Prog->gTexture, data, x, y, GL_RGBA);
+            _CreateXTexture( &Prog->gTexture, data, x, y, GL_RGBA, GL_UNSIGNED_BYTE);
 		}
 
 		glUseProgram( Prog->GLSL_Prog[0]);                                                  // Use the shader program
@@ -207,3 +199,61 @@ void    _EnableTexture( GLSL_PROGRAM * Prog, GLenum location){
 void    _DisableTexture( GLSL_PROGRAM *){
     glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+
+void _CreateXTexture( GLuint * texture, unsigned char * DATA, int width, int height, GLenum format, GLenum type){
+
+	glGenTextures( 1, texture);
+	glBindTexture( GL_TEXTURE_2D, *texture);
+
+    glTexImage2D( GL_TEXTURE_2D, 0, format, width, height, 0, format, type, DATA);
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+}
+
+
+// void    _CreateDepthMapFBO( GLSL_PROGRAM * Prog, int width, int height){
+
+//     glGenFramebuffers(1, &Prog->fBuffer);
+//     glBindFramebuffer(GL_FRAMEBUFFER, Prog->fBuffer);
+
+//     _CreateXTexture( &Prog->gTexture, NULL, width, height, GL_DEPTH_COMPONENT, GL_FLOAT);
+
+//     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, Prog->gTexture, 0);
+//     // Check if the framebuffer is complete
+//     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+//         printf("Error: Framebuffer is not complete.\n");
+//     // Unbind the framebuffer
+//     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+// }
+
+
+// void    _CreateColorMapFBO( GLSL_PROGRAM * Prog, int width, int height){
+
+//     glGenFramebuffers(1, &Prog->fBuffer);
+//     glBindFramebuffer(GL_FRAMEBUFFER, Prog->fBuffer);
+
+//     _CreateXTexture( &Prog->gTexture, NULL, width, height, GL_RGBA, GL_UNSIGNED_BYTE);
+
+//     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Prog->gTexture, 0);
+//     // Check if the framebuffer is complete
+//     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+//         printf("Error: Framebuffer is not complete.\n");
+//     // Unbind the framebuffer
+//     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+// }
+
+
+// void    _EnableBufferObj( GLSL_PROGRAM * Prog){
+//     glBindFramebuffer(GL_FRAMEBUFFER, Prog->fBuffer);
+//     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+// }
+
+
+// void    _DisableBufferObj( GLSL_PROGRAM * Prog){
+//     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+// }
+
+
