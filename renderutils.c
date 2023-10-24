@@ -3,21 +3,6 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
-void Draw_Geometry( GLenum shape, GLuint array_buffer, int size){
-	glBindVertexArray( array_buffer);
-	glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
-    // Draw your geometry
-	glDrawElements( shape, size, GL_UNSIGNED_BYTE, 0);
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-	glBindVertexArray(0);
-}
-
-
 
 void    _Init( GLSL_PROGRAM *, const char *, const char *);
 void    _EnableProgram( GLSL_PROGRAM *);
@@ -25,9 +10,10 @@ void    _DisableProgram( GLSL_PROGRAM *);
 void    _Release( GLSL_PROGRAM *);
 GLuint  _GetProgram( GLSL_PROGRAM *);
 
-void    _SetUniform3f( GLSL_PROGRAM *, const char *, float, float, float);
-void    _SetUniform1f( GLSL_PROGRAM *, const char *, float);
-void    _SetUniform1i( GLSL_PROGRAM *, const char *, int);
+void    _SetUniform4fv( GLSL_PROGRAM *, const char *, float *);
+void    _SetUniform3f(  GLSL_PROGRAM *, const char *, float, float, float);
+void    _SetUniform1f(  GLSL_PROGRAM *, const char *, float);
+void    _SetUniform1i(  GLSL_PROGRAM *, const char *, int);
 
 void    _gMatrixRotation( GLSL_PROGRAM *, float, float, float, float);
 void    _gMatrixTranslation( GLSL_PROGRAM *, float, float, float);
@@ -53,6 +39,7 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     Prog->Release               = (void (*)(void*))                                                 _Release;
     Prog->GetProgram            = (GLuint (*)(void*))                                               _GetProgram;
 
+    Prog->SetUniform4fv         = (void (*)(void*, const char *, float *))                          _SetUniform4fv;
     Prog->SetUniform3f          = (void (*)(void*, const char *, float, float, float))              _SetUniform3f;
     Prog->SetUniform1f          = (void (*)(void*, const char *, float))                            _SetUniform1f;
     Prog->SetUniform1i          = (void (*)(void*, const char *, int))                              _SetUniform1i;
@@ -96,7 +83,7 @@ void    _Release(GLSL_PROGRAM * Prog){
 		glDeleteProgram( Prog->GLSL_Prog[0]);		
 
         if( Prog->UBOcount > 0){
-            for(int i = 0; i < MAX_SHADER; i++){
+            for(int i = 0; i < UNIFORM_BUFFER_OBJECT; i++){
                 if( Prog->bufferID[i] != 0){   glDeleteBuffers(1, &Prog->bufferID[i]);}
             }
         }
@@ -109,19 +96,10 @@ GLuint  _GetProgram(GLSL_PROGRAM * Prog){
 }
 
 
-void    _SetUniform3f( GLSL_PROGRAM * Prog, const char * str, float x, float y, float z){
-    glUniform3f( glGetUniformLocation( Prog->GLSL_Prog[0], str), x, y, z);
-}
-
-
-void    _SetUniform1f( GLSL_PROGRAM *  Prog, const char * str, float v){
-    glUniform1f( glGetUniformLocation( Prog->GLSL_Prog[0], str), v);
-}
-
-
-void    _SetUniform1i( GLSL_PROGRAM *  Prog, const char * str, int v){
-    glUniform1i( glGetUniformLocation( Prog->GLSL_Prog[0], str), v);
-}
+void    _SetUniform4fv( GLSL_PROGRAM * Prog, const char * str, float * data){               glUniform4fv( glGetUniformLocation( Prog->GLSL_Prog[0], str), 1, data);}
+void    _SetUniform3f( GLSL_PROGRAM * Prog, const char * str, float x, float y, float z){   glUniform3f( glGetUniformLocation( Prog->GLSL_Prog[0], str), x, y, z);}
+void    _SetUniform1f( GLSL_PROGRAM *  Prog, const char * str, float v){                    glUniform1f( glGetUniformLocation( Prog->GLSL_Prog[0], str), v);}
+void    _SetUniform1i( GLSL_PROGRAM *  Prog, const char * str, int v){                      glUniform1i( glGetUniformLocation( Prog->GLSL_Prog[0], str), v);}
 
 
 void    _gMatrixRotation( GLSL_PROGRAM * Prog, float angle, float x, float y, float z){
@@ -160,21 +138,6 @@ void    _gPopMatrix( GLSL_PROGRAM * Prog, const char * uniform){
 
     glUniformMatrix4fv( glGetUniformLocation( Prog->GLSL_Prog[0], uniform), 1, GL_FALSE, Prog->TransRotMatrix);
 	Prog->Counter = 0;
-}
-
-
-void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
-
-	glGenTextures(1, texture);
-	glBindTexture( tTarget, *texture);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 }
 
 
@@ -247,8 +210,4 @@ void _ObjectUpdate(GLSL_PROGRAM *Prog, int index, void *data, int start, int siz
     glBufferSubData(GL_UNIFORM_BUFFER, start, size, data);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
-
-
-
-
 

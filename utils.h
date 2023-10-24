@@ -8,6 +8,8 @@ void        _BufferData0( GLenum, GLenum, int, void *);
 void        _BufferData1( GLenum, GLenum, int, void *, int, void *);
 void        _BufferData2( GLenum, GLenum, int, void *, int, void *, int, void *);
 
+void         CreateTexture( GLenum, GLuint *, unsigned char *, int, int, GLenum);
+
 
 #define SUBSTRACT_VECTOR(result, Vec1, Vec2) do { \
     result[0] = Vec2[0] - Vec1[0]; \

@@ -4,11 +4,11 @@
 #include "functions.h"
 
 
-#define MAX_SHADER  4
+#define UNIFORM_BUFFER_OBJECT  5
 
 typedef struct{
     GLuint          GLSL_Prog[3];
-    float           TransRotMatrix[16]; 
+    float           TransRotMatrix[16];
     int             Counter;
 
     void          (*Init)( void *, const char *, const char *);
@@ -16,10 +16,11 @@ typedef struct{
     void          (*DisableProgram)( void *);
     void          (*Release)(void *);
 
-    GLuint        (*GetProgram)( void *);  
-    void          (*SetUniform3f)( void *, const char *, float, float, float);
-    void          (*SetUniform1f)( void *, const char *, float);
-    void          (*SetUniform1i)( void *, const char *, int);
+    GLuint        (*GetProgram)( void *);
+    void          (*SetUniform4fv)( void *, const char *, float *);
+    void          (*SetUniform3f)(  void *, const char *, float, float, float);
+    void          (*SetUniform1f)(  void *, const char *, float);
+    void          (*SetUniform1i)(  void *, const char *, int);
 
     void          (*gMatrixRotation)( void *, float, float, float, float);
     void          (*gMatrixTranslation)( void *, float, float, float);
@@ -29,7 +30,7 @@ typedef struct{
     void          (*EnableTexture)(void *, unsigned int, GLenum);
     void          (*DisableTexture)(void *);
 
-    GLuint          bufferID[MAX_SHADER];
+    GLuint          bufferID[UNIFORM_BUFFER_OBJECT];
     GLuint          UBOcount;                       // set for Uniform Buffer Object count
     void          (*uBufferObject)(void *, int, void *, const char *, GLenum);
     void          (*ObjectUpdate)(void *, int , void *, int, int);
