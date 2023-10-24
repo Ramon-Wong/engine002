@@ -74,7 +74,11 @@ void Main_Loop(void){
 		Camera.Lookup(&Camera);
 		
 		Prog03.EnableProgram(&Prog03);
-		Camera.uProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
+
+		// MMultiply( Camera.Proj_View, Camera.Proj_Matrix, Camera.View_Matrix);
+		// Camera.uProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
+		Prog03.SetUniformMatrix(&Prog03, "uProjView", Camera.GetProjView(&Camera));
+		
 
 		Prog03.EnableTexture(&Prog03, tTexture, GL_TEXTURE0);					// TEXTURE BINDING!!!
 		Rect.Render(&Rect, 0.0f, 0.0f);

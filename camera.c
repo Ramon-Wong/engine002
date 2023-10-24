@@ -3,19 +3,21 @@
 
 
 
-void    _SetProjection( CAMERA *, float, float, float, float, float, float);
-void    _SetOrthoGraphic( CAMERA *, float, float, float, float, float, float);
-void    _SetCamera( CAMERA *, float *, float *, float *);
-void    _Lookup( CAMERA *);
-void    _uProjView( CAMERA *, GLuint, const char *);
-void    _oProjView( CAMERA *, GLuint, const char *);
-void	_MoveCamera( CAMERA *, float spd);
-void    _MouseCamera( CAMERA *, float, float);
-void    _RotateCamera(  CAMERA *, float, float, float, float);
-void    _StrafeCamera(  CAMERA *, float);
+void			_SetProjection( CAMERA *, float, float, float, float, float, float);
+void			_SetOrthoGraphic( CAMERA *, float, float, float, float, float, float);
+void			_SetCamera( CAMERA *, float *, float *, float *);
+void			_Lookup( CAMERA *);
+void			_uProjView( CAMERA *, GLuint, const char *);
+void			_oProjView( CAMERA *, GLuint, const char *);
+GLfloat *		_GetProjView( CAMERA *);
+void			_MoveCamera( CAMERA *, float spd);
+void			_MouseCamera( CAMERA *, float, float);
+void			_RotateCamera(  CAMERA *, float, float, float, float);
+void			_StrafeCamera(  CAMERA *, float);
 
-void	_SetPlanes( CAMERA *);
-int		_PointinPlane( CAMERA *, int, float *);
+void			_SetPlanes( CAMERA *);
+int				_PointinPlane( CAMERA *, int, float *);
+
 
 
 void Camera_Init(CAMERA * Cam){
@@ -30,17 +32,18 @@ void Camera_Init(CAMERA * Cam){
 	MLoadIdentity(Cam->Orth_View);
  	MLoadIdentity(Cam->Proj_View);
 
-    Cam->SetProjection          = (void (*)(void *, float, float, float, float, float, float))_SetProjection;
-	Cam->SetOrthoGraphic        = (void (*)(void *, float, float, float, float, float, float))_SetOrthoGraphic;
-    Cam->SetCamera              = (void (*)(void *, float *, float *, float *))_SetCamera;
-	Cam->Lookup                 = (void (*)(void *))_Lookup;
-    Cam->uProjView              = (void (*)(void *, GLuint, const char *))_uProjView;
-	Cam->oProjView              = (void (*)(void *, GLuint, const char *))_oProjView;
-	Cam->MoveCamera				= (void (*)(void *, float))_MoveCamera;
-	Cam->MouseCamera			= (void (*)(void *, float, float))_MouseCamera;
-	Cam->RotateCamera			= (void (*)(void *, float, float, float, float))_RotateCamera;
-	Cam->StrafeCamera			= (void (*)(void *, float))_StrafeCamera;
-	Cam->PointinPlane			= (int  (*)(void *, int, float *))_PointinPlane;
+    Cam->SetProjection          = (void		(*)(void *, float, float, float, float, float, float))				_SetProjection;
+	Cam->SetOrthoGraphic        = (void		(*)(void *, float, float, float, float, float, float))				_SetOrthoGraphic;
+    Cam->SetCamera              = (void		(*)(void *, float *, float *, float *))								_SetCamera;
+	Cam->Lookup                 = (void		(*)(void *))														_Lookup;
+    Cam->uProjView              = (void		(*)(void *, GLuint, const char *))									_uProjView;
+	Cam->oProjView              = (void		(*)(void *, GLuint, const char *))									_oProjView;
+	Cam->GetProjView			= (GLfloat *(*)(void *))														_GetProjView;
+	Cam->MoveCamera				= (void		(*)(void *, float))													_MoveCamera;
+	Cam->MouseCamera			= (void		(*)(void *, float, float))											_MouseCamera;
+	Cam->RotateCamera			= (void		(*)(void *, float, float, float, float))							_RotateCamera;
+	Cam->StrafeCamera			= (void		(*)(void *, float))													_StrafeCamera;
+	Cam->PointinPlane			= (int		(*)(void *, int, float *))											_PointinPlane;
 }
 
 
@@ -63,43 +66,48 @@ void    _SetCamera( CAMERA * Cam, float * pose, float * view, float * upvx){
 }
 
 
-void	_Lookup( CAMERA * Cam){
+void			_Lookup( CAMERA * Cam){
 	LookAtM( Cam->View_Matrix, Cam->Cam[0], Cam->Cam[1], Cam->Cam[2]);			// Update Camera
 	MMultiply( Cam->Orth_View, Cam->Orth_Matrix, Cam->View_Matrix);				// <=move this line to a function like _uProjView
-	_SetPlanes( Cam);
+			_SetPlanes( Cam);
 }
 
 
-void	_uProjView( CAMERA * Cam, GLuint program, const char * tagname){
+void			_uProjView( CAMERA * Cam, GLuint program, const char * tagname){
 	MMultiply( Cam->Proj_View, Cam->Proj_Matrix, Cam->View_Matrix);	
 	glUniformMatrix4fv( glGetUniformLocation( program, tagname), 1, GL_FALSE, Cam->Proj_View);
 }
 
 
-void	_oProjView( CAMERA * Cam, GLuint program, const char * tagname){
+void			_oProjView( CAMERA * Cam, GLuint program, const char * tagname){
 	MMultiply( Cam->Proj_View, Cam->Orth_Matrix, Cam->Temp_Matrix);	
 	glUniformMatrix4fv( glGetUniformLocation( program, tagname), 1, GL_FALSE, Cam->Proj_View);
 }
 
 
-void	_SubstractVector( float * result, float * Vec1, float * Vec2){
+GLfloat *		_GetProjView( CAMERA * Cam){
+	MMultiply( Cam->Proj_View, Cam->Proj_Matrix, Cam->View_Matrix);	
+	return Cam->Proj_View;
+}
+
+void			_SubstractVector( float * result, float * Vec1, float * Vec2){
 	result[0] = Vec2[0] - Vec1[0];
 	result[1] = Vec2[1] - Vec1[1];
 	result[2] = Vec2[2] - Vec1[2];
 }
 
 
-void	_AddVector( float * result, float * Vec1, float * Vec2){
+void			_AddVector( float * result, float * Vec1, float * Vec2){
 	result[0] = Vec2[0] + Vec1[0];
 	result[1] = Vec2[1] + Vec1[1];
 	result[2] = Vec2[2] + Vec1[2];
 }
 
 
-void	_MoveCamera( CAMERA * Cam, float spd){
+void			_MoveCamera( CAMERA * Cam, float spd){
 
 	float Direction[3];
-	_SubstractVector( Direction, Cam->Cam[0], Cam->Cam[1]);
+			_SubstractVector( Direction, Cam->Cam[0], Cam->Cam[1]);
 
 	Cam->Cam[0][0]	+= Direction[0] * spd;
 	Cam->Cam[0][2]	+= Direction[2] * spd;
@@ -112,7 +120,7 @@ void    _RotateCamera(  CAMERA * Cam, float angle, float x, float y, float z){
 
 	float nView[3];
 	float Direction[3];
-	_SubstractVector( Direction, Cam->Cam[0], Cam->Cam[1]);
+			_SubstractVector( Direction, Cam->Cam[0], Cam->Cam[1]);
 
 	float cosTheta = (float)cos(angle);
 	float sinTheta = (float)sin(angle);
@@ -129,7 +137,7 @@ void    _RotateCamera(  CAMERA * Cam, float angle, float x, float y, float z){
 	nView[2] 	+= ((1 - cosTheta) * y * z + x * sinTheta)	* Direction[1];
 	nView[2] 	+= (cosTheta + (1 - cosTheta) * z * z)		* Direction[2];
 
-	_AddVector( Cam->Cam[1], Cam->Cam[0], nView);
+			_AddVector( Cam->Cam[1], Cam->Cam[0], nView);
 }
 
 
@@ -141,8 +149,8 @@ void    _MouseCamera( CAMERA * Cam, float x, float y){
 	float sensitive_x = 0.01f;
 	float sensitive_y = 0.01f;
 
-	_RotateCamera(Cam, sensitive_x * DeltaX, 0.0f, 1.0f, 0.0f);
-	_RotateCamera(Cam, sensitive_y * DeltaY, 1.0f, 0.0f, 0.0f);
+			_RotateCamera(Cam, sensitive_x * DeltaX, 0.0f, 1.0f, 0.0f);
+			_RotateCamera(Cam, sensitive_y * DeltaY, 1.0f, 0.0f, 0.0f);
 
 	Cam->MouseCoord[0] = x;
 	Cam->MouseCoord[1] = y;
@@ -152,7 +160,7 @@ void    _MouseCamera( CAMERA * Cam, float x, float y){
 void    _StrafeCamera(  CAMERA * Cam, float spd){
 	// StrafeCamera( Cam->Cam[0], Cam->Cam[1], spd);
 	float Direction[3];
-	_SubstractVector( Direction, Cam->Cam[0], Cam->Cam[1]);	
+			_SubstractVector( Direction, Cam->Cam[0], Cam->Cam[1]);	
 
     float right[3];
     CrossProduct(right, Direction, Cam->Cam[2]);
@@ -173,7 +181,7 @@ void	setPlane( CAMERA * Cam, int side, float A, float B, float C, float D){
 }
 
 
-void	_SetPlanes( CAMERA * Cam){
+void			_SetPlanes( CAMERA * Cam){
 	setPlane( Cam, RIGHT,	-Cam->Proj_View[0], -Cam->Proj_View[4], -Cam->Proj_View[8], -Cam->Proj_View[12]);
 	setPlane( Cam, LEFT,	 Cam->Proj_View[0],  Cam->Proj_View[4],  Cam->Proj_View[8],  Cam->Proj_View[12]);
 	setPlane( Cam, BOTTOM,	 Cam->Proj_View[1],  Cam->Proj_View[5],  Cam->Proj_View[9],  Cam->Proj_View[13]);
@@ -183,7 +191,7 @@ void	_SetPlanes( CAMERA * Cam){
 }
 
 
-int		_PointinPlane( CAMERA * Cam, int side, float * vec){
+int				_PointinPlane( CAMERA * Cam, int side, float * vec){
 
     float sum = (Cam->gFrustum[side][0] * vec[0]) + (Cam->gFrustum[side][1] * vec[1]) + (Cam->gFrustum[side][2] * vec[2]) + Cam->gFrustum[side][3];
 

@@ -17,7 +17,7 @@ typedef struct{
     void          (*Release)(void *);
 
     GLuint        (*GetProgram)( void *);
-    void          (*SetUniform4fv)( void *, const char *, float *);
+    void          (*SetUniformMatrix)( void *, const char *, float *);
     void          (*SetUniform3f)(  void *, const char *, float, float, float);
     void          (*SetUniform1f)(  void *, const char *, float);
     void          (*SetUniform1i)(  void *, const char *, int);

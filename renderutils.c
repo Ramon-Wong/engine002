@@ -10,7 +10,7 @@ void    _DisableProgram( GLSL_PROGRAM *);
 void    _Release( GLSL_PROGRAM *);
 GLuint  _GetProgram( GLSL_PROGRAM *);
 
-void    _SetUniform4fv( GLSL_PROGRAM *, const char *, float *);
+void    _SetUniformMatrix( GLSL_PROGRAM *, const char *, float *);
 void    _SetUniform3f(  GLSL_PROGRAM *, const char *, float, float, float);
 void    _SetUniform1f(  GLSL_PROGRAM *, const char *, float);
 void    _SetUniform1i(  GLSL_PROGRAM *, const char *, int);
@@ -39,7 +39,7 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     Prog->Release               = (void (*)(void*))                                                 _Release;
     Prog->GetProgram            = (GLuint (*)(void*))                                               _GetProgram;
 
-    Prog->SetUniform4fv         = (void (*)(void*, const char *, float *))                          _SetUniform4fv;
+    Prog->SetUniformMatrix      = (void (*)(void*, const char *, float *))                          _SetUniformMatrix;
     Prog->SetUniform3f          = (void (*)(void*, const char *, float, float, float))              _SetUniform3f;
     Prog->SetUniform1f          = (void (*)(void*, const char *, float))                            _SetUniform1f;
     Prog->SetUniform1i          = (void (*)(void*, const char *, int))                              _SetUniform1i;
@@ -96,10 +96,14 @@ GLuint  _GetProgram(GLSL_PROGRAM * Prog){
 }
 
 
-void    _SetUniform4fv( GLSL_PROGRAM * Prog, const char * str, float * data){               glUniform4fv( glGetUniformLocation( Prog->GLSL_Prog[0], str), 1, data);}
-void    _SetUniform3f( GLSL_PROGRAM * Prog, const char * str, float x, float y, float z){   glUniform3f( glGetUniformLocation( Prog->GLSL_Prog[0], str), x, y, z);}
-void    _SetUniform1f( GLSL_PROGRAM *  Prog, const char * str, float v){                    glUniform1f( glGetUniformLocation( Prog->GLSL_Prog[0], str), v);}
-void    _SetUniform1i( GLSL_PROGRAM *  Prog, const char * str, int v){                      glUniform1i( glGetUniformLocation( Prog->GLSL_Prog[0], str), v);}
+void    _SetUniformMatrix( GLSL_PROGRAM * Prog, const char * str, float * data){               
+    glUniformMatrix4fv( glGetUniformLocation( Prog->GLSL_Prog[0], str), 1, GL_FALSE, data);
+}
+
+
+void    _SetUniform3f(  GLSL_PROGRAM * Prog, const char * str, float x, float y, float z){  glUniform3f(    glGetUniformLocation( Prog->GLSL_Prog[0], str), x, y, z);}
+void    _SetUniform1f(  GLSL_PROGRAM * Prog, const char * str, float v){                    glUniform1f(    glGetUniformLocation( Prog->GLSL_Prog[0], str), v);}
+void    _SetUniform1i(  GLSL_PROGRAM * Prog, const char * str, int v){                      glUniform1i(    glGetUniformLocation( Prog->GLSL_Prog[0], str), v);}
 
 
 void    _gMatrixRotation( GLSL_PROGRAM * Prog, float angle, float x, float y, float z){
