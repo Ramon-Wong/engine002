@@ -84,8 +84,7 @@ typedef struct{
     void          (*SetCamera)( void *, float *, float *, float *); 
     void          (*Lookup)( void *);
 
-    GLfloat *     (*GetProjView)(void *);
-
+    void          (*GetProjView)(void *, float *);
     void          (*MouseCamera)( void *, float, float);
     void          (*MoveCamera)( void *, float);
     void          (*RotateCamera)( void *, float, float, float, float);

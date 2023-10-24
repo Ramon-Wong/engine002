@@ -4,13 +4,25 @@
 void          __SetProjection( PROJECTION *, float, float, float, float, float, float);
 void          __SetCamera( PROJECTION *, float *, float *, float *); 
 void          __Lookup( PROJECTION *);
-
 void     	  __GetProjView(PROJECTION *, float *);
-
 void          __MoveCamera( PROJECTION *, float);
 void          __RotateCamera( PROJECTION *, float, float, float, float);
 void          __StrafeCamera( PROJECTION *, float);
 
+
+void          Projection_Init(PROJECTION * Proj){
+
+	MLoadIdentity( Proj->Proj_Matrix);
+	MLoadIdentity( Proj->View_Matrix);
+
+    Proj->SetProjection         = (void	(*)(void *, float, float, float, float, float, float))		__SetProjection;
+    Proj->SetCamera             = (void	(*)(void *, float *, float *, float *))						__SetCamera;
+	Proj->Lookup                = (void	(*)(void *))												__Lookup;
+	Proj->GetProjView			= (void (*)(void *, float *))										__GetProjView;
+	Proj->MoveCamera			= (void	(*)(void *, float))											__MoveCamera;
+	Proj->RotateCamera			= (void	(*)(void *, float, float, float, float))					__RotateCamera;
+	Proj->StrafeCamera			= (void	(*)(void *, float))											__StrafeCamera;
+}
 
 
 void    __SetProjection( PROJECTION * Proj, float left, float right, float bottom, float top, float near, float far){

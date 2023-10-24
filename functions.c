@@ -1,8 +1,8 @@
 #include "functions.h"
 
 
-CAMERA				Camera;
 GLSL_PROGRAM		Prog03;		
+PROJECTION			Camera;
 RECTANGLE			Rect;
 unsigned int		tTexture;
 
@@ -32,7 +32,7 @@ void Main_Loop(void){
 
 	GLFWwindow * wnd = glfwGetCurrentContext();
 
-	Camera_Init(&Camera);
+	Projection_Init(&Camera);
 	GLSLProg_Init(&Prog03);
 	Rectangle_Init(&Rect, 1.0f, 2.0f, 1.0f);	
 
@@ -42,39 +42,33 @@ void Main_Loop(void){
 	
 	float aspect_ratio = ((float)600) / 800;
 
+	float Proj_View[16];
+	
 	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
 
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", &tTexture, 0);								// Location 0 = gl_Texture0 && Shader bound
 
-	int lock = 0;
-	float point[] = { 0.0, 0.0, 0.0};
 
 	while(!glfwWindowShouldClose(wnd)){
  
-		if( lock == 0){
-			int v = 0;	
-			for(int i = 0; i < 6; i++){
-				v += Camera.PointinPlane( &Camera, i, point);
-			}
-
-			lock = 1;
-		}
-
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);							lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			Camera.MoveCamera( &Camera, -0.001f);						lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			Camera.MoveCamera( &Camera,  0.001f);						lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			Camera.RotateCamera( &Camera,-0.001f, 0.0f, 1.0f, 0.0f);	lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			Camera.RotateCamera( &Camera, 0.001f, 0.0f, 1.0f, 0.0f);	lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			Camera.StrafeCamera( &Camera, -0.005f);						lock = 0;}
-		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera.StrafeCamera( &Camera,  0.005f); 					lock = 0;}
+		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);						}
+		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			Camera.MoveCamera( &Camera, -0.001f);					}
+		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			Camera.MoveCamera( &Camera,  0.001f);					}
+		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			Camera.RotateCamera( &Camera,-0.001f, 0.0f, 1.0f, 0.0f);}
+		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			Camera.RotateCamera( &Camera, 0.001f, 0.0f, 1.0f, 0.0f);}
+		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			Camera.StrafeCamera( &Camera, -0.005f);					}
+		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera.StrafeCamera( &Camera,  0.005f); 				}
 		Camera.Lookup(&Camera);
 		
 		Prog03.EnableProgram(&Prog03);
-		Prog03.SetUniformMatrix(&Prog03, "uProjView", Camera.GetProjView(&Camera));
+		
+		MLoadIdentity( Proj_View);
+		Camera.GetProjView(&Camera, Proj_View);
+		Prog03.SetUniformMatrix(&Prog03, "uProjView", Proj_View);
 		
 		Prog03.EnableTexture(&Prog03, tTexture, GL_TEXTURE0);					// TEXTURE BINDING!!!
 		Rect.Render(&Rect, 0.0f, 0.0f);
