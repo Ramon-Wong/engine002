@@ -51,8 +51,6 @@ typedef struct{
     float           MouseCoord[2];                  // Mouse Coords
     GLfloat         Proj_Matrix[16];                // frustum matrix
     GLfloat         View_Matrix[16];                // Camera matrix
-    GLfloat         Temp_Matrix[16];                // Temp Camera matrix
-
     GLfloat         Proj_View[16];                  // Projection * Camera VIew
 
     float           gFrustum[6][4];                 // Frustum plane
@@ -61,8 +59,7 @@ typedef struct{
     void          (*SetOrthoGraphic)( void *, float, float, float, float, float, float);
     void          (*SetCamera)( void *, float *, float *, float *); 
     void          (*Lookup)( void *);
-    void          (*uProjView)( void *, GLuint, const char *);
-    void          (*oProjView)( void *, GLuint, const char *);
+
 
     GLfloat *     (*GetProjView)(void *);
 
