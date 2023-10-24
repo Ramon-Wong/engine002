@@ -4,8 +4,6 @@
 // #include <stb/stb_image.h>
 
 
-
-
 void SetupVAOSingle(    GLuint *vao, GLuint *vbo, GLuint *ebo,
                         GLfloat *vertices, GLubyte *indices,
                         GLsizei vsize, GLsizei isize){
@@ -101,58 +99,209 @@ void SetupVAOArray( GLuint * vao, GLuint * vbo, GLuint * ebo,
 }
 
 
-
-// void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int width, int height, GLenum format){
-
-// // glTexImage2D(GL_TEXTURE_2D, 0, GL_STENCIL_INDEX,     width, height, 0, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE,       NULL);      Stencil
-// // glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8,  width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8,   NULL);      Depth
-// // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,               width, height, 0, GL_RGB,           GL_UNSIGNED_BYTE,       data);      Color
-
-// 	glGenTextures(1, texture);
-// 	glBindTexture( tTarget, *texture);
-
-// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-// 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-//     glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-// }
-
-
-
-// GLuint LoadTexture(GLuint _glslProg, const char * path, const char * tagname, int location){
-
-//     int x,y,n;
-// 	printf("\nLoading %s", path);
-//     unsigned char * data = stbi_load( path, &x, &y, &n, 0);
-
-// 	if (data == NULL) { 
-// 		printf("\nCan't open tga file");
-// 		return 0;
-//     } else {
-// 		GLuint			texture;
-
-// 		if(n == 3){
-// 			CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGB);
-// 		}else if(n == 4){
-// 			CreateTexture( GL_TEXTURE_2D, &texture, data, x, y, GL_RGBA);
-// 		}
-
-// 		glUseProgram( _glslProg);                                                   // Use the shader program
-// 		GLuint textureLocation = glGetUniformLocation(  _glslProg, tagname);
+char *	ReadFile(const char * path){
+	
+	//~ usage										<==
+	//~ 											<==
+	//~ char * txt;									<==
+	//~ 											<==	
+	//~ txt = ReadFile("GLSL/loremipsum.txt");		<==
+	//~ printf(" txt: %s", txt);					<==
+	//~ free(txt);									<== memory leak
+	//~ 											<==
+	
+	FILE *	tFile;
+	char *	buffer;
+	int		lSize;
+	
+	tFile = fopen( path, "rt");
+	if(tFile){
 		
-// 		glBindTexture(GL_TEXTURE_2D, texture);                                    	// Bind your texture to GL_TEXTURE0    
-// 		glUniform1i(textureLocation, location);                                     // 0 corresponds to GL_TEXTURE0
+		fseek( tFile, 0, SEEK_END);
+		lSize = ftell( tFile);
+		rewind( tFile);
+		
+		buffer = (char*) malloc( sizeof(char)*(lSize+1));
+		fread( buffer, 1, lSize, tFile);
+		buffer[lSize] = '\0';
+		
+		fclose(tFile);
+	}else{
+		printf("Error at opening file: %s", path);
+	}
+	
+	return buffer;
+}
 
-// 		stbi_image_free(data);
-// 		glBindTexture(GL_TEXTURE_2D, 0);
-// 		printf("\n texture Process %i/%i/%i \n", x, y, n);
 
-// 		return texture;
-//     }
+void _BufferData0( GLenum tBuffer, GLenum tTarget,  int size1, void * data1){
+    glBufferData( tBuffer, size1, NULL, tTarget);
+    glBufferSubData( tBuffer, 0, size1, data1);
+}
+
+
+void _BufferData1( GLenum tBuffer, GLenum tTarget,  int size1, void * data1, 
+                                                    int size2, void * data2){
+
+    glBufferData( tBuffer, size1 + size2, NULL, tTarget);
+    glBufferSubData( tBuffer, 0, size1, data1);
+    glBufferSubData( tBuffer, size1, size2, data2);
+}
+
+
+void _BufferData2( GLenum tBuffer, GLenum tTarget,  int size1, void * data1, 
+                                                    int size2, void * data2, 
+                                                    int size3, void * data3){
+
+    glBufferData( tBuffer, size1 + size2 + size3, NULL, tTarget);
+    glBufferSubData( tBuffer, 0, size1, data1);
+    glBufferSubData( tBuffer, size1, size2, data2);
+    glBufferSubData( tBuffer, size2, size3, data3);
+}
+
+
+
+
+
+
+
+	// void generateShadowFBO()
+	// {
+	//   int shadowMapWidth = RENDER_WIDTH * SHADOW_MAP_RATIO;
+	//   int shadowMapHeight = RENDER_HEIGHT * SHADOW_MAP_RATIO;
+	
+	//   GLenum FBOstatus;
+
+	//   // Try to use a texture depth component
+	//   glGenTextures(1, &depthTextureId);
+	//   glBindTexture(GL_TEXTURE_2D, depthTextureId);
+
+	//   // GL_LINEAR does not make sense for depth texture. However, next tutorial shows usage of GL_LINEAR and PCF
+	//   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	//   // Remove artifact on the edges of the shadowmap
+	//   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+	//   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+
+	//   // No need to force GL_DEPTH_COMPONENT24, drivers usually give you the max precision if available
+	//   glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowMapWidth, shadowMapHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
+	//   glBindTexture(GL_TEXTURE_2D, 0);
+
+	//   // create a framebuffer object
+	//   glGenFramebuffersEXT(1, &fboId);
+	//   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fboId);
+
+	//   // Instruct openGL that we won't bind a color texture with the currently bound FBO
+	//   glDrawBuffer(GL_NONE);
+	//   glReadBuffer(GL_NONE);
+ 
+	//   // attach the texture to FBO depth attachment point
+	//   glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,GL_TEXTURE_2D, depthTextureId, 0);
+
+	//   // check FBO status
+	//   FBOstatus = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+	//   if(FBOstatus != GL_FRAMEBUFFER_COMPLETE_EXT)
+	// 	  printf("GL_FRAMEBUFFER_COMPLETE_EXT failed, CANNOT use FBO\n");
+
+	//   // switch back to window-system-provided framebuffer
+	//   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	// } data3
+
+
+
+
+
+// void createDepthMapFBO(GLuint *fbo, GLuint *depthMap, int width, int height){
+
+//     glGenFramebuffers(1, fbo);
+//     glBindFramebuffer(GL_FRAMEBUFFER, *fbo);
+
+//     unsigned char * data = NULL;
+//     CreateTexture(GL_TEXTURE_2D, depthMap, data, width, height, GL_DEPTH_COMPONENT);
+
+//     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, *depthMap, 0);
+
+//     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+//         printf("Error: Framebuffer is not complete.\n");
+
+//     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 // }
 
 
 
+
+void createDepthMapFBO(GLuint *fbo, int width, int height, GLuint * depthMap){
+    // Create a framebuffer object
+    glGenFramebuffers(1, fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, *fbo);
+
+    // Create a depth texture
+    glGenTextures(1, depthMap);
+    glBindTexture(GL_TEXTURE_2D, *depthMap);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    // Attach the depth texture to the framebuffer
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, *depthMap, 0);
+
+    // Check if the framebuffer is complete
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        printf("Error: Framebuffer is not complete.\n");
+
+    // Unbind the framebuffer
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+
+
+	// Hold id of the framebuffer for light POV rendering
+	// GLuint fboId;
+	// Z values will be rendered to this texture when using fboId framebuffer
+	// GLuint depthTextureId;
+					
+	// void generateShadowFBO()
+	// {
+	//   int shadowMapWidth = RENDER_WIDTH * SHADOW_MAP_RATIO;
+	//   int shadowMapHeight = RENDER_HEIGHT * SHADOW_MAP_RATIO;
+	
+	//   GLenum FBOstatus;
+
+	//   // Try to use a texture depth component
+	//   glGenTextures(1, &depthTextureId);
+	//   glBindTexture(GL_TEXTURE_2D, depthTextureId);
+
+	//   // GL_LINEAR does not make sense for depth texture. However, next tutorial shows usage of GL_LINEAR and PCF
+
+	//   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	//   // Remove artifact on the edges of the shadowmap
+	//   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+	//   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+
+	//   // No need to force GL_DEPTH_COMPONENT24, drivers usually give you the max precision if available
+	//   glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowMapWidth, shadowMapHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
+	//   glBindTexture(GL_TEXTURE_2D, 0);
+
+	//   // create a framebuffer object
+	//   glGenFramebuffersEXT(1, &fboId);
+	//   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fboId);
+
+	//   // Instruct openGL that we won't bind a color texture with the currently bound FBO
+	//   glDrawBuffer(GL_NONE);
+	//   glReadBuffer(GL_NONE);
+ 
+	//   // attach the texture to FBO depth attachment point
+	//   glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,GL_TEXTURE_2D, depthTextureId, 0);
+
+	//   // check FBO status
+	//   FBOstatus = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+	//   if(FBOstatus != GL_FRAMEBUFFER_COMPLETE_EXT)
+	// 	  printf("GL_FRAMEBUFFER_COMPLETE_EXT failed, CANNOT use FBO\n");
+
+	//   // switch back to window-system-provided framebuffer
+	//   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	// }

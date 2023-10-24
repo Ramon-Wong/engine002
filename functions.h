@@ -10,6 +10,7 @@
 #include <math.h>
 
 #include "matrix.h"
+#include "utils.h"
 
 #define RIGHT       0
 #define LEFT        1
