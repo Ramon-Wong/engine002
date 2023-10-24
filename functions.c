@@ -12,6 +12,7 @@ void CheckGLError(){
 	while(error != GL_NO_ERROR) {
 		fprintf(stderr, "OpenGL error: %d\n", error);
 		Shutdown(0);
+		Shutdown(0);
 	}
 }
 
@@ -74,10 +75,8 @@ void Main_Loop(void){
 		Camera.Lookup(&Camera);
 		
 		Prog03.EnableProgram(&Prog03);
-
 		Prog03.SetUniformMatrix(&Prog03, "uProjView", Camera.GetProjView(&Camera));
 		
-
 		Prog03.EnableTexture(&Prog03, tTexture, GL_TEXTURE0);					// TEXTURE BINDING!!!
 		Rect.Render(&Rect, 0.0f, 0.0f);
 
