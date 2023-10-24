@@ -10,7 +10,9 @@
 #include <math.h>
 
 #include "matrix.h"
+#include "objects.h"
 #include "utils.h"
+
 
 #define RIGHT       0
 #define LEFT        1
@@ -19,7 +21,6 @@
 #define BACK        4
 #define FRONT       5
 
-#define MAX_SHADER  4
 
 extern GLfloat      box_vertices[72];
 extern GLfloat      box_normals[72];
@@ -69,35 +70,6 @@ void Rectangle_Init( RECTANGLE *, float, float, float);
 
 
 
-typedef struct{
-    GLuint          GLSL_Prog[3];
-    float           TransRotMatrix[16]; 
-    int             Counter;
-
-    void          (*Init)( void *, const char *, const char *);
-    void          (*EnableProgram)( void *);
-    void          (*DisableProgram)( void *);
-    void          (*Release)(void *);
-
-    GLuint        (*GetProgram)( void *);  
-    void          (*SetUniform3f)( void *, const char *, float, float, float);
-    void          (*SetUniform1f)( void *, const char *, float);
-    void          (*SetUniform1i)( void *, const char *, int);
-
-    void          (*gMatrixRotation)( void *, float, float, float, float);
-    void          (*gMatrixTranslation)( void *, float, float, float);
-    void          (*gPopMatrix)( void *, const char *);
-
-    void          (*LoadTexture)( void *, const char *, const char *, unsigned int *, int);
-    void          (*EnableTexture)(void *, unsigned int, GLenum);
-    void          (*DisableTexture)(void *);
-
-    GLuint          bufferID[MAX_SHADER];
-    GLuint          UBOcount;                       // set for Uniform Buffer Object count
-    void          (*uBufferObject)(void *, int, void *, const char *, GLenum);
-    void          (*ObjectUpdate)(void *, int , void *, int, int);
-
-}GLSL_PROGRAM;
 
 
 #define RIGHT   0
