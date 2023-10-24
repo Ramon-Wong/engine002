@@ -11,7 +11,7 @@ void CheckGLError(){
 	GLenum error = glGetError();
 	while(error != GL_NO_ERROR) {
 		fprintf(stderr, "OpenGL error: %d\n", error);
-			// Shutdown();
+		Shutdown(0);
 	}
 }
 
@@ -75,8 +75,6 @@ void Main_Loop(void){
 		
 		Prog03.EnableProgram(&Prog03);
 
-		// MMultiply( Camera.Proj_View, Camera.Proj_Matrix, Camera.View_Matrix);
-		// Camera.uProjView( &Camera, Prog03.GetProgram(&Prog03), "uProjView");	// need seperate camera system!
 		Prog03.SetUniformMatrix(&Prog03, "uProjView", Camera.GetProjView(&Camera));
 		
 
@@ -90,6 +88,5 @@ void Main_Loop(void){
 		glfwPollEvents();
 		CheckGLError();
 	}
-	// clean stuff that is out of the loop.
 }
 
