@@ -46,7 +46,7 @@ void Main_Loop(void){
 	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
 
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
-	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", &tTexture, 0);								// Location 0 = gl_Texture0
+	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", &tTexture, 0);								// Location 0 = gl_Texture0 && Shader bound
 
 	int lock = 0;
 	float point[] = { 0.0, 0.0, 0.0};

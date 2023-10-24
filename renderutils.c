@@ -217,8 +217,6 @@ void    _DisableTexture( GLSL_PROGRAM *){
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-
-
     
 void _uBufferObject(GLSL_PROGRAM * Prog, int size, void * dataArray, const char * tagname, GLenum type) {
 
