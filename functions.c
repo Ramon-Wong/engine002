@@ -7,8 +7,10 @@ GLSL_PROGRAM		Prog03;
 
 PROJECTION			Camera;
 PROJECTION			Ortho;
-RECTANGLE			Rect;
+RECTANGLE			Rect1;
+RECTANGLE			Rect2;
 unsigned int		tTexture;
+unsigned int		nTexture;
 
 
 void CheckGLError(){
@@ -26,6 +28,7 @@ void Shutdown(int return_code){
 	Prog02.Release( &Prog02);
 	Prog03.Release( &Prog03);
 	glDeleteTextures(1, &tTexture);
+	glDeleteTextures(1, &nTexture);
 
 	glfwTerminate();
 	exit(return_code);
@@ -43,7 +46,8 @@ void Main_Loop(void){
 
 	GLSLProg_Init(&Prog02);
 	GLSLProg_Init(&Prog03);
-	Rectangle_Init(&Rect, 1.0f, 2.0f, 1.0f);	
+	Rectangle_Init(&Rect1, 1.0f, 2.0f, 1.0f);		// size, X, Y location
+	Rectangle_Init(&Rect2, 0.2f, 1.0f, 1.0f);
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f}; 
@@ -61,8 +65,8 @@ void Main_Loop(void){
 
 	Prog02.Init( &Prog02, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
+	Prog02.LoadTexture( &Prog02, "data/font.tga",  "tSampler", &nTexture, 0);								// Location 0 = gl_Texture0 && Shader bound
 	Prog03.LoadTexture( &Prog03, "data/skin2.tga", "tSampler", &tTexture, 0);								// Location 0 = gl_Texture0 && Shader bound
-
 
 	while(!glfwWindowShouldClose(wnd)){
  
@@ -84,7 +88,7 @@ void Main_Loop(void){
 		Prog03.SetUniformMatrix(&Prog03, "uProjView", Proj_View);
 		
 		Prog03.EnableTexture(&Prog03, tTexture, GL_TEXTURE0);					// TEXTURE BINDING!!!
-		Rect.Render(&Rect, 0.0f, 0.0f);
+		Rect1.Render(&Rect1, 0.0f, 0.0f);
 
 		Prog03.DisableTexture(&Prog03);
 		Prog03.DisableProgram(&Prog03);
