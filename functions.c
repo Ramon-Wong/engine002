@@ -44,7 +44,7 @@ void Main_Loop(void){
 	GLSLProg_Init(&Program[0]);
 	GLSLProg_Init(&Program[1]);
 	Rectangle_Init(&Rect[0], 1.0f, 2.0f, 1.0f);		// size, X, Y location
-	Rectangle_Init(&Rect[1], 1.0f, 1.0f, 1.0f);
+	Rectangle_Init(&Rect[1], 0.1f, 1.0f, 1.0f);
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f}; 
@@ -63,8 +63,8 @@ void Main_Loop(void){
 	Program[0].Init( &Program[0], "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 	Program[1].Init( &Program[1], "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 
-	Program[0].LoadTexture( &Program[0], "data/skin2.tga", "tSampler", &Texture[0], 0);								// Location 0 = gl_Texture0 && Shader bound
-	Program[1].LoadTexture( &Program[1], "data/skin2.tga", "tSampler", &Texture[1], 1);								// Location 0 = gl_Texture1 && Shader bound
+	Program[0].LoadTexture( &Program[0], "data/skin2.tga", "tSampler", &Texture[0], 0);			// Location 0 = gl_Texture0 && Shader bound
+	Program[1].LoadTexture( &Program[1], "data/skin2.tga", "tSampler", &Texture[1], 1);			// Location 0 = gl_Texture1 && Shader bound
 
 	while(!glfwWindowShouldClose(wnd)){
  
@@ -79,39 +79,20 @@ void Main_Loop(void){
 		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera[0].StrafeCamera( &Camera[0],  0.005f); 					}
 
 		// Scene 1
-		Camera[0].Lookup(&Camera[0]);
-		Program[0].EnableProgram(&Program[0]);
-		
-		MLoadIdentity( Proj_View);
-		Camera[0].GetProjView(&Camera[0], Proj_View);
-		Program[0].SetUniformMatrix(&Program[0], "uProjView", Proj_View);
-		
-		Program[0].EnableTexture(&Program[0], Texture[0], TEXTURE_MODE[0]);					// TEXTURE BINDING!!!
-		Rect[0].Render(&Rect[0], 0.0f, 0.0f);
+		for(int i = 0; i < 2; i++){
+			Camera[i].Lookup(&Camera[i]);
+			Program[i].EnableProgram(&Program[i]);
+			
+			MLoadIdentity( Proj_View);
+			Camera[i].GetProjView(&Camera[i], Proj_View);
+			Program[i].SetUniformMatrix(&Program[i], "uProjView", Proj_View);
+			
+			Program[i].EnableTexture(&Program[i], Texture[i], TEXTURE_MODE[i]);					// TEXTURE BINDING!!!
+			Rect[i].Render(&Rect[i], 0.0f, 0.0f);
 
-		Program[0].DisableTexture(&Program[0]);
-		Program[0].DisableProgram(&Program[0]);
-
-		// // Scene 2
-		// Camera[1].Lookup(&Camera[1]);
-		// Program[1].EnableProgram(&Program[1]);
-		
-		// MLoadIdentity( Proj_View);
-		// Camera[1].GetProjView(&Camera[1], Proj_View);
-		// Program[1].SetUniformMatrix(&Program[1], "uProjView", Proj_View);
-		
-		// Program[1].EnableTexture(&Program[1], Texture[1], TEXTURE_MODE[1]);					// TEXTURE BINDING!!!
-		// Rect1.Render(&Rect1, 0.0f, 0.0f);
-
-		// Program[1].DisableTexture(&Program[1]);
-		// Program[1].DisableProgram(&Program[1]);
-
-
-
-
-
-
-
+			Program[i].DisableTexture(&Program[i]);
+			Program[i].DisableProgram(&Program[i]);
+		}
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
