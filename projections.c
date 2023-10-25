@@ -2,6 +2,7 @@
 
 
 void          __SetProjection( PROJECTION *, float, float, float, float, float, float);
+void		  __SetOrthoGraphic( PROJECTION *, float, float, float, float, float, float);
 void          __SetCamera( PROJECTION *, float *, float *, float *); 
 void          __Lookup( PROJECTION *);
 void     	  __GetProjView(PROJECTION *, float *);
@@ -16,6 +17,7 @@ void          Projection_Init(PROJECTION * Proj){
 	MLoadIdentity( Proj->View_Matrix);
 
     Proj->SetProjection         = (void	(*)(void *, float, float, float, float, float, float))		__SetProjection;
+	Proj->SetOrthoGraphic       = (void	(*)(void *, float, float, float, float, float, float))		__SetOrthoGraphic;
     Proj->SetCamera             = (void	(*)(void *, float *, float *, float *))						__SetCamera;
 	Proj->Lookup                = (void	(*)(void *))												__Lookup;
 	Proj->GetProjView			= (void (*)(void *, float *))										__GetProjView;
@@ -27,6 +29,11 @@ void          Projection_Init(PROJECTION * Proj){
 
 void    __SetProjection( PROJECTION * Proj, float left, float right, float bottom, float top, float near, float far){
     MFrustum( (float*)Proj->Proj_Matrix, left, right, bottom, top, near, far);
+}
+
+
+void    __SetOrthoGraphic( CAMERA * Cam, float left, float right, float bottom, float top, float near, float far){
+    MOrtho(   (float*)Cam->Orth_Matrix, left, right, bottom, top, near, far);	// Orthographic mode     
 }
 
 
