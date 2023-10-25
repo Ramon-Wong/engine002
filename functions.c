@@ -60,8 +60,8 @@ void Main_Loop(void){
 	Camera[1].SetOrthoGraphic( &Camera[1], 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
 	Camera[1].SetCamera( &Camera[1], Pose, View, Upvx);
 
-	Program[0].Init( &Program[0], "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
-	Program[1].Init( &Program[1], "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
+	Program[0].Init( &Program[0], "GLSL/VShader1.glsl", "GLSL/FShader1.glsl");
+	Program[1].Init( &Program[1], "GLSL/VShader1.glsl", "GLSL/FShader1.glsl");
 
 	Program[0].LoadTexture( &Program[0], "data/skin2.tga", "tSampler", &Texture[0], 0);			// Location 0 = gl_Texture0 && Shader bound
 	Program[1].LoadTexture( &Program[1], "data/skin2.tga", "tSampler", &Texture[1], 1);			// Location 0 = gl_Texture1 && Shader bound

@@ -1,21 +1,22 @@
 #version 400
 
-
 uniform mat4	uProjView;
 
-uniform float	PI;
-uniform float	rotate_z;
-uniform mat4	ModelMatrix;
-uniform vec3	RGB;
-
 in vec3     iArray1;                // Input vertex position
-in vec3     iArray2;                // Input Colors
 in vec2     iArray3;                // texcoords
 
-out vec3	_RGB;
+out vec2	_texCoords;
+vec2		texCoordArray[4];
+
 
 void main(){
 
-	_RGB = RGB;
-	gl_Position =  uProjView * ModelMatrix * vec4( iArray1, 1.0 );
+    texCoordArray[0] = vec2(0.0, 0.0);
+    texCoordArray[1] = vec2(1.0, 0.0);
+    texCoordArray[2] = vec2(1.0, 1.0);
+    texCoordArray[3] = vec2(0.0, 1.0);
+
+	_texCoords = texCoordArray[gl_VertexID];
+
+	gl_Position =  uProjView * vec4( iArray1, 1.0 );
 }

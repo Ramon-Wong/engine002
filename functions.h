@@ -68,7 +68,7 @@ typedef struct{
 void Rectangle_Init( RECTANGLE *, float, float, float);
 
 
-void                GLSLProg_Init(GLSL_PROGRAM *);
-void                Projection_Init(PROJECTION *);
+void                GLSLProg_Init( GLSL_PROGRAM *);
+void                Projection_Init( PROJECTION *);
 
 #endif
