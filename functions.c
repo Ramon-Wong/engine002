@@ -44,8 +44,8 @@ void Main_Loop(void){
 
 	float Proj_View[16];
 	
-	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	// NEW SHIT
-	Camera.SetCamera( &Camera, Pose, View, Upvx);															// also New shit
+	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);
+	Camera.SetCamera( &Camera, Pose, View, Upvx);
 
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", &tTexture, 0);								// Location 0 = gl_Texture0 && Shader bound
