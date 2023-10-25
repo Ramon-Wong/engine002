@@ -8,6 +8,9 @@ in vec2     iArray3;                // texcoords
 out vec2	_texCoords;
 vec2		texCoordArray[4];
 
+layout(packed) uniform Message {
+    int data[64];
+}msg;
 
 void main(){
 
