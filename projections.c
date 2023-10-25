@@ -2,6 +2,7 @@
 
 
 void          __SetProjection( PROJECTION *, float, float, float, float, float, float);
+void		  __SetOrthoGraphic( PROJECTION *, float, float, float, float, float, float);
 void          __SetCamera( PROJECTION *, float *, float *, float *); 
 void          __Lookup( PROJECTION *);
 void     	  __GetProjView(PROJECTION *, float *);
@@ -27,6 +28,11 @@ void          Projection_Init(PROJECTION * Proj){
 
 void    __SetProjection( PROJECTION * Proj, float left, float right, float bottom, float top, float near, float far){
     MFrustum( (float*)Proj->Proj_Matrix, left, right, bottom, top, near, far);
+}
+
+
+void    __SetOrthoGraphic( CAMERA * Cam, float left, float right, float bottom, float top, float near, float far){
+    MOrtho(   (float*)Cam->Orth_Matrix, left, right, bottom, top, near, far);	// Orthographic mode     
 }
 
 
