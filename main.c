@@ -6,6 +6,9 @@
 
 // gcc -Wall -c "%f" functions.c utils.c ShaderUtils.c Matrix4x.c
 // gcc -Wall -o "%e" "%f" functions.c utils.c ShaderUtils.c Matrix4x.c -lGLEW -lglfw -lGL -lGLU -lm
+// github repo
+// git remote add origin git@github.com:Ramon-Wong/engine002.git
+
 
   
 int main(void){

@@ -73,4 +73,24 @@ typedef struct{
 }CAMERA;
 
 
+typedef struct{
+    float           Cam[3][3];                      // Camera Pose/View/Upvx
+    float           MouseCoord[2];                  // Mouse Coords
+    GLfloat         Proj_Matrix[16];                // frustum matrix
+    GLfloat         View_Matrix[16];                // Camera matrix
+    
+    void          (*SetProjection)( void *, float, float, float, float, float, float);
+    void          (*SetOrthoGraphic)( void *, float, float, float, float, float, float);
+    void          (*SetCamera)( void *, float *, float *, float *); 
+    void          (*Lookup)( void *);
+
+    void          (*GetProjView)(void *, float *);
+    void          (*MouseCamera)( void *, float, float);
+    void          (*MoveCamera)( void *, float);
+    void          (*RotateCamera)( void *, float, float, float, float);
+    void          (*StrafeCamera)( void *, float);
+
+}PROJECTION;
+
+
 #endif
