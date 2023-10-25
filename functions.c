@@ -2,15 +2,12 @@
 
 
 
-GLSL_PROGRAM		Prog02;
-GLSL_PROGRAM		Prog03;
+GLSL_PROGRAM		Program[2];
+PROJECTION			Camera[2];
+unsigned int		Texture[2];
+RECTANGLE			Rect[2];
 
-PROJECTION			Camera;
-PROJECTION			Ortho;
-RECTANGLE			Rect1;
-RECTANGLE			Rect2;
-unsigned int		tTexture;
-unsigned int		nTexture;
+GLenum	TEXTURE_MODE[]	= {GL_TEXTURE0, GL_TEXTURE1};
 
 
 void CheckGLError(){
@@ -25,10 +22,10 @@ void CheckGLError(){
 
 void Shutdown(int return_code){
 	
-	Prog02.Release( &Prog02);
-	Prog03.Release( &Prog03);
-	glDeleteTextures(1, &tTexture);
-	glDeleteTextures(1, &nTexture);
+	Program[0].Release( &Program[0]);
+	Program[1].Release( &Program[1]);
+
+	glDeleteTextures(2, Texture);
 
 	glfwTerminate();
 	exit(return_code);
@@ -41,13 +38,13 @@ void Main_Loop(void){
 
 	GLFWwindow * wnd = glfwGetCurrentContext();
 
-	Projection_Init(&Camera);
-	Projection_Init(&Ortho);
+	Projection_Init(&Camera[0]);
+	Projection_Init(&Camera[1]);
 
-	GLSLProg_Init(&Prog02);
-	GLSLProg_Init(&Prog03);
-	Rectangle_Init(&Rect1, 1.0f, 2.0f, 1.0f);		// size, X, Y location
-	Rectangle_Init(&Rect2, 0.2f, 1.0f, 1.0f);
+	GLSLProg_Init(&Program[0]);
+	GLSLProg_Init(&Program[1]);
+	Rectangle_Init(&Rect[0], 1.0f, 2.0f, 1.0f);		// size, X, Y location
+	Rectangle_Init(&Rect[1], 1.0f, 1.0f, 1.0f);
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f}; 
@@ -57,41 +54,64 @@ void Main_Loop(void){
 
 	float Proj_View[16];
 	
-	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
-	Camera.SetCamera( &Camera, Pose, View, Upvx);
+	Camera[0].SetProjection( &Camera[0], 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
+	Camera[0].SetCamera( &Camera[0], Pose, View, Upvx);
 
-	Ortho.SetOrthoGraphic( &Ortho, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 10.0f);
-	Ortho.SetCamera( &Ortho, Pose, View, Upvx);
+	Camera[1].SetOrthoGraphic( &Camera[1], 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);	
+	Camera[1].SetCamera( &Camera[1], Pose, View, Upvx);
 
-	Prog02.Init( &Prog02, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
-	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
-	Prog02.LoadTexture( &Prog02, "data/font.tga",  "tSampler", &nTexture, 0);								// Location 0 = gl_Texture0 && Shader bound
-	Prog03.LoadTexture( &Prog03, "data/skin2.tga", "tSampler", &tTexture, 0);								// Location 0 = gl_Texture0 && Shader bound
+	Program[0].Init( &Program[0], "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
+	Program[1].Init( &Program[1], "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
+
+	Program[0].LoadTexture( &Program[0], "data/skin2.tga", "tSampler", &Texture[0], 0);								// Location 0 = gl_Texture0 && Shader bound
+	Program[1].LoadTexture( &Program[1], "data/skin2.tga", "tSampler", &Texture[1], 1);								// Location 0 = gl_Texture1 && Shader bound
 
 	while(!glfwWindowShouldClose(wnd)){
  
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);						}
-		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			Camera.MoveCamera( &Camera, -0.001f);					}
-		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			Camera.MoveCamera( &Camera,  0.001f);					}
-		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			Camera.RotateCamera( &Camera,-0.001f, 0.0f, 1.0f, 0.0f);}
-		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			Camera.RotateCamera( &Camera, 0.001f, 0.0f, 1.0f, 0.0f);}
-		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			Camera.StrafeCamera( &Camera, -0.005f);					}
-		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera.StrafeCamera( &Camera,  0.005f); 				}
-		Camera.Lookup(&Camera);
-		
-		Prog03.EnableProgram(&Prog03);
+		if(glfwGetKey( wnd, GLFW_KEY_ESCAPE) == GLFW_PRESS){	glfwSetWindowShouldClose( wnd, 1);								}
+		if(glfwGetKey( wnd, GLFW_KEY_W) == GLFW_PRESS){			Camera[0].MoveCamera(   &Camera[0], -0.001f);					}
+		if(glfwGetKey( wnd, GLFW_KEY_S) == GLFW_PRESS){			Camera[0].MoveCamera(   &Camera[0],  0.001f);					}
+		if(glfwGetKey( wnd, GLFW_KEY_A) == GLFW_PRESS){			Camera[0].RotateCamera( &Camera[0], -0.001f, 0.0f, 1.0f, 0.0f);	}
+		if(glfwGetKey( wnd, GLFW_KEY_D) == GLFW_PRESS){			Camera[0].RotateCamera( &Camera[0],  0.001f, 0.0f, 1.0f, 0.0f);	}
+		if(glfwGetKey( wnd, GLFW_KEY_Q) == GLFW_PRESS){			Camera[0].StrafeCamera( &Camera[0], -0.005f);					}
+		if(glfwGetKey( wnd, GLFW_KEY_E) == GLFW_PRESS){			Camera[0].StrafeCamera( &Camera[0],  0.005f); 					}
+
+		// Scene 1
+		Camera[0].Lookup(&Camera[0]);
+		Program[0].EnableProgram(&Program[0]);
 		
 		MLoadIdentity( Proj_View);
-		Camera.GetProjView(&Camera, Proj_View);
-		Prog03.SetUniformMatrix(&Prog03, "uProjView", Proj_View);
+		Camera[0].GetProjView(&Camera[0], Proj_View);
+		Program[0].SetUniformMatrix(&Program[0], "uProjView", Proj_View);
 		
-		Prog03.EnableTexture(&Prog03, tTexture, GL_TEXTURE0);					// TEXTURE BINDING!!!
-		Rect1.Render(&Rect1, 0.0f, 0.0f);
+		Program[0].EnableTexture(&Program[0], Texture[0], TEXTURE_MODE[0]);					// TEXTURE BINDING!!!
+		Rect[0].Render(&Rect[0], 0.0f, 0.0f);
 
-		Prog03.DisableTexture(&Prog03);
-		Prog03.DisableProgram(&Prog03);
+		Program[0].DisableTexture(&Program[0]);
+		Program[0].DisableProgram(&Program[0]);
+
+		// // Scene 2
+		// Camera[1].Lookup(&Camera[1]);
+		// Program[1].EnableProgram(&Program[1]);
+		
+		// MLoadIdentity( Proj_View);
+		// Camera[1].GetProjView(&Camera[1], Proj_View);
+		// Program[1].SetUniformMatrix(&Program[1], "uProjView", Proj_View);
+		
+		// Program[1].EnableTexture(&Program[1], Texture[1], TEXTURE_MODE[1]);					// TEXTURE BINDING!!!
+		// Rect1.Render(&Rect1, 0.0f, 0.0f);
+
+		// Program[1].DisableTexture(&Program[1]);
+		// Program[1].DisableProgram(&Program[1]);
+
+
+
+
+
+
+
 
 		glfwSwapBuffers(wnd);
 		glfwPollEvents();
