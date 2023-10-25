@@ -46,32 +46,6 @@ typedef struct{
 #define BACK    4
 #define FRONT   5
 
-typedef struct{
-    float           Cam[3][3];                      // Camera Pose/View/Upvx
-    float           MouseCoord[2];                  // Mouse Coords
-    GLfloat         Proj_Matrix[16];                // frustum matrix
-    GLfloat         View_Matrix[16];                // Camera matrix
-    GLfloat         Proj_View[16];                  // Projection * Camera VIew
-
-    float           gFrustum[6][4];                 // Frustum plane
-
-    void          (*SetProjection)( void *, float, float, float, float, float, float);
-    void          (*SetOrthoGraphic)( void *, float, float, float, float, float, float);
-    void          (*SetCamera)( void *, float *, float *, float *); 
-    void          (*Lookup)( void *);
-
-
-    GLfloat *     (*GetProjView)(void *);
-
-    void          (*MouseCamera)( void *, float, float);
-    void          (*MoveCamera)( void *, float);
-    void          (*RotateCamera)( void *, float, float, float, float);
-    void          (*StrafeCamera)( void *, float);
-    int           (*PointinPlane)( void *, int, float *);
-
-    // todo Frustum Culling!!
-}CAMERA;
-
 
 typedef struct{
     float           Cam[3][3];                      // Camera Pose/View/Upvx
