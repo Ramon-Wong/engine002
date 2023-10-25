@@ -4,7 +4,7 @@
 
 
 void			_SetProjection( CAMERA *, float, float, float, float, float, float);
-// void			_SetOrthoGraphic( CAMERA *, float, float, float, float, float, float);
+void			_SetOrthoGraphic( CAMERA *, float, float, float, float, float, float);
 void			_SetCamera( CAMERA *, float *, float *, float *);
 void			_Lookup( CAMERA *);
 GLfloat *		_GetProjView( CAMERA *);
@@ -28,6 +28,7 @@ void Camera_Init(CAMERA * Cam){
  	MLoadIdentity(Cam->Proj_View);
 
     Cam->SetProjection          = (void		(*)(void *, float, float, float, float, float, float))				_SetProjection;
+	Cam->SetOrthoGraphic        = (void		(*)(void *, float, float, float, float, float, float))				_SetOrthoGraphic;
     Cam->SetCamera              = (void		(*)(void *, float *, float *, float *))								_SetCamera;
 	Cam->Lookup                 = (void		(*)(void *))														_Lookup;
 	Cam->GetProjView			= (GLfloat *(*)(void *))														_GetProjView;
@@ -43,6 +44,11 @@ void    _SetProjection( CAMERA * Cam, float left, float right, float bottom, flo
     MFrustum( (float*)Cam->Proj_Matrix, left, right, bottom, top, near, far);	// Projection is the frustum
 }
  
+
+void    _SetOrthoGraphic( CAMERA * Cam, float left, float right, float bottom, float top, float near, float far){
+    MOrtho(   (float*)Cam->Proj_Matrix, left, right, bottom, top, near, far);	// Orthographic mode     
+}
+
 
 void    _SetCamera( CAMERA * Cam, float * pose, float * view, float * upvx){
 	memcpy( Cam->Cam[0], pose, sizeof(float[3]));

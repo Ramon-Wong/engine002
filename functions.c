@@ -39,6 +39,7 @@ void Main_Loop(void){
 	GLFWwindow * wnd = glfwGetCurrentContext();
 
 	Projection_Init(&Camera);
+	Projection_Init(&Ortho);
 	GLSLProg_Init(&Prog02);
 	GLSLProg_Init(&Prog03);
 	Rectangle_Init(&Rect, 1.0f, 2.0f, 1.0f);	
@@ -53,6 +54,9 @@ void Main_Loop(void){
 	
 	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);
 	Camera.SetCamera( &Camera, Pose, View, Upvx);
+
+	Ortho.SetOrthoGraphic( &Ortho, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);
+	Ortho.SetCamera( &Ortho, Pose, View, Upvx);
 
 	Prog02.Init( &Prog02, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
