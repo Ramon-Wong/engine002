@@ -1,8 +1,13 @@
 #include "functions.h"
 
 
-GLSL_PROGRAM		Prog03;		
+
+
+GLSL_PROGRAM		Prog02;
+GLSL_PROGRAM		Prog03;
 PROJECTION			Camera;
+PROJECTION			Ortho;
+
 RECTANGLE			Rect;
 unsigned int		tTexture;
 
@@ -17,7 +22,8 @@ void CheckGLError(){
 
 
 void Shutdown(int return_code){
-	
+
+	Prog02.Release( &Prog02);
 	Prog03.Release( &Prog03);
 	glDeleteTextures(1, &tTexture);
 
@@ -33,6 +39,7 @@ void Main_Loop(void){
 	GLFWwindow * wnd = glfwGetCurrentContext();
 
 	Projection_Init(&Camera);
+	GLSLProg_Init(&Prog02);
 	GLSLProg_Init(&Prog03);
 	Rectangle_Init(&Rect, 1.0f, 2.0f, 1.0f);	
 
@@ -47,6 +54,7 @@ void Main_Loop(void){
 	Camera.SetProjection( &Camera, 0.5f, -0.5f, -0.5f * aspect_ratio, 0.5f * aspect_ratio, 1.0f, 100.0f);
 	Camera.SetCamera( &Camera, Pose, View, Upvx);
 
+	Prog02.Init( &Prog02, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 	Prog03.Init( &Prog03, "GLSL/VShader3.glsl", "GLSL/FShader3.glsl");
 	Prog03.LoadTexture( &Prog03, "data/font.tga", "tSampler", &tTexture, 0);								// Location 0 = gl_Texture0 && Shader bound
 
