@@ -3,3 +3,4 @@ main.o
 *.o
 *.tga
 *.json
+wren/*

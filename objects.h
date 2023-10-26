@@ -11,6 +11,7 @@ typedef struct{
     float           TransRotMatrix[16];
     int             Counter;
     int             CameraIndex;
+    int             DrawInstance;
 
     void          (*Init)( void *, const char *, const char *);
     void          (*EnableProgram)( void *);

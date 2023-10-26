@@ -114,6 +114,19 @@ void CreateTexture( GLenum tTarget, GLuint * texture, unsigned char * data, int 
 }
 
 
+void StrtoArray(const char *string, int *array, int array_size){
+    int str_len = strlen(string);
+    for (int i = 0; i < array_size; i++) {
+        if (i < str_len) {
+            array[i] = (int)string[i] - 32;
+        } else {
+            // If we've reached the end of the string, fill the rest with -1
+            array[i] = -1;
+        }
+    }
+}
+
+
 char *	ReadFile(const char * path){
 	
 	//~ usage										<==

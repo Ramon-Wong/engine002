@@ -33,6 +33,7 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
     MLoadIdentity( Prog->TransRotMatrix);
     Prog->Counter               = 0;
     Prog->CameraIndex           = 0;
+    Prog->DrawInstance          = 1;                // set it to 1, in case I forgot to initialize it and also it doesn't hurt
 
     Prog->Init                  = (void (*)(void *, const char *, const char *))                    _Init;
     Prog->EnableProgram         = (void (*)(void*))                                                 _EnableProgram;

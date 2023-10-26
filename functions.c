@@ -8,7 +8,6 @@ unsigned int		Texture[2];
 RECTANGLE			Rect[2];
 
 GLenum	TEXTURE_MODE[]	= {GL_TEXTURE0, GL_TEXTURE1};
-int		DrawInstance[]  = { 1, 64};
 
 void CheckGLError(){
 	GLenum error = glGetError();
@@ -29,19 +28,6 @@ void Shutdown(int return_code){
 
 	glfwTerminate();
 	exit(return_code);
-}
-
-
-void StrtoArray(const char *string, int *array, int array_size) {
-    int str_len = strlen(string);
-    for (int i = 0; i < array_size; i++) {
-        if (i < str_len) {
-            array[i] = (int)string[i] - 32;
-        } else {
-            // If we've reached the end of the string, fill the rest with -1
-            array[i] = -1;
-        }
-    }
 }
 
 
@@ -79,8 +65,11 @@ void Main_Loop(void){
 	Program[0].LoadTexture( &Program[0], "data/skin2.tga", "tSampler", &Texture[0], 0);			// Location 0 = gl_Texture0 && Shader bound
 	Program[1].LoadTexture( &Program[1], "data/font.tga", "tSampler", &Texture[1], 1);			// Location 0 = gl_Texture1 && Shader bound
 
-	Program[0].CameraIndex = 0;																	// * NEW * point to Camera 0 (Frustum)
-	Program[1].CameraIndex = 1;																	// * NEW * point to Camera 1 (Orthographic)
+	Program[0].CameraIndex		= 0;															// * NEW * point to Camera 0 (Frustum)
+	Program[1].CameraIndex		= 1;															// * NEW * point to Camera 1 (Orthographic)
+
+	Program[0].DrawInstance		= 1;															// * NEW * DrawInstance = 1
+	Program[1].DrawInstance		= 64;															// * NEW * DrawInstance = 64
 
     float length    = 1.0 / 16;					// Texcoords
     int size        = 16 * 16 * 8; 				// 16 * 16 * 8
@@ -135,8 +124,7 @@ void Main_Loop(void){
 			Program[i].SetUniformMatrix(&Program[i], "uProjView", Proj_View);
 			
 			Program[i].EnableTexture(&Program[i], Texture[i], TEXTURE_MODE[i]);					// TEXTURE BINDING!!!
-			// Rect[i].Render(&Rect[i], 0.0f, 0.0f);
-			Rect[i].RenderInstances(&Rect[i], 0.0f, 0.0f, DrawInstance[i]);
+			Rect[i].RenderInstances(&Rect[i], 0.0f, 0.0f, Program[i].DrawInstance);
 
 			Program[i].DisableTexture(&Program[i]);
 			Program[i].DisableProgram(&Program[i]);
