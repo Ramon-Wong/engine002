@@ -32,6 +32,7 @@ void GLSLProg_Init(GLSL_PROGRAM * Prog){
 
     MLoadIdentity( Prog->TransRotMatrix);
     Prog->Counter               = 0;
+    Prog->CameraIndex           = 0;
 
     Prog->Init                  = (void (*)(void *, const char *, const char *))                    _Init;
     Prog->EnableProgram         = (void (*)(void*))                                                 _EnableProgram;

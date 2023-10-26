@@ -79,7 +79,8 @@ void Main_Loop(void){
 	Program[0].LoadTexture( &Program[0], "data/skin2.tga", "tSampler", &Texture[0], 0);			// Location 0 = gl_Texture0 && Shader bound
 	Program[1].LoadTexture( &Program[1], "data/font.tga", "tSampler", &Texture[1], 1);			// Location 0 = gl_Texture1 && Shader bound
 
-
+	Program[0].CameraIndex = 0;																	// * NEW * point to Camera 0 (Frustum)
+	Program[1].CameraIndex = 1;																	// * NEW * point to Camera 1 (Orthographic)
 
     float length    = 1.0 / 16;					// Texcoords
     int size        = 16 * 16 * 8; 				// 16 * 16 * 8
@@ -123,11 +124,14 @@ void Main_Loop(void){
 
 		// Scene 1
 		for(int i = 0; i < 2; i++){
-			Camera[i].Lookup(&Camera[i]);
+
+			int cam = Program[i].CameraIndex;
+
+			Camera[cam].Lookup(&Camera[cam]);
 			Program[i].EnableProgram(&Program[i]);
 			
 			MLoadIdentity( Proj_View);
-			Camera[i].GetProjView(&Camera[i], Proj_View);
+			Camera[cam].GetProjView(&Camera[cam], Proj_View);
 			Program[i].SetUniformMatrix(&Program[i], "uProjView", Proj_View);
 			
 			Program[i].EnableTexture(&Program[i], Texture[i], TEXTURE_MODE[i]);					// TEXTURE BINDING!!!

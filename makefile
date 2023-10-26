@@ -12,6 +12,18 @@ executable			= ./main
 library				= -lm -lglfw -lGL -lGLU -lGLEW 
 
 
+
+help:
+	@echo "Available Makefile targets:"
+	@echo "  compile			- Compile your project"
+	@echo "  build				- Build your project"
+	@echo "  run				- Run ./main"
+	@echo "  leak-test			- Leak test ./main"
+	@echo "  full-leak-test		- Full leak test ./main"
+	@echo "  clean				- Clean up ./main and other Obj files"
+	@echo "  help				- Display this help message"
+	@echo " "
+
 compile:
 	$(CC) $(compile) $(source) $(library)
 
