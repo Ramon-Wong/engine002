@@ -67,4 +67,13 @@ typedef struct{
 }PROJECTION;
 
 
+typedef struct{
+    GLubyte         indices[6];
+    float           size;
+    float           vertices[12];
+    float           TexCoords[8];
+
+    void          (*Render)(void *, float, float);
+}RECTANGLE;
+
 #endif

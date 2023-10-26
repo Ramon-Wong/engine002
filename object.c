@@ -34,6 +34,6 @@ void _Render( RECTANGLE * Rect, float x, float y){
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, _indices);
 
     glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);Rect.RenderInstances(&Rect, 3.0f, 0.82f, 64);
 }
 
