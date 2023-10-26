@@ -1,21 +1,39 @@
 #version 400
 
-
 uniform mat4	uProjView;
 
-uniform float	PI;
-uniform float	rotate_z;
-uniform mat4	ModelMatrix;
-uniform vec3	RGB;
+
+layout(packed) uniform Fontmap {
+    float data[2048];
+}coord;
+
+layout(packed) uniform Message {
+    int data[64];
+}msg;
+
 
 in vec3     iArray1;                // Input vertex position
-in vec3     iArray2;                // Input Colors
-in vec2     iArray3;                // texcoords
 
-out vec3	_RGB;
+out vec2	_texCoords;
+vec2		texCoordArray[4];
+
+
 
 void main(){
 
-	_RGB = RGB;
-	gl_Position =  uProjView * ModelMatrix * vec4( iArray1, 1.0 );
+    int instanceID = int(gl_InstanceID);
+
+    if( msg.data[gl_InstanceID] > 0){
+
+        int loc = (msg.data[gl_InstanceID]) * 8;
+
+        texCoordArray[0] = vec2( coord.data[loc+0], coord.data[loc+1]); 
+        texCoordArray[1] = vec2( coord.data[loc+2], coord.data[loc+3]);
+        texCoordArray[2] = vec2( coord.data[loc+4], coord.data[loc+5]);
+        texCoordArray[3] = vec2( coord.data[loc+6], coord.data[loc+7]);
+
+        _texCoords = texCoordArray[gl_VertexID];
+
+	    gl_Position =  uProjView * vec4( iArray1.x - (instanceID * 0.032), iArray1.y, iArray1.z, 1.0 );
+    }
 }

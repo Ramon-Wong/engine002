@@ -9,6 +9,7 @@
 #include <GL/glu.h> 
 #include <math.h>
 
+#include "/serious project/wren/src/include/wren.h"
 #include "matrix.h"
 #include "objects.h"
 #include "utils.h"
@@ -31,7 +32,6 @@ extern GLubyte      box_indices[36];
 extern GLfloat      grid_lines[36];
 extern GLubyte      grid_indices[4];
 
-void				Init(void);
 void				Shutdown(int);
 void				Main_Loop(void);
 void				Draw_Square(void);
@@ -42,6 +42,8 @@ char *				ReadFile(const char *);
 void				ShaderSetup();
 GLuint              ReadGLSLScript(GLuint, unsigned int, const char *);
 void	            LinkPrograms(GLuint);
+
+void                generalBufferObject( unsigned int, int, void *, const char *, GLenum);
 
 void                SetupVAOSingle( GLuint *, GLuint *, GLuint *, GLfloat *, GLubyte *, GLsizei, GLsizei);
 void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
@@ -57,24 +59,10 @@ void                Draw_Geometry( GLenum, GLuint, int size);
 
 
 
-typedef struct{
-    GLubyte         indices[6];
-    float           size;
-    float           vertices[12];
-    float           TexCoords[8];
-
-    void          (*Render)(void *, float, float);
-}RECTANGLE;
-
-void Rectangle_Init( RECTANGLE *, float, float, float);
+void                Rectangle_Init( RECTANGLE *, float, float, float, float);
 
 
-
-
-
-
-void                Camera_Init(CAMERA *);
-void                GLSLProg_Init(GLSL_PROGRAM *);
-void                Projection_Init(PROJECTION *);
+void                GLSLProg_Init( GLSL_PROGRAM *);
+void                Projection_Init( PROJECTION *);
 
 #endif

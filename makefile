@@ -2,8 +2,8 @@ CC					= gcc
 valgrind			= valgrind
 leak-check			= --leak-check=full
 show-all			= --show-leak-kinds=all
-source				= main.c functions.c utils.c shaderutils.c renderutils.c matrix.c camera.c object.c projections.c
-objects				= main.o functions.o utils.o shaderutils.o renderutils.o matrix.o camera.o object.o projections.o
+source				= main.c functions.c utils.c shaderutils.c renderutils.c matrix.c object.c projections.c
+objects				= main.o functions.o utils.o shaderutils.o renderutils.o matrix.o object.o projections.o
 option				= -Wall
 compile 			= -Wall -c
 build				= -Wall -o
@@ -11,6 +11,18 @@ target				= main
 executable			= ./main
 library				= -lm -lglfw -lGL -lGLU -lGLEW 
 
+
+
+help:
+	@echo "Available Makefile targets:"
+	@echo "  compile			- Compile your project"
+	@echo "  build				- Build your project"
+	@echo "  run				- Run ./main"
+	@echo "  leak-test			- Leak test ./main"
+	@echo "  full-leak-test		- Full leak test ./main"
+	@echo "  clean				- Clean up ./main and other Obj files"
+	@echo "  help				- Display this help message"
+	@echo " "
 
 compile:
 	$(CC) $(compile) $(source) $(library)

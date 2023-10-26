@@ -32,8 +32,8 @@ void    __SetProjection( PROJECTION * Proj, float left, float right, float botto
 }
 
 
-void    __SetOrthoGraphic( CAMERA * Cam, float left, float right, float bottom, float top, float near, float far){
-    MOrtho(   (float*)Cam->Proj_Matrix, left, right, bottom, top, near, far);	// Orthographic mode     
+void    __SetOrthoGraphic( PROJECTION * Proj, float left, float right, float bottom, float top, float near, float far){
+    MOrtho(   (float*)Proj->Proj_Matrix, left, right, bottom, top, near, far);	// Orthographic mode     
 }
 
 

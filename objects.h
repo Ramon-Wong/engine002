@@ -10,6 +10,8 @@ typedef struct{
     GLuint          GLSL_Prog[3];
     float           TransRotMatrix[16];
     int             Counter;
+    int             CameraIndex;
+    int             DrawInstance;
 
     void          (*Init)( void *, const char *, const char *);
     void          (*EnableProgram)( void *);
@@ -46,32 +48,6 @@ typedef struct{
 #define BACK    4
 #define FRONT   5
 
-typedef struct{
-    float           Cam[3][3];                      // Camera Pose/View/Upvx
-    float           MouseCoord[2];                  // Mouse Coords
-    GLfloat         Proj_Matrix[16];                // frustum matrix
-    GLfloat         View_Matrix[16];                // Camera matrix
-    GLfloat         Proj_View[16];                  // Projection * Camera VIew
-
-    float           gFrustum[6][4];                 // Frustum plane
-
-    void          (*SetProjection)( void *, float, float, float, float, float, float);
-    void          (*SetOrthoGraphic)( void *, float, float, float, float, float, float);
-    void          (*SetCamera)( void *, float *, float *, float *); 
-    void          (*Lookup)( void *);
-
-
-    GLfloat *     (*GetProjView)(void *);
-
-    void          (*MouseCamera)( void *, float, float);
-    void          (*MoveCamera)( void *, float);
-    void          (*RotateCamera)( void *, float, float, float, float);
-    void          (*StrafeCamera)( void *, float);
-    int           (*PointinPlane)( void *, int, float *);
-
-    // todo Frustum Culling!!
-}CAMERA;
-
 
 typedef struct{
     float           Cam[3][3];                      // Camera Pose/View/Upvx
@@ -91,6 +67,17 @@ typedef struct{
     void          (*StrafeCamera)( void *, float);
 
 }PROJECTION;
+
+
+typedef struct{
+    GLubyte         indices[6];
+    float           width;
+    float           height;
+    float           vertices[12];
+
+    void          (*Render)(void *, float, float);
+    void          (*RenderInstances)(void *, float, float, int);
+}RECTANGLE;
 
 
 #endif
