@@ -42,6 +42,8 @@ void				ShaderSetup();
 GLuint              ReadGLSLScript(GLuint, unsigned int, const char *);
 void	            LinkPrograms(GLuint);
 
+void                generalBufferObject( unsigned int, int, void *, const char *, GLenum);
+
 void                SetupVAOSingle( GLuint *, GLuint *, GLuint *, GLfloat *, GLubyte *, GLsizei, GLsizei);
 void                SetupVAO( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei);
 void                SetupVAOArray( GLuint *, GLuint *, GLuint *, GLfloat *, GLfloat *, GLfloat *, GLubyte *, GLsizei, GLsizei, GLsizei, GLsizei);
@@ -56,7 +58,7 @@ void                Draw_Geometry( GLenum, GLuint, int size);
 
 
 
-void Rectangle_Init( RECTANGLE *, float, float, float);
+void                Rectangle_Init( RECTANGLE *, float, float, float, float);
 
 
 void                GLSLProg_Init( GLSL_PROGRAM *);

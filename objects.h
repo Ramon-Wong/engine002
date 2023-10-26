@@ -69,11 +69,13 @@ typedef struct{
 
 typedef struct{
     GLubyte         indices[6];
-    float           size;
+    float           width;
+    float           height;
     float           vertices[12];
-    float           TexCoords[8];
 
     void          (*Render)(void *, float, float);
+    void          (*RenderInstances)(void *, float, float, int);
 }RECTANGLE;
+
 
 #endif

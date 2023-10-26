@@ -176,6 +176,60 @@ void _BufferData2( GLenum tBuffer, GLenum tTarget,  int size1, void * data1,
 
 
 
+// Program[1].uBufferObject( &Program[1], sizeof(float[2048]), DataBlock, "Fontmap", GL_STATIC_DRAW);  
+
+// void gBufferObject( unsigned int Program, int count, int size, void * dataArray, const char * tagname, GLenum type) {
+
+//     glGenBuffers( 1, &Prog);
+//     glBindBuffer(GL_UNIFORM_BUFFER, Prog);
+
+//     _BufferData0( GL_UNIFORM_BUFFER, type, size, dataArray);
+
+//     GLuint bindingPoint = glGetUniformBlockIndex(Prog, tagname);
+//     if (bindingPoint == GL_INVALID_INDEX) {
+//         printf("GL_UNIFORM_BUFFER: %s Invalid Index.\n", tagname);
+//         return;
+//     }
+
+//     glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, Prog);
+//     glUniformBlockBinding( Prog, bindingPoint, 0);			// removed Prog->UBOcount
+// }
+
+
+// Create a uniform buffer object
+// GLuint ubo;
+// glGenBuffers(1, &ubo);
+// glBindBuffer(GL_UNIFORM_BUFFER, ubo);
+
+// // Allocate space for the buffer (you need to know the size)
+// glBufferData(GL_UNIFORM_BUFFER, sizeof(CameraDataBlock), NULL, GL_DYNAMIC_DRAW);
+
+// // Bind the buffer to the binding point specified in the shader
+// glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo);
+
+// // Update the data in the buffer
+// glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(CameraDataBlock), &cameraDataBlock);
+
+
+
+
+
+
+
+
+
+
+
+// void generalBufferObject( unsigned int bufferID, int size, void * dataArray, const char * tagname, GLenum type) {
+
+//     glGenBuffers( 1, &bufferID);
+//     glBindBuffer(GL_UNIFORM_BUFFER, bufferID);
+
+//     glBufferData( GL_UNIFORM_BUFFER, size, dataArray, type);
+
+//     glBindBufferBase(GL_UNIFORM_BUFFER, 0, bufferID);
+//     glUniformBlockBinding( Prog->GLSL_Prog[0], bindingPoint, Prog->UBOcount);
+// }
 
 
 

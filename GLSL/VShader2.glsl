@@ -34,6 +34,6 @@ void main(){
 
         _texCoords = texCoordArray[gl_VertexID];
 
-	    gl_Position =  uProjView * vec4( iArray1.x - (instanceID * 0.15), iArray1.y, iArray1.z, 1.0 );
+	    gl_Position =  uProjView * vec4( iArray1.x - (instanceID * 0.032), iArray1.y, iArray1.z, 1.0 );
     }
 }

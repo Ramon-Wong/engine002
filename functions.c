@@ -8,7 +8,7 @@ unsigned int		Texture[2];
 RECTANGLE			Rect[2];
 
 GLenum	TEXTURE_MODE[]	= {GL_TEXTURE0, GL_TEXTURE1};
-
+int		DrawInstance[]  = { 1, 64};
 
 void CheckGLError(){
 	GLenum error = glGetError();
@@ -56,8 +56,8 @@ void Main_Loop(void){
 
 	GLSLProg_Init(&Program[0]);
 	GLSLProg_Init(&Program[1]);
-	Rectangle_Init(&Rect[0], 1.00f, 2.0f, 1.0f);		// size, X, Y location
-	Rectangle_Init(&Rect[1], 0.02f, 1.0f, 1.0f);
+	Rectangle_Init(&Rect[0], 1.00f, 1.00f, 2.0f, 1.0f);		// size, X, Y location
+	Rectangle_Init(&Rect[1], 0.02f, 0.02f, 1.0f, 1.0f);
 
 	float Pose[] = {  0.0f,  0.0f,  6.0f};
 	float View[] = {  0.0f,  0.0f, 12.0f}; 
@@ -131,8 +131,8 @@ void Main_Loop(void){
 			Program[i].SetUniformMatrix(&Program[i], "uProjView", Proj_View);
 			
 			Program[i].EnableTexture(&Program[i], Texture[i], TEXTURE_MODE[i]);					// TEXTURE BINDING!!!
-			Rect[i].Render(&Rect[i], 0.0f, 0.0f);
-			// Rect[i].RenderInstances(&Rect[i], 3.0f, 0.82f, 64);
+			// Rect[i].Render(&Rect[i], 0.0f, 0.0f);
+			Rect[i].RenderInstances(&Rect[i], 0.0f, 0.0f, DrawInstance[i]);
 
 			Program[i].DisableTexture(&Program[i]);
 			Program[i].DisableProgram(&Program[i]);
