@@ -9,7 +9,7 @@
 #include <GL/glu.h> 
 #include <math.h>
 
-#include "wren/wren.h"
+#include <lua5.4/lua.h>
 #include "matrix.h"
 #include "objects.h"
 #include "utils.h"

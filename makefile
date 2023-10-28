@@ -2,14 +2,16 @@ CC					= gcc
 valgrind			= valgrind
 leak-check			= --leak-check=full
 show-all			= --show-leak-kinds=all
-source				= main.c functions.c utils.c shaderutils.c renderutils.c matrix.c object.c projections.c
-objects				= main.o functions.o utils.o shaderutils.o renderutils.o matrix.o object.o projections.o
+source				= functions.c utils.c shaderutils.c renderutils.c matrix.c object.c projections.c 
+objects				= functions.o utils.o shaderutils.o renderutils.o matrix.o object.o projections.o 
+main_source			= main.c
+main_object			= main.o
+main_target			= main
+main_executable		= ./main
 option				= -Wall
 compile 			= -Wall -c
 build				= -Wall -o
-target				= main
-executable			= ./main
-library				= -lm -lglfw -lGL -lGLU -lGLEW 
+library				= -lm -llua5.4 -lglfw -lGL -lGLU -lGLEW
 
 
 
@@ -18,26 +20,26 @@ help:
 	@echo "  compile			- Compile your project"
 	@echo "  build				- Build your project"
 	@echo "  run				- Run ./main"
-	@echo "  leak-test			- Leak test ./main"
+	@echo "  leak-test			- Leak test ./main"eh, too long.
 	@echo "  full-leak-test		- Full leak test ./main"
 	@echo "  clean				- Clean up ./main and other Obj files"
 	@echo "  help				- Display this help message"
 	@echo " "
 
 compile:
-	$(CC) $(compile) $(source) $(library)
+	$(CC) $(compile) $(main_source) $(source) $(library) 
 
 build:
-	$(CC) $(build) $(target) $(objects) $(library)
+	$(CC) $(build) $(main_target) $(main_object) $(objects) $(wren) $(library)
 
 run:
-	$(executable)
+	$(main_executable)
 
 leak-test:
-	$(valgrind) $(leak-check) $(executable)
+	$(valgrind) $(leak-check) $(main_executable)
 
 full-leak-test:
-	$(valgrind) $(leak-check) $(show-all) $(executable)
+	$(valgrind) $(leak-check) $(show-all) $(main_executable)
 
 clean:
-	rm -f *.o $(target) a.out
+	rm -f *.o $(main_target) a.out
